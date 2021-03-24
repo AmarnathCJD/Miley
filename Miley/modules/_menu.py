@@ -1,5 +1,4 @@
 from Miley import CMD_LIST, CMD_HELP, tbot
-FUN_LIST = None
 import io
 import re
 from math import ceil
@@ -94,27 +93,6 @@ async def soon(event):
     buttons=[Button.inline("Go Back", data="soon"),]
     await event.edit(about, buttons=buttons)
 
-
-@tbot.on(events.CallbackQuery(pattern=r"fun_help"))
-async def fun_help(event):
-    buttons = nood_page(event, 0, FUN_LIST, "helpme")
-    await event.edit(pmt, buttons=buttons)
-
-
-@tbot.on(events.callbackquery.CallbackQuery(data=re.compile(rb"helpme_next\((.+?)\)")))
-async def on_plug_in_callback_query_handler(event):
-    current_page_number = int(event.data_match.group(1).decode("UTF-8"))
-    buttons = paginate_help(event, current_page_number + 1, CMD_LIST, "helpme")
-    await event.edit(buttons=buttons)
-
-
-@tbot.on(events.callbackquery.CallbackQuery(data=re.compile(rb"helpme_prev\((.+?)\)")))
-async def on_plug_in_callback_query_handler(event):
-    current_page_number = int(event.data_match.group(1).decode("UTF-8"))
-    buttons = paginate_help(event, current_page_number - 1, CMD_LIST, "helpme")
-    await event.edit(buttons=buttons)
-
-
 @tbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"us_plugin_(.*)")))
 async def on_plug_in_callback_query_handler(event):
     plugin_name = event.data_match.group(1).decode("UTF-8")
@@ -139,42 +117,6 @@ async def on_plug_in_callback_query_handler(event):
     except BaseException:
         pass
 
-@tbot.on(events.callbackquery.CallbackQuery(data=re.compile(rb"helpme_lel\((.+?)\)")))
-async def on_plug_in_callback_query_handler(event):
-    current_page_number = int(event.data_match.group(1).decode("UTF-8"))
-    buttons = paginate_help(event, current_page_number + 1, FUN_LIST, "helpme")
-    await event.edit(buttons=buttons)
-
-@tbot.on(events.callbackquery.CallbackQuery(data=re.compile(rb"helpme_ull\((.+?)\)")))
-async def on_plug_in_callback_query_handler(event):
-    current_page_number = int(event.data_match.group(1).decode("UTF-8"))
-    buttons = paginate_help(event, current_page_number - 1, FUN_LIST, "helpme")
-    await event.edit(buttons=buttons)
-
-@tbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"help_plugin_(.*)")))
-async def on_plug_in_callback_query_handler(event):
-    plugin_name = event.data_match.group(1).decode("UTF-8")
-    help_string = ""
-    # By @RoseLoverX
-
-    for i in FUN_LIST[plugin_name]:
-        plugin = plugin_name.replace("_", " ")
-        emoji = plugin_name.split("_")[0]
-        output = str(CMD_HELP[plugin][1])
-        help_string = f"Here is the help for **{emoji}**:\n" + output
-
-    if help_string is None:
-        pass  # stuck on click
-    else:
-        reply_pop_up_alert = help_string
-    try:
-        await event.edit(
-            reply_pop_up_alert, buttons=[
-                [Button.inline("Back", data="fun_back")]]
-        )
-    except BaseException:
-        pass
-
 @tbot.on(events.CallbackQuery(pattern=r"go_back"))
 async def go_back(event):
     c = pagenumber.find_one({"id": event.sender_id})
@@ -182,14 +124,6 @@ async def go_back(event):
     # print (number)
     buttons = paginate_help(event, number, CMD_LIST, "helpme")
     await event.edit(pm_caption, buttons=buttons)
-
-@tbot.on(events.CallbackQuery(pattern=r"fun_back"))
-async def go_back(event):
-    c = pagenumber.find_one({"id": event.sender_id})
-    number = c["page"]
-    # print (number)
-    buttons = nood_page(event, number, FUN_LIST, "helpme")
-    await event.edit(pmt, buttons=buttons)
 
 def get_page(id):
     return pagenumber.find_one({"id": id})
@@ -236,55 +170,6 @@ def paginate_help(event, page_number, loaded_plugins, prefix):
             (
                 custom.Button.inline(
                     "Go Back", data="reopen_again"
-                ),
-                custom.Button.inline(
-                    "Advanced Commands", data="fun_help"
-                ),
-            )
-        ]
-    return pairs
-
-def nood_page(event, page_number, loaded_plugins, prefix):
-    number_of_rows = 15
-    number_of_cols = 3
-
-    to_check = get_page(id=event.sender_id)
-
-    if not to_check:
-        pagenumber.insert_one({"id": event.sender_id, "page": page_number})
-
-    else:
-        pagenumber.update_one(
-            {
-                "_id": to_check["_id"],
-                "id": to_check["id"],
-                "page": to_check["page"],
-            },
-            {"$set": {"page": page_number}},
-        )
-
-    helpable_plugins = []
-    for p in loaded_plugins:
-        if not p.startswith("_"):
-            helpable_plugins.append(p)
-    helpable_plugins = sorted(helpable_plugins)
-    modules = [
-        custom.Button.inline(
-            "{}".format(x.replace("_", " ")), data="help_plugin_{}".format(x)
-        )
-        for x in helpable_plugins
-    ]
-    pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols], modules[2::number_of_cols]))
-    if len(modules) % number_of_cols == 1:
-        pairs.append((modules[-1],))
-    max_num_pages = ceil(len(pairs) / number_of_rows)
-    modulo_page = page_number % max_num_pages
-    pairs = pairs[
-            modulo_page * number_of_rows: number_of_rows * (modulo_page + 1)
-        ] + [
-            (
-                custom.Button.inline(
-                    "Go Back", data="help_menu"
                 ),
             )
         ]
