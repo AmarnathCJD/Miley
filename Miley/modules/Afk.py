@@ -2,7 +2,6 @@ import os
 from Miley import tbot, CMD_HELP
 from Miley.modules.sql import afk_sql as sql
 from telethon.tl.functions.users import GetFullUserRequest
-import time
 from telethon import types
 from telethon.tl import functions
 from Miley.events import register
@@ -31,8 +30,8 @@ async def _(event):
      else:
         reason = ""
      fname = sender.first_name   
-     start_time = fname
-     sql.set_afk(sender.id, reason, start_time)
+     name = fname
+     sql.set_afk(sender.id, reason, name)
      await event.reply(
            "{} is now AFK!".format(fname),
            parse_mode="markdown")
@@ -44,8 +43,8 @@ async def _(event):
      else:
         reason = ""
      fname = sender.first_name
-     start_time = fname
-     sql.set_afk(sender.id, reason, start_time)
+     name = fname
+     sql.set_afk(sender.id, reason, name)
      await event.reply(
            "{} is now AFK!".format(fname),
            parse_mode="markdown")
@@ -57,8 +56,8 @@ async def _(event):
      else:
         reason = ""
      fname = sender.first_name
-     start_time = fname
-     sql.set_afk(sender.id, reason, start_time)
+     name = fname
+     sql.set_afk(sender.id, reason, name)
      await event.reply(
            "{} is now AFK!".format(fname),
            parse_mode="markdown")
@@ -114,11 +113,11 @@ async def _(event):
     if sql.is_afk(userid):
         user = sql.check_afk_status(userid)
         if not user.reason:
-            final = user.start_time
+            final = user.name
             res = "{} is AFK!".format(final)
             await event.reply(res, parse_mode="markdown")
         else:
-            final = user.start_time
+            final = user.name
             res = "{} is AFK!\n**Reason:** {}".format(
                 final, user.reason
             )
