@@ -6,7 +6,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/missjuliarobot/missjuliarobot/badge)](https://www.codefactor.io/repository/github/missjuliarobot/missjuliarobot)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Total Size](https://github-size-badge.herokuapp.com/Amarnathcdj/Miley.svg)](https://github.com/Amarnathcdj/Miley)
-[![Python 3.9.2](https://img.shields.io/badge/python->=3.8.3-blue.svg)](https://www.python.org/downloads/release/python-383/)
+[![Python 3.9.2](https://img.shields.io/badge/python->=3.9.2-blue.svg)](https://www.python.org/downloads/release/python-392/)
 [![Maintenance](https://img.shields.io/badge/maintained-yes-yellow.svg)](https://github.com/Amarnathcdj/Miley)
 
 **Blazingly fast Telegram Group Management Bot based on [Telethon](https://github.com/LonamiWebs/Telethon) coupled with [sqlalchemy](https://github.com/sqlalchemy/sqlalchemy) and [mongodb](https://github.com/mongodb/mongo)**
