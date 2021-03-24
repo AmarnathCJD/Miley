@@ -59,9 +59,6 @@ async def approve(event):
    await event.reply("This User isn't Blacklisted yet")
 
 import subprocess
-from Miley import tbot
-from Miley.events import register, mileybot
-from Miley import OWNER_ID, SUDO_USERS, DEV_USERS, ubot
 import asyncio
 import traceback
 import io
@@ -189,83 +186,3 @@ async def aexec(code, smessatatus):
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
     return await locals()["__aexec"](message, reply, tbot, p)
-
-
-
-@register(pattern=".py")
-async def _(event):
-    check = event.message.sender_id
-    checkint = int(check)
-    # print(checkint)
-    if int(check) != int(OWNER_ID):
-        return
-    cmd = event.text.split(" ", maxsplit=1)[1]
-    reply_to_id = event.message.id
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
-
-    old_stderr = sys.stderr
-    old_stdout = sys.stdout
-    redirected_output = sys.stdout = io.StringIO()
-    redirected_error = sys.stderr = io.StringIO()
-    stdout, stderr, exc = None, None, None
-
-    try:
-        await aexec(cmd, event)
-    except Exception:
-        exc = traceback.format_exc()
-
-    stdout = redirected_output.getvalue()
-    stderr = redirected_error.getvalue()
-    sys.stdout = old_stdout
-    sys.stderr = old_stderr
-    evaluation = ""
-    if exc:
-        evaluation = exc
-    elif stderr:
-        evaluation = stderr
-    elif stdout:
-        evaluation = stdout
-    else:
-        evaluation = "None"
-    await event.delete()
-    final_output = "• **Eval:**\n`{}`\n\n• **Result:**\n`{}`".format(cmd, evaluation)
-    MAX_MESSAGE_SIZE_LIMIT = 4095
-    if len(final_output) > MAX_MESSAGE_SIZE_LIMIT:
-        with io.BytesIO(str.encode(final_output)) as out_file:
-            out_file.name = "eval.text"
-            await abot.send_file(
-                event.chat_id,
-                out_file,
-                force_document=True,
-                allow_cache=False,
-                caption=cmd,
-                reply_to=reply_to_id,
-            )
-
-    else:
-        k = await ubot.send_message(event.chat_id, 'Processing...')
-        await k.edit(final_output)
-
-from telethon.tl.functions.messages import GetStickerSetRequest
-from telethon.tl.types import InputStickerSetID
-from telethon.tl.functions.messages import GetAllStickersRequest
-from telethon import events
-
-@register(pattern="^/test")
-async def join_ban(event):
-    if event.is_private:
-        return
-    chat = event.chat_id
-    gey = event.sender_id
-    if gey == OWNER_ID:
-       
-      sticker_sets = await ubot(GetAllStickersRequest(3))
-      sticker_set = sticker_sets.sets[2]
-      stickers = await ubot(GetStickerSetRequest(
-           stickerset=InputStickerSetID(
-            id=sticker_set.id, access_hash=sticker_set.access_hash
-      )
-  ))
-
-      await tbot.send_file(event.chat_id, stickers.documents[0])
