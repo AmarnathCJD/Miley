@@ -30,8 +30,8 @@ async def _(event):
      else:
         reason = ""
      fname = sender.first_name   
-     name = fname
-     sql.set_afk(sender.id, reason, name)
+     start_time = fname
+     sql.set_afk(sender.id, reason, start_time)
      await event.reply(
            "{} is now AFK!".format(fname),
            parse_mode="markdown")
@@ -43,8 +43,8 @@ async def _(event):
      else:
         reason = ""
      fname = sender.first_name
-     name = fname
-     sql.set_afk(sender.id, reason, name)
+     start_time = fname
+     sql.set_afk(sender.id, reason, start_time)
      await event.reply(
            "{} is now AFK!".format(fname),
            parse_mode="markdown")
@@ -56,8 +56,8 @@ async def _(event):
      else:
         reason = ""
      fname = sender.first_name
-     name = fname
-     sql.set_afk(sender.id, reason, name)
+     start_time = fname
+     sql.set_afk(sender.id, reason, start_time)
      await event.reply(
            "{} is now AFK!".format(fname),
            parse_mode="markdown")
@@ -113,11 +113,11 @@ async def _(event):
     if sql.is_afk(userid):
         user = sql.check_afk_status(userid)
         if not user.reason:
-            final = user.name
+            final = user.start_time
             res = "{} is AFK!".format(final)
             await event.reply(res, parse_mode="markdown")
         else:
-            final = user.name
+            final = user.start_time
             res = "{} is AFK!\n**Reason:** {}".format(
                 final, user.reason
             )
