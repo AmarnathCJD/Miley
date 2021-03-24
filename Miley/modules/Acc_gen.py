@@ -8,5 +8,5 @@ async def acc(event):
       await conv.send_message("/start")
       response = await conv.get_response()
       await response.click(1)
-      k = await conv.get_response()
+      k = await response.get_response()
       await event.reply(k.text)
