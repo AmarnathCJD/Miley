@@ -8,7 +8,7 @@ client = MongoClient(MONGO_DB_URI)
 db = client["miley"]
 blacklist = db.black
 
-@register(pattern="^/bllist ?(.*)")
+@register(pattern="^/blacklist ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
       pass
@@ -38,7 +38,7 @@ async def approve(event):
    await event.reply("Successfully Blacklisted User")
 
 
-@register(pattern="^/unbllist ?(.*)")
+@register(pattern="^/unblacklist ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
       pass
