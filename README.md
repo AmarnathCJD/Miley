@@ -5,7 +5,6 @@
 [![AGPLv3 license](https://img.shields.io/badge/license-AGPL–3.0-red.svg)](https://www.gnu.org/licenses/agpl-3.0.en.html)
 [![CodeFactor](https://www.codefactor.io/repository/github/missjuliarobot/missjuliarobot/badge)](https://www.codefactor.io/repository/github/missjuliarobot/missjuliarobot)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Hits](https://hitcounter.pythonanywhere.com/count/tag.svg?url=https%3A%2F%2Fgithub.com%2FAmarnathcdj%2FMiley.git)](https://github.com/Amarnathcdj/Miley)
 [![Total Size](https://github-size-badge.herokuapp.com/Amarnathcdj/Miley.svg)](https://github.com/Amarnathcdj/Miley)
 [![Python 3.9.2](https://img.shields.io/badge/python->=3.8.3-blue.svg)](https://www.python.org/downloads/release/python-383/)
 [![Maintenance](https://img.shields.io/badge/maintained-yes-yellow.svg)](https://github.com/Amarnathcdj/Miley)
