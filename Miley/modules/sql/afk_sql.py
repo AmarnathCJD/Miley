@@ -2,7 +2,7 @@
 
 import threading
 import time
-from Luna.modules.sql import BASE, SESSION
+from Miley.modules.sql import BASE, SESSION
 from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
 
