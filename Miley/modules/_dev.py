@@ -250,7 +250,7 @@ async def _(event):
 from telethon.tl.functions.messages import GetStickerSetRequest
 from telethon.tl.types import InputStickerSetID
 from telethon.tl.functions.messages import GetAllStickersRequest
-
+from telethon import events
 
 @tbot.on(events.ChatAction())
 async def join_ban(event):
