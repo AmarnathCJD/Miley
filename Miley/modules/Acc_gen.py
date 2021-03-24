@@ -7,6 +7,6 @@ async def acc(event):
  async with ubot.conversation("@UniqAccGenBot") as conv:
       await conv.send_message("/start")
       response = await conv.get_response()
-      await response.click(text='Aᴄᴄᴏᴜɴᴛ')
+      await response.click(0)
       k = await conv.get_response()
       await event.reply(k)
