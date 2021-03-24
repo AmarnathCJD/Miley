@@ -81,7 +81,7 @@ async def check_message(event):
         return
     message = str(event.text)
     reply_msg = await event.get_reply_message()
-    if message.lower() == "miley":
+    if message.lower() == "miley ?(.*)":
         return True
     if reply_msg:
         if reply_msg.sender_id == BOT_ID:
