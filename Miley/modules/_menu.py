@@ -1,4 +1,4 @@
-from Luna import CMD_LIST, CMD_HELP, tbot
+from Miley import CMD_LIST, CMD_HELP, tbot
 FUN_LIST = None
 import io
 import re
@@ -6,13 +6,13 @@ from math import ceil
 
 from telethon import custom, events, Button
 
-from Luna.events import register
+from Miley.events import register
 
 from telethon import types
 from telethon.tl import functions
 
 from pymongo import MongoClient
-from Luna import MONGO_DB_URI
+from Miley import MONGO_DB_URI
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
