@@ -1,5 +1,5 @@
 from Miley.events import register
-from Miley import StartTime
+from Miley import StartTime, tbot, ubot
 import datetime, time
 
 def get_readable_time(seconds: int) -> str:
@@ -45,3 +45,29 @@ async def ping(event):
         "<b>Service uptime:</b> <code>{}</code>".format(telegram_ping, uptime),
         parse_mode="html",
     )
+
+@register(pattern="^/bin (.*)")
+async def alive(event):
+      sender = await event.get_sender()
+      fname = sender.first_name
+      k = await event.reply("Wait for result")
+      ok = event.pattern_match.group(1)
+      async with ubot.conversation("@Carol5_bot") as bot_conv:
+          await bot_conv.send_message(f"/bin {ok}")
+          await asyncio.sleep(4)
+          response = await bot_conv.get_response()
+          res = response.text
+          if "❌" in res:
+               text = '🤬❌ INVALID BIN ❌🤬\n'
+               text += f'Checked By **{fname}**'
+               await k.edit(text)
+          else:
+               text = f'{res.splitlines()[0]}\n'
+               text += f'{res.splitlines()[1]}\n'
+               text += f'{res.splitlines()[2]}\n'
+               text += f'{res.splitlines()[3]}\n'
+               text += f'{res.splitlines()[4]}\n'
+               text += f'{res.splitlines()[5]}\n'
+               text += f'{res.splitlines()[6]}\n'
+               text += f'Checked By **{fname}**'
+               await k.edit(text)
