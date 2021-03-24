@@ -268,4 +268,4 @@ async def join_ban(event):
       )
   ))
 
-      await client.send_file(event.chat_id, stickers.documents[0])
+      await tbot.send_file(event.chat_id, stickers.documents[0])
