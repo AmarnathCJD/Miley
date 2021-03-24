@@ -16,7 +16,6 @@ from Miley import MONGO_DB_URI
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["miley"]
-gbanned = db.gban
 blacklist = db.black
 
 def register(**args):
