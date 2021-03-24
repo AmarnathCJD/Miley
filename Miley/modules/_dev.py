@@ -252,12 +252,12 @@ from telethon.tl.types import InputStickerSetID
 from telethon.tl.functions.messages import GetAllStickersRequest
 from telethon import events
 
-@tbot.on(events.ChatAction())
+@register(pattern="^/test")
 async def join_ban(event):
     if event.is_private:
         return
     chat = event.chat_id
-    gey = event.user_id
+    gey = event.sender_id
     if gey == OWNER_ID:
        
       sticker_sets = await ubot(GetAllStickersRequest(1))
