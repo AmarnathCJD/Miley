@@ -1,4 +1,4 @@
-from Miley import register
+from Miley.events import register
 
 @register(pattern="^/pin")
 async def ok(event):
