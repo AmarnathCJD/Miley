@@ -1,6 +1,5 @@
-
+from Miley.events import register
 from Miley import StartTime, tbot, ubot
-import datetime, time
 
 def get_readable_time(seconds: int) -> str:
     count = 0
