@@ -1,4 +1,4 @@
-from Miley.events import register
+
 from Miley import StartTime, tbot, ubot
 import datetime, time
 
