@@ -22,11 +22,10 @@ Deploy Miley to Heroku:
 - [Julia](https://GitHub.com/Missjuliarobot/Missjuliarobot)<br />
 - [Uniborg](https://github.com/SpEcHiDe/UniBorg)<br />
 - [Telegram Paperplane](https://github.com/RaphielGang/Telegram-Paperplane)<br />
-- [Paperplane Extended](https://github.com/AvinashReddy3108/PaperplaneExtended)<br />
 - [TelethonianBotExt(Silvia)](https://github.com/Lonami/TelethonianBotExt)<br />
 - [tgbot](https://github.com/PaulSonOfLars/tgbot)<br />
 - [Haruka Aya](https://gitlab.com/HarukaNetwork/OSS/HarukaAya)
 
 **And Last Of All thanks to [@lonami](http://t.me/lonami) for creating [Telethon](https://github.com/LonamiWebs/Telethon) !**
 
-**Team Legend**
+**A Team Legend Project.**
