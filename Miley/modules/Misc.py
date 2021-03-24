@@ -1,6 +1,6 @@
 from Miley.events import register
-from Miley import StartTime, tbot, ubot
-import datetime, time
+from Miley import StartTime, tbot, ubot, CMD_HELP
+import datetime, time, os
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -54,7 +54,7 @@ async def alive(event):
       ok = event.pattern_match.group(1)
       async with ubot.conversation("@Carol5_bot") as bot_conv:
           await bot_conv.send_message(f"/bin {ok}")
-          await asyncio.sleep(4)
+          await asyncio.sleep(5)
           response = await bot_conv.get_response()
           res = response.text
           if "❌" in res:
@@ -160,3 +160,18 @@ async def _(event):
     await stt.edit(namem)
  except Exception as e:
       await event.reply(e)
+
+
+file_help = os.path.basename(__file__)
+file_help = file_help.replace(".py", "")
+file_helpo = file_help.replace("_", " ")
+
+__help__ = """
+ - /ping: ping the bot
+ - /bin: gathers info about the bin
+ - /music: sends the requested Music
+ - /gey: get geyness
+ - /shazam: gets info about the given audio
+"""
+
+CMD_HELP.update({file_helpo: [file_helpo, __help__]})
