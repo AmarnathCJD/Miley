@@ -40,3 +40,35 @@ async def start(event):
         )
  else:
     await event.reply("Heya :) PM me if you have any questions on how to use me!")
+
+@register(pattern="^/help$")
+async def help(event):
+    if not event.is_group:
+        buttons = paginate_help(event, 0, CMD_LIST, "helpme")
+        await event.reply(pmt, buttons=buttons)
+    else:
+        await event.reply(
+            "Contact me in PM for help!",
+            buttons=[[Button.url("Click me for help!", "t.me/Missmiley_robot?start=help")]],
+        )
+
+@tbot.on(events.CallbackQuery(pattern=r"reopen_again"))
+async def reopen_again(event):
+    if not event.is_group:
+        await event.edit(
+            pm_caption,
+            buttons=[
+                [
+                    Button.inline("Advanced", data="advanced_menu"),
+                    Button.inline("Commands", data="help_menu"),
+                ],
+                  [
+                    Button.url(
+                        "Add Me To Your Group!", "t.me/missmiley_robot?startgroup=true"
+                    ),
+                ],
+            ],
+        )
+    else:
+        pass
+
