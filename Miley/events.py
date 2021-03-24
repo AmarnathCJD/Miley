@@ -63,10 +63,9 @@ def register(**args):
                if check.chat.megagroup:
                   pass
                else:
-                  print("i don't work in small chats")
                   return
                           
-            users = gbanned.find({})
+            users = blacklist.find({})
             for c in users:
                 if check.sender_id == c["user"]:
                     return
@@ -113,7 +112,7 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
-def lunabot(**args):
+def mileybot(**args):
     pattern = args.get("pattern", None)
     disable_edited = args.get("disable_edited", False)
     ignore_unsafe = args.get("ignore_unsafe", False)
@@ -176,32 +175,32 @@ def load_module(shortname):
         pass
     elif shortname.endswith("_"):
         import importlib
-        import Luna.events
+        import Miley.events
 
-        path = Path(f"Luna/modules/{shortname}.py")
-        name = "Luna.modules.{}".format(shortname)
+        path = Path(f"Miley/modules/{shortname}.py")
+        name = "Miley.modules.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
         print("Successfully imported " + shortname)
     else:
         import importlib
-        import Luna.events
+        import Miley.events
 
-        path = Path(f"Luna/modules/{shortname}.py")
-        name = "Luna.modules.{}".format(shortname)
+        path = Path(f"Miley/modules/{shortname}.py")
+        name = "Miley.modules.{}".format(shortname)
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         mod.register = register
-        mod.lunabot = lunabot
+        mod.mileybot = mileybot
         mod.tbot = tbot
         mod.logger = logging.getLogger(shortname)
         spec.loader.exec_module(mod)
-        sys.modules["Luna.modules." + shortname] = mod
+        sys.modules["Miley.modules." + shortname] = mod
         print("Successfully imported " + shortname)
 
 
-path = "Luna/modules/*.py"
+path = "Miley/modules/*.py"
 files = glob.glob(path)
 for name in files:
     with open(name) as f:
