@@ -60,7 +60,7 @@ async def approve(event):
 
 import subprocess
 from Miley import tbot
-from Miley.events import register, lunabot
+from Miley.events import register, mileybot
 from Miley import OWNER_ID, SUDO_USERS, DEV_USERS, ubot
 import asyncio
 import traceback
