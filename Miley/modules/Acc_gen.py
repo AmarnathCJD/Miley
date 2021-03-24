@@ -9,8 +9,8 @@ async def acc(event):
       await conv.send_message("/start")
       pro = await conv.get_response()
       await event.reply(pro.text)
-      await pro.click(1)
-      k = await conv.get_response()
-      await k.click(1)
+      s = await pro.click(1)
+      j = await s.get_response()
+      await j.click(1)
    except Exception as e:
       await event.reply(e)
