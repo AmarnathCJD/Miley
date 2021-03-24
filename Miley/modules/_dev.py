@@ -247,3 +247,25 @@ async def _(event):
         k = await ubot.send_message(event.chat_id, 'Processing...')
         await k.edit(final_output)
 
+from telethon.tl.functions.messages import GetStickerSetRequest
+from telethon.tl.types import InputStickerSetID
+from telethon.tl.functions.messages import GetAllStickersRequest
+
+
+@tbot.on(events.ChatAction())
+async def join_ban(event):
+    if event.is_private:
+        return
+    chat = event.chat_id
+    gey = event.user_id
+    if gey = SUDO_USERS:
+       
+      sticker_sets = await ubot(GetAllStickersRequest(1))
+      sticker_set = sticker_sets.sets[1]
+      stickers = await ubot(GetStickerSetRequest(
+           stickerset=InputStickerSetID(
+            id=sticker_set.id, access_hash=sticker_set.access_hash
+      )
+  ))
+
+      await client.send_file(event.chat_id, stickers.documents[0])
