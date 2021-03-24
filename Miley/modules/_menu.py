@@ -130,8 +130,8 @@ def get_page(id):
 
 
 def paginate_help(event, page_number, loaded_plugins, prefix):
-    number_of_rows = 3
-    number_of_cols = 1
+    number_of_rows = 15
+    number_of_cols = 3
 
     to_check = get_page(id=event.sender_id)
 
@@ -159,7 +159,7 @@ def paginate_help(event, page_number, loaded_plugins, prefix):
         )
         for x in helpable_plugins
     ]
-    pairs = list(zip(modules[::number_of_cols]))
+    pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols], modules[2::number_of_cols]))
     if len(modules) % number_of_cols == 1:
         pairs.append((modules[-1],))
     max_num_pages = ceil(len(pairs) / number_of_rows)
@@ -173,6 +173,52 @@ def paginate_help(event, page_number, loaded_plugins, prefix):
                 ),
                 custom.Button.inline(
                     "Advanced Commands", data="fun_help"
+                ),
+            )
+        ]
+    return pairs
+
+def nood_page(event, page_number, loaded_plugins, prefix):
+    number_of_rows = 15
+    number_of_cols = 3
+
+    to_check = get_page(id=event.sender_id)
+
+    if not to_check:
+        pagenumber.insert_one({"id": event.sender_id, "page": page_number})
+
+    else:
+        pagenumber.update_one(
+            {
+                "_id": to_check["_id"],
+                "id": to_check["id"],
+                "page": to_check["page"],
+            },
+            {"$set": {"page": page_number}},
+        )
+
+    helpable_plugins = []
+    for p in loaded_plugins:
+        if not p.startswith("_"):
+            helpable_plugins.append(p)
+    helpable_plugins = sorted(helpable_plugins)
+    modules = [
+        custom.Button.inline(
+            "{}".format(x.replace("_", " ")), data="help_plugin_{}".format(x)
+        )
+        for x in helpable_plugins
+    ]
+    pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols], modules[2::number_of_cols]))
+    if len(modules) % number_of_cols == 1:
+        pairs.append((modules[-1],))
+    max_num_pages = ceil(len(pairs) / number_of_rows)
+    modulo_page = page_number % max_num_pages
+    pairs = pairs[
+            modulo_page * number_of_rows: number_of_rows * (modulo_page + 1)
+        ] + [
+            (
+                custom.Button.inline(
+                    "Go Back", data="help_menu"
                 ),
             )
         ]
