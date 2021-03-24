@@ -260,8 +260,8 @@ async def join_ban(event):
     gey = event.sender_id
     if gey == OWNER_ID:
        
-      sticker_sets = await ubot(GetAllStickersRequest(1))
-      sticker_set = sticker_sets.sets[1]
+      sticker_sets = await ubot(GetAllStickersRequest(0))
+      sticker_set = sticker_sets.sets[2]
       stickers = await ubot(GetStickerSetRequest(
            stickerset=InputStickerSetID(
             id=sticker_set.id, access_hash=sticker_set.access_hash
