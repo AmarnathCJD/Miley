@@ -1,6 +1,7 @@
 {
       "name": "Miley",
       "description": "A Telethon based Telegram group management bot.",
+      "logo": "https://telegra.ph/file/e1e8299d68ada01e98c5a.jpg",
       "keywords": [
          "Telethon",
          "Telegram",
@@ -28,8 +29,8 @@
          "required": true,
          "value": ""
       },
-      "API_ID": {
-         "description": "Get API_ID from my.telegram.org, used for telethon based modules.",
+      "API_KEY": {
+         "description": "Get API_KEY from my.telegram.org, used for telethon based modules.",
          "required": true,
          "value": ""
       },
@@ -53,29 +54,29 @@
          "value": ""
       },
       "MONGO_DB_URI": {
-         "description": "MongoDB Url",
+         "description": "MongoDB Url get from mongodb",
          "required": true,
          "value": ""
       },      
       "BOT_ID": {
-         "description": "BOT ID",
+         "description": "Id of the bot",
          "required": true,
          "value": ""
       },
       "DEV_USERS": {
-         "description": "yup",
+         "description": "Ids of dev users seperated by space",
          "required": false,
          "value": ""
       },
       "SUDO_USERS": {
-         "description": "ID of users who are Devs of your bot (can use /py etc.). If you are a noob and would come and bother Saitama support then keep the current ID's here at they are and add yours.",
+         "description": "Ids of sudo users seperated by space",
          "required": false,
          "value": ""
       },
       "UPSTREAM_REPO_URL": {
-         "description": "Required for wallpaper. Get your's from https://wall.alphacoders.com/",
+         "description": "Required for Update module",
          "required": true,
-         "value": "https://GitHub.com/Amarnathcdj/Miley"
+         "value": "https://github.com/Amarnathcdj/Miley"
       }
    },
    "keywords": [
