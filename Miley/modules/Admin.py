@@ -284,6 +284,9 @@ async def demote(dmod):
         return
 
     user = await get_user_from_event(dmod)
+    if user.id == BOT_ID:
+       await dmod.reply("Ya I won't Demote Myself! Get an admin to do it for You.")
+       return
     if dmod.is_group:
         if not await is_register_admin(dmod.input_chat, user.id):
             await dmod.reply("This user is not an admin!")
