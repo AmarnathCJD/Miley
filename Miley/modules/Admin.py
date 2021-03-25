@@ -366,11 +366,11 @@ async def ban(bon):
 async def unban(bon):
     k = bon.pattern_match.group(1)
     if k == 'banme':
-    try:
+     try:
         await tbot(EditBannedRequest(bon.chat_id, sender, BANNED_RIGHTS))
         await bon.reply("Sure!")
 
-    except Exception as e:
+     except Exception as e:
         await bon.reply("I don't think so!")
         return
     if not bon.is_group:
