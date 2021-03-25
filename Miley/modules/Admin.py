@@ -1,4 +1,4 @@
-from julia import tbot
+from Miley import tbot
 from telethon.errors import (
     ChatAdminRequiredError,
     ImageProcessFailedError,
@@ -30,12 +30,12 @@ from telethon.tl import types
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import *
 
-from julia import *
-from julia.events import register
+from Miley import *
+from Miley.events import register
 
 from telethon.tl.functions.messages import EditChatDefaultBannedRightsRequest
 
-from julia import CMD_HELP
+from Miley import CMD_HELP
 from telethon.errors.rpcerrorlist import MessageDeleteForbiddenError
 
 
