@@ -12,6 +12,8 @@ import sys
 from Miley import ubot
 from pymongo import MongoClient
 from Miley import MONGO_DB_URI
+from Miley.modules.sql.checkuser_sql import add_usersid_in_db, already_added, get_all_users
+
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
@@ -68,6 +70,10 @@ def register(**args):
             for c in users:
                 if check.sender_id == c["user"]:
                     return
+            if already_added(check.sender_id):
+               pass
+            elif not already_added(event.sender_id):
+               add_usersid_in_db(check.sender_id)
             try:
                 await func(check)
                 try:
