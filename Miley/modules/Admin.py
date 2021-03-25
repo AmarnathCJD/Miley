@@ -216,6 +216,11 @@ def find_instance(items, class_or_tuple):
 
 @register(pattern="^/promote(?: |$)(.*)")
 async def promote(promt):
+    text = event.pattern_match.group(1)
+    if text:
+      title = text
+    else:
+      title = "Admin"
     if promt.is_group:
       if not promt.sender_id == OWNER_ID:
         if not await is_register_admin(promt.input_chat, promt.sender_id):
@@ -256,7 +261,7 @@ async def promote(promt):
 
     # Try to promote if current user is admin or creator
     try:
-        await tbot(EditAdminRequest(promt.chat_id, user.id, new_rights, "Admin"))
+        await tbot(EditAdminRequest(promt.chat_id, user.id, new_rights, title))
         await promt.reply("Promoted!")
 
     # If Telethon spit BadRequestError, assume
