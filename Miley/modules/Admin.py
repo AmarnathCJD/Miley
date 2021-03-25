@@ -362,8 +362,17 @@ async def ban(bon):
         await bon.reply("I haven't got the rights to do this.")
         return
 
-@register(pattern="^/unban(?: |$)(.*)")
+@register(pattern="^/(unban|banme) ?(.*)")
 async def unban(bon):
+    k = bon.pattern_match.group(1)
+    if k == 'banme':
+    try:
+        await tbot(EditBannedRequest(bon.chat_id, sender, BANNED_RIGHTS))
+        await bon.reply("Sure!")
+
+    except Exception as e:
+        await bon.reply("I don't think so!")
+        return
     if not bon.is_group:
         return
     if bon.is_group:
@@ -379,7 +388,7 @@ async def unban(bon):
     if user:
         pass
     else:
-      await bon.reply("I don't know who you're talking about, you're going to need to specify a user...!")
+        await bon.reply("I don't know who you're talking about, you're going to need to specify a user...!")
         return
 
     if bon.is_group:
