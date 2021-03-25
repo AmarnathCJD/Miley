@@ -226,7 +226,7 @@ async def promote(promt):
         if not await is_register_admin(promt.input_chat, promt.sender_id):
            await promt.reply("Only admins can execute this command!")
            return
-        else:
+        elif:
           if not await can_promote_users(message=promt):
             await promt.reply("You are missing the following rights to use this command:CanPromoteMembers")
             return
