@@ -330,7 +330,7 @@ async def ban(bon):
        if not await is_register_admin(bon.input_chat, bon.sender_id):
            await bon.reply("Only admins can execute this command!")
            return
-         if not await can_ban_users(message=bon):
+       if not await can_ban_users(message=bon):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
 
