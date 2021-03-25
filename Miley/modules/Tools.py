@@ -95,7 +95,8 @@ async def Devsexpo(event):
         starky = await tbot.download_media(lol.media, temp)
         with open(starky) as f:
             stark_dict = f.read().splitlines()
-        if len(stark_dict) > 30:
+        if not event.sender_id == OWNER_ID:
+          if len(stark_dict) > 30:
             await ok.edit("`Woah, Thats A Lot Of Combos. Keep 20 As Limit`")
             return
         os.remove(starky)
