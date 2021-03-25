@@ -491,6 +491,8 @@ async def kick(bon):
     try:
       prev = await bon.get_reply_message()
       await prev.delete()
+    except Exception:
+        pass
     if user.id == BOT_ID:
          await bon.reply("Yeahhh, I'm not going to kick myself.")
          return
