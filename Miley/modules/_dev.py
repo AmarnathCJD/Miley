@@ -10,7 +10,7 @@ blacklist = db.black
 
 from Miley.modules.sql.checkuser_sql import get_all_users
 
-def is_pro(event.sender_id)
+def is_pro(event):
   if event.sender_id == OWNER_ID:
     pass
   if event.sender_id in SUDO_USERS:
