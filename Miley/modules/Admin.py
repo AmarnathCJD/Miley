@@ -616,7 +616,7 @@ async def spiderr(spdr):
     """
     This function is basically unmuting peeps
     """
-    spdr = bon
+    bon = spdr
     if bon.is_group:
       if not bon.sender_id == OWNER_ID:
        if not await is_register_admin(bon.input_chat, bon.sender_id):
@@ -812,7 +812,7 @@ async def pin(msg):
 @register(pattern="^/adminlist$")
 async def get_admin(show):
     if show.is_group:
-      if not msg.sender_id == OWNER_ID:
+      if not show.sender_id == OWNER_ID:
         if not await is_register_admin(show.input_chat, show.sender_id):
             return
     else:
