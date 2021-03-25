@@ -514,5 +514,99 @@ async def kick(bon):
         await bon.reply("I've kicked [User](tg://user?id={user.id}).")
 
     except BaseException:
-        await bon.reply("Failed to kickA.")
+        await bon.reply("Failed to kick.")
+        return
+
+
+@register(pattern="^/mute(?: |$)(.*)")
+async def spider(spdr):
+    """
+    This function is basically muting peeps
+    """
+    if not spdr.is_group:
+        return
+    bon = spdr
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+       if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+
+    user = await get_user_from_event(spdr)
+    if user.id == BOT_ID:
+      await spdr.reply("You know what I'm not going to do? Mute myself.")
+      return
+    if user:
+        pass
+    else:
+        return
+
+    if spdr.is_group:
+        if await is_register_admin(spdr.input_chat, user.id):
+            await spdr.reply("Ehhh, I'd rather not get involved in muting an admin. I'll stick to muting normal users, thanks.")
+            return
+        pass
+    else:
+        return
+
+    try:
+        await tbot(EditBannedRequest(spdr.chat_id, user.id, MUTE_RIGHTS))
+
+        await spdr.reply("Shhh... quiet now.\nMuted [User](tg://user?id={user.id}).")
+
+    except Exception as e:
+        print(e)
+        await spdr.reply("Failed to mute.")
+        return
+
+@register(pattern="^/dmute(?: |$)(.*)")
+async def spider(spdr):
+    """
+    This function is basically dmuting peeps
+    """
+    if not spdr.is_group:
+        return
+    bon = spdr
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+       if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+
+    user = await get_user_from_event(spdr)
+    try:
+      prev = await spdr.get_reply_message()
+      await prev.delete()
+    except Exception:
+        pass
+    if user.id == BOT_ID:
+      await spdr.reply("You know what I'm not going to do? Mute myself.")
+      return
+    if user:
+        pass
+    else:
+        return
+
+    if spdr.is_group:
+        if await is_register_admin(spdr.input_chat, user.id):
+            await spdr.reply("Ehhh, I'd rather not get involved in muting an admin. I'll stick to muting normal users, thanks.")
+            return
+        pass
+    else:
+        return
+
+    try:
+        await tbot(EditBannedRequest(spdr.chat_id, user.id, MUTE_RIGHTS))
+
+        await spdr.reply("Shhh... quiet now.\nMuted [User](tg://user?id={user.id}).")
+
+    except Exception as e:
+        print(e)
+        await spdr.reply("Failed to mute.")
         return
