@@ -120,7 +120,7 @@ async def Devsexpo(event):
             return
         with open("hits.txt", "w") as hitfile:
             for s in hits_dict:
-                hitfile.write(s + " | @MissMiley_Robot")
+                hitfile.write(s + " | @MissMiley_Robot\n")
         ok.delete()
         await tbot.send_file(
             event.chat_id,
