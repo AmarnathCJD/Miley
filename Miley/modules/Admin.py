@@ -217,10 +217,10 @@ def find_instance(items, class_or_tuple):
 @register(pattern="^/promote ?(.*)")
 async def promote(promt):
     text = promt.pattern_match.group(1)
-    if text:
-      title = text
+    if text == None:
+      title = 'Admin'
     else:
-      title = "Admin"
+      title = text
     if promt.is_group:
       if not promt.sender_id == OWNER_ID:
         if not await is_register_admin(promt.input_chat, promt.sender_id):
