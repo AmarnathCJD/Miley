@@ -8,6 +8,14 @@ client = MongoClient(MONGO_DB_URI)
 db = client["miley"]
 blacklist = db.black
 
+from Miley.modules.sql.checkuser_sql import get_all_users
+
+@register(pattern="^/stats")
+async def stat(event):
+    used = get_all_users()
+    await event.reply(f"<b>I have <u>{len(used)}</u> Users In Database.</b>", parse_mode="HTML")
+
+
 @register(pattern="^/blacklist ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
