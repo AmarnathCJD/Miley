@@ -223,15 +223,12 @@ async def promote(promt):
       title = text
     if promt.is_group:
       if not promt.sender_id == OWNER_ID:
-        if await is_register_admin(promt.input_chat, promt.sender_id):
-           if pass await can_promote_users(message=promt):
-              pass
-           else:
-             await promt.reply("You are missing the following rights to use this command:CanPromoteMembers")
-             return
-        else:
+        if not await is_register_admin(promt.input_chat, promt.sender_id):
            await promt.reply("Only admins can execute this command!")
            return
+        if not await can_promote_users(message=promt):
+            await promt.reply("You are missing the following rights to use this command:CanPromoteMembers")
+            return
         
     else:
         return
