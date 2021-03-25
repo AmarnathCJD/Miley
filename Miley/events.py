@@ -72,7 +72,7 @@ def register(**args):
                     return
             if already_added(check.sender_id):
                pass
-            elif not already_added(event.sender_id):
+            elif not already_added(check.sender_id):
                add_usersid_in_db(check.sender_id)
             try:
                 await func(check)
