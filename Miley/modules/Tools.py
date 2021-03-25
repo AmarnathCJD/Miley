@@ -5,6 +5,7 @@ from telethon import TelegramClient, events, functions, Button
 from telethon.tl.functions.users import GetFullUserRequest
 
 from Miley import tbot, OWNER_ID
+from Miley.events import register
 sedpath = "./starkgangz/"
 if not os.path.isdir(sedpath):
     os.makedirs(sedpath)
@@ -36,7 +37,7 @@ face = {
 }
 
 
-@tbot.on(events.NewMessage(pattern="^/proxy$"))
+@register(pattern="^/proxy$")
 async def Devsexpo(event):
     ok = await event.reply(
         "Checking Proxies Please Wait."
@@ -68,7 +69,7 @@ async def Devsexpo(event):
         await tbot.send_file(
             event.chat_id,
             "goood.txt",
-            caption=f"**PROXIES CHECKED**\n**GOOD PROXIES: ** {Counter}\n\n**Checked by MissMiley_Robot",
+            caption=f"**Proxies Checked**\n**Good Proxies: ** {Counter}\n\n**Checked by MissMiley_Robot",
         )
         os.remove(escobar)
         os.remove("goood.txt")
@@ -76,7 +77,7 @@ async def Devsexpo(event):
 
 
 
-@tbot.on(events.NewMessage(pattern="^/zee5 ?(.*)"))
+@register(pattern="^/zee5 ?(.*)")
 async def Devsexpo(event):
     input_str = event.pattern_match.group(1)
     if input_str == "combo":
@@ -148,7 +149,7 @@ async def Devsexpo(event):
 **Password:-** {password}
 **Response:-** This Account Is Invalid. 😔
 
-🔱 **Checked By:-** {event.sender_id}
+🔱 **Checked By:-** {event.sender.first_name}
 """
 
         beautiful = f"""
@@ -159,7 +160,7 @@ async def Devsexpo(event):
 **Response:-** This Account Is valid.😀
 **Login Here**: www.zee5.com
 
-🔱 **Checked By:-** {event.sender_id}
+🔱 **Checked By:-** {event.sender.first_name}
 """
         if meke.get("token"):
             await event.reply(beautiful)
@@ -167,7 +168,7 @@ async def Devsexpo(event):
             await event.reply(beautifuln)
 
 
-@tbot.on(events.NewMessage(pattern="^/nord ?(.*)"))
+@register(pattern="^/nord ?(.*)")
 async def Devsexpo(event):
     input_str = event.pattern_match.group(1)
     if input_str == "combo":
@@ -245,7 +246,7 @@ async def Devsexpo(event):
 **Password:-** {password}
 **Response:-** This Account Is Invalid. 😔
 
-🔱 **Checked By:-** {event.sender_id}
+🔱 **Checked By:-** {event.sender.first_name}
 """
 
         beautiful = f"""
@@ -256,7 +257,7 @@ async def Devsexpo(event):
 **Response:-** This Account Is valid.😀
 **Login Here**: www.nordvpn.com
 
-🔱 **Checked By:-** {event.sender_id}
+🔱 **Checked By:-** {event.sender.first_name}
 """
         if meke.get("token"):
             await event.reply(beautiful)
@@ -264,7 +265,7 @@ async def Devsexpo(event):
             await event.reply(beautifuln)
 
 
-@tbot.on(events.NewMessage(pattern="^/vortex ?(.*)"))
+@register(pattern="^/vortex ?(.*)")
 async def vortex(event):
     input_str = event.pattern_match.group(1)
     if input_str == "combo":
@@ -338,7 +339,7 @@ async def vortex(event):
 **Password:-** {password}
 **Response:-** This Account Is Invalid. 😔
 
-🔱 **Checked By:-** {event.sender_id}
+🔱 **Checked By:-** {event.sender.first_name}
 """
 
         beautiful = f"""
@@ -349,12 +350,16 @@ async def vortex(event):
 **Response:-** This Account Is valid.😀
 **Login Here**: www.vortex.gg
 
-🔱 **Checked By:-** {event.sender_id}
+🔱 **Checked By:-** {event.sender.first_name}
 """
         if meke.get("token"):
             await event.reply(beautiful)
         else:
             await event.reply(beautifuln)
+
+file_help = os.path.basename(__file__)
+file_help = file_help.replace(".py", "")
+file_helpo = file_help.replace("_", " ")
 
 __help__ = """
 - /zee5 <email:password> - Checks One Account
@@ -365,3 +370,4 @@ __help__ = """
 - /vortex combo - Reply To Combos File And Limit is 20.
 - /proxy - Reply To Proxy File Only, Check Your Proxies
 """
+CMD_HELP.update({file_helpo: [file_helpo, __help__]})
