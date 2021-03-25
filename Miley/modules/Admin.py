@@ -321,7 +321,7 @@ async def demote(dmod):
         return
 
 
-@register(pattern="^/(ban|dban) ?(.*)")
+@register(pattern="^/(ban|dban|unban) ?(.*)")
 async def ban(bon):
     if not bon.is_group:
         return
@@ -337,6 +337,30 @@ async def ban(bon):
     if k == 'dban':
        prev = await bon.get_reply_message()
        await prev.delete()
+    if k == 'unban':
+      user = await get_user_from_event(bon)
+      if user.id == BOT_ID:
+        await bon.reply("Na, I won't Unban myself!")
+        return
+      if user:
+         pass
+      else:
+         return
+      if bon.is_group:
+        if await is_register_admin(bon.input_chat, user.id):
+            await bon.reply("Unbanning an admin sounds pretty stupid!")
+            return
+        pass
+      else:
+        return
+      try:
+        await tbot(EditBannedRequest(bon.chat_id, user.id, UNBAN_RIGHTS))
+        await bon.reply("Fine, they can join again.")
+
+      except BaseException:
+        await bon.reply("This person hasn't been banned... how am I meant to unban them?")
+        return
+
     user = await get_user_from_event(bon)
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
