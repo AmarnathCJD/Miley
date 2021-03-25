@@ -207,35 +207,7 @@ async def get_user_from_event(event):
 
     return user_obj
 
-async def gu(event):
-    """ Get the user from argument or replied message. """
-    if event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        user_obj = await tbot.get_entity(previous_message.sender_id)
-    else:
-        user = event.pattern_match.group(2)
 
-        if user.isnumeric():
-            user = int(user)
-
-        if not user:
-            await event.reply("You need to specify a user by replying, or providing a username or user id...!")
-            return
-
-        if event.message.entities is not None:
-            probable_user_mention_entity = event.message.entities[0]
-
-            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
-                user_id = probable_user_mention_entity.user_id
-                user_obj = await tbot.get_entity(user_id)
-                return user_obj
-        try:
-            user_obj = await tbot.get_entity(user)
-        except (TypeError, ValueError) as err:
-            await event.reply(str(err))
-            return None
-
-    return user_obj
 
 def find_instance(items, class_or_tuple):
     for item in items:
@@ -350,7 +322,7 @@ async def demote(dmod):
         return
 
 
-@register(pattern="^/(ban|dban) ?(.*)")
+@register(pattern="^/ban ?(.*)")
 async def ban(bon):
     if not bon.is_group:
         return
@@ -362,11 +334,49 @@ async def ban(bon):
        if not await can_ban_users(message=bon):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
-    k = bon.pattern_match.group(1)
-    if k == 'dban':
-       prev = await bon.get_reply_message()
-       await prev.delete()
-    user = gu(bon)
+    user = get_user_from_event(bon)
+    if user.id == BOT_ID:
+      await bon.reply("You know what I'm not going to do? Ban myself.")
+      return
+    if user:
+        pass
+    else:
+        return
+
+    if bon.is_group:
+        if await is_register_admin(bon.input_chat, user.id):
+            await bon.reply("Why would I ban an admin? That sounds like a pretty dumb idea.")
+            return
+        pass
+    else:
+        return
+
+    try:
+        await tbot(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
+        await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).")
+
+    except Exception:
+        await bon.reply("I haven't got the rights to do this.")
+        return
+
+@register(pattern="^/dban ?(.*)")
+async def ban(bon):
+    if not bon.is_group:
+        return
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+       if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+    user = get_user_from_event(bon)
+    try:
+      prev = await bon.get_reply_message()
+      await prev.delete()
+    except Exception:
+      pass
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
       return
