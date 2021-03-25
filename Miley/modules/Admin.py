@@ -333,7 +333,10 @@ async def ban(bon):
        if not await can_ban_users(message=bon):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
-
+    k = bon.pattern_match.group(1)
+    if k == 'dban':
+       prev = await bon.get_reply_message()
+       await prev.delete()
     user = await get_user_from_event(bon)
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
@@ -353,7 +356,7 @@ async def ban(bon):
 
     try:
         await tbot(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
-        await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id})")
+        await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).")
 
     except Exception:
         await bon.reply("I haven't got the rights to do this.")
