@@ -269,3 +269,51 @@ async def promote(promt):
     except Exception:
         await promt.reply("Failed to promote.")
         return
+
+@register(pattern="^/demote(?: |$)(.*)")
+async def demote(dmod):
+    if dmod.is_group:
+      if not dmod.sender_id == OWNER_ID:
+        if not await is_register_admin(dmod.input_chat, dmod.sender_id):
+           await dmod.reply("Only admins can execute this command!")
+           return
+        else:
+          if not await can_promote_users(message=dmod):
+            await dmod.reply("You are missing the following rights to use this command:CanPromoteMembers")
+            return
+    else:
+        return
+
+    user = await get_user_from_event(dmod)
+    if dmod.is_group:
+        if not await is_register_admin(dmod.input_chat, user.id):
+            await dmod.reply("This user is not an admin!")
+            return
+        pass
+    else:
+        return
+
+    if user:
+        pass
+    else:
+        return
+
+    # New rights after demotion
+    newrights = ChatAdminRights(
+        add_admins=None,
+        invite_users=None,
+        change_info=None,
+        ban_users=None,
+        delete_messages=None,
+        pin_messages=None,
+    )
+    # Edit Admin Permission
+    try:
+        await tbot(EditAdminRequest(dmod.chat_id, user.id, newrights, "Admin"))
+        await dmod.reply("Demoted Successfully!")
+
+    # If we catch BadRequestError from Telethon
+    # Assume we don't have permission to demote
+    except Exception:
+        await dmod.reply("Failed to demote.")
+        return
