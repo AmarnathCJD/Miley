@@ -337,30 +337,6 @@ async def ban(bon):
     if k == 'dban':
        prev = await bon.get_reply_message()
        await prev.delete()
-    if k == 'unban':
-      user = await get_user_from_event(bon)
-      if user.id == BOT_ID:
-        await bon.reply("Na, I won't Unban myself!")
-        return
-      if user:
-         pass
-      else:
-         return
-      if bon.is_group:
-        if await is_register_admin(bon.input_chat, user.id):
-            await bon.reply("Unbanning an admin sounds pretty stupid!")
-            return
-        pass
-      else:
-        return
-      try:
-        await tbot(EditBannedRequest(bon.chat_id, user.id, UNBAN_RIGHTS))
-        await bon.reply("Fine, they can join again.")
-
-      except BaseException:
-        await bon.reply("This person hasn't been banned... how am I meant to unban them?")
-        return
-
     user = await get_user_from_event(bon)
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
@@ -384,4 +360,40 @@ async def ban(bon):
 
     except Exception:
         await bon.reply("I haven't got the rights to do this.")
+        return
+
+@register(pattern="^/unban(?: |$)(.*)")
+async def unban(bon):
+    if not bon.is_group:
+        return
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+       if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+
+    user = await get_user_from_event(bon)
+    if user:
+        pass
+    else:
+      await bon.reply("I don't know who you're talking about, you're going to need to specify a user...!")
+        return
+
+    if bon.is_group:
+        if await is_register_admin(bon.input_chat, user.id):
+            await bon.reply("Yeah, Ask RoseBot To do Stupidity!.")
+            return
+        pass
+    else:
+        return
+
+    try:
+        await tbot(EditBannedRequest(bon.chat_id, user.id, UNBAN_RIGHTS))
+        await bon.reply("Fine, they can join again.")
+
+    except BaseException:
+        await bon.reply("This person hasn't been banned... how am I meant to unban them?")
         return
