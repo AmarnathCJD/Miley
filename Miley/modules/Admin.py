@@ -319,3 +319,42 @@ async def demote(dmod):
     except Exception:
         await dmod.reply("Failed to demote.")
         return
+
+
+@register(pattern="^/(ban|dban) ?(.*)")
+async def ban(bon):
+    if not bon.is_group:
+        return
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+         if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+
+    user = await get_user_from_event(bon)
+    if user:
+        pass
+    else:
+        print("user not found")
+        return
+
+    if bon.is_group:
+        if await is_register_admin(bon.input_chat, user.id):
+            await bon.reply("Why will i ban an admin ?")
+            return
+        pass
+    else:
+        print("i don't work in channels")
+        return
+
+    try:
+        await tbot(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
+        await bon.reply("Banned Successfully")
+
+    except Exception as e:
+        await bon.reply("Failed to ban.")
+        print(e)
+        return
