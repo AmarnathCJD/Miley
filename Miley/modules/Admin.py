@@ -108,7 +108,7 @@ async def can_promote_users(message):
     )
     p = result.participant
     return isinstance(p, types.ChannelParticipantCreator) or (
-        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
+        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.promote_users
     )
 
 
