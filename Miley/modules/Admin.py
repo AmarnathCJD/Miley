@@ -214,9 +214,9 @@ def find_instance(items, class_or_tuple):
             return item
     return None
 
-@register(pattern="^/promote(?: |$)(.*)")
+@register(pattern="^/promote ?(.*)")
 async def promote(promt):
-    text = event.pattern_match.group(1)
+    text = promt.pattern_match.group(1)
     if text:
       title = text
     else:
