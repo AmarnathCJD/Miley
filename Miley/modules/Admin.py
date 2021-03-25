@@ -405,7 +405,7 @@ async def unban(bon):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
 
-    user = await gu(bon)
+    user = await get_user_from_event(bon)
     if user:
         pass
     else:
