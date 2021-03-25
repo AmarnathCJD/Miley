@@ -424,7 +424,7 @@ async def unban(bon):
 
     if bon.is_group:
         if await is_register_admin(bon.input_chat, user.id):
-            await bon.reply("Yeah, Ask RoseBot To do Stupidity!.")
+            await bon.reply("Yeah, Thats an admin.")
             return
         pass
     else:
@@ -436,4 +436,81 @@ async def unban(bon):
 
     except BaseException:
         await bon.reply("This person hasn't been banned... how am I meant to unban them?")
+        return
+
+@register(pattern="^/kick(?: |$)(.*)")
+async def kick(bon):
+    if not bon.is_group:
+        return
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+       if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+    user = await get_user_from_event(bon)
+    if user.id == BOT_ID:
+         await bon.reply("Yeahhh, I'm not going to kick myself.")
+         return
+    if user:
+        pass
+    else:
+        return
+
+    if bon.is_group:
+        if await is_register_admin(bon.input_chat, user.id):
+            await bon.reply("I'm not gonna kick an admin... Though I reckon it'd be pretty funny.")
+            return
+        pass
+    else:
+        return
+
+    try:
+        await tbot.kick_participant(bon.chat_id, user.id)
+        await bon.reply("I've kicked [User](tg://user?id={user.id}).")
+
+    except BaseException:
+        await bon.reply("Failed to kickA.")
+        return
+
+@register(pattern="^/dkick(?: |$)(.*)")
+async def kick(bon):
+    if not bon.is_group:
+        return
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+       if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+    user = await get_user_from_event(bon)
+    try:
+      prev = await bon.get_reply_message()
+      await prev.delete()
+    if user.id == BOT_ID:
+         await bon.reply("Yeahhh, I'm not going to kick myself.")
+         return
+    if user:
+        pass
+    else:
+        return
+
+    if bon.is_group:
+        if await is_register_admin(bon.input_chat, user.id):
+            await bon.reply("I'm not gonna kick an admin... Though I reckon it'd be pretty funny.")
+            return
+        pass
+    else:
+        return
+
+    try:
+        await tbot.kick_participant(bon.chat_id, user.id)
+        await bon.reply("I've kicked [User](tg://user?id={user.id}).")
+
+    except BaseException:
+        await bon.reply("Failed to kickA.")
         return
