@@ -335,26 +335,26 @@ async def ban(bon):
             return
 
     user = await get_user_from_event(bon)
+    if user.id == BOT_ID:
+      await bon.reply("You know what I'm not going to do? Ban myself.")
+      return
     if user:
         pass
     else:
-        print("user not found")
         return
 
     if bon.is_group:
         if await is_register_admin(bon.input_chat, user.id):
-            await bon.reply("Why will i ban an admin ?")
+            await bon.reply("Why would I ban an admin? That sounds like a pretty dumb idea.")
             return
         pass
     else:
-        print("i don't work in channels")
         return
 
     try:
         await tbot(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
-        await bon.reply("Banned Successfully")
+        await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id})")
 
-    except Exception as e:
-        await bon.reply("Failed to ban.")
-        print(e)
+    except Exception:
+        await bon.reply("I haven't got the rights to do this.")
         return
