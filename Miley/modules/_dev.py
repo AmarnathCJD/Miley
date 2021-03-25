@@ -74,7 +74,7 @@ async def approve(event):
 
 @register(pattern="^/checkbl")
 async def isbl(e):
- if event.sender_id == OWNER_ID:
+   if event.sender_id == OWNER_ID:
       pass
    elif event.sender_id in DEV_USERS:
       pass
