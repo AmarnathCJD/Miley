@@ -10,19 +10,14 @@ blacklist = db.black
 
 from Miley.modules.sql.checkuser_sql import get_all_users
 
-def is_pro(event):
-    if event.sender_id == OWNER_ID:
-      pass
-    elif event.sender_id in SUDO_USERS:
-      pass
-    elif event.sender_id in DEV_USERS:
-      pass
-    else:
-      return
-
 @register(pattern="^/stats")
 async def stat(event):
-    await is_pro(event)
+    if event.sender_id == OWNER_ID:
+     pass
+    elif event.sender_id in DEV_USERS:
+     pass
+    else:
+     return
     used = get_all_users()
     await event.reply(f"<b>I have <u>{len(used)}</u> Users In My Database.</b>", parse_mode="HTML")
 
