@@ -1,4 +1,4 @@
-from Miley import tbot
+from Miley import tbot, BOT_ID
 from telethon.errors import (
     ChatAdminRequiredError,
     ImageProcessFailedError,
@@ -229,6 +229,9 @@ async def promote(promt):
         return
 
     user = await get_user_from_event(promt)
+    if user.id == BOT_ID:
+       await promt.reply("I can't promote myself! Get an admin to do it for me.")
+       return
     if promt.is_group:
         if await is_register_admin(promt.input_chat, user.id):
             await promt.reply("Why will i promote an admin ?")
