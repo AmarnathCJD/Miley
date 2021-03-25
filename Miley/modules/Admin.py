@@ -257,7 +257,7 @@ async def promote(promt):
     # Try to promote if current user is admin or creator
     try:
         await tbot(EditAdminRequest(promt.chat_id, user.id, new_rights, "Admin"))
-        await promt.reply("Promoted Successfully!")
+        await promt.reply("Promoted!")
 
     # If Telethon spit BadRequestError, assume
     # we don't have Promote permission
