@@ -189,7 +189,7 @@ async def get_user_from_event(event):
             user = int(user)
 
         if not user:
-            await event.reply("Pass the user's username, id or reply!")
+            await event.reply("You need to specify a user by replying, or providing a username or user id...!")
             return
 
         if event.message.entities is not None:
