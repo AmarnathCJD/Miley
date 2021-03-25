@@ -4,7 +4,7 @@ import requests
 from telethon import TelegramClient, events, functions, Button
 from telethon.tl.functions.users import GetFullUserRequest
 
-from Miley import tbot, OWNER_ID
+from Miley import tbot, OWNER_ID, CMD_HELP
 from Miley.events import register
 sedpath = "./starkgangz/"
 if not os.path.isdir(sedpath):
