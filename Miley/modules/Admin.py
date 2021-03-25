@@ -610,3 +610,44 @@ async def spider(spdr):
         print(e)
         await spdr.reply("Failed to mute.")
         return
+
+@register(pattern="^/unmute(?: |$)(.*)")
+async def spiderr(spdr):
+    """
+    This function is basically unmuting peeps
+    """
+    spdr = bon
+    if bon.is_group:
+      if not bon.sender_id == OWNER_ID:
+       if not await is_register_admin(bon.input_chat, bon.sender_id):
+           await bon.reply("Only admins can execute this command!")
+           return
+       if not await can_ban_users(message=bon):
+            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
+            return
+
+    user = await get_user_from_event(spdr)
+    if user.id == BOT_ID:
+      await spdr.reply('Ya I'm not gonna Unmute Me!')
+      return
+    if user:
+        pass
+    else:
+        return
+
+    if spdr.is_group:
+        if await is_register_admin(spdr.input_chat, user.id):
+            await spdr.reply("Why will i unmute an admin ?")
+            return
+        pass
+    else:
+        return
+
+    try:
+        await tbot(EditBannedRequest(spdr.chat_id, user.id, UNMUTE_RIGHTS))
+
+        await spdr.reply("Fine, they can speak again.")
+
+    except BaseException:
+        await spdr.reply("Failed to unmute.")
+        return
