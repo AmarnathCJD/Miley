@@ -334,7 +334,7 @@ async def ban(bon):
        if not await can_ban_users(message=bon):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
-    user = get_user_from_event(bon)
+    user = await get_user_from_event(bon)
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
       return
@@ -371,7 +371,7 @@ async def ban(bon):
        if not await can_ban_users(message=bon):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
-    user = get_user_from_event(bon)
+    user = await get_user_from_event(bon)
     try:
       prev = await bon.get_reply_message()
       await prev.delete()
