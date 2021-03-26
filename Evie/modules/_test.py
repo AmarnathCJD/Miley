@@ -22,14 +22,6 @@ async def get_user_from_event(event):
         if not user:
             await event.reply("`Pass the user's username, id or reply!`")
             return
-
-        if event.message.entities is not None:
-            probable_user_mention_entity = event.message.entities[0]
-
-            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
-                user_id = probable_user_mention_entity.user_id
-                user_obj = await tbot.get_entity(user_id)
-                return user_obj
         try:
             user_obj = await tbot.get_entity(user)
         except (TypeError, ValueError) as err:
