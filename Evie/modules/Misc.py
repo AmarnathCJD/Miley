@@ -63,13 +63,13 @@ async def Devsexpo(event):
         )
     elif Counter >= 1:
         file1 = open("goood.txt", "a")
-        file1.write("\nChecked by MissMiley_Robot\n")
+        file1.write("\nChecked by MissEvie_Robot\n")
         file1.close()
         ok.delete()
         await tbot.send_file(
             event.chat_id,
             "goood.txt",
-            caption=f"**Proxies Checked**\n**Good Proxies: ** {Counter}\n\n**Checked by MissMiley_Robot",
+            caption=f"**Proxies Checked**\n**Good Proxies: ** {Counter}\n\n**Checked by MissEvie_Robot",
         )
         os.remove(escobar)
         os.remove("goood.txt")
@@ -120,7 +120,7 @@ async def Devsexpo(event):
             return
         with open("hits.txt", "w") as hitfile:
             for s in hits_dict:
-                hitfile.write(s + " | @MissMiley_Robot\n")
+                hitfile.write(s + " | @MissEvie_Robot\n")
         ok.delete()
         await tbot.send_file(
             event.chat_id,
@@ -206,7 +206,7 @@ async def Devsexpo(event):
             return
         with open("hits.txt", "w") as hitfile:
             for s in hits_dict:
-                hitfile.write(s + " | @MissMiley_Robot")
+                hitfile.write(s + " | @MissEvie_Robot")
         ok.delete()
         await tbot.send_file(
             event.chat_id,
@@ -293,7 +293,7 @@ async def vortex(event):
             return
         with open("hits.txt", "w") as hitfile:
             for s in hits_dict:
-                hitfile.write(s + " | @MissMiley_Bot")
+                hitfile.write(s + " | @MissEvie_Bot")
         ok.delete()
         await tbot.send_file(
             event.chat_id,
@@ -409,7 +409,7 @@ async def lybot(event):
       response = bot_conv.wait_event(
                 events.NewMessage(incoming=True, from_users="@RoseLoverx")
             )
-      await (await inline_query(ubot, "@lybot", k))[0].click("@MissMiley_Robot")
+      await (await inline_query(ubot, "@lybot", k))[0].click("@MissEvie_Robot")
       response = await response
       await response.forward_to(event.chat_id)
 #RoseLoverX
@@ -431,7 +431,7 @@ async def lybot(event):
       response = bot_conv.wait_event(
                 events.NewMessage(incoming=True, from_users="@RoseLoverx")
             )
-      await (await inline_query(ubot, "@HowGayBot", k))[0].click("@MissMiley_Robot")
+      await (await inline_query(ubot, "@HowGayBot", k))[0].click("@MissEvie_Robot")
       response = await response
       await asyncio.sleep(1)
       await tbot.send_message(event.chat_id, response.text)
@@ -462,7 +462,7 @@ async def _(event):
             result = await conv.get_response()
             await ubot.send_read_acknowledge(conv.chat_id)
         except Exception:
-            await stt.edit("Error, Report at @Mileysupport")
+            await stt.edit("Error, Report at @Eviesupport")
             return
     namem = f"Song Name : {result.text.splitlines()[0]}\
         \n\nDetails : {result.text.splitlines()[2]}"
