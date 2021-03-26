@@ -200,7 +200,7 @@ async def _(event):
     except CFError as e:
            await event.reply(lodu)
 
-@bot(pattern="^/quote")
+@register(pattern="^/quote")
 async def qt(event):
  url = "https://andruxnet-random-famous-quotes.p.rapidapi.com/"
 
