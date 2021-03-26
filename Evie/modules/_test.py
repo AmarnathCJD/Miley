@@ -1,5 +1,5 @@
 from telethon import *
-frok telethon.tl import *
+from telethon.tl import *
 from Evie import tbot
 from Evie.events import register
 
