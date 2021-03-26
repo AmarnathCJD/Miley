@@ -285,9 +285,6 @@ __help__ = """
 **For voice assistant**
  - /evie: Reply to a voice query and get the results in voice output (ENGLISH ONLY)
  
-**For IamAI**
- - evie/Evie <question>: Ask evie questions, Advanced level.
- 
 **Terminal Assistant**
  - /howdoi <question>: Get all coding related answers from Luna. Syntax: `/howdoi print hello world in python`
  
