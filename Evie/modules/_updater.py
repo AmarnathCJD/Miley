@@ -168,6 +168,6 @@ async def upstream(ups):
             repo.git.reset("--hard", "FETCH_HEAD")
         reqs_upgrade = await updateme_requirements()
         await lol.edit("`Successfully Updated!\n" "restarting......`")
-        args = [sys.executable, "-m", "Miley"]
+        args = [sys.executable, "-m", "Evie"]
         execle(sys.executable, *args, environ)
         return
