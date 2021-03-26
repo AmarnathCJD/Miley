@@ -2,13 +2,13 @@ from Evie import CMD_HELP, BOT_ID, tbot, LYDIA_API_KEY, OWNER_ID
 import os
 from time import time
 import asyncio
-import Miley.modules.sql.chatbot_sql as sql
+import Evie.modules.sql.chatbot_sql as sql
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 from coffeehouse.lydia import LydiaAI
 from telethon import types
 from telethon.tl import functions
-from Miley.events import register
+from Evie.events import register
 from telethon import events
 
 CoffeeHouseAPI = API(LYDIA_API_KEY)
