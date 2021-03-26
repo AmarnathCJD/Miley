@@ -45,7 +45,7 @@ async def upstream(ups):
     if int(check) != int(OWNER_ID):
         return
     lol = await ups.reply("`Checking for updates, please wait....`")
-    conf = 'now'
+    conf = ' '
     off_repo = UPSTREAM_REPO_URL
     force_update = False
 
@@ -95,7 +95,7 @@ async def upstream(ups):
         repo.__del__()
         return
 
-    if conf != "now" and not force_update:
+    if conf != " " and not force_update:
         changelog_str = (
             f"**New UPDATE available for {ac_br}\n\nCHANGELOG:**\n`{changelog}`"
         )
