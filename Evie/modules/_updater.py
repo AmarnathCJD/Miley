@@ -45,7 +45,7 @@ async def upstream(ups):
     if int(check) != int(OWNER_ID):
         return
     lol = await ups.reply("`Checking for updates, please wait....`")
-    conf = ' '
+    conf = ups.pattern_match.group(1)
     off_repo = UPSTREAM_REPO_URL
     force_update = False
 
