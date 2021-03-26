@@ -366,7 +366,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 
-@register(pattern="^/(ping|ping@MissEvie_Robot")
+@register(pattern="^/(ping|ping@MissEvie_Robot)")
 async def ping(event):
     start_time = datetime.datetime.now()
     message = await event.reply("Pinging.")
