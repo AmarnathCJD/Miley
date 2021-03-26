@@ -175,6 +175,7 @@ async def get_user_sender_id(user, event):
         return None
 
     return user_obj
+
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
     if event.reply_to_msg_id:
@@ -187,7 +188,7 @@ async def get_user_from_event(event):
             user = int(user)
 
         if not user:
-            await event.reply("Pass the user's username, id or reply!")
+            await event.reply("You need to specify a user by replying, or providing a username or user id...!")
             return
 
         if event.message.entities is not None:
