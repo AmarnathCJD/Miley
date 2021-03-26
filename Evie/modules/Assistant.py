@@ -2,7 +2,7 @@ from Evie import tbot, CMD_HELP
 import os
 import subprocess
 
-import Evie.modules.sql.chatbot_sql as sql
+import Evie.modules.sql.ai_sql as sql
 import requests
 from gtts import gTTS
 from gtts import gTTSError
@@ -130,6 +130,48 @@ string = (
   "I belong To ROseLoverX",
   "Im Fairly Yound And Was Made by RoseLover",
 )
+
+@register(pattern="^/eaichat$")
+async def _(event):
+    if event.is_group:
+        if event.sender_id == OWNER_ID:
+            pass
+        else:
+            return
+    else:
+        return
+
+    chat = event.chat
+    send = await event.get_sender()
+    user = await tbot.get_entity(send)
+    is_chat = sql.is_chat(chat.id)
+    if not is_chat:
+        ses_id = 'null'
+        expires = 'null'
+        sql.set_ses(chat.id, ses_id, expires)
+        await event.reply("IamAI successfully enabled for this chat!")
+        return
+    await event.reply("IamAI is already enabled for this chat!")
+    return ""
+
+
+@register(pattern="^/daichat$")
+async def _(event):
+    if event.is_group:
+        if not event.sender_id == OWNER_ID:
+          return
+    else:
+        return
+    chat = event.chat
+    send = await event.get_sender()
+    user = await tbot.get_entity(send)
+    is_chat = sql.is_chat(chat.id)
+    if not is_chat:
+        await event.reply("IamAI isn't enabled here in the first place!")
+        return ""
+    sql.rem_chat(chat.id)
+    await event.reply("IamAI disabled successfully!")
+
 
 @tbot.on(events.NewMessage(pattern=None))
 async def check_message(event):
