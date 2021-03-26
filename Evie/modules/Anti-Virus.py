@@ -5,7 +5,7 @@ from telethon import events
 from telethon.tl import functions
 from telethon.tl import types
 from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
-from Luna.events import bot as register
+from Luna.events import register, is_register_admin
 import cloudmersive_virus_api_client
 
 
@@ -22,6 +22,10 @@ allow_password_protected_files = True
 
 @register(pattern="^/scanit$")
 async def virusscan(event):
+    if event.is_group:
+        if not await is_register_admin(event.input_chat, event.message.sender_id):
+            await event.reply("Please use this command in PM!")
+            return
     if event.fwd_from:
         return
     if not event.reply_to_msg_id:
