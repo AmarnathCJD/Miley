@@ -175,26 +175,19 @@ async def get_user_sender_id(user, event):
         return None
 
     return user_obj
-
-
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
-    args = event.pattern_match.group(1).split(" ", 1)
-    extra = None
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
-        user_obj = await event.client.get_entity(previous_message.sender_id)
-        extra = event.pattern_match.group(1)
-    elif args:
-        user = args[0]
-        if len(args) == 2:
-            extra = args[1]
+        user_obj = await tbot.get_entity(previous_message.sender_id)
+    else:
+        user = event.pattern_match.group(1)
 
         if user.isnumeric():
             user = int(user)
 
         if not user:
-            await event.reply("`Pass the user's username, id or reply!`")
+            await event.reply("Pass the user's username, id or reply!")
             return
 
         if event.message.entities is not None:
@@ -202,17 +195,15 @@ async def get_user_from_event(event):
 
             if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
-                user_obj = await event.client.get_entity(user_id)
+                user_obj = await tbot.get_entity(user_id)
                 return user_obj
         try:
-            user_obj = await event.client.get_entity(user)
+            user_obj = await tbot.get_entity(user)
         except (TypeError, ValueError) as err:
-            await event.edit(str(err))
+            await event.reply(str(err))
             return None
 
-    return user_obj, extra
-
-
+    return user_obj
 
 def find_instance(items, class_or_tuple):
     for item in items:
@@ -540,7 +531,7 @@ async def spider(spdr):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
 
-    user, reason = await get_user_from_event(spdr)
+    user = await get_user_from_event(spdr)
     if user.id == BOT_ID:
       await spdr.reply("You know what I'm not going to do? Mute myself.")
       return
@@ -561,7 +552,6 @@ async def spider(spdr):
         await tbot(EditBannedRequest(spdr.chat_id, user.id, MUTE_RIGHTS))
 
         await spdr.reply("Shhh... quiet now.\nMuted [User](tg://user?id={user.id}).")
-        await spdr.reply(reason)
     except Exception as e:
         print(e)
         await spdr.reply("Failed to mute.")
