@@ -628,7 +628,7 @@ async def spiderr(spdr):
 
     user = await get_user_from_event(spdr)
     if user.id == BOT_ID:
-      await spdr.reply('Ya I'm not gonna Unmute Me!')
+      await spdr.reply("Ya I'm not gonna Unmute Me!")
       return
     if user:
         pass
