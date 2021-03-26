@@ -206,6 +206,33 @@ async def get_user_from_event(event):
 
     return user_obj
 
+async def rep(event):
+    """ Get the user from argument or replied message. """
+    args = event.pattern_match.group(1).split(" ", 1)
+    extra = None
+    if event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
+        user_obj = await event.client.get_entity(previous_message.sender_id)
+        extra = event.pattern_match.group(1)
+    elif args:
+        user = args[0]
+        if len(args) == 2:
+            extra = args[1]
+
+        if user.isnumeric():
+            user = int(user)
+
+        if not user:
+            await event.reply("`Pass the user's username, id or reply!`")
+            return
+        try:
+            user_obj = await tbot.get_entity(user)
+        except (TypeError, ValueError) as err:
+            await event.reply(str(err))
+            return None
+
+    return user_obj, extra
+
 def find_instance(items, class_or_tuple):
     for item in items:
         if isinstance(item, class_or_tuple):
@@ -331,7 +358,7 @@ async def ban(bon):
        if not await can_ban_users(message=bon):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
-    user = await get_user_from_event(bon)
+    user, reason = await rep(bon)
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
       return
@@ -350,8 +377,10 @@ async def ban(bon):
 
     try:
         await tbot(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
-        await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).")
-
+        if not reason:
+          await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).")
+        else:
+          await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).\nReason: {reason}")
     except Exception:
         await bon.reply("I haven't got the rights to do this.")
         return
