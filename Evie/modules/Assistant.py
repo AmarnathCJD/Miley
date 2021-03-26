@@ -155,9 +155,6 @@ async def _(event):
         return
   msg = str(event.text)
   chat = event.chat
-  is_chat = sql.is_chat(chat.id)
-  if is_chat:
-    return
   if msg:
         if not await check_message(event):
             return
@@ -180,7 +177,7 @@ async def _(event):
   lodu = response.json()
   result = (lodu['message']['text'])
   if "Thergiakis" in result:
-   pro = random.choice(string)
+   pro = 'Hi'
    try:
       async with tbot.action(event.chat_id, 'typing'):
            await event.reply(pro)
