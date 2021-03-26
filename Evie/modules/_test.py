@@ -38,7 +38,7 @@ async def get_user_from_event(event):
 
     return user_obj, extra
 
-@register(pattern="^/test ?(*.)")
+@register(pattern="^/test ?(.*)")
 async def test(event):
  user, reason = await get_user_from_event(event)
  s = f'{user.id}'
