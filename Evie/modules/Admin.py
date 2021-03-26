@@ -540,7 +540,7 @@ async def spider(spdr):
             await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
             return
 
-    user = await get_user_from_event(spdr)
+    user, reason = await get_user_from_event(spdr)
     if user.id == BOT_ID:
       await spdr.reply("You know what I'm not going to do? Mute myself.")
       return
@@ -561,7 +561,7 @@ async def spider(spdr):
         await tbot(EditBannedRequest(spdr.chat_id, user.id, MUTE_RIGHTS))
 
         await spdr.reply("Shhh... quiet now.\nMuted [User](tg://user?id={user.id}).")
-
+        await spdr.reply(reason)
     except Exception as e:
         print(e)
         await spdr.reply("Failed to mute.")
