@@ -1508,12 +1508,15 @@ __help__ = """
  - /promote: promotes a user
  - /demote: demotes a user
  - /ban: bans a user
+ - /dban: deletes and bans a user
  - /unban: unbans a user
  - /mute: mute a user
+ - /dmute: deletes and mute a user
  - /unmute: unmutes a user
  - /tban <entity> | <time interval>: temporarily bans a user for the time interval.
  - /tmute <entity> | <time interval>: temporarily mutes a user for the time interval.
  - /kick: kicks a user
+ - /dkick: deletes and kicks a user
  - /kickme: kicks yourself (non-admins)
  - /banme: bans yourself (non-admins)
  - /settitle <entity> <title>: sets a custom title for an admin. If no <title> provided defaults to "Admin"
