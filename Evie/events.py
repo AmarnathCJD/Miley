@@ -5,6 +5,9 @@ import re
 from pathlib import Path
 
 from telethon import events
+from telethon.tl import functions
+from telethon.tl import types
+
 
 from Evie import CMD_LIST, LOAD_PLUG, tbot
 import glob
@@ -89,6 +92,18 @@ def register(**args):
         return wrapper
 
     return decorator
+
+async def is_register_admin(chat, user):
+    if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
+        return isinstance(
+            (
+                await tbot(functions.channels.GetParticipantRequest(chat, user))
+            ).participant,
+            (types.ChannelParticipantAdmin, types.ChannelParticipantCreator),
+        )
+    if isinstance(chat, types.InputPeerUser):
+        return True
+
 
 def eviebot(**args):
     pattern = args.get("pattern", None)
