@@ -180,7 +180,7 @@ async def _(event):
   lodu = response.json()
   result = (lodu['message']['text'])
   if "Thergiakis" in result:
-   pro = random.choice(string))
+   pro = random.choice(string)
    try:
       async with tbot.action(event.chat_id, 'typing'):
            await event.reply(pro)
