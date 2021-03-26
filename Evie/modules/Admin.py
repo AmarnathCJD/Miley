@@ -179,17 +179,22 @@ async def get_user_sender_id(user, event):
 
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
+    args = event.pattern_match.group(1).split(" ", 1)
+    extra = None
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
-        user_obj = await tbot.get_entity(previous_message.sender_id)
-    else:
-        user = event.pattern_match.group(1)
+        user_obj = await event.client.get_entity(previous_message.sender_id)
+        extra = event.pattern_match.group(1)
+    elif args:
+        user = args[0]
+        if len(args) == 2:
+            extra = args[1]
 
         if user.isnumeric():
             user = int(user)
 
         if not user:
-            await event.reply("You need to specify a user by replying, or providing a username or user id...!")
+            await event.reply("`Pass the user's username, id or reply!`")
             return
 
         if event.message.entities is not None:
@@ -197,15 +202,15 @@ async def get_user_from_event(event):
 
             if isinstance(probable_user_mention_entity, MessageEntityMentionName):
                 user_id = probable_user_mention_entity.user_id
-                user_obj = await tbot.get_entity(user_id)
+                user_obj = await event.client.get_entity(user_id)
                 return user_obj
         try:
-            user_obj = await tbot.get_entity(user)
+            user_obj = await event.client.get_entity(user)
         except (TypeError, ValueError) as err:
-            await event.reply(str(err))
+            await event.edit(str(err))
             return None
 
-    return user_obj
+    return user_obj, extra
 
 
 
