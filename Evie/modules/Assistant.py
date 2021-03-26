@@ -128,8 +128,8 @@ async def howdoi(event):
     await event.reply(pit)
 
 string = (
-  "I belong To ROseLoverX",
-  "Im Fairly Yound And Was Made by RoseLover",
+  "I belong To RoseLoverX!",
+  "Im Fairly Yound And Was Made by RoseLover!",
 )
 
 @register(pattern="^/eaichat$")
@@ -148,7 +148,7 @@ async def _(event):
     is_chat = sql.is_chat(chat.id)
     k = ly.is_chat(chat.id)
     if k:
-        await event.reply('Disable LydiaAi First')
+        await event.reply('Disable LydiaAI First!')
         return
     if not is_chat:
         ses_id = 'null'
@@ -186,8 +186,6 @@ async def check_message(event):
         return
     message = str(event.text)
     reply_msg = await event.get_reply_message()
-    if message.lower() == "evie ?(.*)":
-        return True
     if reply_msg:
         if reply_msg.sender_id == BOT_ID:
             return True
@@ -203,7 +201,7 @@ async def _(event):
   msg = str(event.text)
   chat = event.chat
   is_chat = sql.is_chat(chat.id)
-  if is_chat:
+  if not is_chat:
         return
   if msg:
         if not await check_message(event):
