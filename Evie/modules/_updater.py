@@ -95,7 +95,7 @@ async def upstream(ups):
         repo.__del__()
         return
 
-    if conf != " " and not force_update:
+    if conf != "now" and not force_update:
         changelog_str = (
             f"**New UPDATE available for {ac_br}\n\nCHANGELOG:**\n`{changelog}`"
         )
