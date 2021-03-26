@@ -3,6 +3,7 @@ import os
 import subprocess
 
 import Evie.modules.sql.ai_sql as sql
+import Evie.modules.sql.chatbot_sql as ly
 import requests
 from gtts import gTTS
 from gtts import gTTSError
@@ -145,6 +146,10 @@ async def _(event):
     send = await event.get_sender()
     user = await tbot.get_entity(send)
     is_chat = sql.is_chat(chat.id)
+    k = ly.is_chat(chat.id)
+    if k:
+        await event.reply('Disable LydiaAi First')
+        return
     if not is_chat:
         ses_id = 'null'
         expires = 'null'
