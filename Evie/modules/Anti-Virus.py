@@ -1,11 +1,11 @@
 import os
-from Luna import tbot
-from Luna import CMD_HELP, VIRUS_API_KEY
+from Evie import tbot
+from Evie import CMD_HELP, VIRUS_API_KEY
 from telethon import events
 from telethon.tl import functions
 from telethon.tl import types
 from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
-from Luna.events import register, is_register_admin
+from Evie.events import register, is_register_admin
 import cloudmersive_virus_api_client
 
 
