@@ -11,3 +11,4 @@ coffeehouse
 gtts
 cloudmersive_virus_api_client
 apscheduler
+python-opencv
