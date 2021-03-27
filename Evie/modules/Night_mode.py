@@ -68,12 +68,13 @@ async def can_change_info(message):
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
     )
 
-@register(pattern="^/nightmode(?: |$)(.*)")
+@register(pattern="^/nightmode ?(.*)")
 async def profanity(event):
     if event.fwd_from:
         return
     if event.is_private:
         return
+    input = event.pattern_match.group(1)
     if not event.sender_id == OWNER_ID:
         if not await is_register_admin(event.input_chat, event.sender_id):
            await event.reply("Only admins can execute this command!")
