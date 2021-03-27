@@ -68,13 +68,13 @@ async def can_change_info(message):
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
     )
 
-@register(pattern="^/nightmode ?(.*)")
+@register(pattern="^/(nightmode|Nightmode|NightMode) ?(.*)")
 async def profanity(event):
     if event.fwd_from:
         return
     if event.is_private:
         return
-    input = event.pattern_match.group(1)
+    input = event.pattern_match.group(2)
     if not event.sender_id == OWNER_ID:
         if not await is_register_admin(event.input_chat, event.sender_id):
            await event.reply("Only admins can execute this command!")
@@ -93,7 +93,7 @@ async def profanity(event):
             "Currently NightMode is Disabled for this Chat"
         )
         return
-    if input == "on":
+    if "on" in input:
         if event.is_group:
             if is_nightmode_indb(str(event.chat_id)):
                     await event.reply(
@@ -102,7 +102,7 @@ async def profanity(event):
                     return
             add_nightmode(str(event.chat_id))
             await event.reply("NightMode turned on for this chat.")
-    if input == "off":
+    if "off" in input:
         if event.is_group:
             if not is_nightmode_indb(str(event.chat_id)):
                     await event.reply(
@@ -111,7 +111,7 @@ async def profanity(event):
                     return
         rmnightmode(str(event.chat_id))
         await event.reply("NightMode Disabled!")
-    if not input == "on" and not input == "off":
+    if not "off" in input and not "on" in input:
         await event.reply("Please Specify On or Off!")
         return
 
