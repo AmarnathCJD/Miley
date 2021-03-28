@@ -1,4 +1,4 @@
-from telethon import event
+from telethon import events
 from Evie import BOT_ID, tbot
 
 @tbot.on(events.ChatAction)
