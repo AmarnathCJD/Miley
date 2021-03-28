@@ -6,7 +6,7 @@ from telethon.tl.functions.users import GetFullUserRequest
 
 from Evie import tbot, OWNER_ID, CMD_HELP
 from Evie.events import register
-sedpath = "./starkgangz/"
+sedpath = "./roseloverx/"
 if not os.path.isdir(sedpath):
     os.makedirs(sedpath)
 
