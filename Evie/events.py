@@ -166,13 +166,18 @@ def eviebot(**args):
     return decorator
 
 
-elevated = sudo.find({})
-chart = ""
-for i in elevated:
+def sudo(event):
+ elevated = sudo.find({})
+ chart = ""
+ for i in elevated:
   iid = i["user"]
   chart += f'{iid} '
   sudos = {int(x) for x in chart.split()}
   SUDO = list(sudos)
+ if event.sender_id in SUDO:
+   return True
+ else:
+   return False
 
 def load_module(shortname):
     if shortname.startswith("__"):
