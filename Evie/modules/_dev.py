@@ -22,6 +22,14 @@ def sudo(userid):
   else:
    return False
 
+from telethon import events
+from Evie import BOT_ID, tbot
+
+@tbot.on(events.ChatAction)
+async def handler(event):
+    if event.user_added:
+        if event.user_id == BOT_ID:
+           pass
 
 @register(pattern="^/stats")
 async def stat(event):
