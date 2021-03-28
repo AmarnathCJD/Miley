@@ -118,9 +118,9 @@ async def disapprove(event):
     for c in chats:
         if event.chat_id == c["id"] and iid == c["user"]:
             approved_users.delete_one({"id": event.chat_id, "user": iid})
-            await event.reply(f"[{userr.first_name}](tg://user?id={iid}) is no longer approved in {event.chat.title}.")
+            await event.reply(f"{userr.first_name} is no longer approved in {event.chat.title}.")
             return
-    await event.reply(f"[{userr.first_name}](tg://user?id={iid}) isn't approved yet")
+    await event.reply(f"{userr.first_name} isn't approved yet")
 
 
 @register(pattern="^/checkstatus(?: |$)(.*)")
