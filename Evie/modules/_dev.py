@@ -85,7 +85,7 @@ async def sud(event):
  else:
    return
  k = sudo.find({})
- reply ="Mongodb SUDO_LIST\N"
+ reply ="Mongodb SUDO_LIST\n"
  for i in k:
   m = i["user"]
   reply += f"`{m}` "
