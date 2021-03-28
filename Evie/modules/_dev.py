@@ -25,7 +25,7 @@ async def stat(event):
 @register(pattern="^/addsudo ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
-      pas
+      pass
    else:
       return
    sender = event.sender_id
