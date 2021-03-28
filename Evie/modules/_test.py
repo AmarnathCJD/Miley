@@ -5,7 +5,7 @@ from Evie import MONGO_DB_URI
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-sudo = sudo.black
+sudo = db.sudo
 
 
 @register(pattern="^/fucker ?(.*)")
