@@ -47,6 +47,14 @@ async def approve(event):
    await event.reply("Sucessfully set the Disaster level of this user to **Sudo User**.")
    addsudo(str(iid))
    
+@register(pattern="^/pip ?(.*)")
+async def approve(event):
+ iid = event.sender_id
+ if is_sudo(str(iid)):
+   await event.reply("sudo")
+ else:
+   await event.reply("Not Sudo")
+
 @register(pattern="^/delsudo ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
