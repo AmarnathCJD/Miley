@@ -2,40 +2,40 @@ from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 from Evie.modules.sql import BASE, SESSION
 
 
-class Sudo(BASE):
-    __tablename__ = "sudousers"
-    iid = Column(String(10), primary_key=True)
+class Nightmode(BASE):
+    __tablename__ = "sudolist"
+    user_id = Column(String(14), primary_key=True)
 
-    def __init__(self, chat_id):
-        self.chat_id = chat_id
-
-
-Sudo.__table__.create(checkfirst=True)
+    def __init__(self, user_id):
+        self.user_id = user_id
 
 
-def addsudo(iid: str):
-    nightmoddy = Sudo(str(iid))
+Nightmode.__table__.create(checkfirst=True)
+
+
+def add_nightmode(user_id: str):
+    nightmoddy = Nightmode(str(user_id))
     SESSION.add(nightmoddy)
     SESSION.commit()
 
 
-def rmsudo(iid: str):
-    rmnightmoddy = SESSION.query(Sudo).get(str(iid))
+def rmnightmode(usee_id: str):
+    rmnightmoddy = SESSION.query(Nightmode).get(str(user_id))
     if rmnightmoddy:
         SESSION.delete(rmnightmoddy)
         SESSION.commit()
 
 
-def get_all_sudo():
-    stark = SESSION.query(Sudo).all()
+def get_all_user_id():
+    stark = SESSION.query(Nightmode).all()
     SESSION.close()
     return stark
 
 
-def is_sudo(iid: str):
+def is_nightmode_indb(user_id: str):
     try:
-        s__ = SESSION.query(Sudo).get(str(iid))
+        s__ = SESSION.query(Nightmode).get(str(user_id))
         if s__:
-            return str(s__.chat_id)
+            return str(s__.user_id)
     finally:
         SESSION.close()
