@@ -22,6 +22,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 blacklist = db.black
+sudo = db.sudo
 
 def register(**args):
     pattern = args.get("pattern")
@@ -73,6 +74,10 @@ def register(**args):
             for c in users:
                 if check.sender_id == c["user"]:
                     return
+            babe = sudo.find({})
+            for k in users:
+                if check.sender_id == k["user"]:
+                    pass
             if already_added(check.sender_id):
                pass
             elif not already_added(check.sender_id):
