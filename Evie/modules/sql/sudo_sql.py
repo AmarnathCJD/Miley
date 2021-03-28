@@ -13,7 +13,7 @@ class Nightmode(BASE):
 Nightmode.__table__.create(checkfirst=True)
 
 
-def add_nightmode(user_id: str):
+def addsudo(user_id: str):
     nightmoddy = Nightmode(str(user_id))
     SESSION.add(nightmoddy)
     SESSION.commit()
