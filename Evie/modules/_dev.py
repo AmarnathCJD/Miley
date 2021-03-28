@@ -45,7 +45,38 @@ async def approve(event):
    sudo.insert_one({"user": iid})
    await event.reply("Successfully Added Sudo User")
    
+@register(pattern="^/rmsudo ?(.*)")
+async def approve(event):
+   if event.sender_id == OWNER_ID:
+      pass
+   else:
+      return
+   sender = event.sender_id
+   bl = blacklist.find({})
+   reply_msg = await event.get_reply_message()
+   iid = reply_msg.sender_id
+   if iid == OWNER_ID:
+     return
+   if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
+        await event.reply("Whokey")
+        return
+   a = sudo.find({})
+   for i in a:
+         if iid == i["user"]:
+                await event.reply("This User is Already Sudo")
+                return
+   sudo.delete_one({"user": iid})
+   await event.reply("Successfully Added Sudo User")
+   
 
+@register(pattern="^/sud")
+async def sud(event):
+ k = sudo.find({})
+ reply =""
+ for i in k:
+  m = i["user"]
+  reply += f"{m} "
+ await event.reply(reply)
 
 @register(pattern="^/blacklist ?(.*)")
 async def approve(event):
