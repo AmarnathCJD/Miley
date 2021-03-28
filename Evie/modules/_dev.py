@@ -14,6 +14,7 @@ sudo = db.sudo
 from Evie.function import SUDO
 from Evie.modules.sql.checkuser_sql import get_all_users
 from Evie.modules.sql.sudo_sql import addsudo, rmsudo, is_sudo, get_all_sudo
+from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
 
 def sudo(userid):
   k = userid
@@ -29,7 +30,10 @@ from Evie import BOT_ID, tbot
 async def handler(event):
     if event.user_added:
         if event.user_id == BOT_ID:
-           pass
+           if not is_chat(event.chat_id):
+                add_chat(event.chat_id)
+                await tbot.send_message(-1001326741686, f"Evie Added to {event.chat.title}")
+              
 
 @register(pattern="^/stats")
 async def stat(event):
