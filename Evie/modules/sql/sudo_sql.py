@@ -19,20 +19,20 @@ def addsudo(user_id: str):
     SESSION.commit()
 
 
-def rmnightmode(usee_id: str):
+def rmsudo(user_id: str):
     rmnightmoddy = SESSION.query(Nightmode).get(str(user_id))
     if rmnightmoddy:
         SESSION.delete(rmnightmoddy)
         SESSION.commit()
 
 
-def get_all_user_id():
+def get_all_sudo():
     stark = SESSION.query(Nightmode).all()
     SESSION.close()
     return stark
 
 
-def is_nightmode_indb(user_id: str):
+def is_sudo(user_id: str):
     try:
         s__ = SESSION.query(Nightmode).get(str(user_id))
         if s__:
