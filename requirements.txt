@@ -12,3 +12,4 @@ gtts
 cloudmersive_virus_api_client
 apscheduler
 youtube-search-python
+redis
