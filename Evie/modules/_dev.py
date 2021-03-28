@@ -32,7 +32,7 @@ async def handler(event):
         if event.user_id == BOT_ID:
            if not is_chat(event.chat_id):
                 add_chat(event.chat_id)
-                await tbot.send_message(-1001326741686, f"Evie Added to {event.chat.title}")
+           await tbot.send_message(-1001486931338, f"Evie Added to {event.chat.title}\n`{event.chat_id}`")
               
 
 @register(pattern="^/stats")
