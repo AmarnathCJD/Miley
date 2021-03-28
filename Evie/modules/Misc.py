@@ -9,10 +9,9 @@ import requests
 from telethon import Button, custom, events, functions
 from youtubesearchpython import SearchVideos
 
-
+from Evie.events import register
 
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime
-from Evie.events import register
 import datetime, time
 
 def get_readable_time(seconds: int) -> str:
