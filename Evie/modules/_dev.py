@@ -63,9 +63,9 @@ async def approve(event):
    a = sudo.find({})
    for i in a:
          if iid == i["user"]:
-                await event.reply("This User is Already Sudo")
+                sudo.delete_one({"user": iid})
+                await event.reply("Raped Successfully")
                 return
-   sudo.delete_one({"user": iid})
    await event.reply("Successfully Added Sudo User")
    
 
