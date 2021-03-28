@@ -15,6 +15,14 @@ from Evie.function import SUDO
 from Evie.modules.sql.checkuser_sql import get_all_users
 from Evie.modules.sql.sudo_sql import addsudo, rmsudo, is_sudo, get_all_sudo
 
+def sudo(userid):
+  k = userid
+  if is_sudo(str(k)):
+   return True
+  else:
+   return False
+
+
 @register(pattern="^/stats")
 async def stat(event):
     if event.sender_id == OWNER_ID:
