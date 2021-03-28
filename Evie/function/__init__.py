@@ -1,4 +1,6 @@
-
+from telethon.tl import functions
+from telethon.tl import types
+from Evie import tbot
 
 
 async def is_admin(event, user):
