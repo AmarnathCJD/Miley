@@ -98,18 +98,6 @@ def register(**args):
 
     return decorator
 
-async def is_register_admin(chat, user):
-    if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
-        return isinstance(
-            (
-                await tbot(functions.channels.GetParticipantRequest(chat, user))
-            ).participant,
-            (types.ChannelParticipantAdmin, types.ChannelParticipantCreator),
-        )
-    if isinstance(chat, types.InputPeerUser):
-        return True
-
-
 
 def eviebot(**args):
     pattern = args.get("pattern", None)
