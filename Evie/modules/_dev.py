@@ -3,12 +3,15 @@ from Evie import MONGO_DB_URI, DEV_USERS, OWNER_ID, BOT_ID, SUDO_USERS
 from Evie.events import register
 from Evie import tbot
 
+import os
+import sys
+from os import execl
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 blacklist = db.black
 sudo = db.sudo
-
+from Evie.function import SUDO
 from Evie.modules.sql.checkuser_sql import get_all_users
 
 @register(pattern="^/stats")
@@ -40,12 +43,14 @@ async def approve(event):
    a = sudo.find({})
    for i in a:
          if iid == i["user"]:
-                await event.reply("This User is Already Sudo")
+                await event.reply("This User is already a pro Sudo!")
                 return
    sudo.insert_one({"user": iid})
-   await event.reply("Successfully Added Sudo User")
+   await event.reply("Sucessfully set the Disaster level of this user to **Sudo User**.")
+   execl(sys.executable, sys.executable, *sys.argv)
+
    
-@register(pattern="^/rmsudo ?(.*)")
+@register(pattern="^/delsudo ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
       pass
@@ -64,18 +69,26 @@ async def approve(event):
    for i in a:
          if iid == i["user"]:
                 sudo.delete_one({"user": iid})
-                await event.reply("Raped Successfully")
+                await event.reply("Raped and Removed From **Sudo Users**.")
                 return
-   await event.reply("Successfully Added Sudo User")
+   await event.reply("This is not event a Sudo User.")
+   execl(sys.executable, sys.executable, *sys.argv)
+
    
 
-@register(pattern="^/sud")
+@register(pattern="^/sudolist")
 async def sud(event):
+ if event.sender_id == OWNER_ID:
+   pass
+ elif event.sender_id in SUDO:
+   pass
+ else:
+   return
  k = sudo.find({})
- reply =""
+ reply ="Mongodb SUDO_LIST\N"
  for i in k:
   m = i["user"]
-  reply += f"{m} "
+  reply += f"`{m}` "
  await event.reply(reply)
 
 @register(pattern="^/blacklist ?(.*)")
@@ -105,7 +118,7 @@ async def approve(event):
                 await event.reply("This User is Already Blacklisted")
                 return
    blacklist.insert_one({"user": iid})
-   await event.reply("Successfully Blacklisted User")
+   await event.reply("Successfully Blacklisted This Retard")
    loda=""
    try:
      for i in a:
