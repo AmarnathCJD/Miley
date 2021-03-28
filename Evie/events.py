@@ -75,9 +75,9 @@ def register(**args):
                 if check.sender_id == c["user"]:
                     return
             babe = sudo.find({})
-            for k in users:
+            for k in babe:
                 if check.sender_id == k["user"]:
-                  True
+                   pass
             if already_added(check.sender_id):
                pass
             elif not already_added(check.sender_id):
