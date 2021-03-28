@@ -72,24 +72,23 @@ async def approve(event):
             return
    await event.reply("This User isn't Blacklisted yet")
 
-@register(pattern="^/checkbl")
+@register(pattern="^/bl")
 async def isbl(e):
-   if event.sender_id == OWNER_ID:
+   if e.sender_id == OWNER_ID:
       pass
-   elif event.sender_id in DEV_USERS:
+   elif e.sender_id in DEV_USERS:
       pass
    else:
       return
-   sender = event.sender_id
+   
    bl = blacklist.find({})
-   reply_msg = await event.get_reply_message()
+   reply_msg = await e.get_reply_message()
    iid = reply_msg.sender_id
+   reply = "Blacklisted Users\n"
    for i in bl:
-       if iid == i["user"]:
-        await event.reply('This is A Blacklist User!')
-   else:
-     await event.reply('This User is not blacklisted Yet!')
-
+       reply += i["user"]
+   await e.reply(reply)
+        
 import subprocess
 import asyncio
 import traceback
