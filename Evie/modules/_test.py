@@ -11,10 +11,9 @@ sudo = db.sudo
 @register(pattern="^/fucker ?(.*)")
 async def surest(event):
   k = event.pattern_match.group(1)
-  jam = sudo.find({})
-  for i in jam:
-     if k == i["user"]:
-      await event.reply("it's a fucker")
-  else:
-      await event.reply("Not a fucker")
+  users = sudo.find({})
+  for c in users:
+        if  k == c["user"]:
+                 await event.reply("Fuked")
+
   
