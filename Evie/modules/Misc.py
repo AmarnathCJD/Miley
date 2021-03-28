@@ -474,7 +474,7 @@ async def _(event):
 @register(pattern="^/search (.*)")
 async def lybot(event):
  k = event.pattern_match.group(1)
- message = "/search {k}"
+ message = f"/search {k}"
  results = YoutubeSearch(message,max_results=1).to_dict()
  i = 0
  text = ""
