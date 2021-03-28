@@ -7,6 +7,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 blacklist = db.black
+sudo = db.sudo
 
 from Evie.modules.sql.checkuser_sql import get_all_users
 
@@ -20,6 +21,30 @@ async def stat(event):
      return
     used = get_all_users()
     await event.reply(f"<b>I have <u>{len(used)}</u> Users In My Database.</b>", parse_mode="HTML")
+
+@register(pattern="^/addsudo ?(.*)")
+async def approve(event):
+   if event.sender_id == OWNER_ID:
+      pas
+   else:
+      return
+   sender = event.sender_id
+   bl = blacklist.find({})
+   reply_msg = await event.get_reply_message()
+   iid = reply_msg.sender_id
+   if iid == OWNER_ID:
+     return
+   if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
+        await event.reply("Whokey")
+        return
+   a = sudo.find({})
+   for i in a:
+         if iid == i["user"]:
+                await event.reply("This User is Already Sudo")
+                return
+   sudo.insert_one({"user": iid})
+   await event.reply("Successfully Added Sudo User")
+   
 
 
 @register(pattern="^/blacklist ?(.*)")
@@ -50,7 +75,14 @@ async def approve(event):
                 return
    blacklist.insert_one({"user": iid})
    await event.reply("Successfully Blacklisted User")
-
+   loda=""
+   try:
+     for i in a:
+       k = i["user"]
+       loda += f"{k}\n"
+   except Exception as ok:
+       await e.reply(ok)
+   await event.reply(loda)
 
 @register(pattern="^/unblacklist ?(.*)")
 async def approve(event):
