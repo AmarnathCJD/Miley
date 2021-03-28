@@ -472,10 +472,10 @@ async def _(event):
       await event.reply(e)
 
 @register(pattern="^/search (.*)")
-async def lybot(event):
+async def yt(event):
  k = event.pattern_match.group(1)
  message = f"/search {k}"
- results = YoutubeSearch(message,max_results=1).to_dict()
+ results = YoutubeSearch(message,max_results=3).to_dict()
  i = 0
  text = ""
  while i < 1:
@@ -485,7 +485,7 @@ async def lybot(event):
     text += f"Channel - {results[i]['channel']}\n"
     text += f"https://youtube.com{results[i]['url_suffix']}\n\n"
     i += 1
-    await event.reply(
+ await event.reply(
                     reply,
                     link_preview=True,
                 )
