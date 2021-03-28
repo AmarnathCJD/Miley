@@ -148,10 +148,6 @@ async def _(event):
  except Exception as e:
       await event.reply(e)
 
-# COPYRIGHT (C) 2021 BY LEGENDX22 AND PROBOYX
-# DO NOT REMOVE THIS LINES WE HAVE COPYRIGHT 🤨
-
-
 
 @tbot.on(events.InlineQuery(pattern=r"yt (.*)"))
 async def inline_id_handler(event: events.InlineQuery.Event):
