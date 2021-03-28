@@ -86,8 +86,9 @@ async def isbl(e):
    iid = reply_msg.sender_id
    reply = "Blacklisted Users\n"
    try:
-    for i in bl:
-       reply += f"{i["user"]}\n"
+     for i in bl:
+       k = i["user"]
+       reply += f"{k}\n"
    except Exception as ok:
        await e.reply(ok)
    await e.reply(reply)
