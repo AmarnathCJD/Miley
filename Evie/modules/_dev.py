@@ -55,14 +55,6 @@ async def approve(event):
    await event.reply("Sucessfully set the Disaster level of this user to **Sudo User**.")
    addsudo(str(iid))
    
-@register(pattern="^/pip ?(.*)")
-async def approve(event):
- iid = event.sender_id
- if is_sudo(str(iid)):
-   await event.reply("sudo")
- else:
-   await event.reply("Not Sudo")
-
 @register(pattern="^/delsudo ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
@@ -78,31 +70,16 @@ async def approve(event):
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
         await event.reply("Whokey")
         return
-   a = sudo.find({})
-   for i in a:
-         if iid == i["user"]:
-                sudo.delete_one({"user": iid})
-                await event.reply("Raped and Removed From **Sudo Users**.")
-                return
-   await event.reply("This is not event a Sudo User.")
-   execl(sys.executable, sys.executable, *sys.argv)
-
+   if is_sudo(str(iid)):
+         rmsudo(iid)
+         await event.reply("Removed From **Sudo Users**.")
+         return
+   await event.reply("This is not event a Sudo User;(")
    
 
 @register(pattern="^/sudolist")
 async def sud(event):
- if event.sender_id == OWNER_ID:
-   pass
- elif event.sender_id in SUDO:
-   pass
- else:
-   return
- k = sudo.find({})
- reply ="Mongodb SUDO_LIST\n"
- for i in k:
-  m = i["user"]
-  reply += f"`{m}` "
- await event.reply(reply)
+ await event.reply("Soon")
 
 @register(pattern="^/blacklist ?(.*)")
 async def approve(event):
