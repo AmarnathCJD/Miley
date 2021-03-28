@@ -22,6 +22,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 blacklist = db.black
+sudo = db.sudo
 
 def register(**args):
     pattern = args.get("pattern")
@@ -105,6 +106,7 @@ async def is_register_admin(chat, user):
         return True
 
 
+
 def eviebot(**args):
     pattern = args.get("pattern", None)
     disable_edited = args.get("disable_edited", False)
@@ -162,6 +164,15 @@ def eviebot(**args):
         return wrapper
 
     return decorator
+
+
+elevated = sudo.find({})
+chart = ""
+for i in elevated:
+  iid = i["user"]
+  chart += f'{iid} '
+  sudos = {int(x) for x in chart.split()}
+  SUDO = list(sudos)
 
 def load_module(shortname):
     if shortname.startswith("__"):
