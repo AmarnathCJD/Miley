@@ -13,6 +13,7 @@ from Evie.events import register
 
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime
 import datetime, time
+from Evie.function import is_admin
 
 def get_readable_time(seconds: int) -> str:
     count = 0
@@ -45,6 +46,7 @@ def get_readable_time(seconds: int) -> str:
 
 @register(pattern="^/(ping|ping@MissEvie_Robot)")
 async def ping(event):
+    
     start_time = datetime.datetime.now()
     message = await event.reply("Pinging.")
     end_time = datetime.datetime.now()
@@ -90,8 +92,9 @@ async def lybot(event):
       response = await response
       await response.forward_to(event.chat_id)
 #RoseLoverX
+
 @register(pattern="^/gey ?(.*)")
-async def lybot(event):
+async def gey(event):
    m = event.pattern_match.group(1)
    from telethon.tl.functions.users import GetFullUserRequest
    if event.reply_to_msg_id:
@@ -116,6 +119,8 @@ async def lybot(event):
 @register(pattern="^/shazam$")
 async def _(event):
  try:
+    if not await is_admin(event, event.sender_id):
+       return
     if event.fwd_from:
         return
     if not event.reply_to_msg_id:
