@@ -1,8 +1,8 @@
 from Evie.events import register
 
-@register(pattern="^/surest")
+@register(pattern="^/sutest")
 async def surest(event):
-  if SUDO == True:
+  if True:
    await event.reply("Test Success")
   else:
    await event.reply("test failed")
