@@ -5,6 +5,7 @@ from telethon import TelegramClient, events, functions, Button
 from telethon.tl.functions.users import GetFullUserRequest
 
 from Evie import tbot, OWNER_ID, CMD_HELP
+from youtube_search import YoutubeSearch
 from Evie.events import register
 sedpath = "./roseloverx/"
 if not os.path.isdir(sedpath):
@@ -469,6 +470,25 @@ async def _(event):
     await stt.edit(namem)
  except Exception as e:
       await event.reply(e)
+
+@register(pattern="^/search (.*)")
+async def lybot(event):
+ k = event.pattern_match.group(1)
+ message = "/search {k}"
+ results = YoutubeSearch(message,max_results=1).to_dict()
+ i = 0
+ text = ""
+ while i < 1:
+    text += f"Title - {results[i]['title']}\n"
+    text += f"Duration - {results[i]['duration']}\n"
+    text += f"Views - {results[i]['views']}\n"
+    text += f"Channel - {results[i]['channel']}\n"
+    text += f"https://youtube.com{results[i]['url_suffix']}\n\n"
+    i += 1
+    await event.reply(
+                    reply,
+                    link_preview=True,
+                )
 
 
 file_help = os.path.basename(__file__)
