@@ -8,12 +8,16 @@ db = client["evie"]
 sudo = db.sudo
 
 
-@register(pattern="^/fucker ?(.*)")
+@register(pattern="^/fucker")
 async def surest(event):
-  k = event.pattern_match.group(1)
+  up = await event.get_reply_message()
+  k = up.id
   users = sudo.find({})
   for c in users:
         if  k == c["user"]:
                  await event.reply("Fuked")
+                 return
+  await event.reply("virgin")
+  
 
   
