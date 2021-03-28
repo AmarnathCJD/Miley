@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 from Evie.modules.sql import BASE, SESSION
 
 
-class Nightmode(BASE):
+class Sudo(BASE):
     __tablename__ = "sudousers"
     iid = Column(String(10), primary_key=True)
 
