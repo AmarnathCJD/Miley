@@ -77,6 +77,7 @@ def register(**args):
             babe = sudo.find({})
             for k in users:
                 if check.sender_id == k["user"]:
+                  SUDO = True
                     pass
             if already_added(check.sender_id):
                pass
