@@ -5,7 +5,8 @@ from telethon import events
 from telethon.tl import functions
 from telethon.tl import types
 from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
-from Evie.events import register, is_register_admin
+from Evie.events import register
+from Evie.function import is_register_admin
 import cloudmersive_virus_api_client
 
 
