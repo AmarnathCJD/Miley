@@ -11,7 +11,7 @@ from youtubesearchpython import SearchVideos
 
 
 
-from Evie import tbot, OWNER_ID, CMD_HELP, Ubot, StartTime
+from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime
 from Evie.events import register
 import datetime, time
 
