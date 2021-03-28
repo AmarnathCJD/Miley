@@ -13,6 +13,7 @@ blacklist = db.black
 sudo = db.sudo
 from Evie.function import SUDO
 from Evie.modules.sql.checkuser_sql import get_all_users
+from Evie.modules.sql.sudo_sql import addsudo, rmsudo, is_sudo, get_all_sudo
 
 @register(pattern="^/stats")
 async def stat(event):
@@ -40,15 +41,11 @@ async def approve(event):
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
         await event.reply("Whokey")
         return
-   a = sudo.find({})
-   for i in a:
-         if iid == i["user"]:
-                await event.reply("This User is already a pro Sudo!")
-                return
-   sudo.insert_one({"user": iid})
+   if is_sudo(str(iid)):
+      await event.reply("This is already a pro Sudo!")
+      return
    await event.reply("Sucessfully set the Disaster level of this user to **Sudo User**.")
-   execl(sys.executable, sys.executable, *sys.argv)
-
+   addsudo(str(iid))
    
 @register(pattern="^/delsudo ?(.*)")
 async def approve(event):
