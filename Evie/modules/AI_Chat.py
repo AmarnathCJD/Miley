@@ -1,6 +1,11 @@
 from Evie import tbot, OWNER_ID
-from Evie.modules.sql.
-
+import Evie.modules.sql.ai_sql as sql
+import Evie.modules.sql.chatbot_sql as ly
+import emoji
+from google_trans_new import google_translator
+translator = google_translator()
+def extract_emojis(s):
+    return "".join(c for c in s if c in emoji.UNICODE_EMOJI)
 
 string = (
   "I belong To RoseLoverX!",
