@@ -45,7 +45,7 @@ def set_sudo(user_id, fname):
     with INSERTION_LOCK:
         curr = SESSION.query(SUDO).get(user_id)
         if not curr:
-            curr = SUDK(user_id, fname, True)
+            curr = SUDO(user_id, fname, True)
         else:
             curr.is_sudo = True
             curr.fname = fname
