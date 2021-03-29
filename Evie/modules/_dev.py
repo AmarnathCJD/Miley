@@ -13,12 +13,12 @@ blacklist = db.black
 sudo = db.sudo
 from Evie.function import SUDO
 from Evie.modules.sql.checkuser_sql import get_all_users
-from Evie.modules.sql.sudo_sql import addsudo, rmsudo, is_sudo, get_all_sudo
+import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
 
 def sudo(userid):
   k = userid
-  if is_sudo(str(k)):
+  if sql.is_sudo(str(k)):
    return True
   else:
    return False
@@ -57,16 +57,17 @@ async def approve(event):
    bl = blacklist.find({})
    reply_msg = await event.get_reply_message()
    iid = reply_msg.sender_id
+   fname = reply.msg.first_name
    if iid == OWNER_ID:
      return
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
         await event.reply("Whokey")
         return
-   if is_sudo(str(iid)):
+   if sql.is_sudo(iid):
       await event.reply("This is already a pro Sudo!")
       return
    await event.reply("Sucessfully set the Disaster level of this user to **Sudo User**.")
-   addsudo(str(iid))
+   sql.set_sudo(iid, fname)
    
 @register(pattern="^/delsudo ?(.*)")
 async def approve(event):
@@ -83,8 +84,8 @@ async def approve(event):
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
         await event.reply("Whokey")
         return
-   if is_sudo(str(iid)):
-         rmsudo(iid)
+   if sql.is_sudo(iid):
+         sql.rm_sudo(iid)
          await event.reply("Removed From **Sudo Users**.")
          return
    await event.reply("This is not event a Sudo User;(")
