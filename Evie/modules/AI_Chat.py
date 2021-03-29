@@ -4,6 +4,9 @@ import Evie.modules.sql.chatbot_sql as ly
 from google_trans_new import google_translator
 translator = google_translator()
 
+from telethon import events
+from Evie.events import register
+
 string = (
   "I belong To RoseLoverX!",
   "Im Fairly Yound And Was Made by RoseLover!",
