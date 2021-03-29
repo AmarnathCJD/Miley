@@ -56,7 +56,7 @@ async def approve(event):
    sender = event.sender_id
    reply_msg = await event.get_reply_message()
    iid = reply_msg.sender_id
-   fname = reply_msg.first_name
+   fname = reply_msg.sender.first_name
    if iid == OWNER_ID:
      return
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
