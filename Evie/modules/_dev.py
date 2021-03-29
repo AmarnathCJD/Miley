@@ -98,7 +98,7 @@ async def sud(event):
  for i in k:
   sep = i
   value = k[i]
-  reply += f"✔️{value} (`{sep}`)\n"
+  reply += f"✅{value} (`{sep}`)\n"
  await event.reply(reply)
  
 
