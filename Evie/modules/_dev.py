@@ -95,12 +95,12 @@ async def sud(event):
  res = []
  k = sql.SUDO_USERS
  reply = "**SUDO_USERS**\n"
- for key in k.keys():
-  res.append(k[key])
- for f in res:
-  reply += f"•{f}\n"
+ for i in k:
+  sep = i
+  value = k[i]
+  reply += f"✔️{value} (`{sep}`)\n"
  await event.reply(reply)
-  
+ 
 
 @register(pattern="^/blacklist ?(.*)")
 async def approve(event):
