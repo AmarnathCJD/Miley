@@ -271,7 +271,7 @@ async def inline_id_handler(event):
         except TypeError:
             pass
           
-                              
+"""                             
 @tbot.on(events.InlineQuery(pattern=r"anime ?(.*)"))
 async def anime(event):
     builder = event.builder
@@ -341,3 +341,4 @@ async def anime(event):
             )
             )
     await event.answer(results)      
+"""
