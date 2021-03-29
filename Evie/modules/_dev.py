@@ -33,7 +33,7 @@ async def handler(event):
            if not is_chat(event.chat_id):
                 add_chat(event.chat_id)
            await tbot.send_message(-1001486931338, f"Evie Added to {event.chat.title}\n`{event.chat_id}`")
-           await tbot.send_message(event.chat_id, "Heya :-P Now leave your group on my hands and let me manage it. If you need any help, head to @EvieSupport.")
+           await tbot.send_message(event.chat_id, "Heya :-D Now leave your group on my hands and let me manage it. If you need any help, head to @EvieSupport.")
               
 
 @register(pattern="^/stats")
@@ -120,6 +120,8 @@ async def approve(event):
      return
    elif iid in SUDO_USERS:
      return
+   elif sudo(iid):
+     return
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
         await event.reply("I am not gonna blacklist myself")
         return
@@ -169,13 +171,11 @@ async def isbl(e):
       return
    
    bl = blacklist.find({})
-   reply_msg = await e.get_reply_message()
-   iid = reply_msg.sender_id
    reply = "Blacklisted Users\n"
    try:
      for i in bl:
        k = i["user"]
-       reply += f"{k}\n"
+       reply += f"•`{k}`\n"
    except Exception as ok:
        await e.reply(ok)
    await e.reply(reply)
