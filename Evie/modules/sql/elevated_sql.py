@@ -1,7 +1,5 @@
-# timer added
-
+#By RoseLoverX
 import threading
-import time
 from Evie.modules.sql import BASE, SESSION
 from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
