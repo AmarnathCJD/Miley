@@ -2,7 +2,7 @@ from Evie import tbot, CMD_HELP
 import os
 import subprocess
 
-import Evie.modules.sql.ai_sql as sql
+
 import Evie.modules.sql.chatbot_sql as ly
 import requests
 from gtts import gTTS
