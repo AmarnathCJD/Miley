@@ -17,7 +17,7 @@ class SUDO(BASE):
         self.is_sudo = is_sudo
 
     def __repr__(self):
-        return "sudo_status for {}".format(self.user_id)
+        return "{}".format(self.user_id)
 
 
 SUDO.__table__.create(checkfirst=True)
