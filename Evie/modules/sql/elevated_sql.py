@@ -72,9 +72,9 @@ def __load_sudo_users():
     global SUDO_USERS
     global SUDO_USERSS
     try:
-        all_afk = SESSION.query(SUDO).all()
-        SUDO_USERS = {user.user_id: user.fname for user in all_afk if user.is_afk}
-        SUDO_USERSS = {user.user_id: user.fname for user in all_afk if user.is_afk}
+        all_sudo = SESSION.query(SUDO).all()
+        SUDO_USERS = {user.user_id: user.fname for user in all_sudo if user.is_sudo}
+        SUDO_USERSS = {user.user_id: user.fname for user in all_sudo if user.is_sudo}
     finally:
         SESSION.close()
 
