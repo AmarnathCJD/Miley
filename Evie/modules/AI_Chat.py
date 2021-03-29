@@ -64,17 +64,16 @@ async def _(event):
         pass
   else:
         return
-  
-  reply_msg = await event.get_reply_message()
-  if not reply_msg.sender_id == BOT_ID:
-           return
-               
   prof = str(event.text)
+  reply_msg = await event.get_reply_message()
+  if not "Evie" in prof or "evie" in prof:
+     if not reply_msg.sender_id == BOT_ID:
+           return
   chat = event.chat
+  msg = prof
   is_chat = sql.is_chat(chat.id)
   if not is_chat:
         return
-  msg = prof
   if msg.startswith("/") or msg.startswith("@"):
     return
   lan = translator.detect(msg)
