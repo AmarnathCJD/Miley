@@ -61,9 +61,9 @@ async def _(event):
         pass
   else:
         return
+  
   reply_msg = await event.get_reply_message()
-  if reply_msg:
-        if not reply_msg.sender_id == BOT_ID:
+  if not reply_msg.sender_id == BOT_ID:
            return
                
   prof = str(event.text)
