@@ -66,7 +66,10 @@ def rm_sudo(user_id):
 
         SESSION.close()
         return False
-
+def get_all_sudo_id():
+    stark = SESSION.query(SUDO).all()
+    SESSION.close()
+    return stark
 
 def __load_sudo_users():
     global SUDO_USERS
