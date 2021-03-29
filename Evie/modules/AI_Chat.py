@@ -66,7 +66,7 @@ async def _(event):
         return
   prof = str(event.text)
   reply_msg = await event.get_reply_message()
-  if not "Evie" in prof or "evie" in prof:
+  if not "Evie" in prof or not "evie" in prof:
      if not reply_msg.sender_id == BOT_ID:
            return
   chat = event.chat
