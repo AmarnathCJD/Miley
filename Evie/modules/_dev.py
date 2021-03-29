@@ -99,6 +99,7 @@ async def sud(event):
   res.append(k[key])
  for f in res:
   reply += f"•{f}\n"
+ await event.reply(reply)
   
 
 @register(pattern="^/blacklist ?(.*)")
