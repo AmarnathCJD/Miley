@@ -54,10 +54,9 @@ async def approve(event):
    else:
       return
    sender = event.sender_id
-   bl = blacklist.find({})
    reply_msg = await event.get_reply_message()
    iid = reply_msg.sender_id
-   fname = reply.msg.first_name
+   fname = reply_msg.first_name
    if iid == OWNER_ID:
      return
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
