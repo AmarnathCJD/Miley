@@ -33,6 +33,7 @@ async def handler(event):
            if not is_chat(event.chat_id):
                 add_chat(event.chat_id)
            await tbot.send_message(-1001486931338, f"Evie Added to {event.chat.title}\n`{event.chat_id}`")
+           await tbot.send_message(event.chat_id, "Heya :-P Now leave your group on my hands and let me manage it. If you need any help, head to @EvieSupport.")
               
 
 @register(pattern="^/stats")
