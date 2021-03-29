@@ -6,7 +6,7 @@ from Evie.modules.sql import BASE, SESSION
 from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
 
-class AFK(BASE):
+class SUDO(BASE):
     __tablename__ = "elevated_users"
 
     user_id = Column(Integer, primary_key=True)
