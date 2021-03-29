@@ -16,9 +16,9 @@ from Evie.modules.sql.checkuser_sql import get_all_users
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
 
-def sudo(userid):
-  k = userid
-  if sql.is_sudo(str(k)):
+def sudo(iid):
+  k = iid
+  if sql.is_sudo(k):
    return True
   else:
    return False
