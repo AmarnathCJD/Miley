@@ -3,6 +3,8 @@ import Evie.modules.sql.ai_sql as sql
 import Evie.modules.sql.chatbot_sql as ly
 from google_trans_new import google_translator
 translator = google_translator()
+import requests
+
 
 from telethon import events
 from Evie.events import register
