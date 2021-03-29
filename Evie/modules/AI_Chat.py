@@ -1,3 +1,6 @@
+# Made by RoseLoverX
+# Multi language added by @InukaASiTH
+
 from Evie import tbot, OWNER_ID, BOT_ID
 import Evie.modules.sql.ai_sql as sql
 import Evie.modules.sql.chatbot_sql as ly
