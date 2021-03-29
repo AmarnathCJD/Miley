@@ -76,7 +76,7 @@ async def _(event):
     return
   lan = translator.detect(msg)
   if not "en" in lan and not lan == "":
-     test = translator.translate(test, lang_tgt="en")
+     test = translator.translate(msg, lang_tgt="en")
   else:
      test = msg
   
