@@ -92,7 +92,14 @@ async def approve(event):
 
 @register(pattern="^/sudolist")
 async def sud(event):
- await event.reply("Soon")
+ res = []
+ k = sql.SUDO_USERS
+ reply = "**SUDO_USERS**\n"
+ for key in k.keys():
+  res.append(k[key])
+ for f in res:
+  reply += f"•{f}\n"
+  
 
 @register(pattern="^/blacklist ?(.*)")
 async def approve(event):
