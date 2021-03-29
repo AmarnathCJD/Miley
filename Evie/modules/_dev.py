@@ -94,11 +94,11 @@ async def approve(event):
 async def sud(event):
  res = []
  k = sql.SUDO_USERS
- reply = "**SUDO_USERS**\n"
+ reply = "**SUDO_USERS:**\n\n"
  for i in k:
   sep = i
   value = k[i]
-  reply += f"✅{value} (`{sep}`)\n"
+  reply += f"💹{value} (`{sep}`)\n"
  await event.reply(reply)
  
 
