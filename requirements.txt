@@ -13,3 +13,4 @@ cloudmersive_virus_api_client
 apscheduler
 youtube-search-python
 redis
+google_trans_new
