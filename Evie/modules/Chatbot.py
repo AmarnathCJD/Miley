@@ -3,6 +3,8 @@ import os
 from time import time
 import asyncio
 import Evie.modules.sql.chatbot_sql as sql
+import Evie.modules.sql.ai_sql as ly
+
 from coffeehouse.api import API
 from coffeehouse.exception import CoffeeHouseError as CFError
 from coffeehouse.lydia import LydiaAI
@@ -44,6 +46,9 @@ async def _(event):
     send = await event.get_sender()
     user = await tbot.get_entity(send)
     is_chat = sql.is_chat(chat.id)
+    k = ly.is_chat(chat.id)
+    if k:
+        ly.rem_chat(chat.id)
     if not is_chat:
         ses = api_client.create_session()
         ses_id = str(ses.id)
