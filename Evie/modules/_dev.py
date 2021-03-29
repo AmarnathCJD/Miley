@@ -161,7 +161,7 @@ async def approve(event):
             return
    await event.reply("This User isn't Blacklisted yet")
 
-@register(pattern="^/bl")
+@register(pattern="^/checkbl")
 async def isbl(e):
    if e.sender_id == OWNER_ID:
       pass
