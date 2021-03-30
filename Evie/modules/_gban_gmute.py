@@ -20,7 +20,7 @@ async def gban(event):
         return
  if event.sender_id == OWNER_ID:
   pass
- elif event.sender_id in SUDO_USERS:
+ elif event.sender_id in DEV_USERS:
   pass
  elif sudo(id):
   pass
