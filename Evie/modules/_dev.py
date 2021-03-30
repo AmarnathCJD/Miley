@@ -10,9 +10,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 blacklist = db.black
-sudo = db.sudo
 
-from Evie.function import SUDO
 from Evie.modules.sql.checkuser_sql import get_all_users
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
