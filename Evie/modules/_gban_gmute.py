@@ -131,7 +131,7 @@ async def gban(event):
    try:
        chat = int(i.chat_id)
        await tbot(
-                    EditBannedRequest(chat, f'{username}', BANNED_RIGHTS)
+                    EditBannedRequest(chat, 'Roseloverxm', BANNED_RIGHTS)
                )
    except Exception:
        pass
