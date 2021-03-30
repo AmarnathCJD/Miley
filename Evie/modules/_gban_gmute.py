@@ -89,19 +89,6 @@ async def gban(event):
  
  reply =""
  await event.reply("menga")
- cheater = get_all_chat_id()
- for i in cheater:
-   try:
-       chat = int(i.chat_id)
-       await tbot(
-                    EditBannedRequest(chat, f"{username}", BANNED_RIGHTS)
-               )
-   except Exception as e:
-       reply += f"{e} \n"
-       pass
- k = await event.reply("Initiating Global Ban.!")
- await k.delete()
- await event.reply(f"Gban Completed\n Affected Chats {len(cheater)}\n{reply}")
  chats = gbanned.find({})
  for c in chats:
       if r_sender_id == c["user"]:
@@ -123,3 +110,18 @@ async def gban(event):
  gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
+
+ cheater = get_all_chat_id()
+ for i in cheater:
+   try:
+       chat = int(i.chat_id)
+       await tbot(
+                    EditBannedRequest(chat, f"{username}", BANNED_RIGHTS)
+               )
+   except Exception as e:
+       reply += f"{e} \n"
+       pass
+ k = await event.reply("Initiating Global Ban.!")
+ await k.delete()
+ await event.reply(f"Gban Completed\n Affected Chats {len(cheater)}\n{reply}")
+ 
