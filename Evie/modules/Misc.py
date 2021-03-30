@@ -63,7 +63,7 @@ async def detail(replied_user, event):
     caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
     if bio(user_id):
        k = boss[user_id]
-       caption += f'\n\n**What others say:**\n{k}'
+       caption += f'\n\n<b>What others say:</b>\n{k}'
     return caption
  except Exception:
         print("lel")
