@@ -83,14 +83,5 @@ if ENV:
     except BaseException:
         print("Can't start ubot!")
         sys.exit(1)
-    session_name = str(STRING_SESSION)
-    try:
-        if session_name.endswith("="):
-            bot = TelegramClient(
-                StringSession(session_name), Config.APP_ID, Config.API_HASH
-            )
-    except Exception as e:
-      print(e)
-      pass
 else:
     sys.exit(1)
