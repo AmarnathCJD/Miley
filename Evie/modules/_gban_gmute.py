@@ -12,7 +12,7 @@ gbanned = db.gban
 
 def get_reason(id):
     return gbanned.find_one({"user": id})
-
+chat = -1001309757591
 
 @register(pattern="^/gban ?(.*)")
 async def gban(event):
