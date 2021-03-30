@@ -319,7 +319,7 @@ async def ubot(event):
         return
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
-        return await event.edit("cmd not provided.)
+        return await event.delete()
     catevent = await event.edit("Running ...")
     old_stderr = sys.stderr
     old_stdout = sys.stdout
@@ -354,7 +354,7 @@ async def ubot(event):
         return
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
-        return await event.edit("What should i execute?..")
+        return await event.delete()
     catevent = await event.edit("Executing.....")
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
