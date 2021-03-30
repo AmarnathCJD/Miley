@@ -1,14 +1,6 @@
 from telethon.tl import functions
 from telethon.tl import types
 from Evie import tbot
-from pymongo import MongoClient
-from Evie import MONGO_DB_URI
-
-client = MongoClient()
-client = MongoClient(MONGO_DB_URI)
-db = client["evie"]
-blacklist = db.black
-sudo = db.sudo
 
 async def is_admin(event, user):
     try:
@@ -55,12 +47,3 @@ async def can_change_info(message):
     return isinstance(p, types.ChannelParticipantCreator) or (
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
     )
-
-
-elevated = sudo.find({})
-chart = ""
-for i in elevated:
- iid = i["user"]
- chart += f'{iid} '
-sudos = {int(x) for x in chart.split()}
-SUDO = list(sudos)
