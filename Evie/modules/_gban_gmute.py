@@ -29,7 +29,7 @@ gbanned = db.gban
 def get_reason(id):
     return gbanned.find_one({"user": id})
 
-chat = -1001309757591
+chat = -1001486931338
 
 @register(pattern="^/gban ?(.*)")
 async def gban(event):
@@ -102,6 +102,7 @@ async def gban(event):
  k = await event.reply("Initiating Global Ban.!")
  await k.delete()
  await event.reply(f"Gban Completed\n Affected Chats {len(cheater)}\n{reply}")
+ chats = gbanned.find({})
  for c in chats:
       if r_sender_id == c["user"]:
           to_check = get_reason(id=r_sender_id)
@@ -117,29 +118,8 @@ async def gban(event):
           await event.reply(
                 "This user is already gbanned, I am updating the reason of the gban with your reason."
             )
-          await event.client.send_message(
-                chat,
-                "**Global Ban Update**\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
-                    group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason
-                ),
-            )
           return
 
  gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
- if reason:
-      await event.client.send_message(
-        chat,
-        "**Global Ban**\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}\n**Event Time:** **fuk**".format(
-            group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason
-        ),
-      )
- else:
-      await event.client.send_message(
-        chat,
-        "**Global Ban**\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Event Time:** **dn**".format(
-            group, sender, event.sender_id, fname, r_sender_id, r_sender_id
-        ),
-      )
-    
