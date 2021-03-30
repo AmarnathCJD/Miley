@@ -58,7 +58,6 @@ async def gban(event):
    else:
      reason = None
    r_sender_id = iid
- chats = gbanned.find({})
  if r_sender_id == OWNER_ID:
         await event.reply(f"Char Chavanni godhe pe\ngey Mere Lode Pe!.")
         return
@@ -69,6 +68,7 @@ async def gban(event):
         await event.reply("Another one bits the dust! banned a betichod!")
         return
  await event.reply("1")
+ chats = gbanned.find({})
  for c in chats:
     if r_sender_id == c["user"]:
             to_check = get_reason(id=r_sender_id)
