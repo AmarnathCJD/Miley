@@ -312,22 +312,27 @@ from Evie import ubot, OWNER_ID
 from telethon import events
 
 @ubot.on(events.NewMessage(pattern=".bash ?(.*)"))
-async def fbut(event):
+async def ebent(event):
     if not event.sender_id == OWNER_ID:
+        return
+    if event.fwd_from:
         return
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
-        return
-    chup = await event.edit("Executing.....")
+        return await event.edit("What should i execute?..")
+    catevent = await event.edit("Executing.....")
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
     stdout, stderr = await process.communicate()
     result = str(stdout.decode().strip()) + str(stderr.decode().strip())
     curruser = "Evie"
-    cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-    await chup.edit(cresult)
-   
+    uid = os.geteuid()
+    if uid == 0:
+        cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
+    else:
+        cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
+    await catevent.edit(cresult)
 
 
 async def aexec(code, smessatatus):
@@ -344,14 +349,3 @@ async def aexec(code, smessatatus):
     )
     return await locals()["__aexec"](message, reply, tbot, p)
 
-async def fexec(code, smessatatus):
-    message = event = smessatatus
-    p = lambda _x: print(_format.yaml_format(_x))
-    reply = await event.get_reply_message()
-    exec(
-        f"async def __aexec(message, event , reply, client, p, chat): "
-        + "".join(f"\n {l}" for l in code.split("\n"))
-    )
-    return await locals()["__aexec"](
-        message, event, reply, message.client, p, message.chat_id
-    )
