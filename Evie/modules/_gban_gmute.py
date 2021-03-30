@@ -1,4 +1,4 @@
-from Evie import tbot, OWNER_ID, DEV_USERS, MONGO_DB_URI
+from Evie import tbot, OWNER_ID, DEV_USERS, MONGO_DB_URI, BOT_ID
 from pymongo import MongoClient
 from Evie.function import is_admin
 from Evie.modules._dev import sudo
@@ -54,6 +54,17 @@ async def gban(event):
  else:
    r_sender_id = iid
  chats = gbanned.find({})
- await event.reply(f"{r_sender_id} {reason}")
+ if r_sender_id == OWNER_ID:
+        await event.reply(f"Char Chavanni godhe pe\n{event.sender.first_name} Mere Lode Pe!.")
+        return
+ elif r_sender_id in SUDO_USERS:
+        await event.reply("Can't act against my sudo user!")
+        return
+ elif r_sender_id in DEV_USERS:
+        await event.reply("This Person is a Dev, Sorry!")
+        return
+ elif r_sender_id == BOT_ID:
+        await event.reply("Another one bits the dust! banned a betichod!")
+        return
 
     
