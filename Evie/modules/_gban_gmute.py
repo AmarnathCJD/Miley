@@ -46,7 +46,7 @@ async def gban(event):
    except Exception:
         await event.reply("Couldn't fetch that user.")
         return
-   fname = "User"
+   fname = r_sender_id
   else:
    r_sender_id = int(iid)
  else:
@@ -68,6 +68,7 @@ async def gban(event):
  elif r_sender_id == BOT_ID:
         await event.reply("Another one bits the dust! banned a betichod!")
         return
+ await event.reply("1")
  for c in chats:
     if r_sender_id == c["user"]:
             to_check = get_reason(id=r_sender_id)
@@ -90,7 +91,7 @@ async def gban(event):
                 ),
             )
             return
-    k = await event.reply("Initiating Global Ban.!")
+    await event.reply("2")
     gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
