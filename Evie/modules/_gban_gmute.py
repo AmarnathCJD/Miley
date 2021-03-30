@@ -90,7 +90,7 @@ async def gban(event):
                 ),
             )
             return
-
+    k = await event.reply("Initiating Global Ban.!")
     gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
