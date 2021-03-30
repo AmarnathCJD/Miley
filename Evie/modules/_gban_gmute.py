@@ -55,7 +55,7 @@ async def gban(event):
    r_sender_id = iid
  chats = gbanned.find({})
  if r_sender_id == OWNER_ID:
-        await event.reply(f"Char Chavanni godhe pe\n{event.sender.first_name} Mere Lode Pe!.")
+        await event.reply(f"Char Chavanni godhe pe\ngey Mere Lode Pe!.")
         return
  elif r_sender_id in DEV_USERS:
         await event.reply("This Person is a Dev, Sorry!")
