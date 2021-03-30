@@ -15,6 +15,8 @@ def get_reason(id):
 
 @register(pattern="^/gban ?(.*)")
 async def gban(event):
+ sender = event.sender.first_name
+ group = event.chat.title
  id = event.sender_id
  if event.fwd_from:
         return
@@ -43,6 +45,7 @@ async def gban(event):
    except Exception:
         await event.reply("Couldn't fetch that user.")
         return
+   fname = "User"
   else:
    r_sender_id = int(iid)
  else:
@@ -64,5 +67,49 @@ async def gban(event):
  elif r_sender_id == BOT_ID:
         await event.reply("Another one bits the dust! banned a betichod!")
         return
+ for c in chats:
+      if r_sender_id == c["user"]:
+            to_check = get_reason(id=r_sender_id)
+            gbanned.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "bannerid": to_check["bannerid"],
+                    "user": to_check["user"],
+                    "reason": to_check["reason"],
+                },
+                {"$set": {"reason": reason, "bannerid": event.sender_id}},
+            )
+            await event.reply(
+                "This User is already Gbanned, I'm updating it with the new Reason."
+            )
+            await event.client.send_message(
+                chat,
+                "**Global Ban Update**\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
+                    group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason
+                ),
+            )
+            return
+
+    gbanned.insert_one(
+        {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
+    )
+    if reason:
+      await event.client.send_message(
+        chat,
+        "**New Global Ban**\n#GBAN\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
+            group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason
+        ),
+      )
+    else:
+      await event.client.send_message(
+        chat,
+        "**New Global Ban**\n#GBAN\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`".format(
+            group, sender, event.sender_id, fname, r_sender_id, r_sender_id
+        ),
+      )
+    k = await event.reply("Initiating Global Ban.!")
+    await asyncio.sleep(6)
+    await k.delete()
+    await event.reply("Gban Completed")
 
     
