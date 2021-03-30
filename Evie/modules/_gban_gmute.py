@@ -110,18 +110,18 @@ async def gban(event):
  gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
-
+ k = await event.reply("⚡Snaps the BannHammer⚡")
  cheater = get_all_chat_id()
+ done = 0
  for i in cheater:
    try:
        chat = int(i.chat_id)
        await tbot(
                     EditBannedRequest(chat, f"{username}", BANNED_RIGHTS)
                )
-   except Exception as e:
-       reply += f"{e} \n"
+       s = s + 1
+   except Exception:
        pass
- k = await event.reply("Initiating Global Ban.!")
  await k.delete()
- await event.reply(f"Gban Completed\n Affected Chats {len(cheater)}\n{reply}")
+ await event.reply(f"GlobalBan Completed\n**Affected In **{s} Chats**")
  
