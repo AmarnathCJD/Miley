@@ -57,7 +57,7 @@ async def gban(event):
     iid = arg[0]
     reason = None
   if not iid.isnumeric():
-   username = iid
+   username = iid.replace("@", "")
    entity = await tbot.get_input_entity(iid)
    try:
      r_sender_id = entity.user_id
@@ -131,7 +131,7 @@ async def gban(event):
    try:
        chat = int(i.chat_id)
        await tbot(
-                    EditBannedRequest(chat, username, BANNED_RIGHTS)
+                    EditBannedRequest(chat, f"{username}", BANNED_RIGHTS)
                )
    except Exception as e:
        print(e)
