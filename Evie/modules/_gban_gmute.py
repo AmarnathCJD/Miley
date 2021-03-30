@@ -70,7 +70,7 @@ async def gban(event):
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
-   username = event.sender.username
+   username = reply_message.sender.username
    fname = reply_message.sender.first_name
    if input:
      reason = input
