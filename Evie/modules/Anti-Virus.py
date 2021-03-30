@@ -76,6 +76,59 @@ async def virusscan(event):
         os.remove(virus)
         await gg.edit("Some error occurred..")
         return
+#Eval
+from Evie import ubot, OWNER_ID
+from telethon import events
+
+
+@ubot.on(events.NewMessage(pattern=".eval ?(.*)"))
+async def ubot(event):
+    if not event.sender_id == OWNER_ID:
+        return
+    if event.fwd_from:
+        return
+    cmd = "".join(event.message.message.split(maxsplit=1)[1:])
+    if not cmd:
+        return await edit("None")
+    catevent= await event.edit("Running ...")
+    old_stderr = sys.stderr
+    old_stdout = sys.stdout
+    redirected_output = sys.stdout = io.StringIO()
+    redirected_error = sys.stderr = io.StringIO()
+    stdout, stderr, exc = None, None, None
+    try:
+        await aexec(cmd, event)
+    except Exception:
+        exc = traceback.format_exc()
+    stdout = redirected_output.getvalue()
+    stderr = redirected_error.getvalue()
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
+    evaluation = ""
+    if exc:
+        evaluation = exc
+    elif stderr:
+        evaluation = stderr
+    elif stdout:
+        evaluation = stdout
+    else:
+        evaluation = "Success"
+    final_output = f"**•  Eval : **\n`{cmd}` \n\n**•  Result : **\n`{evaluation}` \n"
+    await catevent.edit(final_output)
+
+async def aexec(code, smessatatus):
+    message = event = smessatatus
+
+    def p(_x):
+        return print(slitu.yaml_format(_x))
+
+    reply = await event.get_reply_message()
+    exec(
+        "async def __aexec(message, reply, client, p): "
+        + "\n event = smessatatus = message"
+        + "".join(f"\n {l}" for l in code.split("\n"))
+    )
+    return await locals()["__aexec"](message, reply, tbot, p)
 
 
 file_help = os.path.basename(__file__)
