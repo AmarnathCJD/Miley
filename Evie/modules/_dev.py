@@ -322,7 +322,7 @@ async def fbut(event):
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
         return await event.edit("None")
-    catevent = await event.edit("Executing.....")
+    catevent = await event.reply("Executing.....")
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
     )
@@ -345,3 +345,15 @@ async def aexec(code, smessatatus):
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
     return await locals()["__aexec"](message, reply, tbot, p)
+
+async def fexec(code, smessatatus):
+    message = event = smessatatus
+    p = lambda _x: print(_format.yaml_format(_x))
+    reply = await event.get_reply_message()
+    exec(
+        f"async def __aexec(message, event , reply, client, p, chat): "
+        + "".join(f"\n {l}" for l in code.split("\n"))
+    )
+    return await locals()["__aexec"](
+        message, event, reply, message.client, p, message.chat_id
+    )
