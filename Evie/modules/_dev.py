@@ -311,40 +311,6 @@ async def _(event):
 from Evie import ubot, OWNER_ID
 from telethon import events
 
-@ubot.on(events.NewMessage(pattern=".eval ?(.*)"))
-async def ubot(event):
-    if not event.sender_id == OWNER_ID:
-        return
-    if event.fwd_from:
-        return
-    cmd = "".join(event.message.message.split(maxsplit=1)[1:])
-    if not cmd:
-        return await event.delete()
-    await event.edit("Running ...")
-    old_stderr = sys.stderr
-    old_stdout = sys.stdout
-    redirected_output = sys.stdout = io.StringIO()
-    redirected_error = sys.stderr = io.StringIO()
-    stdout, stderr, exc = None, None, None
-    try:
-        await aexec(cmd, event)
-    except Exception:
-        exc = traceback.format_exc()
-    stdout = redirected_output.getvalue()
-    stderr = redirected_error.getvalue()
-    sys.stdout = old_stdout
-    sys.stderr = old_stderr
-    evaluation = ""
-    if exc:
-        evaluation = exc
-    elif stderr:
-        evaluation = stderr
-    elif stdout:
-        evaluation = stdout
-    else:
-        evaluation = "Success"
-    final_output = f"**•  Eval : **\n`{cmd}` \n\n**•  Result : **\n`{evaluation}` \n"
-    await event.edit(final_output)
 
    
 @ubot.on(events.NewMessage(pattern=".exec ?(.*)"))
