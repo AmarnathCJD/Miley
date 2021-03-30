@@ -126,17 +126,17 @@ async def gban(event):
             group, sender, event.sender_id, fname, r_sender_id, r_sender_id
         ),
       )
- kuk = get_all_chat_id()
- for i in kuk:
+ cheater = get_all_chat_id()
+ for i in cheater:
    try:
        chat = int(i.chat_id)
        await tbot(
-                    EditBannedRequest(chat, 'Roseloverxm', BANNED_RIGHTS)
+                    EditBannedRequest(chat, f"'{username}'", BANNED_RIGHTS)
                )
    except Exception:
        pass
  k = await event.reply("Initiating Global Ban.!")
  await k.delete()
- await event.reply(f"Gban Completed\n Affected Chats {len(chatter)}")
+ await event.reply(f"Gban Completed\n Affected Chats {len(cheater)}")
 
     
