@@ -311,7 +311,7 @@ async def _(event):
 from Evie import ubot, OWNER_ID
 from telethon import events
 
-@ubot.on(events.NewMessage(pattern=".exec ?(.*)"))
+@ubot.on(events.NewMessage(pattern=".bash ?(.*)"))
 async def fbut(event):
     if not event.sender_id == OWNER_ID:
         return
