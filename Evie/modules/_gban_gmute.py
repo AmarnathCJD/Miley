@@ -15,13 +15,14 @@ def get_reason(id):
 
 @register(pattern="^/gban ?(.*)")
 async def gban(event):
+ id = event.sender_id
  if event.fwd_from:
         return
  if event.sender_id == OWNER_ID:
   pass
  elif event.sender_id in SUDO_USERS:
   pass
- elif sudo(event.sender_id):
+ elif sudo(id):
   pass
  else:
   return
@@ -50,7 +51,6 @@ async def gban(event):
         await event.reply("Couldn't fetch that user.")
         return
  chats = gbanned.find({})
- if r_sender_id == OWNER_ID:
-  await event.reply("test")
+ await event.reply(f"{iid} {reason}")
 
     
