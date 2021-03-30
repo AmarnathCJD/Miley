@@ -320,7 +320,7 @@ async def ubot(event):
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
         return await event.delete()
-    catevent = await event.edit("Running ...")
+    await event.edit("Running ...")
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()
@@ -344,7 +344,31 @@ async def ubot(event):
     else:
         evaluation = "Success"
     final_output = f"**•  Eval : **\n`{cmd}` \n\n**•  Result : **\n`{evaluation}` \n"
-    await catevent.edit(final_output)
+    await event.edit(final_output)
+
+   
+@ubot.on(events.NewMessage(pattern=".exec ?(.*)"))
+async def fbut(event):
+    if not event.sender_id == OWNER_ID:
+        return
+    if event.fwd_from:
+        return
+    cmd = "".join(event.message.message.split(maxsplit=1)[1:])
+    if not cmd:
+        return await event.delete()
+    catevent = await event.edit("Executing.....")
+    process = await asyncio.create_subprocess_shell(
+        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    stdout, stderr = await process.communicate()
+    result = str(stdout.decode().strip()) + str(stderr.decode().strip())
+    curruser = "Evie.on"
+    uid = os.geteuid()
+    if uid == 0:
+        cresult = f"`{curruser}:~#` `{cmd}`\n`{result}`"
+    else:
+        cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
+    await catevent.edit(cresult)
 
 async def aexec(code, smessatatus):
     message = event = smessatatus
