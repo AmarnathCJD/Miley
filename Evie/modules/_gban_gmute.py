@@ -44,7 +44,7 @@ async def gban(event):
         await event.reply("Couldn't fetch that user.")
         return
   else:
-   r_sender_id = iid
+   r_sender_id = int(iid)
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
