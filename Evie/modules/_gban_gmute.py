@@ -57,6 +57,7 @@ async def gban(event):
     iid = arg[0]
     reason = None
   if not iid.isnumeric():
+   username = iid
    entity = await tbot.get_input_entity(iid)
    try:
      r_sender_id = entity.user_id
@@ -69,6 +70,7 @@ async def gban(event):
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
+   username = event.sender.username
    fname = reply_message.sender.first_name
    if input:
      reason = input
@@ -125,16 +127,17 @@ async def gban(event):
         ),
       )
  chatter = get_all_chat_id()
- for i in chatter:
+ if not iid.isnumeric():
+  for i in chatter:
       try:
        chat = int(i.chat_id)
        await tbot(
-                    EditBannedRequest(chat, r_sender_id, BANNED_RIGHTS)
+                    EditBannedRequest(chat, username, BANNED_RIGHTS)
                 )
-      except Exception as e:
-       await event.reply(e)
+      except Exception:
+       pass
  k = await event.reply("Initiating Global Ban.!")
  await k.delete()
- await event.reply("Gban Completed")
+ await event.reply("Gban Completed\n Affected Chats {len(chatter)}")
 
     
