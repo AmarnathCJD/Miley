@@ -129,6 +129,7 @@ async def gban(event):
  chatter = get_all_chat_id()
  for i in chatter:
       try:
+       username = str(username)
        chat = int(i.chat_id)
        await tbot(
                     EditBannedRequest(chat, username, BANNED_RIGHTS)
