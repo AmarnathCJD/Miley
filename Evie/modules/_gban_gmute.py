@@ -127,8 +127,9 @@ async def gban(event):
  chatter = get_all_chat_id()
  for i in chatter:
       try:
+       chat = int(i.chat_id)
        await tbot(
-                    EditBannedRequest(i.chat_id, r_sender_id, BANNED_RIGHTS)
+                    EditBannedRequest(chat, r_sender_id, BANNED_RIGHTS)
                 )
       except Exception:
        pass
