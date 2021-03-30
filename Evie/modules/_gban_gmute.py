@@ -51,6 +51,6 @@ async def gban(event):
         await event.reply("Couldn't fetch that user.")
         return
  chats = gbanned.find({})
- await event.reply(f"{iid} {reason}")
+ await event.reply(f"{r_sender_id} {reason}")
 
     
