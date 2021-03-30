@@ -88,7 +88,6 @@ async def gban(event):
         return
  
  reply =""
- await event.reply("menga")
  chats = gbanned.find({})
  for c in chats:
       if r_sender_id == c["user"]:
@@ -122,6 +121,5 @@ async def gban(event):
        s = s + 1
    except Exception:
        pass
- await k.delete()
  await event.reply(f"GlobalBan Completed\n**Affected In **{s} Chats**")
  
