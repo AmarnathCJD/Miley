@@ -321,7 +321,7 @@ async def fbut(event):
         return
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
-        return await event.delete()
+        return await event.edit("None")
     catevent = await event.edit("Executing.....")
     process = await asyncio.create_subprocess_shell(
         cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
