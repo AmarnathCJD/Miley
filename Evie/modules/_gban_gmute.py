@@ -133,8 +133,8 @@ async def gban(event):
        await tbot(
                     EditBannedRequest(chat, f'{username}', BANNED_RIGHTS)
                )
-   except Exception as e:
-       print(e)
+   except Exception:
+       pass
  k = await event.reply("Initiating Global Ban.!")
  await k.delete()
  await event.reply(f"Gban Completed\n Affected Chats {len(chatter)}")
