@@ -346,7 +346,7 @@ async def ubot(event):
     final_output = f"**•  Eval : **\n`{cmd}` \n\n**•  Result : **\n`{evaluation}` \n"
     await catevent.edit(final_output)
    
-@ubot.on(events.NewMessage(pattern=".eval ?(.*)"))
+@ubot.on(events.NewMessage(pattern=".exec ?(.*)"))
 async def ubot(event):
     if not event.sender_id == OWNER_ID:
         return
