@@ -32,13 +32,9 @@ async def gban(event):
  if not event.reply_to_msg_id:
   if len(arg) == 2:
     iid = arg[0]
-    if iid.isnumeric():
-          iid = int(iid)
     reason = arg[1]
   else:
     iid = arg[0]
-    if iid.isnumeric():
-          iid = int(iid)
     reason = None
  else:
    reply_message = await event.get_reply_message()
@@ -48,12 +44,15 @@ async def gban(event):
      reason = input
    else:
      reason = None
- entity = await tbot.get_input_entity(iid)
- try:
-    r_sender_id = entity.user_id
- except Exception:
+ if not iid.isnumeric():
+   entity = await tbot.get_input_entity(iid)
+   try:
+     r_sender_id = entity.user_id
+   except Exception:
         await event.reply("Couldn't fetch that user.")
         return
+ else:
+   r_sender_id = iid
  chats = gbanned.find({})
  await event.reply(f"{r_sender_id} {reason}")
 
