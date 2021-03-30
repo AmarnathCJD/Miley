@@ -57,9 +57,6 @@ async def gban(event):
  if r_sender_id == OWNER_ID:
         await event.reply(f"Char Chavanni godhe pe\n{event.sender.first_name} Mere Lode Pe!.")
         return
- elif r_sender_id in SUDO_USERS:
-        await event.reply("Can't act against my sudo user!")
-        return
  elif r_sender_id in DEV_USERS:
         await event.reply("This Person is a Dev, Sorry!")
         return
