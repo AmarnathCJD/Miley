@@ -96,7 +96,8 @@ async def gban(event):
                     EditBannedRequest(chat, f"'{username}'", BANNED_RIGHTS)
                )
    except Exception as e:
-       reply += e
+       reply += f"{e} \n"
+       pass
  k = await event.reply("Initiating Global Ban.!")
  await k.delete()
  await event.reply(f"Gban Completed\n Affected Chats {len(cheater)}\n{reply}")
