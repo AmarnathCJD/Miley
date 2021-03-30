@@ -5,6 +5,22 @@ from Evie.modules._dev import sudo
 from Evie.events import register
 import asyncio
 
+from Evie.modules.sql.chats_sql import get_all_chat_id
+
+from telethon.tl.types import ChatBannedRights
+from telethon.tl.functions.channels import EditBannedRequest
+BANNED_RIGHTS = ChatBannedRights(
+    until_date=None,
+    view_messages=True,
+    send_messages=True,
+    send_media=True,
+    send_stickers=True,
+    send_gifs=True,
+    send_games=True,
+    send_inline=True,
+    embed_links=True,
+)
+
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
@@ -12,6 +28,7 @@ gbanned = db.gban
 
 def get_reason(id):
     return gbanned.find_one({"user": id})
+
 chat = -1001309757591
 
 @register(pattern="^/gban ?(.*)")
@@ -67,7 +84,6 @@ async def gban(event):
  elif r_sender_id == BOT_ID:
         await event.reply("Another one bits the dust! banned a betichod!")
         return
- await event.reply("1")
  chats = gbanned.find({})
  for c in chats:
     if r_sender_id == c["user"]:
@@ -91,7 +107,6 @@ async def gban(event):
                 ),
             )
             return
- await event.reply("2")
  gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
@@ -109,8 +124,15 @@ async def gban(event):
             group, sender, event.sender_id, fname, r_sender_id, r_sender_id
         ),
       )
+ chatter = get_all_chat_id()
+ for i in chatter:
+      try:
+       await tbot(
+                    EditBannedRequest(i.chat_id, r_sender_id, BANNED_RIGHTS)
+                )
+      except Exception:
+       pass
  k = await event.reply("Initiating Global Ban.!")
- await asyncio.sleep(6)
  await k.delete()
  await event.reply("Gban Completed")
 
