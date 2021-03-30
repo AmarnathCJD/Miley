@@ -14,6 +14,8 @@ blacklist = db.black
 from Evie.modules.sql.checkuser_sql import get_all_users
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
+from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
+
 
 def sudo(iid):
   k = iid
@@ -21,6 +23,13 @@ def sudo(iid):
    return True
   else:
    return False
+
+def bio(iid):
+ k = iid
+ if is_bio(k):
+  return True
+ else:
+  return False
 
 from telethon import events
 from Evie import BOT_ID, tbot
