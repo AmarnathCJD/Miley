@@ -3,7 +3,6 @@ from pymongo import MongoClient
 from Evie.function import is_admin
 from Evie.modules._dev import sudo
 from Evie.events import register
-import asyncio
 
 from Evie.modules.sql.chats_sql import get_all_chat_id
 
@@ -86,8 +85,6 @@ async def gban(event):
  elif r_sender_id == BOT_ID:
         await event.reply("Another one bits the dust! banned a betichod!")
         return
- 
- reply =""
  chats = gbanned.find({})
  for c in chats:
       if r_sender_id == c["user"]:
