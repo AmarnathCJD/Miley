@@ -91,27 +91,27 @@ async def gban(event):
                 ),
             )
             return
-    await event.reply("2")
-    gbanned.insert_one(
+ await event.reply("2")
+ gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
-    if reason:
+ if reason:
       await event.client.send_message(
         chat,
         "**New Global Ban**\n#GBAN\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
             group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason
         ),
       )
-    else:
+ else:
       await event.client.send_message(
         chat,
         "**New Global Ban**\n#GBAN\n**Originated from: {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`".format(
             group, sender, event.sender_id, fname, r_sender_id, r_sender_id
         ),
       )
-    k = await event.reply("Initiating Global Ban.!")
-    await asyncio.sleep(6)
-    await k.delete()
-    await event.reply("Gban Completed")
+ k = await event.reply("Initiating Global Ban.!")
+ await asyncio.sleep(6)
+ await k.delete()
+ await event.reply("Gban Completed")
 
     
