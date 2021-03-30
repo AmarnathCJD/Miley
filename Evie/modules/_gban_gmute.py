@@ -121,5 +121,5 @@ async def gban(event):
        done = done + 1
    except Exception:
        pass
- await event.reply(f"GlobalBan Completed\n**Affected In **{done} Chats**")
+ await event.reply(f"GlobalBan Completed\n**Affected In {done} Chats**")
  
