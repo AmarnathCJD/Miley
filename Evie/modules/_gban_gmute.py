@@ -69,7 +69,7 @@ async def gban(event):
         await event.reply("Another one bits the dust! banned a betichod!")
         return
  for c in chats:
-      if r_sender_id == c["user"]:
+    if r_sender_id == c["user"]:
             to_check = get_reason(id=r_sender_id)
             gbanned.update_one(
                 {
