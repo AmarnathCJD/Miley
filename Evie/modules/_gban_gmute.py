@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from Evie.function import is_admin
 from Evie.modules._dev import sudo
 from Evie.events import register
+import asyncio
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
