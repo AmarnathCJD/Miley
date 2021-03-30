@@ -1,12 +1,11 @@
 from sys import argv, exit
-from Evie import tbot, bot
+from Evie import tbot
 from Evie import TOKEN
 
 import Evie.events
 
 try:
     tbot.start(bot_token=TOKEN)
-    bot.start()
 except Exception:
     print("Bot Token Invalid")
     exit(1)
