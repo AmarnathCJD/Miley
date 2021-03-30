@@ -11,8 +11,10 @@ from youtubesearchpython import SearchVideos
 from telethon.tl.functions.users import GetFullUserRequest
 from Evie.events import register
 
+from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime
 import datetime, time
+from Evie.modules._dev import bio
 from Evie.function import is_admin
 
 async def get_user(event):
@@ -59,7 +61,9 @@ async def detail(replied_user, event):
     if username:
       caption += f"Username: {username} \n"
     caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
-    
+    if bio(user_id):
+       k = boss[user_id]
+       caption += f'\n\n**What others say:**\n{k}'
     return caption
  except Exception:
         print("lel")
