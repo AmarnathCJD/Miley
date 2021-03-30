@@ -118,8 +118,8 @@ async def gban(event):
        await tbot(
                     EditBannedRequest(chat, f"{username}", BANNED_RIGHTS)
                )
-       s = s + 1
+       done = done + 1
    except Exception:
        pass
- await event.reply(f"GlobalBan Completed\n**Affected In **{s} Chats**")
+ await event.reply(f"GlobalBan Completed\n**Affected In **{done} Chats**")
  
