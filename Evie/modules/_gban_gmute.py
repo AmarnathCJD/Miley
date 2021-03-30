@@ -127,8 +127,7 @@ async def gban(event):
         ),
       )
  chatter = get_all_chat_id()
- if not iid.isnumeric():
-  for i in chatter:
+ for i in chatter:
       try:
        chat = int(i.chat_id)
        await tbot(
