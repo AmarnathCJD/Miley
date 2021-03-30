@@ -313,24 +313,7 @@ from telethon import events
 
 
    
-@ubot.on(events.NewMessage(pattern=".exec ?(.*)"))
-async def fbut(event):
-    if not event.sender_id == OWNER_ID:
-        return
-    if event.fwd_from:
-        return
-    cmd = "".join(event.message.message.split(maxsplit=1)[1:])
-    if not cmd:
-        return await event.edit("None")
-    catevent = await event.reply("Executing.....")
-    process = await asyncio.create_subprocess_shell(
-        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
-    )
-    stdout, stderr = await process.communicate()
-    result = str(stdout.decode().strip()) + str(stderr.decode().strip())
-    curruser = "Evie"
-    cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
-    await catevent.edit(cresult)
+
 
 async def aexec(code, smessatatus):
     message = event = smessatatus
