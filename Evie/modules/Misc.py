@@ -92,6 +92,18 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
+@register(pattern="^/info(?: |$)(.*)")
+async def who(event):
+    replied_user = await get_user(event)
+    try:
+        caption = await detail(replied_user, event)
+    except AttributeError:
+        event.edit("Could not fetch info of that user.")
+        return
+    message_id_to_reply = event.message.reply_to_msg_id
+    if not message_id_to_reply:
+        message_id_to_reply = None
+    await event.reply(caption, parse_mode="html")
 
 
 @register(pattern="^/(ping|ping@MissEvie_Robot)")
