@@ -1,4 +1,8 @@
 import os
+import asyncio
+import io
+import sys
+import traceback
 from Evie import tbot
 from Evie import CMD_HELP, VIRUS_API_KEY
 from telethon import events
