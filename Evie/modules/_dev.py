@@ -311,7 +311,22 @@ async def _(event):
 from Evie import ubot, OWNER_ID
 from telethon import events
 
-
+@ubot.on(events.NewMessage(pattern=".exec ?(.*)"))
+async def fbut(event):
+    if not event.sender_id == OWNER_ID:
+        return
+    cmd = "".join(event.message.message.split(maxsplit=1)[1:])
+    if not cmd:
+        return
+    chup = await event.edit("Executing.....")
+    process = await asyncio.create_subprocess_shell(
+        cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+    )
+    stdout, stderr = await process.communicate()
+    result = str(stdout.decode().strip()) + str(stderr.decode().strip())
+    curruser = "Evie"
+    cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
+    await chup.edit(cresult)
    
 
 
