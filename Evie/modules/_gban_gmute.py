@@ -138,6 +138,6 @@ async def gban(event):
        pass
  k = await event.reply("Initiating Global Ban.!")
  await k.delete()
- await event.reply("Gban Completed\n Affected Chats {len(chatter)}")
+ await event.reply(f"Gban Completed\n Affected Chats {len(chatter)}")
 
     
