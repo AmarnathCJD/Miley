@@ -35,6 +35,12 @@ async def handler(event):
            await tbot.send_message(-1001486931338, f"Evie Added to {event.chat.title}\n`{event.chat_id}`")
            await tbot.send_message(event.chat_id, "Heya :-D Now leave your group on my hands and let me manage it. If you need any help, head to @EvieSupport.")
               
+@tbot.on(events.ChatAction)
+async def handler(event):
+    if event.user_kicked:
+        if event.user_id == BOT_ID:
+              rmchat(event.chat_id)
+
 
 @register(pattern="^/stats")
 async def stat(event):
