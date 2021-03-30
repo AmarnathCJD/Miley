@@ -8,12 +8,62 @@ from math import ceil
 import requests
 from telethon import Button, custom, events, functions
 from youtubesearchpython import SearchVideos
-
+from telethon.tl.functions.users import GetFullUserRequest
 from Evie.events import register
 
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime
 import datetime, time
 from Evie.function import is_admin
+
+async def get_user(event):
+    if event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
+        replied_user = await tbot(GetFullUserRequest(previous_message.sender_id))
+    else:
+        user = event.pattern_match.group(1)
+
+        if user.isnumeric():
+            user = int(user)
+
+        if not user:
+            self_user = await event.get_sender()
+            user = self_user.id
+        try:
+            user_object = await tbot.get_entity(user)
+            replied_user = await tbot(GetFullUserRequest(user_object.id))
+        except (TypeError, ValueError) as err:
+            await event.reply("Failed to get user: unable to getChatMember: Bad Request: user not found")
+            return None
+
+    return replied_user
+
+async def detail(replied_user, event):
+ try:
+    user_id = replied_user.user.id
+    first_name = replied_user.user.first_name
+    last_name = replied_user.user.last_name
+    username = replied_user.user.username
+    first_name = (
+        first_name.replace("\u2060", "")
+    )
+    last_name = (
+        last_name.replace("\u2060", "") if last_name else None
+    )
+    username = "@{}".format(username) if username else None
+
+    caption = "<b>User Info:</b> \n"
+    caption += f"ID: <code>{user_id}</code> \n"
+    caption += f"First Name: {first_name} \n"
+    if last_name:
+      caption += f"Last Name: {last_name} \n"
+    if username:
+      caption += f"Username: {username} \n"
+    caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
+    
+    return caption
+ except Exception:
+        print("lel")
+
 
 def get_readable_time(seconds: int) -> str:
     count = 0
