@@ -36,6 +36,12 @@ async def gban(event):
   else:
     iid = arg[0]
     reason = None
+  entity = await tbot.get_input_entity(iid)
+  try:
+     r_sender_id = entity.user_id
+  except Exception:
+        await event.reply("Couldn't fetch that user.")
+        return
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
@@ -44,14 +50,6 @@ async def gban(event):
      reason = input
    else:
      reason = None
- if not iid.isnumeric():
-   entity = await tbot.get_input_entity(iid)
-   try:
-     r_sender_id = entity.user_id
-   except Exception:
-        await event.reply("Couldn't fetch that user.")
-        return
- else:
    r_sender_id = iid
  chats = gbanned.find({})
  if r_sender_id == OWNER_ID:
