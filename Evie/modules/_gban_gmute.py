@@ -122,4 +122,8 @@ async def gban(event):
    except Exception:
        pass
  await event.reply(f"GlobalBan Completed\n**Affected In {done} Chats**")
+
+
+#ungban Soon!
+#gmute_ungmute Soon!
  
