@@ -76,8 +76,8 @@ def __load_f_chats():
     global F_CHATSS
     try:
         all_channel = SESSION.query(FSUB).all()
-        F_CHATS = {chat.channel: chat.channel for chat in all_channel if channel.is_chat}
-        F_CHATSS = {chat.channel: chat.channel for chat in all_channel if channel.is_chat}
+        F_CHATS = {chat.channel: chat.channel for chat in all_channel if chat.is_chat}
+        F_CHATSS = {chat.channel: chat.channel for chat in all_channel if chat.is_chat}
     finally:
         SESSION.close()
 
