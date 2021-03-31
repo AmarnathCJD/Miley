@@ -128,8 +128,12 @@ async def bio(event):
    rm_bio(user_id)
    await event.reply("Bio Removed sucessfully")
    return
-  set_bio(user_id, str(input))
-  await event.reply(f"Sucessfully Set Bio of {replied_user.user.first_name} to {input}")
+  if not event.sender_id == OWNER_ID:
+    if not user_id == event.sender_id:
+      set_bio(user_id, str(input))
+      await event.reply(f"Sucessfully Set Bio of {replied_user.user.first_name} to {input}")
+    else:
+      await event.reply("Are you looking to change your own ... ?? No can do.")
 
 
 @register(pattern="^/info(?: |$)(.*)")
