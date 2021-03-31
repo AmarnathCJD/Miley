@@ -2,6 +2,8 @@ from Evie import tbot, BOT_ID, OWNER_ID
 from telethon import events, functions, Button
 import telethon
 from Evie.function import is_admin
+from Evie.modules.sql.forceSubscribe_sql import set_fsub
+
 
 @tbot.on(events.NewMessage(pattern=None))
 async def handler(event):
@@ -20,7 +22,14 @@ async def handler(event):
            else:
              pass
 
-
+@register(pattern="^/fsub ?(.*)")
+async def fsub(event):
+  if await is_admin(event, event.sender_id):
+             return
+  input = event.pattern_match.group(1)
+  chat_id = event.chat_id
+  await set_fsub(chat_id, input)
+  await event.reply(f"Sucessfully Set forceSubcribe To {input}")
 
 
 
