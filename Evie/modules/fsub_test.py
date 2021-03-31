@@ -1,3 +1,4 @@
+"""
 from Evie import tbot, BOT_ID, OWNER_ID
 from telethon import events, functions, Button
 import telethon
@@ -43,3 +44,5 @@ async def check_him(chnnl_id, chnnl_link, starkuser):
         return True
     except telethon.errors.rpcerrorlist.UserNotParticipantError:
         return False
+#Failed Due to SqL Errors.
+"""
