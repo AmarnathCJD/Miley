@@ -22,7 +22,7 @@ BANNED_RIGHTS = ChatBannedRights(
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
-db = client["emu"]
+db = client["evie"]
 gbanned = db.gban
 
 def get_reason(id):
