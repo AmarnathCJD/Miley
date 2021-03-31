@@ -24,9 +24,11 @@ from Evie.modules.sql.welcome_sql import (
 async def hi(event):
   if event.user_joined:
    if not event.user_id == BOT_ID:
+    a_user = await event.get_user()
+    await client.send_message(event.chat_id, f"Hey there {a_user.first_name}, and welcome to {event.chat.title} How are you?")
     cws = get_current_welcome_settings(event.chat_id)
     if cws:
-     a_user = await event.get_user()
+     
      chat = await event.get_chat()
      title = chat.title
      count = len(await event.client.get_participants(chat))
@@ -56,8 +58,7 @@ async def hi(event):
                     file=cws.media_file_id,
                 )
      await client.send_message(event.chat_id, current_message)
-    else:
-       await client.send_message(event.chat_id, f"Hey there {event.user.first_name}, and welcome to {event.chat.title} How are you?")
+    
 @register(pattern="^/setwelcome")
 async def _(event):
     if event.fwd_from:
