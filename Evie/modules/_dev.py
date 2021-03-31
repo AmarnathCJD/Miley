@@ -210,14 +210,20 @@ async def echo(event):
         return
   if event.reply_to_msg_id:
           previous_message = await event.get_reply_message()
-          await event.delete()
+          try:
+            await event.delete()
+          except Exception:
+            pass
           k = await tbot.send_message(
                 event.chat_id,
                 previous_message
              )
   else:
           ok = event.pattern_match.group(1)
-          await event.delete()
+          try:
+            await event.delete()
+          except Exception:
+            pass
           await tbot.send_message(event.chat_id, ok)
 
 
