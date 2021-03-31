@@ -12,7 +12,7 @@ class FSUB(BASE):
     channel = Column(UnicodeText)
 
     def __init__(self, chat_id, channel="", is_fsub=True):
-        self.user_id = chat_id
+        self.chat_id = chat_id
         self.channel = channel
         self.is_sudo = is_fsub
 
@@ -28,8 +28,8 @@ F_CHATSS = {}
 
 
 def is_fsub(chat_id):
-    return user_id in F_CHATS
-    return user_id in F_CHATSS
+    return chat_id in F_CHATS
+    return chat_id in F_CHATSS
 
 
 def check_fsub_status(chat_id):
