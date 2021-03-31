@@ -15,7 +15,7 @@ from Evie.events import register
 from pymongo import MongoClient
 
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
-from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI
+from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID
 import datetime, time
 from Evie.modules._dev import bio
 from Evie.function import is_admin
@@ -79,10 +79,11 @@ async def detail(replied_user, event):
     else:
        k = boss[user_id]
        caption += f'\n\n<b>What I say:</b>\n{k}'
-    if not user_id == OWNER_ID:
+    if not user_id == OWNER_ID and not user_id == BOT_ID:
       users = gbanned.find({})
       for fuckers in users:
-            if str(user_id) == fuckers["user"]:
+            gid = fuckers["user"]
+            if str(user_id) == gid:
                 caption += "<b>Gbanned:</b> Yes\n"
             else:
                 caption += "<b>Gbanned:</b> No\n\n"
