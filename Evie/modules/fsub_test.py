@@ -13,7 +13,7 @@ async def handler(event):
                 "**To Use This Bot, Please Join My Channel. :)**",
                 buttons=[Button.url("Join Channel", 't.me/lunabotnews')],
             )
-            return
+             return
            else:
              await event.reply("Helmo Vro")
 
