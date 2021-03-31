@@ -118,6 +118,20 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
+@register(pattern="^/setbio ?(.*)")
+async def bio(event):
+  replied_user = await get_user(event)
+  user_id = replied_user.user.id
+  from Evie.modules.sql.setbio_sql import set_bio, rm_bio
+  input = event.pattern_match.group(1)
+  if input == "None":
+   rm_bio(user_id)
+   await event.reply("Bio Removed sucessfully")
+   return
+  set_bio(user_id, str(input))
+  await event.reply(f"Sucessfully Set Bio of {replied_user.user.first_name} to {input}")
+
+
 @register(pattern="^/info(?: |$)(.*)")
 async def who(event):
     replied_user = await get_user(event)
