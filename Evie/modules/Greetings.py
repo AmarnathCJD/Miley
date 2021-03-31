@@ -59,6 +59,8 @@ async def hi(event):
                 )
      await client.send_message(event.chat_id, current_message)
     
+
+#not done
 @register(pattern="^/setwelcome")
 async def _(event):
     if event.fwd_from:
