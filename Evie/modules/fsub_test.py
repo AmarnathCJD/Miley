@@ -1,11 +1,13 @@
 from Evie import tbot, BOT_ID, OWNER_ID
 from telethon import events, functions, Button
 import telethon
+from Evie.function import is_admin
 
 @tbot.on(events.NewMessage(pattern=None))
 async def handler(event):
         if not event.sender_id == BOT_ID:
          if not event.sender_id == OWNER_ID:
+          if not is_admin(event.sender_id):
            chat = int(-1001309757591)
            rip = await check_him(chat, 'lunabotnews', event.sender_id)
            if rip is False:
