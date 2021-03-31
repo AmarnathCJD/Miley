@@ -7,7 +7,7 @@ from Evie.function import is_admin
 async def handler(event):
         if not event.sender_id == BOT_ID:
          if not event.sender_id == OWNER_ID:
-          if not is_admin(event.sender_id):
+          if not is_admin(event, event.sender_id):
            chat = int(-1001309757591)
            rip = await check_him(chat, 'lunabotnews', event.sender_id)
            if rip is False:
