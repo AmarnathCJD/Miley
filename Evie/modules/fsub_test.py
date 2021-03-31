@@ -28,8 +28,8 @@ async def fsub(event):
              return
   input = event.pattern_match.group(1)
   chat = event.chat_id
-  set_fsub(str(chat), f'{input}')
-  await event.reply(f"Sucessfully Set forceSubcribe To {input}")
+  set_fsub(chat, input)
+  await event.reply(f"Sucessfully Set forceSubcribe To hm")
 
 
 
