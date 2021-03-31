@@ -124,6 +124,7 @@ async def gban(event):
 @tbot.on(events.ChatAction)
 async def handler(event):
     if event.user_joined:
+      if is_admin(event, BOT_ID):
         chats = gbanned.find({})
         for c in chats:
           if event.user_id == c["user"]:
@@ -132,9 +133,9 @@ async def handler(event):
                await tbot(
                     EditBannedRequest(chat, event.user_id, BANNED_RIGHTS)
                  )
+               await tbot.send_message(event.chat_id, f"Gbanned User Joined\n**ID:** `{event.user_id}`\n\n**Quick Action:**Banned")
               except Exception:
                    pass
-              await tbot.send_message(event.chat_id, f"Gbanned User Joined\n**ID:** `{event.user_id}`\n\n**Quick Action:**Banned")
               
 
 
