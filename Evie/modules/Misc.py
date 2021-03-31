@@ -208,7 +208,8 @@ async def gey(event):
 @register(pattern="^/shazam$")
 async def _(event):
  try:
-    if not await is_admin(event, event.sender_id):
+    if event.is_group:
+      if not await is_admin(event, event.sender_id):
        return
     if event.fwd_from:
         return
