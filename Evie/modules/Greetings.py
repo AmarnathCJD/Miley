@@ -2,6 +2,9 @@ from telethon import events
 from Evie import tbot, BOT_ID
 from Evie.events import register
 from Evie.function import can_change_info
+from telethon import *
+from telethon.tl import *
+from telethon.utils import pack_bot_file_id
 
 from Evie.modules.sql.welcome_sql import (
     add_welcome_setting,
