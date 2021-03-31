@@ -79,15 +79,9 @@ async def detail(replied_user, event):
     else:
        k = boss[user_id]
        caption += f'\n\n<b>What I say:</b>\n{k}'
-    if not user_id == OWNER_ID and not user_id == BOT_ID:
-      users = gbanned.find({})
-      for fuckers in users:
-            gid = fuckers["user"]
-            if str(user_id) == gid:
-                caption += "\n\n<b>Gbanned:</b> Yes"
     a = blacklist.find({})
     for i in a:
-         if str(user_id) == i["user"]:
+         if user_id == i["user"]:
             caption += "\n<b>Blacklisted:</b> Yes"
     return caption
  except Exception:
