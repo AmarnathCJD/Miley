@@ -10,12 +10,12 @@ async def handler(event):
            rip = await check_him(chat, 'lunabotnews', event.sender_id)
            if rip is False:
              await event.reply(
-                "**To Use This Bot, Please Join My Channel. :)**",
+                "**To Talk in this Chat, Please Join My Channel. :)**",
                 buttons=[Button.url("Join Channel", 't.me/lunabotnews')],
             )
              return
            else:
-             await event.reply("Helmo Vro")
+             pass
 
 
 
