@@ -20,15 +20,15 @@ async def handler(event):
             )
              return
            else:
-             pass
+             return
 
 @register(pattern="^/fsub ?(.*)")
 async def fsub(event):
   if not await is_admin(event, event.sender_id):
              return
   input = event.pattern_match.group(1)
-  chat_id = event.chat_id
-  await set_fsub(chat_id, input)
+  chat = event.chat_id
+  set_fsub(chat, input)
   await event.reply(f"Sucessfully Set forceSubcribe To {input}")
 
 
