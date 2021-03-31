@@ -3,7 +3,7 @@ from telethon import events, functions, Button
 import telethon
 from Evie.function import is_admin
 from Evie.modules.sql.forceSubscribe_sql import set_fsub
-
+from Evie.events import register
 
 @tbot.on(events.NewMessage(pattern=None))
 async def handler(event):
