@@ -131,7 +131,7 @@ async def handler(event):
                await tbot(
                     EditBannedRequest(chat, event.user_id, BANNED_RIGHTS)
                  )
-               await client.send_message("Gbanned Victim Joined\nQuick Action **Banned**)
+               await client.send_message("Gbanned Victim Joined\nQuick Action **Banned**")
               except Exception:
                    pass
               
