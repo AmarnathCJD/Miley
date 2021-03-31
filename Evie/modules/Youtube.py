@@ -72,7 +72,7 @@ async def yts_search(video_q):
     chn= (h['result'][0]['channel']['name'])
     chnl= (h['result'][0]['channel']['link'])
     vlink= (h['result'][0]['link'])
-    final = """**Extracted information from youtube**:
+    final = f"""**Extracted information from youtube**:
 **Title**: `{title}`
 **Published Time**: `{ptime}`
 **Duration**: `{dur}`
