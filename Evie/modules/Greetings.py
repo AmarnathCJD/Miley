@@ -55,8 +55,9 @@ async def hi(event):
                     ),
                     file=cws.media_file_id,
                 )
-     update_previous_welcome(event.chat_id, current_message.id)
-
+     await client.send_message(event.chat_id, current_message)
+    else:
+       await client.send_message(event.chat_id, f"Hey there {event.user.first_name}, and welcome to {event.chat.title} How are you?")
 @register(pattern="^/setwelcome")
 async def _(event):
     if event.fwd_from:
