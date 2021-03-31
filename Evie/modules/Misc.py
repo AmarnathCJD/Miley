@@ -26,10 +26,6 @@ db = client["evie"]
 gbanned = db.gban
 blacklist = db.black
 
-def get_reason(id):
-    return gbanned.find_one({"user": id})
-
-
 
 
 async def get_user(event):
@@ -86,15 +82,14 @@ async def detail(replied_user, event):
     if not user_id == OWNER_ID:
       users = gbanned.find({})
       for fuckers in users:
-            gid = fuckers["user"]
-            if str(user_id) == str(gid):
+            if str(user_id) == fuckers["user"]:
                 caption += "<b>Gbanned:</b> Yes\n"
             else:
                 caption += "<b>Gbanned:</b> No\n\n"
     a = blacklist.find({})
     for i in a:
          if str(user_id) == i["user"]:
-         caption += "<b>Blacklisted:</b> Yes\n\n"
+            caption += "<b>Blacklisted:</b> Yes\n\n"
     return caption
  except Exception:
         print("lel")
