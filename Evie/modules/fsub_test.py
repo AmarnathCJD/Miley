@@ -24,7 +24,7 @@ async def handler(event):
 
 @register(pattern="^/fsub ?(.*)")
 async def fsub(event):
-  if await is_admin(event, event.sender_id):
+  if not await is_admin(event, event.sender_id):
              return
   input = event.pattern_match.group(1)
   chat_id = event.chat_id
