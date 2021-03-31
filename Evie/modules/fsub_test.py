@@ -2,17 +2,16 @@ from Evie import tbot, BOT_ID, OWNER_ID
 from telethon import events, functions, Button
 import telethon
 
-@tbot.on(events.ChatAction)
+@tbot.on(events.NewMessage(pattern=None))
 async def handler(event):
-    if event.user_joined:
-        if not event.user_id == BOT_ID:
-         if not event.user_id == OWNER_ID:
+        if not event.sender_id == BOT_ID:
+         if not event.sender_id == OWNER_ID:
            chat = int(-1001309757591)
-           rip = await check_him(chat, event.user_id)
+           rip = await check_him(chat, 'lunabotnews', event.sender_id)
            if rip is False:
              await event.reply(
                 "**To Use This Bot, Please Join My Channel. :)**",
-                buttons=[Button.url("Join Channel", Config.JTU_LINK)],
+                buttons=[Button.url("Join Channel", 't.me/lunabotnews')],
             )
             return
            else:
