@@ -4,62 +4,62 @@ from Evie.modules.sql import BASE, SESSION
 from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
 
-class FSUB(BASE):
-    __tablename__ = "fsub"
+class SUDO(BASE):
+    __tablename__ = "fsub_chats"
 
-    chat_id = Column(UnicodeText, primary_key=True)
-    is_fsub = Column(Boolean)
-    channel = Column(UnicodeText)
+    user_id = Column(Integer, primary_key=True)
+    is_sudo = Column(Boolean)
+    fname = Column(UnicodeText)
 
-    def __init__(self, chat_id, channel="", is_fsub=True):
-        self.chat_id = chat_id
-        self.channel = channel
-        self.is_sudo = is_fsub
+    def __init__(self, user_id, fname="", is_sudo=True):
+        self.user_id = user_id
+        self.fname = fname
+        self.is_sudo = is_sudo
 
     def __repr__(self):
-        return "{}".format(self.chat_id)
+        return "{}".format(self.user_id)
 
 
-FSUB.__table__.create(checkfirst=True)
+SUDO.__table__.create(checkfirst=True)
 INSERTION_LOCK = threading.RLock()
 
-F_CHATS = {}
-F_CHATSS = {}
+SUDO_USERS = {}
+SUDO_USERSS = {}
 
 
-def is_fsub(chat_id):
-    return chat_id in F_CHATS
-    return chat_id in F_CHATSS
+def is_fsub(user_id):
+    return user_id in SUDO_USERS
+    return user_id in SUDO_USERSS
 
 
-def check_fsub_status(chat_id):
+def check_fsub_status(user_id):
     try:
-        return SESSION.query(FSUB).get(chat_id)
+        return SESSION.query(SUDO).get(user_id)
     finally:
         SESSION.close()
 
 
-def set_fsub(chat_id, channel):
+def set_fsub(user_id, fname):
     with INSERTION_LOCK:
-        curr = SESSION.query(FSUB).get(chat_id)
+        curr = SESSION.query(SUDO).get(user_id)
         if not curr:
-            curr = FSUB(chat_id, channel, True)
+            curr = SUDO(user_id, fname, True)
         else:
-            curr.is_chat = True
-            curr.channel = channel
-        F_CHATS[chat_id] = channel
-        F_CHATSS[chat_id] = channel
+            curr.is_sudo = True
+            curr.fname = fname
+        SUDO_USERS[user_id] = fname
+        SUDO_USERSS[user_id] = fname
         SESSION.add(curr)
         SESSION.commit()
 
 
-def rm_fsub(chat_id):
+def rm_fsub(user_id):
     with INSERTION_LOCK:
-        curr = SESSION.query(FSUB).get(chat_id)
+        curr = SESSION.query(SUDO).get(user_id)
         if curr:
-            if chat_id in F_CHATS:  # sanity check
-                del F_CHAT[chat_id]
-                del F_CHATSS[chat_id]
+            if user_id in SUDO_USERS:  # sanity check
+                del SUDO_USERS[user_id]
+                del SUDO_USERSS[user_id]
             SESSION.delete(curr)
             SESSION.commit()
             return True
@@ -67,19 +67,19 @@ def rm_fsub(chat_id):
         SESSION.close()
         return False
 def get_all_fsub_id():
-    stark = SESSION.query(FSUB).all()
+    stark = SESSION.query(SUDO).all()
     SESSION.close()
     return stark
 
-def __load_f_chats():
-    global F_CHATS
-    global F_CHATSS
+def __load_fsub_users():
+    global SUDO_USERS
+    global SUDO_USERSS
     try:
-        all_channel = SESSION.query(FSUB).all()
-        F_CHATS = {chat.channel: chat.channel for chat in all_channel if chat.is_fsub}
-        F_CHATSS = {chat.channel: chat.channel for chat in all_channel if chat.is_fsub}
+        all_sudo = SESSION.query(SUDO).all()
+        SUDO_USERS = {user.user_id: user.fname for user in all_sudo if user.is_sudo}
+        SUDO_USERSS = {user.user_id: user.fname for user in all_sudo if user.is_sudo}
     finally:
         SESSION.close()
 
 
-__load_f_chats()
+__load_fsub_users()
