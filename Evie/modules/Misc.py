@@ -84,13 +84,11 @@ async def detail(replied_user, event):
       for fuckers in users:
             gid = fuckers["user"]
             if str(user_id) == gid:
-                caption += "<b>Gbanned:</b> Yes\n"
-            else:
-                caption += "<b>Gbanned:</b> No\n\n"
+                caption += "\n\n<b>Gbanned:</b> Yes"
     a = blacklist.find({})
     for i in a:
          if str(user_id) == i["user"]:
-            caption += "<b>Blacklisted:</b> Yes\n\n"
+            caption += "\n<b>Blacklisted:</b> Yes"
     return caption
  except Exception:
         print("lel")
