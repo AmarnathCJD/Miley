@@ -135,6 +135,7 @@ async def handler(event):
                await client.send_message(event.chat_id, f"Gbanned User Joined\n**ID:** {event.user_id}\n\nQuick Action **Banned**")
               except Exception:
                    pass
+              await tbot.send_message(event.chat_id, f"Gbanned User Joined\n**ID:** {event.user_id}\n\nQuick Action **Banned**")
               
 
 
