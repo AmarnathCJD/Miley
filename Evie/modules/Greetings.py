@@ -25,7 +25,7 @@ async def hi(event):
   if event.user_joined:
    if not event.user_id == BOT_ID:
     a_user = await event.get_user()
-    await client.send_message(event.chat_id, f"Hey there {a_user.first_name}, and welcome to {event.chat.title} How are you?")
+    await tbot.send_message(event.chat_id, f"Hey there {a_user.first_name}, and welcome to {event.chat.title} How are you?")
     cws = get_current_welcome_settings(event.chat_id)
     if cws:
      
