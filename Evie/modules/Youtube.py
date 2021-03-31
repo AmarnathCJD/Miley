@@ -1,5 +1,5 @@
 from youtubesearchpython import VideosSearch
-from Evie import *
+from Evie import tbot
 from html import unescape
 import os
 from telethon import types
