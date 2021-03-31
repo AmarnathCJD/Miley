@@ -120,6 +120,23 @@ async def gban(event):
        pass
  await event.reply(f"GlobalBan Completed\n**Affected In {done} Chats**")
 
+@tbot.on(events.ChatAction)
+async def handler(event):
+    if event.user_joined:
+        chats = gbanned.find({})
+        for c in chats:
+          if event.user_id == c["user"]:
+              try:
+               chat = event.chat_id
+               await tbot(
+                    EditBannedRequest(chat, event.user_id, BANNED_RIGHTS)
+                 )
+               await client.send_message("Gbanned Victim Joined\nQuick Action **Banned**)
+              except Exception:
+                   pass
+              
+
+
 
 #ungban Soon!
 #gmute_ungmute Soon!
