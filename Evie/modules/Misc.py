@@ -11,11 +11,26 @@ from youtubesearchpython import SearchVideos
 from telethon.tl.functions.users import GetFullUserRequest
 from Evie.events import register
 
+
+from pymongo import MongoClient
+
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
-from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime
+from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI
 import datetime, time
 from Evie.modules._dev import bio
 from Evie.function import is_admin
+
+client = MongoClient()
+client = MongoClient(MONGO_DB_URI)
+db = client["evie"]
+gbanned = db.gban
+blacklist = db.black
+
+def get_reason(id):
+    return gbanned.find_one({"user": id})
+
+
+
 
 async def get_user(event):
     if event.reply_to_msg_id:
@@ -68,6 +83,18 @@ async def detail(replied_user, event):
     else:
        k = boss[user_id]
        caption += f'\n\n<b>What I say:</b>\n{k}'
+    if not user_id == OWNER_ID:
+      users = gbanned.find({})
+      for fuckers in users:
+            gid = fuckers["user"]
+            if str(user_id) == str(gid):
+                caption += "<b>Gbanned:</b> Yes\n"
+            else:
+                caption += "<b>Gbanned:</b> No\n\n"
+    a = blacklist.find({})
+    for i in a:
+         if str(user_id) == i["user"]:
+         caption += "<b>Blacklisted:</b> Yes\n\n"
     return caption
  except Exception:
         print("lel")
