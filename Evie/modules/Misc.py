@@ -82,7 +82,11 @@ async def detail(replied_user, event):
     a = blacklist.find({})
     for i in a:
          if user_id == i["user"]:
-            caption += "\n<b>Blacklisted:</b> Yes"
+            caption += "\n\n<b>Blacklisted:</b> Yes"
+    chats = gbanned.find({})
+    for i in chats:
+         if user_id == i["user"]:
+           caption += "\n\n<b>Globally Banned:</b> Yes"
     return caption
  except Exception:
         print("lel")
