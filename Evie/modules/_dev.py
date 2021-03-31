@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from Evie import MONGO_DB_URI, DEV_USERS, OWNER_ID, BOT_ID, SUDO_USERS
 from Evie.events import register
 from Evie import tbot
+from Evie.function import is_admin
 
 import os
 import sys
@@ -194,6 +195,34 @@ async def isbl(e):
        await e.reply(ok)
    await e.reply(reply)
         
+
+@register(pattern="^/echo ?(.*)")
+async def echo(event):
+  if event.fwd_from:
+        return
+  if event.sender_id == OWNER_ID:
+        pass
+  elif sudo(event.sender_id):
+        pass
+  elif is_admin(event, event.sender_id):
+        pass
+  else:
+        return
+  if event.reply_to_msg_id:
+          previous_message = await event.get_reply_message()
+          await event.delete()
+          k = await tbot.send_message(
+                event.chat_id,
+                previous_message
+             )
+  else:
+          ok = event.pattern_match.group(1)
+          await event.delete()
+          await tbot.send_message(event.chat_id, ok)
+
+
+
+
 import subprocess
 import asyncio
 import traceback
