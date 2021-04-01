@@ -119,7 +119,7 @@ async def gban(event):
    except Exception:
        pass
  await event.reply(f"GlobalBan Completed\n**Affected In {done} Chats**")
-
+"""
 @tbot.on(events.ChatAction)
 async def handler(event):
     if event.user_joined:
@@ -136,7 +136,7 @@ async def handler(event):
               except Exception:
                    pass
               
-
+"""
 
 
 #ungban Soon!
