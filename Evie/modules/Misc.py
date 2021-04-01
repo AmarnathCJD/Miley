@@ -127,7 +127,7 @@ async def bio(event):
   else:
     user_id = event.sender_id
   input = event.pattern_match.group(1)
-  if not input:
+  if input == "None":
    if event.sender_id == OWNER_ID:
      rm_bio(user_id)
      await event.reply("Bio Removed sucessfully")
