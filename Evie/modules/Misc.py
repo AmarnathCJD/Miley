@@ -124,8 +124,20 @@ async def bio(event):
   replied_user = await event.get_reply_message()
   user_id = replied_user.sender_id
   input = event.pattern_match.group(1)
-  set_bio(user_id, input)
-  await event.reply(f"Sucessfully Set Bio of {replied_user.sender.first_name} to {input}")
+  if event.sender_id == OWNER_ID:
+    if input == "None":
+       rm_bio(user_id)
+       await event.reply(f"Sucessfully Removed Bio of {replied_user.sender.first_name}")
+    set_bio(user_id, input)
+    await event.reply(f"Sucessfully Set Bio of {replied_user.sender.first_name} to {input}")
+  else:
+   if event.sender_id == user_id:
+     await event.reply("Are you looking to change your own ... ?? That 's it.")
+     return
+   else:
+     set_bio(user_id, input)
+     await event.reply(f"Sucessfully Set Bio of {replied_user.sender.first_name} to {input}")
+     
 
 @register(pattern="^/info(?: |$)(.*)")
 async def who(event):
