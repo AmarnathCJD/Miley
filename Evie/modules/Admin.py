@@ -1,5 +1,5 @@
 from Evie import tbot, BOT_ID
-from Evie.modules._dev import sudo
+from Evie.function import sudo
 from telethon.errors import (
     ChatAdminRequiredError,
     ImageProcessFailedError,
