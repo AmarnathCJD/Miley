@@ -25,19 +25,7 @@ from Evie.modules.sql.welcome_sql import (
 async def _(event):
     cws = get_current_welcome_settings(event.chat_id)
     if cws:
-        # logger.info(event.stringify())
-        """user_added=False,
-        user_joined=True,
-        user_left=False,
-        user_kicked=False,"""
         if event.user_joined:
-            if cws.should_clean_welcome:
-                try:
-                    await tbot.delete_messages(  # pylint:disable=E0602
-                        event.chat_id, cws.previous_welcome
-                    )
-                except Exception as e:  # pylint:disable=C0103,W0703
-                    print(e)  # pylint:disable=E0602
             a_user = await event.get_user()
             chat = await event.get_chat()
             me = await tbot.get_me()
