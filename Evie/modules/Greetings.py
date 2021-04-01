@@ -97,7 +97,6 @@ async def cbot(event):
     chats = verified_user.find({})
     user_id = int(event.pattern_match.group(1))
     chat_id = event.chat_id
-    chat_title = event.chat.title
     if not event.sender_id == user_id:
         await event.answer("You aren't the person whom should be verified.")
         return
@@ -108,10 +107,13 @@ async def cbot(event):
     await tbot(
              EditBannedRequest(event.chat_id, userid, UNMUTE_RIGHTS)
                         )
+    verified_user.insert_one({"id": chat_id, "user": user_id})
     try:
       await event.edit(buttons=None)
     except Exception:
        pass
+
+
 @register(pattern="^/setwelcome")  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
