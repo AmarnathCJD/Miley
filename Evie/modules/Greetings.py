@@ -27,7 +27,7 @@ async def _(event):
     if cws:
         if event.user_joined:
             a_user = await event.get_user()
-            title = event.chat.title if chat.title else "this chat"
+            title = event.chat.title
             mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
             first = a_user.first_name
             last = a_user.last_name
