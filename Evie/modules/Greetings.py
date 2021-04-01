@@ -24,7 +24,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 botcheck = db.checkbot
-verified_user = db.user_verifie
+verified_user = db.user_verified
 
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
@@ -108,8 +108,6 @@ async def cbot(event):
       try:
             await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
             verified_user.insert_one({"id": chat_id, "user": user_id})
-            buttons=[Button.inline("Verified", data=f"check-bot-{userid}")]
-            await event.edit(buttons=buttons)
       except Exception as e:
          print(e)
 
