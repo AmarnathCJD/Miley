@@ -1,4 +1,5 @@
 from Evie import tbot, BOT_ID
+from Evie.modules._dev import sudo
 from telethon.errors import (
     ChatAdminRequiredError,
     ImageProcessFailedError,
@@ -362,6 +363,9 @@ async def ban(bon):
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
       return
+    elif sudo(user.id):
+      await bon.reply("I'm not banning one of my sudo users.")
+      return
     if user:
         pass
     else:
@@ -405,6 +409,9 @@ async def ban(bon):
       pass
     if user.id == BOT_ID:
       await bon.reply("You know what I'm not going to do? Ban myself.")
+      return
+    elif sudo(user.id):
+      await bon.reply("I'm not banning one of my sudo users.")
       return
     if user:
         pass
@@ -480,6 +487,7 @@ async def kick(bon):
     if user.id == BOT_ID:
          await bon.reply("Yeahhh, I'm not going to kick myself.")
          return
+
     if user:
         pass
     else:
