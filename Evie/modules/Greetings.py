@@ -108,6 +108,7 @@ async def cbot(event):
       try:
             await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
             verified_user.insert_one({"id": chat_id, "user": user_id})
+            await event.answer("Yep you are verified as a human being")
       except Exception as e:
          print(e)
 
