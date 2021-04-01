@@ -57,10 +57,16 @@ async def _(event):
         return
     msg = await event.get_reply_message()
     if msg and msg.media:
+        cws = get_current_welcome_settings(event.chat_id)
+        if cws:
+          rm_welcome_setting(event.chat_id)
         tbot_api_file_id = pack_bot_file_id(msg.media)
         add_welcome_setting(event.chat_id, msg.message, False, 0, tbot_api_file_id)
         await event.reply("Welcome message saved. ")
     else:
+        cws = get_current_welcome_settings(event.chat_id)
+        if cws:
+          rm_welcome_setting(event.chat_id)
         input_str = event.text.split(None, 1)
         add_welcome_setting(event.chat_id, input_str[1], False, 0, None)
         await event.reply("Welcome message saved. ")
