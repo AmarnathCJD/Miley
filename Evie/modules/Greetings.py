@@ -1,5 +1,6 @@
 from telethon import events
-from Evie import tbot, BOT_ID
+from Evie import tbot, BOT_ID, MONGO_DB_URI
+from pymongo import MongoClient
 from Evie.events import register
 import os
 from Evie.function import can_change_info, is_admin
@@ -19,6 +20,18 @@ from Evie.modules.sql.welcome_sql import (
     rm_goodbye_setting,
     update_previous_goodbye,
 )
+client = MongoClient()
+client = MongoClient(MONGO_DB_URI)
+db = client["evie"]
+botcheck = db.checkbot
+verified_user = db.user_verified
+
+from telethon.tl.functions.channels import EditBannedRequest
+from telethon.tl.types import ChatBannedRights
+
+
+MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
+UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
@@ -26,6 +39,7 @@ async def _(event):
     cws = get_current_welcome_settings(event.chat_id)
     if cws:
         if event.user_joined:
+            
             a_user = await event.get_user()
             title = event.chat.title
             mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
@@ -36,6 +50,34 @@ async def _(event):
             else:
                 fullname = first
             userid = a_user.id
+            chats = botcheck.find({})
+            for c in chats:
+                 if event.chat_id == c["id"]:
+                        current_message = await event.reply(
+                            current_saved_welcome_message.format(
+                                mention=mention,
+                                title=title,
+                                first=first,
+                                last=last,
+                                fullname=fullname,
+                                userid=userid,
+                            ),
+                            file=cws.media_file_id,
+                            buttons=[
+                                [
+                                    Button.inline(
+                                        "I am not a bot ✔️", data=f"check-bot-{userid}"
+                                    )
+                                ]
+                            ],
+                        )
+                        smex = verified_user.find({})
+                        for c in smex:
+                            if event.chat_id == c["id"] and userid == c["user"]:
+                                return
+                        await tbot(
+                            EditBannedRequest(event.chat_id, userid, MUTE_RIGHTS)
+                        )
             current_saved_welcome_message = cws.custom_welcome_message
             current_message = await event.reply(
                     current_saved_welcome_message.format(
@@ -85,3 +127,51 @@ async def _(event):
         + "The previous welcome message was `{}`".format(cws.custom_welcome_message)
     )
 
+
+@register(pattern="^/welcomecaptcha(?: |$)(.*)")
+async def welcome_verify(event):
+    if event.fwd_from:
+        return
+    if event.is_private:
+        return
+    if MONGO_DB_URI is None:
+        return
+    if not await can_change_info(message=event):
+        return
+    input = event.pattern_match.group(1)
+    chats = botcheck.find({})
+    if not input:
+        for c in chats:
+            if event.chat_id == c["id"]:
+                await event.reply(
+                    "Please provide some input yes or no.\n\nCurrent setting is : **on**"
+                )
+                return
+        await event.reply(
+            "Please provide some input yes or no.\n\nCurrent setting is : **off**"
+        )
+        return
+    if input in "on":
+        if event.is_group:
+            chats = botcheck.find({})
+            for c in chats:
+                if event.chat_id == c["id"]:
+                    await event.reply(
+                        "Welcome Captcha is already enabled for this chat."
+                    )
+                    return
+            botcheck.insert_one({"id": event.chat_id})
+            await event.reply("Welcome Captcha enabled for this chat.")
+    if input in "off":
+        if event.is_group:
+            chats = botcheck.find({})
+            for c in chats:
+                if event.chat_id == c["id"]:
+                    botcheck.delete_one({"id": event.chat_id})
+                    await event.reply("Welcome Captcha disabled for this chat.")
+                    return
+        await event.reply("Welcome Captcha enabled for this chat.")
+
+    if not input == "on" and not input == "off":
+        await event.reply("I only understand by on or off")
+        return
