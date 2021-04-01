@@ -50,6 +50,7 @@ async def _(event):
             else:
                 fullname = first
             userid = a_user.id
+            current_saved_welcome_message = cws.custom_welcome_message
             chats = botcheck.find({})
             for c in chats:
                  if event.chat_id == c["id"]:
@@ -78,7 +79,6 @@ async def _(event):
                         await tbot(
                             EditBannedRequest(event.chat_id, userid, MUTE_RIGHTS)
                         )
-            current_saved_welcome_message = cws.custom_welcome_message
             current_message = await event.reply(
                     current_saved_welcome_message.format(
                         mention=mention,
