@@ -85,7 +85,7 @@ from Evie import ubot, OWNER_ID
 from telethon import events
 
 
-@ubot.on(events.NewMessage(pattern=".eval ?(.*)"))
+@ubot.on(events.NewMessage(pattern="!eval ?(.*)"))
 async def ubot(event):
     if not event.sender_id == OWNER_ID:
         return
