@@ -24,7 +24,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 botcheck = db.checkbot
-verified_user = db.user_verifi
+verified_user = db.user_verified
 
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
