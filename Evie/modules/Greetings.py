@@ -23,24 +23,41 @@ from Evie.modules.sql.welcome_sql import (
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
-  if event.user_joined:
-     a_user = await event.get_user()
-     chat = await event.get_chat()
-     title = chat.title
-     count = len(await event.client.get_participants(chat))
-     mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
-     first = a_user.first_name
-     last = a_user.last_name
-     username = (
+  cws = get_current_welcome_settings(event.chat_id)
+    if cws:
+        # logger.info(event.stringify())
+        """user_added=False,
+        user_joined=True,
+        user_left=False,
+        user_kicked=False,"""
+        if event.user_joined:
+            if cws.should_clean_welcome:
+                try:
+                    await tbot.delete_messages(  # pylint:disable=E0602
+                        event.chat_id, cws.previous_welcome
+                    )
+                except Exception as e:  # pylint:disable=C0103,W0703
+                    print(e)  # pylint:disable=E0602
+            a_user = await event.get_user()
+            chat = await event.get_chat()
+            me = await tbot.get_me()
+            title = chat.title if chat.title else "this chat"
+            participants = await event.client.get_participants(chat)
+            count = len(participants)
+            mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
+            first = a_user.first_name
+            last = a_user.last_name
+            if last:
+                fullname = f"{first} {last}"
+            else:
+                fullname = first
+            username = (
                 f"@{me.username}" if me.username else f"[Me](tg://user?id={me.id})"
             )
-     userid = a_user.id
-     if last:
-         fullname = f"{first} {last}"
-     else:
-         fullname = first
-     current_saved_welcome_message = cws.custom_welcome_message
-     current_message = await event.reply(
+            userid = a_user.id
+            current_saved_welcome_message = cws.custom_welcome_message
+            mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
+            current_message = await event.reply(
                     current_saved_welcome_message.format(
                         mention=mention,
                         title=title,
@@ -53,8 +70,6 @@ async def _(event):
                     ),
                     file=cws.media_file_id,
                 )
-     
-     update_previous_welcome(event.chat_id, current_message.id)
 
 @register(pattern="^/setwelcome")  # pylint:disable=E0602
 async def _(event):
