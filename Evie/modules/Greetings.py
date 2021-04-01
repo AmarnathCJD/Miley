@@ -79,6 +79,7 @@ async def _(event):
                         await tbot(
                             EditBannedRequest(event.chat_id, userid, MUTE_RIGHTS)
                         )
+                        return
             current_message = await event.reply(
                     current_saved_welcome_message.format(
                         mention=mention,
