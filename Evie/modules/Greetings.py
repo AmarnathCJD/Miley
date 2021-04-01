@@ -24,13 +24,6 @@ from Evie.modules.sql.welcome_sql import (
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
   if event.user_joined:
-   if not event.user_id == BOT_ID:
-    cws = get_current_welcome_settings(event.chat_id)
-    if not cws:
-      a_user = await event.get_user()
-      if is_admin(event, BOT_ID):
-        await tbot.send_message(event.chat_id, f"Hey there {a_user.first_name}, and welcome to {event.chat.title} How are you?")
-    else:
      a_user = await event.get_user()
      chat = await event.get_chat()
      title = chat.title
