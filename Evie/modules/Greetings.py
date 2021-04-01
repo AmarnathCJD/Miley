@@ -1,7 +1,8 @@
 from telethon import events
 from Evie import tbot, BOT_ID
 from Evie.events import register
-from Evie.function import can_change_info
+import os
+from Evie.function import can_change_info, is_admin
 from telethon import *
 from telethon.tl import *
 from telethon.utils import pack_bot_file_id
@@ -24,11 +25,13 @@ from Evie.modules.sql.welcome_sql import (
 async def hi(event):
   if event.user_joined:
    if not event.user_id == BOT_ID:
-    a_user = await event.get_user()
-    await tbot.send_message(event.chat_id, f"Hey there {a_user.first_name}, and welcome to {event.chat.title} How are you?")
     cws = get_current_welcome_settings(event.chat_id)
+    if not cws:
+      a_user = await event.get_user()
+      if is_admin(event, BOT_ID):
+        await tbot.send_message(event.chat_id, f"Hey there {a_user.first_name}, and welcome to {event.chat.title} How are you?")
     if cws:
-     
+     a_user = await event.get_user()
      chat = await event.get_chat()
      title = chat.title
      count = len(await event.client.get_participants(chat))
@@ -57,11 +60,10 @@ async def hi(event):
                     ),
                     file=cws.media_file_id,
                 )
-     await client.send_message(event.chat_id, current_message)
-    
+     
+     update_previous_welcome(event.chat_id, current_message.id)
 
-#not done
-@register(pattern="^/setwelcome")
+@register(pattern="^/setwelcome")  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
         return
@@ -71,9 +73,23 @@ async def _(event):
     if msg and msg.media:
         tbot_api_file_id = pack_bot_file_id(msg.media)
         add_welcome_setting(event.chat_id, msg.message, False, 0, tbot_api_file_id)
-        await event.reply("The new welcome message has been saved!")
+        await event.reply("Welcome message saved. ")
     else:
         input_str = event.text.split(None, 1)
         add_welcome_setting(event.chat_id, input_str[1], False, 0, None)
-        await event.reply("The new welcome message has been saved!")
+        await event.reply("Welcome message saved. ")
+
+
+@register(pattern="^/clearwelcome$")  # pylint:disable=E0602
+async def _(event):
+    if event.fwd_from:
+        return
+    if not await can_change_info(message=event):
+        return
+    cws = get_current_welcome_settings(event.chat_id)
+    rm_welcome_setting(event.chat_id)
+    await event.reply(
+        "Welcome message cleared. "
+        + "The previous welcome message was `{}`".format(cws.custom_welcome_message)
+    )
 
