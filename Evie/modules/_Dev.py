@@ -15,6 +15,7 @@ from telethon.tl import functions
 from telethon.tl import types
 from telethon.tl.types import *
 from telethon.errors import *
+from Evie.function import sudo, bio
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
