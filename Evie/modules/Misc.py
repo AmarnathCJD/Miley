@@ -16,7 +16,7 @@ from pymongo import MongoClient
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID
 import datetime, time
-from Evie.modules._dev import bio
+from Evie.function import bio
 from Evie.function import is_admin
 
 client = MongoClient()
