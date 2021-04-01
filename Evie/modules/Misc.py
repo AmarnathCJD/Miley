@@ -14,7 +14,6 @@ from Evie.events import register
 from pymongo import MongoClient
 
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
-from Evie.modules.sql.setbio_sql import set_bio, rm_bio
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID
 import datetime, time
 from Evie.function import bio
@@ -121,25 +120,21 @@ def get_readable_time(seconds: int) -> str:
 
 @register(pattern="^/setbio ?(.*)")
 async def bio(event):
-  if event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        user_id = previous_message.sender_id
-  else:
-    user_id = event.sender_id
+  replied_user = await event.get_reply_message()
+  user_id = replied_user.sender_id
+  from Evie.modules.sql.setbio_sql import set_bio, rm_bio
   input = event.pattern_match.group(1)
   if input == "None":
-   if event.sender_id == OWNER_ID:
-     rm_bio(user_id)
-     await event.reply("Bio Removed sucessfully")
-     return
-  if not event.sender_id == OWNER_ID:
+   rm_bio(user_id)
+   await event.reply("Bio Removed sucessfully")
+   return
+  if event.sender_id == OWNER_ID:
     if not user_id == event.sender_id:
       set_bio(user_id, str(input))
       await event.reply(f"Sucessfully Set Bio of {replied_user.user.first_name} to {input}")
     else:
       await event.reply("Are you looking to change your own ... ?? No can do.")
-  else:
-    set_bio(user_id, str(input))
+
 
 @register(pattern="^/info(?: |$)(.*)")
 async def who(event):
