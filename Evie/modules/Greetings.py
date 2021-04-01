@@ -23,7 +23,7 @@ from Evie.modules.sql.welcome_sql import (
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
-  cws = get_current_welcome_settings(event.chat_id)
+    cws = get_current_welcome_settings(event.chat_id)
     if cws:
         # logger.info(event.stringify())
         """user_added=False,
