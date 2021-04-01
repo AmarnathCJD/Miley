@@ -27,11 +27,7 @@ async def _(event):
     if cws:
         if event.user_joined:
             a_user = await event.get_user()
-            chat = await event.get_chat()
-            me = await tbot.get_me()
-            title = chat.title if chat.title else "this chat"
-            participants = await event.client.get_participants(chat)
-            count = len(participants)
+            title = event.chat.title if chat.title else "this chat"
             mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
             first = a_user.first_name
             last = a_user.last_name
@@ -39,21 +35,15 @@ async def _(event):
                 fullname = f"{first} {last}"
             else:
                 fullname = first
-            username = (
-                f"@{me.username}" if me.username else f"[Me](tg://user?id={me.id})"
-            )
             userid = a_user.id
             current_saved_welcome_message = cws.custom_welcome_message
-            mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
             current_message = await event.reply(
                     current_saved_welcome_message.format(
                         mention=mention,
                         title=title,
-                        count=count,
                         first=first,
                         last=last,
                         fullname=fullname,
-                        username=username,
                         userid=userid,
                     ),
                     file=cws.media_file_id,
