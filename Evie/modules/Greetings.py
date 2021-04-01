@@ -106,9 +106,10 @@ async def cbot(event):
             return
     if event.sender_id == user_id:
       try:
-            await tbot.send_message(event.chat_id, "Button Press Test")
             await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
             verified_user.insert_one({"id": chat_id, "user": user_id})
+            buttons=[Button.inline("Verified", data=f"check-bot-{userid}")]
+            await event.edit(buttons=buttons)
       except Exception as e:
          print(e)
 
