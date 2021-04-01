@@ -1,6 +1,10 @@
 from telethon.tl import functions
 from telethon.tl import types
 from Evie import tbot
+import Evie.modules.sql.elevated_sql as sql
+from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
+from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
+
 
 async def is_admin(event, user):
     try:
@@ -47,3 +51,18 @@ async def can_change_info(message):
     return isinstance(p, types.ChannelParticipantCreator) or (
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
     )
+
+
+def sudo(iid):
+  k = iid
+  if sql.is_sudo(k):
+   return True
+  else:
+   return False
+
+def bio(iid):
+ k = iid
+ if is_bio(k):
+  return True
+ else:
+  return False
