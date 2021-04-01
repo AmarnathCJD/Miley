@@ -125,7 +125,7 @@ async def bio(event):
   user_id = replied_user.sender_id
   input = event.pattern_match.group(1)
   set_bio(user_id, input)
-  await event.reply("Sucessfully Set Bio of {replied_user.user.first_name} to {input}")
+  await event.reply(f"Sucessfully Set Bio of {replied_user.sender.first_name} to {input}")
 
 @register(pattern="^/info(?: |$)(.*)")
 async def who(event):
