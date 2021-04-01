@@ -67,7 +67,7 @@ async def _(event):
                             buttons=[
                                 [
                                     Button.inline(
-                                        "I am not a bot ✔️", data=f"check-bot-{userid}"
+                                        "Click Here to prove you're Human", data=f"check-bot-{userid}"
                                     )
                                 ]
                             ],
@@ -92,6 +92,26 @@ async def _(event):
                     file=cws.media_file_id,
                 )
 
+@tbot.on(events.CallbackQuery(pattern=r"check-bot-(\d+)"))
+async def cbot(event):
+    chats = verified_user.find({})
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    chat_title = event.chat.title
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    for c in chats:
+        if chat_id == c["id"] and user_id == c["user"]:
+            await event.answer("You are already verified !")
+            return
+    await tbot(
+             EditBannedRequest(event.chat_id, userid, UNMUTE_RIGHTS)
+                        )
+    try:
+      await event.edit(buttons=None)
+    except Exception:
+       pass
 @register(pattern="^/setwelcome")  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
@@ -134,8 +154,6 @@ async def welcome_verify(event):
     if event.fwd_from:
         return
     if event.is_private:
-        return
-    if MONGO_DB_URI is None:
         return
     if not await can_change_info(message=event):
         return
