@@ -26,20 +26,6 @@ from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_i
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
 
 
-def sudo(iid):
-  k = iid
-  if sql.is_sudo(k):
-   return True
-  else:
-   return False
-
-def bio(iid):
- k = iid
- if is_bio(k):
-  return True
- else:
-  return False
-
 @tbot.on(events.ChatAction)
 async def handler(event):
     if event.user_added:
