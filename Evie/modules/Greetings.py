@@ -105,14 +105,12 @@ async def cbot(event):
             await event.answer("You are already verified !")
             return
     if event.sender_id == user_id:
-      await tbot(
-             EditBannedRequest(event.chat_id, userid, UNMUTE_RIGHTS)
-                        )
-      verified_user.insert_one({"id": chat_id, "user": user_id})
       try:
-        await event.edit(buttons=None)
-      except Exception:
-         pass
+            await tbot.send_message(event.chat_id, "Button Press Test")
+            await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
+            verified_user.insert_one({"id": chat_id, "user": user_id})
+      except Exception as e:
+         print(e)
 
 
 @register(pattern="^/setwelcome")  # pylint:disable=E0602
