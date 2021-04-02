@@ -65,13 +65,16 @@ async def _(event):
   else:
         return
   prof = str(event.text)
-  
-  if not "Evie" in prof:
-    if not "evie" in prof:
-     if event.reply_to_msg_id:
-      reply_msg = await event.get_reply_message()
-      if not reply_msg.sender_id == BOT_ID:
+  if event.reply_to_msg_id:
+    reply_msg = await event.get_reply_message()
+    if not reply_msg.sender_id == BOT_ID:
            return
+  elif "Evie" in prof:
+     pass
+  elif "evie" in prof:
+     pass
+  else:
+     return
   if "Evie" in prof:
      msg = prof.replace("Evie", "Jessica")
   elif "evie" in prof:
