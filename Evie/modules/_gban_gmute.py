@@ -382,11 +382,11 @@ async def handler(event):
               except Exception:
                    pass
               
-
+fuckers = gmuted.find({})
+  
 @tbot.on(events.NewMessage(pattern=None))
 async def lel(event):
-   if is_admin(event, BOT_ID):
     chats = gmuted.find({})
     for c in chats:
         if event.user_id == c["user"]: 
-           await event.delete()
+             await event.delete()
