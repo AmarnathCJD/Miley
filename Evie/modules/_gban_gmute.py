@@ -284,12 +284,12 @@ async def gban(event):
           await event.reply(
                 "This user is already gmuted, I am updating the reason of the gmute with your reason."
             )
-          await tbot.send_message(GBANLOGS, "**New Global Mute**\n#UPDATE\n**ID:** `{}`".format(r_sender_id))
+          await tbot.send_message(GBANLOGS, "**Global Mute**\n#UPDATE\n**ID:** `{}`".format(r_sender_id))
 
  gmuted.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
- await tbot.send_message(GBANLOGS, "**Global Mute**\n**ID:**{}**".format(r_sender_id))
+ await tbot.send_message(GBANLOGS, "**Global Mute**\n**Sudo Admin:** {}\n**User:** {}\n**ID:** `{}`".format(sender, fname, r_sender_id))
  await event.reply("Sucessfully Added user to Gmute List!")
  
 @register(pattern="^/ungmute ?(.*)")
