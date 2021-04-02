@@ -2,7 +2,7 @@ from youtubesearchpython import VideosSearch
 from Evie import tbot, CMD_HELP
 from html import unescape
 import os
-from telethon import types
+from telethon import types, Button, custom, events
 from telethon.tl import functions
 from Evie.events import register
 import re
