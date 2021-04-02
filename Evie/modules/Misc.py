@@ -249,7 +249,8 @@ async def bgay(event):
       p = s.replace("*", "")
       j = p.replace(k, "")
       gey = j.replace("tg://user?id=1221693726", "")
-      await event.reply(gey)
+      uf = gey.replace("[]()", "")
+      await event.reply(uf)
 
 
 
