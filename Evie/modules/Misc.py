@@ -244,13 +244,12 @@ async def bgay(event):
    async with ubot.conversation("@Gayroebot") as bot_conv:
       await bot_conv.send_message("/gay")
       response = await bot_conv.get_response()
-      await event.reply(response.text)
       s = response.text.replace("◡̈⃝RoseLoverX", k)
       p = s.replace("*", "")
       j = p.replace(k, "")
       gey = j.replace("tg://user?id=1221693726", "")
       uf = gey.replace("[]()", "")
-      await event.reply(uf)
+      await event.reply(f"{k} {uf}")
 
 
 
