@@ -20,7 +20,7 @@ async def inline_id_handler(event: events.InlineQuery.Event):
     builder = event.builder
     k = event.pattern_match.group(1)
     if ":" in k:
-         testinput,evlin = event.pattern_match.group(1).split(";")
+         testinput,evlin = event.pattern_match.group(1).split(":")
     else:
          testinput = event.pattern_match.group(1)
          evlin = 5
