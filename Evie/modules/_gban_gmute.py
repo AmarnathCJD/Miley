@@ -201,7 +201,7 @@ async def ugban(event):
             to_check = get_reason(id=r_sender_id)
             gbanned.delete_one({"user": r_sender_id})
             await event.reply("Globally Pardoned This User.!🏳️")
-            await client.send_message(GBANLOGS, "**Global Unban**\n#UNGBAN\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
+            await tbot.send_message(GBANLOGS, "**Global Unban**\n#UNGBAN\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))
             return
  await event.reply("Yeah that user is not in my Gbanned list.!?")
