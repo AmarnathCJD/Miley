@@ -244,7 +244,7 @@ async def bgay(event):
    async with ubot.conversation("@Gayroebot") as bot_conv:
       await bot_conv.send_message("/gay")
       response = await bot_conv.get_response()
-      await event.reply("response.text")
+      await event.reply(response.text)
 
 
 
