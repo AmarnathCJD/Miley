@@ -388,5 +388,5 @@ fuckers = gmuted.find({})
 async def nm(event):
     chats = gmuted.find({})
     for c in chats:
-        if 1309680371 == c["user"]: 
+        if event.user_id == c["user"]: 
              await tbot.send_message(event.chat_id, "hi")
