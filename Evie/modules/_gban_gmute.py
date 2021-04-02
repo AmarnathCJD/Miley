@@ -30,6 +30,7 @@ def get_reason(id):
 
 GBAN_LOGS = [] #for now
 chat = str(GBAN_LOGS)
+GBANLOGS = -1001486931338
 
 @register(pattern="^/gban ?(.*)")
 async def gban(event):
