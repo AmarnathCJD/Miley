@@ -308,33 +308,39 @@ if bc == 4:
 SEARCH_ENGINE_ID = "d99e58572df67b77a"
 
 @tbot.on(events.InlineQuery(pattern=r"(.*)"))
-async def padhai(event: events.InlineQuery.Event):
-    query = event.text
+async def inline_id_handler(event: events.InlineQuery.Event):
     try:
-        
-
+        ques = event.pattern_match.group(1)
         piggi = 1
         padhai = []
         start = (piggi - 1) * 3 + 1
 
-        url = f"https://www.googleapis.com/customsearch/v1?key={API_KEY}&cx={SEARCH_ENGINE_ID}&q={query}&start={start}"
-        vk = requests.get(url).json()
-        search_items = vk.get("items")
+        if ques:
+            programmingerror = f"https://www.googleapis.com/customsearch/v1?key={API_KEY}&cx={SEARCH_ENGINE_ID}&q={ques}&start={start}"
+            shivambro = requests.get(programmingerror).json()
+            search_items = shivambro.get("items")
 
-        if query:
             for i, search_item in enumerate(search_items, start=1):
                 title = search_item.get("title")
-                hmm = search_item.get("link")
-                omk = search_item.get("snippet")
-                toppers = f"{title}\n\nAnswer in Short:\n\n{omk}"
+                # Idea By @ProgrammingError
+                # Made By @ProgrammingError
+                # Thanks To Google😂😂😂# https://www.googleapis.com/customsearch/v1?key=AIzaSyAyDBsY3WRtB5YPC6aB_w8JAy6ZdXNc6FU&cx=d99e58572df67b77a&q=vector
+                danish_00 = search_item.get("link")
+                atul_xd = search_item.get("snippet")
+                # Idea By @ProgrammingError
+                # Made By @ProgrammingError
+                # Thanks To Google😂😂😂
+                toppers = f"{title}\n\nAnswer in Short:\n\n{atul_xd}"
                 padho = f"{title}"
                 padhai.append(
                     await event.builder.article(
                         title=padho,
-                        description=f"{omk}",
+                        description=f"{atul_xd}",  # Idea By @ProgrammingError
+                        # Made By @ProgrammingError
+                        # Thanks To Google😂😂😂
                         text=toppers,
                         buttons=[
-                            [Button.url("Answer", f"{hmm}")],
+                            [Button.url("Answer", f"{danish_00}")],
                             [
                                 Button.switch_inline(
                                     "Search Again", query=" ", same_peer=True
@@ -343,9 +349,26 @@ async def padhai(event: events.InlineQuery.Event):
                         ],
                     )
                 )
-            await event.answer([padhai])
-    except Exception as e:
-         print(e)
+            await event.answer(padhai)
+        else:
+            padhai.append(
+                await event.builder.article(
+                    title="Give Something to search.",
+                    description="Please write some queries to Search Answer.",
+                    text="Please write some queries to Search Answer.",
+                    buttons=[
+                        [
+                            Button.switch_inline(
+                                "Search Again", query=" ", same_peer=True
+                            )
+                        ],
+                    ],
+                )
+            )
+            await event.answer(padhai)
+    except:
+        traceback.print_exc(file=sys.stdout)
+
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
