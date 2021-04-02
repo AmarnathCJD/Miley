@@ -389,4 +389,4 @@ async def nm(event):
     chats = gmuted.find({})
     for c in chats:
         if event.sender_id == c["user"]: 
-             await tbot.send_message(event.chat_id, "hi")
+            await event.delete()
