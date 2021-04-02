@@ -98,7 +98,7 @@ async def _(event):
 
     chat = event.chat_id
     user = event.sender
-    args = event.pattern_match.group(1)
+    
 
     if not sql.chat_should_report(chat):
         return
@@ -123,7 +123,7 @@ async def _(event):
 
     chat = event.chat_id
     user = event.sender
-    args = event.pattern_match.group(1)
+   
 
     if not sql.chat_should_report(chat):
         return
