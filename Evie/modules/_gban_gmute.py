@@ -110,7 +110,7 @@ async def gban(event):
           await event.reply(
                 "This user is already gbanned, I am updating the reason of the gban with your reason."
             )
-          await tbot.send_message(GBANLOGS, "**Global Ban**\n#UPDATE\n**Originated From: {} {}**\n\n**Sudo:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
+          await tbot.send_message(GBANLOGS, "**Global Ban**\n#UPDATE\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
           return
 
@@ -129,6 +129,8 @@ async def gban(event):
        done = done + 1
    except Exception:
        pass
+ await tbot.send_message(GBANLOGS, "**Global Ban**\n#NEW\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
+                                   group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
  await event.reply(f"GlobalBan Completed\n**Time Taken**: Soon!")
 
 @register(pattern="^/ungban ?(.*)")
