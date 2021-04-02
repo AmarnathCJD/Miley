@@ -28,7 +28,8 @@ gbanned = db.gban
 def get_reason(id):
     return gbanned.find_one({"user": id})
 
-chat = -1001486931338
+GBAN_LOGS = [] #for now
+chat = str(GBAN_LOGS)
 
 @register(pattern="^/gban ?(.*)")
 async def gban(event):
@@ -119,6 +120,74 @@ async def gban(event):
    except Exception:
        pass
  await event.reply(f"GlobalBan Completed\n**Affected In {done} Chats**")
+
+@register(pattern="^/ungban ?(.*)")
+async def ugban(event):
+ sender = event.sender.first_name
+ group = event.chat.title
+ id = event.sender_id
+ if event.fwd_from:
+        return
+ if event.sender_id == OWNER_ID:
+  pass
+ elif event.sender_id in DEV_USERS:
+  pass
+ elif sudo(id):
+  pass
+ else:
+  return
+ input = event.pattern_match.group(1)
+ if input:
+   arg = input.split(" ", 1)
+ if not event.reply_to_msg_id:
+  if len(arg) == 2:
+    iid = arg[0]
+    reason = arg[1]
+  else:
+    iid = arg[0]
+    reason = None
+  if not iid.isnumeric():
+   username = iid.replace("@", "")
+   entity = await tbot.get_input_entity(iid)
+   try:
+     r_sender_id = entity.user_id
+   except Exception:
+        await event.reply("Couldn't fetch that user.")
+        return
+   fname = r_sender_id
+  else:
+   r_sender_id = int(iid)
+ else:
+   reply_message = await event.get_reply_message()
+   iid = reply_message.sender_id
+   username = reply_message.sender.username
+   fname = reply_message.sender.first_name
+   if input:
+     reason = input
+   else:
+     reason = None
+   r_sender_id = iid
+ if r_sender_id == OWNER_ID:
+        await event.reply(f"Yeah FuckOff!")
+        return
+ elif r_sender_id in DEV_USERS:
+        await event.reply("No!")
+        return
+ elif r_sender_id == BOT_ID:
+        await event.reply("Who Dafaq Made You Sudo?!")
+        return
+ chats = gbanned.find({})
+ for c in chats:
+        if r_sender_id == c["user"]:
+            to_check = get_reason(id=r_sender_id)
+            gbanned.delete_one({"user": r_sender_id})
+            await event.reply("Globally Pardoned This User.!🏳️")
+            return
+ await event.reply("Yeah that user is not in my Gbanned list.!?")
+
+
+
+
 """
 @tbot.on(events.ChatAction)
 async def handler(event):
@@ -132,7 +201,7 @@ async def handler(event):
                await tbot(
                     EditBannedRequest(chat, event.user_id, BANNED_RIGHTS)
                  )
-               await tbot.send_message(event.chat_id, f"Gbanned User Joined\n**ID:** `{event.user_id}`\n\n**Quick Action:**Banned")
+               await tbot.send_message(event.chat_id, f"Gbanned User Joined\n**ID:** `{event.user_id}`\n\n**Quick Action:** Banned")
               except Exception:
                    pass
               
