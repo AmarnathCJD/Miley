@@ -1,4 +1,5 @@
-from Evie import tbot, OWNER_ID, DEV_USERS, MONGO_DB_URI, BOT_ID
+from Evie import tbot, OWNER_ID, DEV_USERS
+from Evie import MONGO_DB_URI, BOT_ID, GBAN_LOGS
 from pymongo import MongoClient
 from Evie.function import is_admin, sudo
 from telethon import events
@@ -29,10 +30,10 @@ gmuted = db.gmute #RoseloverX
 
 def get_reason(id):
     return gbanned.find_one({"user": id})
-RoseLoverX = "Made By"
-GBAN_LOGS = [] #for now
-chat = str(GBAN_LOGS)
-GBANLOGS = -1001486931338
+
+GBAN_LOGS = str(GBAN_LOGS)
+RoseLoverX = "e async def lamda -f"
+
 
 @register(pattern="^/gban ?(.*)")
 async def gban(event):
@@ -111,7 +112,7 @@ async def gban(event):
           await event.reply(
                 "This user is already gbanned, I am updating the reason of the gban with your reason."
             )
-          await tbot.send_message(GBANLOGS, "**Global Ban**\n#UPDATE\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
+          await tbot.send_message(GBAN_LOGS, "**Global Ban**\n#UPDATE\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
           return
  gbanned.insert_one(
@@ -129,7 +130,7 @@ async def gban(event):
        done = done + 1
    except Exception:
        pass
- await tbot.send_message(GBANLOGS, "**Global Ban**\n#NEW\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
+ await tbot.send_message(GBAN_LOGS, "**Global Ban**\n#NEW\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
  await event.reply(f"GlobalBan Completed\n**Time Taken**: Soon!")
 
@@ -201,7 +202,7 @@ async def ugban(event):
             to_check = get_reason(id=r_sender_id)
             gbanned.delete_one({"user": r_sender_id})
             await event.reply("Globally Pardoned This User.!🏳️")
-            await tbot.send_message(GBANLOGS, "**Global Unban**\n#UNGBAN\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
+            await tbot.send_message(GBAN_LOGS, "**Global Unban**\n#UNGBAN\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))
             return
  await event.reply("Yeah that user is not in my Gbanned list.!?")
@@ -283,12 +284,12 @@ async def gban(event):
           await event.reply(
                 "This user is already gmuted, I am updating the reason of the gmute with your reason."
             )
-          await tbot.send_message(GBANLOGS, "**Global Mute**\n#UPDATE\n**ID:** `{}`".format(r_sender_id))
+          await tbot.send_message(GBAN_LOGS, "**Global Mute**\n#UPDATE\n**ID:** `{}`".format(r_sender_id))
 
  gmuted.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
- await tbot.send_message(GBANLOGS, "**Global Mute**\n**Sudo Admin:** {}\n**User:** {}\n**ID:** `{}`".format(sender, fname, r_sender_id))
+ await tbot.send_message(GBAN_LOGS, "**Global Mute**\n**Sudo Admin:** {}\n**User:** {}\n**ID:** `{}`".format(sender, fname, r_sender_id))
  await event.reply("Sucessfully Added user to Gmute List!")
  
 @register(pattern="^/ungmute ?(.*)")
@@ -359,7 +360,7 @@ async def ugban(event):
             to_check = get_reason(id=r_sender_id)
             gmuted.delete_one({"user": r_sender_id})
             await event.reply("Globally Pardoned This User.!🏳️")
-            await tbot.send_message(GBANLOGS, "**Global Unmute**\n**ID:** `{}`".format(
+            await tbot.send_message(GBAN_LOGS, "**Global Unmute**\n**ID:** `{}`".format(
                                    r_sender_id))
             return
  await event.reply("Yeah that user is not in my Gmute list.!?")
