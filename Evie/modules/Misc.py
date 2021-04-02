@@ -307,10 +307,10 @@ if bc == 4:
     API_KEY = "AIzaSyC2BAHB0MVs9q_vxTAIzbUB4VKug3cptT4"
 SEARCH_ENGINE_ID = "d99e58572df67b77a"
 
-@tbot.on(events.InlineQuery(pattern=r"edu (.*)"))
+@tbot.on(events.InlineQuery(pattern=r"(.*)"))
 async def padhai(event: events.InlineQuery.Event):
-    query = event.pattern_match.group(1)
-    if event.query.user_id:
+    query = event.text
+    try:
         
 
         piggi = 1
@@ -344,7 +344,8 @@ async def padhai(event: events.InlineQuery.Event):
                     )
                 )
             await event.answer([padhai])
-
+    except Exception as e:
+         print(e)
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
