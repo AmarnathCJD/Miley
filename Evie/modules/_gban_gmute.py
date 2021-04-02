@@ -166,9 +166,13 @@ async def ugban(event):
    except Exception:
         await event.reply("Couldn't fetch that user.")
         return
-   fname = r_sender_id
   else:
    r_sender_id = int(iid)
+  try:
+   replied_user = await tbot(GetFullUserRequest(r_sender_id))
+   fname = replied_user.user.first_name
+  except Exception:
+   fname = "User"
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
@@ -197,6 +201,8 @@ async def ugban(event):
             to_check = get_reason(id=r_sender_id)
             gbanned.delete_one({"user": r_sender_id})
             await event.reply("Globally Pardoned This User.!🏳️")
+            await client.send_message(GBANLOGS, "**Global Unban**\n#UNGBAN\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
+                                   group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))
             return
  await event.reply("Yeah that user is not in my Gbanned list.!?")
 
@@ -222,7 +228,5 @@ async def handler(event):
               
 """
 
-
-#ungban Soon!
 #gmute_ungmute Soon!
-#gban_logs Soon!
+#gban done!
