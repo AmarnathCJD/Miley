@@ -60,6 +60,9 @@ async def _(event):
     if event.is_private:
         return
     if event.is_group:
+        if not is_admin(event, event.sender_id):
+            await event.reply("You need to be an admin to do this.")
+            return
         if not await can_change_info(message=event):
             return
     chat = event.chat_id
@@ -90,7 +93,7 @@ async def _(event):
 async def _(event):
     if event.is_private:
         return
-    if await is_admin(event, event.message.sender_id):
+    if await is_admin(event, event.sender_id):
         return
 
     chat = event.chat_id
@@ -106,7 +109,7 @@ async def _(event):
         reported_user_first_name = c.sender.first_name
         if await is_admin(event, reported_user):
             return
-        await client.send_message(f"Reported {reported_user_first_name} to admins")
+        await tbot.send_message(event.chat_id, f"Reported {reported_user_first_name} to admins")
 
         if user.id == reported_user:
             await event.reply("Why are you reporting yourself ?")
