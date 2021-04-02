@@ -74,7 +74,7 @@ async def _(event):
            return
   if "Evie" in prof:
      msg = prof.replace("Evie", "Jessica")
-  if "evie" in prof:
+  elif "evie" in prof:
      msg = prof.replace("evie", "Jessica")
   else:
      msg = prof
