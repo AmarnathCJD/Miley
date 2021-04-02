@@ -309,7 +309,7 @@ SEARCH_ENGINE_ID = "d99e58572df67b77a"
 
 @tbot.on(events.InlineQuery(pattern=r"edu (.*)"))
 async def padhai(event: events.InlineQuery.Event):
-    query = event.text
+    query = event.pattern_match.group(1)
     if event.query.user_id:
         
 
