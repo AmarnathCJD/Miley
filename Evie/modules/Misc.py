@@ -322,7 +322,7 @@ async def padhai(event: events.InlineQuery.Event):
         search_items = vk.get("items")
 
         if query:
-            for i, search_item in enumerate(search_items, start=1):
+            for search_item in enumerate(search_items, start=1):
                 title = search_item.get("title")
                 hmm = search_item.get("link")
                 omk = search_item.get("snippet")
