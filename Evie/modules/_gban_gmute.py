@@ -86,6 +86,9 @@ async def gban(event):
  elif r_sender_id == BOT_ID:
         await event.reply("Another one bits the dust! banned a betichod!")
         return
+ elif sudo(r_sender_id):
+        await event.reply("Yeah Nibba that's a Sudo User🤨")
+        return
  chats = gbanned.find({})
  for c in chats:
       if r_sender_id == c["user"]:
@@ -175,6 +178,9 @@ async def ugban(event):
         return
  elif r_sender_id == BOT_ID:
         await event.reply("Who Dafaq Made You Sudo?!")
+        return
+ elif sudo(r_sender_id):
+        await event.reply("Yeah Nibba that's a Sudo User🤨")
         return
  chats = gbanned.find({})
  for c in chats:
