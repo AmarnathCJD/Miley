@@ -92,6 +92,40 @@ async def _(event):
                     file=cws.media_file_id,
                 )
 
+
+@tbot.on(events.ChatAction())  # pylint:disable=E0602
+async def _(event):
+    cws = get_current_goodbye_settings(event.chat_id)
+    if not cws:
+      if event.user_left or event.user_kicked:
+        if is_admin(event, BOT_ID):
+          await event.reply("Nice Knowing you!")
+    if cws:
+        if event.user_left or event.user_kicked:
+            
+            a_user = await event.get_user()
+            title = event.chat.title
+            mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
+            first = a_user.first_name
+            last = a_user.last_name
+            if last:
+                fullname = f"{first} {last}"
+            else:
+                fullname = first
+            userid = a_user.id
+            current_saved_goodbye_message = cws.custom_goodbye_message
+            current_message = await event.reply(
+                    current_saved_goodbye_message.format(
+                        mention=mention,
+                        title=title,
+                        first=first,
+                        last=last,
+                        fullname=fullname,
+                        userid=userid,
+                    ),
+                    file=cws.media_file_id,
+                )
+
 @tbot.on(events.CallbackQuery(pattern=r"check-bot-(\d+)"))
 async def cbot(event):
     chats = verified_user.find({})
@@ -147,6 +181,44 @@ async def _(event):
     await event.reply(
         "Welcome message cleared. "
         + "The previous welcome message was `{}`".format(cws.custom_welcome_message)
+    )
+
+@register(pattern="^/setgoodbye$")  # pylint:disable=E0602
+async def _(event):
+    if event.fwd_from:
+        return
+    if not await can_change_info(message=event):
+        return
+    msg = await event.get_reply_message()
+    if not msg:
+        return
+    if msg and msg.media:
+        cws = get_current_goodbye_settings(event.chat_id)
+        if cws:
+          rm_goodbye_setting(event.chat_id)
+        tbot_api_file_id = pack_bot_file_id(msg.media)
+        add_goodbye_setting(event.chat_id, msg.text, False, 0, tbot_api_file_id)
+        await event.reply("Goodbye message saved. ")
+    else:
+        input_str = msg.text
+        cws = get_current_goodbye_settings(event.chat_id)
+        if cws:
+          rm_goodbye_setting(event.chat_id)
+        add_goodbye_setting(event.chat_id, input_str, False, 0, None)
+        await event.reply("Goodbye message saved. ")
+
+
+@register(pattern="^/cleargoodbye$")  # pylint:disable=E0602
+async def _(event):
+    if event.fwd_from:
+        return
+    if not await can_change_info(message=event):
+        return
+    cws = get_current_goodbye_settings(event.chat_id)
+    rm_goodbye_setting(event.chat_id)
+    await event.reply(
+        "Goodbye message cleared. "
+        + "The previous goodbye message was `{}`".format(cws.custom_goodbye_message)
     )
 
 
