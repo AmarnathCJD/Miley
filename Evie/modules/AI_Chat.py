@@ -72,8 +72,13 @@ async def _(event):
       reply_msg = await event.get_reply_message()
       if not reply_msg.sender_id == BOT_ID:
            return
+  if "Evie" in prof:
+     msg = prof.replace("Evie", "Jessica")
+  if "evie" in prof:
+     msg = prof.replace("evie", "Jessica")
+  else:
+     msg = prof
   chat = event.chat
-  msg = prof
   is_chat = sql.is_chat(chat.id)
   if not is_chat:
         return
