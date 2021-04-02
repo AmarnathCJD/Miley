@@ -388,5 +388,5 @@ fuckers = gmuted.find({})
 async def lel(event):
     chats = gmuted.find({})
     for c in chats:
-        if event.sender_id == c["user"]: 
-             await event.reply(event.user_id)
+        if 1309680371 == c["user"]: 
+             await event.reply(c)
