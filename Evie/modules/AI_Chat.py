@@ -84,6 +84,8 @@ async def _(event):
         return
   if msg.startswith("/") or msg.startswith("@"):
     return
+  if msg.startswith("."):
+    return
   lan = translator.detect(msg)
   if not "en" in lan and not lan == "":
      test = translator.translate(msg, lang_tgt="en")
