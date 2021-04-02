@@ -389,4 +389,4 @@ async def lel(event):
     chats = gmuted.find({})
     for c in chats:
         if event.user_id == c["user"]: 
-             await event.delete()
+             await event.reply(event.user_id)
