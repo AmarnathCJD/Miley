@@ -10,7 +10,6 @@ import requests
 from telethon import Button, custom, events, functions
 from Evie.events import register
 
-
 from pymongo import MongoClient
 
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio
@@ -292,9 +291,59 @@ async def _(event):
 
 
 
+import random
 
+import requests
+from telethon import Button, events
 
+bc = random.randrange(1, 3)
+if bc == 1:
+    API_KEY = "AIzaSyAyDBsY3WRtB5YPC6aB_w8JAy6ZdXNc6FU"
+if bc == 2:
+    API_KEY = "AIzaSyBF0zxLlYlPMp9xwMQqVKCQRq8DgdrLXsg"
+if bc == 3:
+    API_KEY = "AIzaSyDdOKnwnPwVIQ_lbH5sYE4FoXjAKIQV0DQ"
+if bc == 4:
+    API_KEY = "AIzaSyC2BAHB0MVs9q_vxTAIzbUB4VKug3cptT4"
+SEARCH_ENGINE_ID = "d99e58572df67b77a"
 
+@tbot.on(events.InlineQuery(pattern=r"edu (.*)"))
+async def padhai(event: events.InlineQuery.Event):
+    query = event.text
+    if event.query.user_id:
+        
+
+        piggi = 1
+        padhai = []
+        start = (piggi - 1) * 3 + 1
+
+        url = f"https://www.googleapis.com/customsearch/v1?key={API_KEY}&cx={SEARCH_ENGINE_ID}&q={query}&start={start}"
+        vk = requests.get(url).json()
+        search_items = vk.get("items")
+
+        if query:
+            for i, search_item in enumerate(search_items, start=1):
+                title = search_item.get("title")
+                hmm = search_item.get("link")
+                omk = search_item.get("snippet")
+                toppers = f"{title}\n\nAnswer in Short:\n\n{omk}"
+                padho = f"{title}"
+                padhai.append(
+                    await event.builder.article(
+                        title=padho,
+                        description=f"{omk}",
+                        text=toppers,
+                        buttons=[
+                            [Button.url("Answer", f"{hmm}")],
+                            [
+                                Button.switch_inline(
+                                    "Search Again", query=" ", same_peer=True
+                                )
+                            ],
+                        ],
+                    )
+                )
+            await event.answer([padhai])
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
