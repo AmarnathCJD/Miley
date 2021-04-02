@@ -284,13 +284,12 @@ async def gban(event):
           await event.reply(
                 "This user is already gmuted, I am updating the reason of the gmute with your reason."
             )
-          await tbot.send_message(GBANLOGS, "**Global Mute**\n#UPDATE\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
-                                   group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
-          return
+          await tbot.send_message(GBANLOGS, "**Global Mute**\n#UPDATE\n**ID:**{}**".format(r_sender_id))
 
  gmuted.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
+ await tbot.send_message(GBANLOGS, "**Global Mute**\n**ID:**{}**".format(r_sender_id))
  await event.reply("Sucessfully Added user to Gmute List!")
  
 @register(pattern="^/ungmute ?(.*)")
@@ -389,5 +388,5 @@ async def lel(event):
    if is_admin(event, BOT_ID):
     chats = gmuted.find({})
     for c in chats:
-        if event.sender_id == c["user"]: 
+        if event.user_id == c["user"]: 
            await event.delete()
