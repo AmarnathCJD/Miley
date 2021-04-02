@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from Evie.function import is_admin, sudo
 from telethon import events
 from Evie.events import register
+from telethon.tl.functions.users import GetFullUserRequest
 
 from Evie.modules.sql.chats_sql import get_all_chat_id
 
@@ -66,7 +67,11 @@ async def gban(event):
         return
   else:
    r_sender_id = int(iid)
-  fname = "User"
+  try:
+   replied_user = await tbot(GetFullUserRequest(r_sender_id))
+   fname = replied_user.user.first_name
+  except Exception:
+   fname = "User"
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
