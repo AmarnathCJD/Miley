@@ -89,7 +89,7 @@ async def _(event):
         )
 
 
-@register(pattern="^/(report|@admins|@admin) ?(.*)")
+@register(pattern="^(/report|@admins|@admin) ?(.*)")
 async def _(event):
     if event.is_private:
         return
@@ -109,21 +109,11 @@ async def _(event):
         reported_user_first_name = c.sender.first_name
         if await is_admin(event, reported_user):
             return
-        await tbot.send_message(event.chat_id, f"Reported {reported_user_first_name} to admins")
-
-        if user.id == reported_user:
-            await event.reply("Why are you reporting yourself ?")
-            return
-
         if user.id == BOT_ID:
-            await event.reply("Why are you reporting me ?")
+            await event.reply("Why would I report myself?")
             return
+        await tbot.send_message(event.chat_id, f"Reported [{reported_user_first_name}](tg://user?id={reported_user}) to admins.")
 
-        if reported_user == OWNER_ID:
-            await event.reply("Hey, don't dare reporting my master !")
-            return
-
-        
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
@@ -133,7 +123,7 @@ __help__ = """
 **NOTE:** This will not get triggered if used by admins.
 
 **Admins only:**
- - /reports <on/off>: change report setting, or view current status.
+ - /reports <on/yes/off/no>: change report setting, or view current status.
 """
 
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
