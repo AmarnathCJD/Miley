@@ -35,7 +35,6 @@ chat = str(GBAN_LOGS)
 async def gban(event):
  sender = event.sender.first_name
  group = event.chat.title
- id = event.sender_id
  if event.fwd_from:
         return
  if event.sender_id == OWNER_ID:
@@ -55,7 +54,7 @@ async def gban(event):
     reason = arg[1]
   else:
     iid = arg[0]
-    reason = None
+    reason = "None"
   if not iid.isnumeric():
    username = iid.replace("@", "")
    entity = await tbot.get_input_entity(iid)
@@ -64,9 +63,9 @@ async def gban(event):
    except Exception:
         await event.reply("Couldn't fetch that user.")
         return
-   fname = r_sender_id
   else:
    r_sender_id = int(iid)
+  fname = r_sender_id
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
@@ -75,7 +74,7 @@ async def gban(event):
    if input:
      reason = input
    else:
-     reason = None
+     reason = "None"
    r_sender_id = iid
  if r_sender_id == OWNER_ID:
         await event.reply(f"Char Chavanni godhe pe\ngey Mere Lode Pe!.")
@@ -105,12 +104,14 @@ async def gban(event):
           await event.reply(
                 "This user is already gbanned, I am updating the reason of the gban with your reason."
             )
+          await tbot.send_message(GBANLOGS, "#GBAN UPDATE\n**Originated From:** {}\n\n**Sudo:** [{}](tg://user?id={})\**User:** [{}](tg://user?id={})\n**ID:** `{}`\**New Reason:** {}".format(
+                                   group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason)       
           return
 
  gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
- k = await event.reply("⚡Snaps the BannHammer⚡")
+ k = await event.reply("⚡Snaps the BanHammer⚡")
  cheater = get_all_chat_id()
  done = 0
  for i in cheater:
