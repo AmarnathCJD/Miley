@@ -227,6 +227,27 @@ async def gey(event):
       await asyncio.sleep(1)
       await tbot.send_message(event.chat_id, response.text)
 
+@register(pattern="^/betagey ?(.*)")
+async def bgay(event):
+   m = event.pattern_match.group(1)
+   from telethon.tl.functions.users import GetFullUserRequest
+   if event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
+        replied_user = await tbot(GetFullUserRequest(previous_message.sender_id))
+        k = replied_user.user.first_name
+   elif m:
+        k = m
+   else:
+      sender = await event.get_sender()
+      fname = sender.first_name
+      k = fname
+   async with ubot.conversation("@Gayroebot") as bot_conv:
+      await bot_conv.send_message("/gay")
+      response = await bot_conv.get_response()
+      await event.reply("response.text")
+
+
+
 @register(pattern="^/shazam$")
 async def _(event):
  try:
