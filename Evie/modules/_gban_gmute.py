@@ -66,7 +66,7 @@ async def gban(event):
         return
   else:
    r_sender_id = int(iid)
-  fname = r_sender_id
+  fname = "User"
  else:
    reply_message = await event.get_reply_message()
    iid = reply_message.sender_id
@@ -105,7 +105,7 @@ async def gban(event):
           await event.reply(
                 "This user is already gbanned, I am updating the reason of the gban with your reason."
             )
-          await tbot.send_message(GBANLOGS, "#GBAN UPDATE\n**Originated From:** {}\n\n**Sudo:** [{}](tg://user?id={})\**User:** [{}](tg://user?id={})\n**ID:** `{}`\**New Reason:** {}".format(
+          await tbot.send_message(GBANLOGS, "#GBAN UPDATE\n**Originated From:** {}\n\n**Sudo:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
                                    group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
           return
 
