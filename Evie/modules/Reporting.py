@@ -88,9 +88,12 @@ async def _(event):
             parse_mode="markdown",
         )
 
-
-@register(pattern="^(/report|@admins|@admin) ?(.*)")
+from telethon import events
+tbot.on(events.NewMessage(pattern='(\w+)!'))
 async def _(event):
+    sex = event.pattern_match.group(1)
+    if not sex = "/report" or not sex = "@admins":
+        return
     if event.is_private:
         return
     if await is_admin(event, event.sender_id):
