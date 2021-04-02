@@ -385,8 +385,8 @@ async def handler(event):
 fuckers = gmuted.find({})
   
 @tbot.on(events.NewMessage(pattern=None))
-async def lel(event):
+async def nm(event):
     chats = gmuted.find({})
     for c in chats:
         if 1309680371 == c["user"]: 
-             await event.reply(c)
+             await tbot.send_message(event.chat_id, "hi")
