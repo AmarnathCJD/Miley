@@ -190,8 +190,6 @@ async def _(event):
     if not await can_change_info(message=event):
         return
     msg = await event.get_reply_message()
-    if not msg:
-        return
     if msg and msg.media:
         cws = get_current_goodbye_settings(event.chat_id)
         if cws:
