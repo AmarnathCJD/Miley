@@ -246,7 +246,8 @@ async def bgay(event):
       response = await bot_conv.get_response()
       await event.reply(response.text)
       s = response.text.replace("◡̈⃝RoseLoverX", k)
-      await event.reply(s)
+      p = s.replace("*", "")
+      await event.reply(p)
 
 
 
