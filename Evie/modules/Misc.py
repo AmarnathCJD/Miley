@@ -17,18 +17,24 @@ from Evie.events import register
 
 from pymongo import MongoClient
 
+from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID
 import datetime, time
-from Evie.function import bio
-from Evie.function import is_admin
+from Evie.function import is_admin, bio
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 gbanned = db.gban
 blacklist = db.black
+
+def is_bio(user_id):
+ if is_bio(user_id):
+  return True
+ else:
+  return False
 
 
 
@@ -76,9 +82,9 @@ async def detail(replied_user, event):
     if username:
       caption += f"Username: {username} \n"
     caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
-    if bio(user_id):
+    if is_bio(user_id):
          k = boss[user_id]
-         caption += f'\n\n<b>What others say:</b>\n{k}'
+         caption += f"\n\n<b>What others say:</b>\n{k}"
     a = blacklist.find({})
     for i in a:
          if user_id == i["user"]:
