@@ -1,4 +1,4 @@
-from youtubesearchpython import VideosSearch
+from youtubesearchpython import SearchVideos, VideosSearch
 from Evie import tbot, CMD_HELP
 from html import unescape
 import os
