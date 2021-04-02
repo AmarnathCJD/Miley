@@ -76,7 +76,9 @@ async def detail(replied_user, event):
     if username:
       caption += f"Username: {username} \n"
     caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
-    
+    if bio(user_id):
+         k = boss[user_id]
+         caption += f'\n\n<b>What others say:</b>\n{k}'
     a = blacklist.find({})
     for i in a:
          if user_id == i["user"]:
