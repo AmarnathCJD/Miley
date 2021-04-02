@@ -4,7 +4,7 @@ from Evie.function import is_admin, sudo
 from telethon import events
 from Evie.events import register
 from telethon.tl.functions.users import GetFullUserRequest
-
+#RoseLoverX
 from Evie.modules.sql.chats_sql import get_all_chat_id
 
 from telethon.tl.types import ChatBannedRights
@@ -25,11 +25,11 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 gbanned = db.gban
-gmuted = db.gmute
+gmuted = db.gmute #RoseloverX
 
 def get_reason(id):
     return gbanned.find_one({"user": id})
-
+RoseLoverX = "Made By"
 GBAN_LOGS = [] #for now
 chat = str(GBAN_LOGS)
 GBANLOGS = -1001486931338
@@ -114,7 +114,6 @@ async def gban(event):
           await tbot.send_message(GBANLOGS, "**Global Ban**\n#UPDATE\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**New Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
           return
-
  gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
@@ -382,8 +381,6 @@ async def handler(event):
               except Exception:
                    pass
               
-fuckers = gmuted.find({})
-  
 @tbot.on(events.NewMessage(pattern=None))
 async def nm(event):
     chats = gmuted.find({})
