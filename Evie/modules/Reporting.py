@@ -89,13 +89,8 @@ async def _(event):
         )
 
 from telethon import events
-@tbot.on(events.NewMessage(pattern='(\w+)!'))
+@tbot.on(events.NewMessage(pattern='/report'))
 async def _(event):
-    sex = event.pattern_match.group(1)
-    if not sex = "/report":
-         return
-    elif not sex = "@admins":
-         return
     if event.is_private:
         return
     if await is_admin(event, event.sender_id):
@@ -118,6 +113,32 @@ async def _(event):
             await event.reply("Why would I report myself?")
             return
         await tbot.send_message(event.chat_id, f"Reported [{reported_user_first_name}](tg://user?id={reported_user}) to admins.")
+
+@tbot.on(events.NewMessage(pattern='@admins'))
+async def _(event):
+    if event.is_private:
+        return
+    if await is_admin(event, event.sender_id):
+        return
+
+    chat = event.chat_id
+    user = event.sender
+    args = event.pattern_match.group(2)
+
+    if not sql.chat_should_report(chat):
+        return
+
+    if event.reply_to_msg_id:
+        c = await event.get_reply_message()
+        reported_user = c.sender_id
+        reported_user_first_name = c.sender.first_name
+        if await is_admin(event, reported_user):
+            return
+        if user.id == BOT_ID:
+            await event.reply("Why would I report myself?")
+            return
+        await tbot.send_message(event.chat_id, f"Reported [{reported_user_first_name}](tg://user?id={reported_user}) to admins.")
+
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
