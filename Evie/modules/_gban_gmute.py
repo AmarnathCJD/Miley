@@ -119,7 +119,7 @@ async def gban(event):
        done = done + 1
    except Exception:
        pass
- await event.reply(f"GlobalBan Completed\n**Affected In {done} Chats**")
+ await event.reply(f"GlobalBan Completed\n**Time Taken**: Soon!")
 
 @register(pattern="^/ungban ?(.*)")
 async def ugban(event):
