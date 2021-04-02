@@ -106,7 +106,7 @@ async def gban(event):
                 "This user is already gbanned, I am updating the reason of the gban with your reason."
             )
           await tbot.send_message(GBANLOGS, "#GBAN UPDATE\n**Originated From:** {}\n\n**Sudo:** [{}](tg://user?id={})\**User:** [{}](tg://user?id={})\n**ID:** `{}`\**New Reason:** {}".format(
-                                   group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason)       
+                                   group, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
           return
 
  gbanned.insert_one(
