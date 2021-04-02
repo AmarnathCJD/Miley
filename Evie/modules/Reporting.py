@@ -89,7 +89,7 @@ async def _(event):
         )
 
 from telethon import events
-tbot.on(events.NewMessage(pattern='(\w+)!'))
+@tbot.on(events.NewMessage(pattern='(\w+)!'))
 async def _(event):
     sex = event.pattern_match.group(1)
     if not sex = "/report" or not sex = "@admins":
