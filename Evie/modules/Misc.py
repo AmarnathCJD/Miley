@@ -248,7 +248,8 @@ async def bgay(event):
       s = response.text.replace("◡̈⃝RoseLoverX", k)
       p = s.replace("*", "")
       j = p.replace(k, "")
-      await event.reply(j)
+      gey = j.replace("[]tg://user?id=1221693726)", "")
+      await event.reply(gey)
 
 
 
