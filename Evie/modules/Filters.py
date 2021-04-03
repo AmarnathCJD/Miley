@@ -71,14 +71,14 @@ async def save(event):
         )
  await event.reply(f"Saved filter `{name}`")
 
-@register(pattern="^/filters$")
+@register(pattern="^/listfilters$")
 async def on_snip_list(event):
     if event.is_group:
         pass
     else:
         return
     all_snips = get_all_filters(event.chat_id)
-    OUT_STR = f"**List of filters in {event.chat.title}\n"
+    OUT_STR = f"**List of filters in {event.chat.title}:**\n"
     if len(all_snips) > 0:
         for a_snip in all_snips:
             OUT_STR += f"- `{a_snip.keyword}`\n"
