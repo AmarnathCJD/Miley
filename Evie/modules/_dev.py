@@ -246,10 +246,10 @@ async def _(event):
         if "sys.exit" in cmd:
           await event.reply("You have no permission to shutdown Me.")
           return
-        if "from Luna import abot" in cmd or "from Luna import STRING_SESSION" in cmd:
+        if "from Evie import abot" in cmd or "from Evie import STRING_SESSION" in cmd:
           await event.reply("Can't Acess Master Account.")
           return
-        if "await tbot.send_message" in cmd or "from Luna import STRING_SESSION" in cmd:
+        if "await tbot.send_message" in cmd or "from Evie import STRING_SESSION" in cmd:
           await event.reply("Ni Hoskta!")
           return
         pass

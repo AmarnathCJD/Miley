@@ -170,7 +170,7 @@ __help__ = """
  - /evie: Reply to a voice query and get the results in voice output (ENGLISH ONLY)
  
 **Terminal Assistant**
- - /howdoi <question>: Get all coding related answers from Luna. Syntax: `/howdoi print hello world in python`
+ - /howdoi <question>: Get all coding related answers from Evie. Syntax: `/howdoi print hello world in python`
  
  - /quote: Provides quotes of famous personalities
 

@@ -21,7 +21,7 @@ pagenumber = db.pagenumber
 
 
 about = "**About Me**\n\nMy name is Evie, A group management bot who can take care of your groups with automated regular admin actions!\n\n**My Software Version:** 2.0.1\n**Telethon Version:** 1.21.1\n\n**My Developers:**\n• @RoseLoverX\n• @LegendX22\n• @Proboyx\n\nUpdates Channel: [Click Here](t.me/lunabotnews)\nSupport Chat: [Click Here](t.me/lunabotsupport)\n\nAnd finally thanks for Supporting me😘"
-ad_caption = "Hey! I am Evie, here to help you manage your groups! I perform most of the admin functions and make your group automated!\n\nJoin @Lunabotnews for updates.\n@Lunabotsupport for help and support\n\nYou can checkout more about me via following buttons."
+ad_caption = "Hey! I am Evie, here to help you manage your groups! I perform most of the admin functions and make your group automated!\n\nJoin @Eviebotnews for updates.\n@Eviebotsupport for help and support\n\nYou can checkout more about me via following buttons."
 pm_caption = "Hey there! My name is Evie - I'm a Telethon based Bot Made to help you manage your groups!\n\nHit /help to find out more about me and unleash my full potential.\n\n"
 pmt = "Hello there! I'm Evie\nI'm a Telethon Based group management bot\n with a Much More! Have a look\nat the following for an idea of some of \nthe things I can help you with.\n\nMain commands available:\n/start : Starts me, can be used to check i'm alive or not.\n/help : PM's you this message.\nExplore My Commands🙃."
 @register(pattern="^/start$")
@@ -44,7 +44,7 @@ async def start(event):
             ],
         )
     else:
-        await event.reply("Heya Luna Here!,\nHow Can I Help Ya.")
+        await event.reply("Heya Evie Here!,\nHow Can I Help Ya.")
 
 @tbot.on(events.CallbackQuery(pattern=r"reopen_again"))
 async def reopen_again(event):
