@@ -26,9 +26,6 @@ TYPE_DOCUMENT = 2
 
 @register(pattern="^/filter ?(.*)")
 async def save(event):
- input = event.pattern_match.group(1)
- if input.startswith("s "):
-    return
  if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
      if input:
@@ -101,4 +98,15 @@ async def on_snip_list(event):
     else:
         await event.reply(OUT_STR)
 
-   
+@register(pattern="^/stop (.*)")
+async def on_snip_delete(event):
+    if event.is_group:
+        if not await can_change_info(message=event):
+            return
+    else:
+        return
+    name = event.pattern_match.group(1)
+    remove_filter(event.chat_id, name)
+    await event.reply(f"Filter '**{name}**' has been stopped!")
+
+#balance Soon
