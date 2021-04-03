@@ -113,6 +113,10 @@ async def clear(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"rt"))
 async def start_again(event):
+        async for x in tbot.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+         if isinstance(x.participant, ChannelParticipantCreator):
+           if not x.id == event.sender_id:
+             return await event.answer(f"You need to be the chat owner of {event.chat.title} to do this.")
         await event.edit("Clearing of all notes has been cancelled.")
 
 @tbot.on(events.CallbackQuery(pattern=r"confirm"))
