@@ -774,16 +774,18 @@ async def _(event):
 
 @register(pattern="^/pin(?: |$)(.*)")
 async def pin(msg):
-    if msg.is_group:
-      if not msg.sender_id == OWNER_ID:
-        if not await is_register_admin(msg.input_chat, msg.sender_id):
-           await msg.reply("Only admins can execute this command!")
+    promt = msg
+    if promt.is_group:
+      if not promt.sender_id == OWNER_ID:
+        if not await is_register_admin(promt.input_chat, promt.sender_id):
+           await promt.reply("Only admins can execute this command!")
            return
-        if not await can_pin_messages(message=msg):
-            await msg.reply("You are missing the following rights to use this command:CanPinMessages")
-            return
+        
     else:
         return
+    if not await can_pin_msg(message=promt):
+            await promt.reply("You are missing the following rights to use this command:CanPinMessages")
+            return
 
     to_pin = msg.reply_to_msg_id
 
