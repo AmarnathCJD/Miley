@@ -1,4 +1,5 @@
 from Evie import tbot, CMD_HELP
+from Evie.events import register
 from Evie.function import can_change_info
 import os
 from telethon.tl import types, functions
