@@ -2,6 +2,7 @@ from Evie import tbot, CMD_HELP
 from Evie.events import register
 from Evie.function import can_change_info, is_admin
 import os
+from telethon import custom, events, Button
 from telethon.tl import types, functions
 from Evie import *
 from Evie.modules.sql.notes_sql import add_note, get_all_notes, get_notes, remove_note
@@ -91,6 +92,16 @@ async def on_note_list(event):
 async def clear(event):
  if not event.is_group:
    return
+ if not await is_admin(event, event.sender_id):
+   return
+ TEXT = f"Are you sure you would like to clear **ALL** notes in {event.chat.title}? This action cannot be undone."
+ await tbot.send_message(
+            event.chat_id,
+            TEXT,
+            buttons=[
+                [[Button.inline("Delete all notes", data="confirm")],[Button.inline("Cancel", data="rt")],],
+           )
+ return
  all_notes = get_all_notes(event.chat_id)
  for i in all_notes:
    name = i.keyword
