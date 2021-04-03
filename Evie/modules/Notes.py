@@ -52,12 +52,14 @@ async def _(event):
         await event.reply("You need to give the note a name!")
         return
     await event.reply(msg)
+    await event.reply(name)
     note = msg
     add_note(
             event.chat_id,
             name,
             note,
         )
+    print(32)
     await event.reply(
             "Saved note `{}`".format(name=name)
         )
