@@ -93,6 +93,7 @@ async def clear(event):
  if not event.is_group:
    return
  if not await is_admin(event, event.sender_id):
+   await event.reply("You need to be an admin to do this.")
    return
  TEXT = f"Are you sure you would like to clear **ALL** notes in {event.chat.title}? This action cannot be undone."
  await tbot.send_message(
@@ -102,13 +103,7 @@ async def clear(event):
                 [Button.inline("Delete all notes", data="confirm")],[Button.inline("Cancel", data="rt")],],
             reply_to=event.id
            )
- return
- all_notes = get_all_notes(event.chat_id)
- for i in all_notes:
-   name = i.keyword
-   remove_note(event.chat_id, name)
- await event.reply("Deleted all chat notes.")
- 
+
 @tbot.on(events.CallbackQuery(pattern=r"rt"))
 async def start_again(event):
         await event.edit("Clearing of all notes has been cancelled.")
