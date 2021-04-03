@@ -8,6 +8,25 @@ from Evie import *
 from Evie.modules.sql.notes_sql import add_note, get_all_notes, get_notes, remove_note
 from telethon import events
 
+
+async def is_creator(chat, user):
+    if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
+        return isinstance(
+            (
+                await tbot(functions.channels.GetParticipantRequest(chat, user))
+            ).participant,
+            (types.ChannelParticipantCreator),
+        )
+    if isinstance(chat, types.InputPeerUser):
+        return True
+@register(pattern="^/cr")
+async def _(event):
+ if await is_creator(event, event.sender_id):
+    await event.reply("Creator")
+ else:
+    await event.reply("Nope")
+
+
 @tbot.on(events.NewMessage(pattern=r"\#(\S+)"))
 async def on_note(event):
     name = event.pattern_match.group(1)
