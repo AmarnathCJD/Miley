@@ -100,6 +100,7 @@ async def clear(event):
             TEXT,
             buttons=[
                 [Button.inline("Delete all notes", data="confirm")],[Button.inline("Cancel", data="rt")],],
+            reply_to=event.id
            )
  return
  all_notes = get_all_notes(event.chat_id)
