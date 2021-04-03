@@ -44,9 +44,9 @@ async def save(event):
       return
  else:
       message = await event.get_reply_message()
+      name = event.pattern_match.group(1)
       if not message.media:
           msg = message.text
-          name = event.pattern_match.group(1)
           snip = {"type": TYPE_TEXT, "text": msg}
       else:
           media = None
