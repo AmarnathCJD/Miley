@@ -1,4 +1,4 @@
-from julia import CMD_HELP, tbot
+from Evie import CMD_HELP, tbot
 import os
 from Evie.events import register
 from Evie.function import is_admin, can_change_info
