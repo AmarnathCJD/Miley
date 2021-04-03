@@ -9,7 +9,7 @@ from logging import basicConfig
 from logging import DEBUG
 from logging import getLogger
 from logging import INFO
-
+Luna = []
 
 from telethon import TelegramClient
 from telethon.sessions import StringSession
