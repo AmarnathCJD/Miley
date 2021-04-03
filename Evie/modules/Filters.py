@@ -109,4 +109,38 @@ async def on_snip_delete(event):
     remove_filter(event.chat_id, name)
     await event.reply(f"Filter '**{name}**' has been stopped!")
 
+@register(pattern="^/stopall$")
+async def on_all_snip_delete(event):
+ if not event.is_group:
+   return
+ if not await is_admin(event, event.sender_id):
+   await event.reply("You need to be an admin to do this.")
+   return
+ permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+ if not permissions.is_creator:
+          return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
+ TEXT = f"Are you sure you would like to clear **ALL** filters in {event.chat.title}? This action cannot be undone."
+ await tbot.send_message(
+            event.chat_id,
+            TEXT,
+            buttons=[
+                [Button.inline("Delete all filters", data="confirm")],[Button.inline("Cancel", data="rt")],],
+            reply_to=event.id
+           )
+@tbot.on(events.CallbackQuery(pattern=r"rt"))
+async def start_again(event):
+        permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+        if not permissions.is_creator:
+           return await event.answer("Yeah suck my dick")
+        await event.edit("Clearing of all filters has been cancelled.")
+
+@tbot.on(events.CallbackQuery(pattern=r"confirm"))
+async def start_again(event):
+        permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+        if not permissions.is_creator:
+           return await event.answer("Yeah suck my dick")
+        remove_all_filters(event.chat_id)
+        await event.edit("Deleted all chat filters.")
+
+
 #balance Soon
