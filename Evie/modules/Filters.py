@@ -124,17 +124,17 @@ async def on_all_snip_delete(event):
             event.chat_id,
             TEXT,
             buttons=[
-                [Button.inline("Delete all filters", data="confirm")],[Button.inline("Cancel", data="rt")],],
+                [Button.inline("Delete all filters", data="fuk")],[Button.inline("Cancel", data="suk")],],
             reply_to=event.id
            )
-@tbot.on(events.CallbackQuery(pattern=r"rt"))
+@tbot.on(events.CallbackQuery(pattern=r"suk"))
 async def start_again(event):
         permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
         if not permissions.is_creator:
            return await event.answer("Yeah suck my dick")
         await event.edit("Clearing of all filters has been cancelled.")
 
-@tbot.on(events.CallbackQuery(pattern=r"confirm"))
+@tbot.on(events.CallbackQuery(pattern=r"fuk"))
 async def start_again(event):
         permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
         if not permissions.is_creator:
