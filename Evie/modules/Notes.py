@@ -99,7 +99,7 @@ async def clear(event):
             event.chat_id,
             TEXT,
             buttons=[
-                [[Button.inline("Delete all notes", data="confirm")],[Button.inline("Cancel", data="rt")],],
+                [Button.inline("Delete all notes", data="confirm")],[Button.inline("Cancel", data="rt")],],
            )
  return
  all_notes = get_all_notes(event.chat_id)
