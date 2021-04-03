@@ -54,7 +54,6 @@ async def _(event):
      if not name:
         await event.reply("You need to give the note a name!")
         return
-    print(1)
     if msg:
         note = msg
         add_note(
