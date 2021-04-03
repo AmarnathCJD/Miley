@@ -19,6 +19,7 @@ async def on_note(event):
 
 @register(pattern="^/save ?(.*)")
 async def _(event):
+    print(2)
     if event.is_group:
       if not is_admin(event, event.sender_id):
         await event.reply("You need to be an admin to do this.")
@@ -51,6 +52,7 @@ async def _(event):
      if not name:
         await event.reply("You need to give the note a name!")
         return
+    print(1)
     if msg:
         note = msg.text
         add_note(
