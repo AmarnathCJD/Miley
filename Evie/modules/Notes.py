@@ -45,7 +45,7 @@ async def _(event):
         return
       await event.reply("You need to give the note some content!")
       return
-    else:
+    if event.reply_to_msg_id:
      reply_message = await event.get_reply_message()
      msg = reply_message.text
      name = event.pattern_match.group(1)
