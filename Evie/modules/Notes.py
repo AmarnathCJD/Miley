@@ -98,10 +98,8 @@ async def clear(event):
  if not await is_admin(event, event.sender_id):
    await event.reply("You need to be an admin to do this.")
    return
- async for x in tbot.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-     if isinstance(x.participant, ChannelParticipantCreator):
-       owner = x.id
-       if not owner == event.sender_id:
+ permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+ if not permissions.is_creator:
           return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
  TEXT = f"Are you sure you would like to clear **ALL** notes in {event.chat.title}? This action cannot be undone."
  await tbot.send_message(
