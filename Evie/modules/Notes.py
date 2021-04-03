@@ -20,7 +20,7 @@ async def on_note(event):
 @register(pattern="^/save ?(.*)")
 async def _(event):
     if event.is_group:
-      if not is_admin(event, event.sender_id):
+      if not await is_admin(event, event.sender_id):
         await event.reply("You need to be an admin to do this.")
         return
       if not await can_change_info(message=event):
@@ -51,16 +51,13 @@ async def _(event):
      if not name:
         await event.reply("You need to give the note a name!")
         return
-    print(69)
-    if msg:
-        note = msg
-        add_note(
+    await event.reply(msg)
+    note = msg
+    add_note(
             event.chat_id,
             name,
             note,
         )
-        await event.reply(
+    await event.reply(
             "Saved note `{}`".format(name=name)
         )
-    else:
-        await event.reply("Reply to a message with /addnote keyword to save the note")
