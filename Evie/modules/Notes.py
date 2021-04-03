@@ -6,9 +6,6 @@ from telethon import custom, events, Button
 from telethon.tl import types, functions
 from Evie import *
 from Evie.modules.sql.notes_sql import add_note, get_all_notes, get_notes, remove_note
-from telethon import events
-from telethon.tl.types import ChannelParticipantsAdmins, ChannelParticipantCreator
-
 
 
 @tbot.on(events.NewMessage(pattern=r"\#(\S+)"))
@@ -28,7 +25,7 @@ async def _(event):
         await event.reply("You need to be an admin to do this.")
         return
       if not await can_change_info(message=event):
-        await event.reply("You are missing the following rights to use this command:CanChangeInfo")
+        await event.reply("You are missing the following rights to use this command: CanChangeInfo")
         return
     else:
         return
@@ -128,6 +125,41 @@ async def start_again(event):
            remove_note(event.chat_id, name)
         await event.edit("Deleted all chat notes.")
 
+@register(pattern="^/clear (.*)")
+async def on_note_delete(event):
+    if event.is_group:
+      if not await is_admin(event, event.sender_id):
+        await event.reply("You need to be an admin to do this.")
+        return
+      if not await can_change_info(message=event):
+        await event.reply("You are missing the following rights to use this command: CanChangeInfo")
+        return
+    else:
+        return
+    name = event.pattern_match.group(1)
+    remove_note(event.chat_id, name)
+    await event.reply("Note **{}** deleted!".format(name))
 
 
-#soon!
+file_help = os.path.basename(__file__)
+file_help = file_help.replace(".py", "")
+file_helpo = file_help.replace("_", " ")
+
+__help__ = """
+**Notes**
+Save data for future users with notes!
+
+Notes are great to save random tidbits of information; a phone number, a nice gif, a funny picture - anything!
+
+**User commands:**
+- /get `<notename>`: Get a note.
+- `#notename`: Same as /get.
+
+**Admin commands:**
+- /save `<notename>` `<note text>`: Save a new note called "word". Replying to a message will save that message. Even works on media!
+- /clear `<notename>`: Delete the associated note.
+- /notes: List all notes in the current chat.
+- /clearall: Delete ALL notes in a chat. This cannot be undone.
+"""
+
+CMD_HELP.update({file_helpo: [file_helpo, __help__]})
