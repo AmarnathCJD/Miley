@@ -44,6 +44,9 @@ async def save(event):
  else:
       message = await event.get_reply_message()
       name = event.pattern_match.group(1)
+      if not name:
+        await event.reply("You need to give the filter a name!")
+        return
       if not message.media:
           msg = message.text
           snip = {"type": TYPE_TEXT, "text": msg}
