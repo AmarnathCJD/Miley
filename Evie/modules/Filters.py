@@ -23,9 +23,8 @@ TYPE_PHOTO = 1
 
 TYPE_DOCUMENT = 2
 
-last_triggered_filters = {}  # pylint:disable=E0602
 
-@register(pattern="^/addfilter ?(.*)")
+@register(pattern="^/filter ?(.*)")
 async def save(event):
  if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
@@ -71,5 +70,32 @@ async def save(event):
             snip.get("fr"),
         )
  await event.reply(f"Saved filter `{name}`")
+
+@register(pattern="^/filters$")
+async def on_snip_list(event):
+    if event.is_group:
+        pass
+    else:
+        return
+    all_snips = get_all_filters(event.chat_id)
+    OUT_STR = f"**List of filters in {event.chat.title}\n"
+    if len(all_snips) > 0:
+        for a_snip in all_snips:
+            OUT_STR += f"- `{a_snip.keyword}`\n"
+    else:
+        OUT_STR = "No Filters. Start Saving using /savefilter"
+    if len(OUT_STR) > 4096:
+        with io.BytesIO(str.encode(OUT_STR)) as out_file:
+            out_file.name = "filters.text"
+            await tbot.send_file(
+                event.chat_id,
+                out_file,
+                force_document=True,
+                allow_cache=False,
+                caption="Available Filters in the Current Chat",
+                reply_to=event,
+            )
+    else:
+        await event.reply(OUT_STR)
 
    
