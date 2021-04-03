@@ -132,7 +132,7 @@ async def start_again(event):
         permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
         if not permissions.is_creator:
            return await event.answer("Yeah suck my dick")
-        await event.edit("Clearing of all filters has been cancelled.")
+        await event.edit("Stopping of all filters has been cancelled.")
 
 @tbot.on(events.CallbackQuery(pattern=r"fuk"))
 async def start_again(event):
