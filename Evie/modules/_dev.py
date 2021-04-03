@@ -146,14 +146,6 @@ async def approve(event):
             return
     blacklist.insert_one({"user": iid})
     await event.reply("Successfully Blacklisted This Retard")
-    loda = ""
-    try:
-        for i in a:
-            k = i["user"]
-            loda += f"{k}\n"
-    except Exception as ok:
-        await e.reply(ok)
-    await event.reply(loda)
 
 
 @register(pattern="^/unblacklist ?(.*)")
