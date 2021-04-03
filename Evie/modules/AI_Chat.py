@@ -59,6 +59,7 @@ async def _(event):
 
 @register(pattern="q ?(.*)")
 async def q(event):
+        url = "https://acobot-brainshop-ai-v1.p.rapidapi.com/get"
         test = event.pattern_match.group(1)
         test = test.replace("Evie", "Aco")
         test = test.replace("evie", "Aco")
