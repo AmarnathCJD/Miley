@@ -1,6 +1,6 @@
 from Evie import tbot, CMD_HELP
 from Evie.events import register
-from Evie.function import can_change_info
+from Evie.function import can_change_info, is_admin
 import os
 from telethon.tl import types, functions
 from Evie import *
@@ -37,6 +37,23 @@ async def _(event):
      if len(arg) == 2:
       name = arg[0]
       msg = arg[1]
+    print(1)
+    else:
+      name = arg[0]
+      if not name:
+        await event.reply("You need to give the note a name!")
+        return
+      await event.reply("You need to give the note some content!")
+      return
+    else:
+     reply_message = await event.get_reply_message()
+     msg = reply_message.text
+     name = event.pattern_match.group(1)
+     if not msg:
+        return
+     if not name:
+        await event.reply("You need to give the note a name!")
+        return
     print(1)
     if msg:
         note = msg
