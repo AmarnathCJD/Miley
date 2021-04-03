@@ -786,19 +786,11 @@ async def pin(msg):
     if not await can_pin_msg(message=promt):
             await promt.reply("You are missing the following rights to use this command:CanPinMessages")
             return
-
     to_pin = msg.reply_to_msg_id
-
     if not to_pin:
         await msg.reply("Reply to a message which you want to pin.")
         return
-
-    options = msg.pattern_match.group(1)
-
     is_silent = True
-    if options.lower() == "loud":
-        is_silent = False
-
     try:
         await tbot(UpdatePinnedMessageRequest(msg.to_id, to_pin, is_silent))
         await msg.reply("Pinned Successfully!")
@@ -1544,6 +1536,7 @@ Examples of time value: 4m = 4 minutes, 3h = 3 hours, 6d = 6 days, 5w = 5 weeks.
 __help__ = """
  - /adminlist : list of admins in the chat
  - /pin <loud(optional)> | /unpin: pins/unpins the message in the chat
+ - /permapin: permapin
  - /promote: promotes a user
  - /demote: demotes a user
  - /ban: bans a user
