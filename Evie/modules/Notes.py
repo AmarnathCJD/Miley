@@ -59,4 +59,6 @@ async def _(event):
             name,
             note,
         )
-    await event.reply(f"Save note {name}")
+    await event.reply(f"Saved note `{name}`")
+
+#Balance Soon
