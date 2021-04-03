@@ -110,6 +110,7 @@ async def clear(event):
                 [Button.inline("Delete all notes", data="confirm")],[Button.inline("Cancel", data="rt")],],
             reply_to=event.id
            )
+ await event.reply(x.id)
 
 @tbot.on(events.CallbackQuery(pattern=r"rt"))
 async def start_again(event):
@@ -121,6 +122,7 @@ async def start_again(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"confirm"))
 async def start_again(event):
+        if not event.sender_id == 
         all_notes = get_all_notes(event.chat_id)
         for i in all_notes:
            name = i.keyword
