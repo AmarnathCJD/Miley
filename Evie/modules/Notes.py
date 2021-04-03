@@ -51,14 +51,12 @@ async def _(event):
      if not name:
         await event.reply("You need to give the note a name!")
         return
-    await event.reply(msg)
-    await event.reply(name)
     note = msg
     add_note(
             event.chat_id,
             name,
             note,
         )
-    await event.reply(f"Saved note `{name}`")
+    await event.reply(f"Saved note `{name}`.")
 
 #Balance Soon
