@@ -113,7 +113,7 @@ async def clear(event):
 async def start_again(event):
         await event.edit("Clearing of all notes has been cancelled.")
 
-@tbot.on(events.CallbackQuery(pattern=r"rt"))
+@tbot.on(events.CallbackQuery(pattern=r"confirm"))
 async def start_again(event):
         all_notes = get_all_notes(event.chat_id)
         for i in all_notes:
