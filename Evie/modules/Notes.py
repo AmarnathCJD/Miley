@@ -70,9 +70,9 @@ async def on_note_list(event):
     if len(all_notes) > 0:
         for a_note in all_notes:
             OUT_STR += f"- `{a_note.keyword}`\n"
+        OUT_STR += "You can retrieve these notes\nby using `/get notename`, or \n`#notename`"
     else:
-        OUT_STR = "No notes in {event.chat.title}!"
-    OUT_STR += "You can retrieve these notes\nby using `/get notename`, or \n`#notename`"
+        OUT_STR = f"No notes in {event.chat.title}!"
     if len(OUT_STR) > 4096:
         with io.BytesIO(str.encode(OUT_STR)) as out_file:
             out_file.name = "notes.text"
