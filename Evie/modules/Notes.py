@@ -87,4 +87,16 @@ async def on_note_list(event):
     else:
         await event.reply(OUT_STR)
 
-#Balance Soon
+@register(pattern="^/clearall")
+async def clear(event):
+ if not event.is_group:
+   return
+ all_notes = get_all_notes(event.chat_id)
+ for i in all_notes:
+   name = i.keyword
+   remove_note(event.chat_id, name)
+ await event.reply("Deleted all chat notes.")
+ 
+
+
+#soon!
