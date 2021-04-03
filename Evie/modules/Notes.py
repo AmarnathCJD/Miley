@@ -1,10 +1,10 @@
 from Evie import tbot, CMD_HELP
 from Evie.function import can_change_info
-
-
-
-
-
+import os
+from telethon.tl import types, functions
+from Evie import *
+from Evie.modules.sql.notes_sql import add_note, get_all_notes, get_notes, remove_note
+from telethon import events
 
 @tbot.on(events.NewMessage(pattern=r"\#(\S+)"))
 async def on_note(event):
@@ -16,7 +16,7 @@ async def on_note(event):
         message_id = event.reply_to_msg_id
     await event.reply(note.reply, reply_to=message_id)
 
-@register(pattern="^/save(?: |$)(.*)")
+@register(pattern="^/save ?(.*)")
 async def _(event):
     if event.is_group:
       if not is_admin(event, event.sender_id):
