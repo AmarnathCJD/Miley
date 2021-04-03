@@ -109,6 +109,8 @@ async def clear(event):
    remove_note(event.chat_id, name)
  await event.reply("Deleted all chat notes.")
  
-
+@tbot.on(events.CallbackQuery(pattern=r"rt"))
+async def start_again(event):
+        await event.edit("Clearing of all notes has been cancelled.")
 
 #soon!
