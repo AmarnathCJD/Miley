@@ -7,7 +7,7 @@ from telethon.tl import types, functions
 from Evie import *
 from Evie.modules.sql.notes_sql import add_note, get_all_notes, get_notes, remove_note
 from telethon import events
-from telethon.tl.types import channelparticipantcreator, channelparticipantsadmins
+from telethon.tl.types import ChannelParticipantsAdmins, ChannelParticipantCreator
 
 
 
@@ -98,8 +98,8 @@ async def clear(event):
  if not await is_admin(event, event.sender_id):
    await event.reply("You need to be an admin to do this.")
    return
- async for x in tbot.iter_participants(event.chat_id, filter=channelparticipantsadmins):
-     if isinstance(x.participant, channelparticipantcreator):
+ async for x in tbot.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
+     if isinstance(x.participant, ChannelParticipantCreator):
        if not x.id == event.sender_id:
           return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
  TEXT = f"Are you sure you would like to clear **ALL** notes in {event.chat.title}? This action cannot be undone."
