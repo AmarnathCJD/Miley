@@ -25,7 +25,7 @@ TYPE_DOCUMENT = 2
 
 last_triggered_filters = {}  # pylint:disable=E0602
 
-@register(pattern="^/addfilter (.*)")
+@register(pattern="^/addfilter ?(.*)")
 async def save(event):
  if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
@@ -45,7 +45,7 @@ async def save(event):
  else:
       message = await event.get_reply_message()
       if not message.media:
-          msg = reply_message.text
+          msg = message.text
           name = event.pattern_match.group(1)
           snip = {"type": TYPE_TEXT, "text": msg}
       else:
