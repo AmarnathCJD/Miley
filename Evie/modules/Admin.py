@@ -776,7 +776,11 @@ async def _(event):
 async def pin(msg):
     if msg.is_group:
       if not msg.sender_id == OWNER_ID:
-        if not await can_pin_msg(message=msg):
+        if not await is_register_admin(msg.input_chat, msg.sender_id):
+           await msg.reply("Only admins can execute this command!")
+           return
+        if not await can_pin_messages(message=msg):
+            await msg.reply("You are missing the following rights to use this command:CanPinMessages")
             return
     else:
         return
