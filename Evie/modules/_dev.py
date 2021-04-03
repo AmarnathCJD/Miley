@@ -195,7 +195,7 @@ async def echo(event):
             await event.delete()
         except Exception:
             pass
-        k = await tbot.send_message(event.chat_id, previous_message)
+        await tbot.send_message(event.chat_id, previous_message)
     else:
         ok = event.pattern_match.group(1)
         try:
