@@ -29,6 +29,7 @@ async def _(event):
         return
     else:
         return
+    print(3)
     if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
      if input:
