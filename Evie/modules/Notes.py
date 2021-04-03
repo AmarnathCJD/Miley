@@ -15,7 +15,7 @@ async def is_creator(chat, user):
             (
                 await tbot(functions.channels.GetParticipantRequest(chat, user))
             ).participant,
-            (types.ChannelParticipantCreator),
+            types.ChannelParticipantCreator,
         )
     if isinstance(chat, types.InputPeerUser):
         return True
