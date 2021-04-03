@@ -50,11 +50,11 @@ async def save(event):
           snip = {"type": TYPE_TEXT, "text": msg}
       else:
           media = None
-          if isinstance(msg.media, types.MessageMediaPhoto):
-             media = utils.get_input_photo(msg.media.photo)
+          if isinstance(message.media, types.MessageMediaPhoto):
+             media = utils.get_input_photo(message.media.photo)
              snip["type"] = TYPE_PHOTO
-          elif isinstance(msg.media, types.MessageMediaDocument):
-             media = utils.get_input_document(msg.media.document)
+          elif isinstance(message.media, types.MessageMediaDocument):
+             media = utils.get_input_document(message.media.document)
              snip["type"] = TYPE_DOCUMENT
           if media:
              snip["id"] = media.id
