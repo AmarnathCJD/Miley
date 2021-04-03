@@ -49,6 +49,7 @@ async def save(event):
           msg = message.text
           snip = {"type": TYPE_TEXT, "text": msg}
       else:
+          snip = {"type": "", "text": ""}
           media = None
           if isinstance(message.media, types.MessageMediaPhoto):
              media = utils.get_input_photo(message.media.photo)
