@@ -26,6 +26,9 @@ TYPE_DOCUMENT = 2
 
 @register(pattern="^/filter ?(.*)")
 async def save(event):
+ input = event.pattern_match.group(1)
+ if input.startswith("s "):
+    return
  if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
      if input:
