@@ -100,7 +100,8 @@ async def clear(event):
    return
  async for x in tbot.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
      if isinstance(x.participant, ChannelParticipantCreator):
-       if not x.id == event.sender_id:
+       owner = x.id
+       if not owner == event.sender_id:
           return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
  TEXT = f"Are you sure you would like to clear **ALL** notes in {event.chat.title}? This action cannot be undone."
  await tbot.send_message(
@@ -110,19 +111,17 @@ async def clear(event):
                 [Button.inline("Delete all notes", data="confirm")],[Button.inline("Cancel", data="rt")],],
             reply_to=event.id
            )
- await event.reply(x.id)
 
 @tbot.on(events.CallbackQuery(pattern=r"rt"))
 async def start_again(event):
-        async for x in tbot.iter_participants(event.chat_id, filter=ChannelParticipantsAdmins):
-         if isinstance(x.participant, ChannelParticipantCreator):
-           if not x.id == event.sender_id:
-             return await event.answer(f"You need to be the chat owner of {event.chat.title} to do this.")
+        if not is_admin(event, event.sender_id):
+           return await event.answer("Yeah suck my dick")
         await event.edit("Clearing of all notes has been cancelled.")
 
 @tbot.on(events.CallbackQuery(pattern=r"confirm"))
 async def start_again(event):
-        if not event.sender_id == 
+        if not is_admin(event, event.sender_id):
+           return await event.answer("Yeah suck my dick")
         all_notes = get_all_notes(event.chat_id)
         for i in all_notes:
            name = i.keyword
