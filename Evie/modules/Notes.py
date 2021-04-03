@@ -37,14 +37,14 @@ async def _(event):
      if len(arg) == 2:
       name = arg[0]
       msg = arg[1]
-    print(1)
-    else:
+     else:
       name = arg[0]
       if not name:
         await event.reply("You need to give the note a name!")
         return
       await event.reply("You need to give the note some content!")
       return
+    print(1)
     if event.reply_to_msg_id:
      reply_message = await event.get_reply_message()
      msg = reply_message.text
