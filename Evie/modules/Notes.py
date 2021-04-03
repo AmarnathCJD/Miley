@@ -112,13 +112,15 @@ async def clear(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"rt"))
 async def start_again(event):
-        if not is_admin(event, event.sender_id):
+        permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+        if not permissions.is_creator:
            return await event.answer("Yeah suck my dick")
         await event.edit("Clearing of all notes has been cancelled.")
 
 @tbot.on(events.CallbackQuery(pattern=r"confirm"))
 async def start_again(event):
-        if not is_admin(event, event.sender_id):
+        permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+        if not permissions.is_creator:
            return await event.answer("Yeah suck my dick")
         all_notes = get_all_notes(event.chat_id)
         for i in all_notes:
