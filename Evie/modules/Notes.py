@@ -59,7 +59,4 @@ async def _(event):
             name,
             note,
         )
-    print(32)
-    await event.reply(
-            "Saved note `{}`".format(name=name)
-        )
+    await event.reply(f"Save note {name}")
