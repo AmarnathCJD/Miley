@@ -1,12 +1,12 @@
-from Evie import CMD_HELP, BOT_ID
 import os
-from Evie.function import is_admin
-from Evie import tbot
+
+from pymongo import MongoClient
 from telethon import *
 from telethon.tl import *
+
+from Evie import BOT_ID, CMD_HELP, MONGO_DB_URI, tbot
 from Evie.events import register
-from pymongo import MongoClient
-from Evie import MONGO_DB_URI
+from Evie.function import is_admin
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
@@ -17,7 +17,7 @@ poll_id = dbb.pollid
 @register(pattern="^/poll (.*)")
 async def _(event):
     if not is_admin(event, event.sender_id):
-      return
+        return
     try:
         quew = event.pattern_match.group(1)
     except Exception:
@@ -280,7 +280,7 @@ async def _(event):
 async def stop(event):
     secret = event.pattern_match.group(1)
     if not is_admin(event, event.sender_id):
-       return
+        return
     if not event.reply_to_msg_id:
         await event.reply("Please reply to a poll to stop it")
         return
@@ -328,7 +328,7 @@ async def stop(event):
 @register(pattern="^/forgotpollid$")
 async def stop(event):
     if not is_admin(event, event.chat_id):
-       return
+        return
     allpoll = poll_id.find({})
     for c in allpoll:
         if event.sender_id == c["user"]:

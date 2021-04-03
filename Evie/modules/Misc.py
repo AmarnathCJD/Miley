@@ -1,37 +1,22 @@
+import datetime
 import os
-import telethon
-from telethon.tl.functions.users import GetFullUserRequest
-import re
-from telethon import Button, custom, events
-from re import findall
-from urllib.parse import quote
-
-import requests
-import urllib
-from math import ceil
-
-import requests
-
-from telethon import Button, custom, events, functions
-from Evie.events import register
+import time
 
 from pymongo import MongoClient
+from telethon import events, functions
+from telethon.tl.functions.users import GetFullUserRequest
 
-from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
-from Evie.modules.sql.setbio_sql import set_bio, rm_bio
+from Evie import CMD_HELP, MONGO_DB_URI, OWNER_ID, StartTime, tbot, ubot
+from Evie.events import register
+from Evie.function import bio, is_admin
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
-from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID
-import datetime, time
-from Evie.function import is_admin, bio
+from Evie.modules.sql.setbio_sql import is_bio, rm_bio, set_bio
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 gbanned = db.gban
 blacklist = db.black
-
-
-
 
 
 async def get_user(event):
@@ -50,47 +35,46 @@ async def get_user(event):
         try:
             user_object = await tbot.get_entity(user)
             replied_user = await tbot(GetFullUserRequest(user_object.id))
-        except (TypeError, ValueError) as err:
-            await event.reply("Failed to get user: unable to getChatMember: Bad Request: user not found")
+        except (TypeError, ValueError):
+            await event.reply(
+                "Failed to get user: unable to getChatMember: Bad Request: user not found"
+            )
             return None
 
     return replied_user
 
-async def detail(replied_user, event):
- try:
-    user_id = replied_user.user.id
-    first_name = replied_user.user.first_name
-    last_name = replied_user.user.last_name
-    username = replied_user.user.username
-    first_name = (
-        first_name.replace("\u2060", "")
-    )
-    last_name = (
-        last_name.replace("\u2060", "") if last_name else None
-    )
-    username = "@{}".format(username) if username else None
 
-    caption = "<b>User Info:</b> \n"
-    caption += f"ID: <code>{user_id}</code> \n"
-    caption += f"First Name: {first_name} \n"
-    if last_name:
-      caption += f"Last Name: {last_name} \n"
-    if username:
-      caption += f"Username: {username} \n"
-    caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
-    if is_bio(replied_user.user.id):
-         smx = boss[replied_user.user.id]
-         caption += f"\n\n<b>What others say:</b>\n{smx}"
-    a = blacklist.find({})
-    for i in a:
-         if user_id == i["user"]:
-            caption += "\n\n<b>Blacklisted:</b> Yes"
-    chats = gbanned.find({})
-    for i in chats:
-         if user_id == i["user"]:
-           caption += "\n\n<b>Globally Banned:</b> Yes"
-    return caption
- except Exception:
+async def detail(replied_user, event):
+    try:
+        user_id = replied_user.user.id
+        first_name = replied_user.user.first_name
+        last_name = replied_user.user.last_name
+        username = replied_user.user.username
+        first_name = first_name.replace("\u2060", "")
+        last_name = last_name.replace("\u2060", "") if last_name else None
+        username = "@{}".format(username) if username else None
+
+        caption = "<b>User Info:</b> \n"
+        caption += f"ID: <code>{user_id}</code> \n"
+        caption += f"First Name: {first_name} \n"
+        if last_name:
+            caption += f"Last Name: {last_name} \n"
+        if username:
+            caption += f"Username: {username} \n"
+        caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
+        if is_bio(replied_user.user.id):
+            smx = boss[replied_user.user.id]
+            caption += f"\n\n<b>What others say:</b>\n{smx}"
+        a = blacklist.find({})
+        for i in a:
+            if user_id == i["user"]:
+                caption += "\n\n<b>Blacklisted:</b> Yes"
+        chats = gbanned.find({})
+        for i in chats:
+            if user_id == i["user"]:
+                caption += "\n\n<b>Globally Banned:</b> Yes"
+        return caption
+    except Exception:
         print("lel")
 
 
@@ -121,26 +105,27 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
+
 @register(pattern="^/setbio ?(.*)")
 async def bio(event):
-  replied_user = await event.get_reply_message()
-  user_id = replied_user.sender_id
-  input = event.pattern_match.group(1)
-  if event.sender_id == OWNER_ID:
-    if input == "None":
-       rm_bio(user_id)
-       await event.reply(f"Removed Bio of {replied_user.sender.first_name}")
-       return
-    set_bio(user_id, input)
-    await event.reply(f"Updated {replied_user.sender.first_name}'s bio!")
-  else:
-   if event.sender_id == user_id:
-     await event.reply("Are you looking to change your own ... ?? That 's it.")
-     return
-   else:
-     set_bio(user_id, input)
-     await event.reply(f"Updated {replied_user.sender.first_name}'s Bio")
-     
+    replied_user = await event.get_reply_message()
+    user_id = replied_user.sender_id
+    input = event.pattern_match.group(1)
+    if event.sender_id == OWNER_ID:
+        if input == "None":
+            rm_bio(user_id)
+            await event.reply(f"Removed Bio of {replied_user.sender.first_name}")
+            return
+        set_bio(user_id, input)
+        await event.reply(f"Updated {replied_user.sender.first_name}'s bio!")
+    else:
+        if event.sender_id == user_id:
+            await event.reply("Are you looking to change your own ... ?? That 's it.")
+            return
+        else:
+            set_bio(user_id, input)
+            await event.reply(f"Updated {replied_user.sender.first_name}'s Bio")
+
 
 @register(pattern="^/info(?: |$)(.*)")
 async def who(event):
@@ -158,7 +143,7 @@ async def who(event):
 
 @register(pattern="^/(ping|ping@MissEvie_Robot)")
 async def ping(event):
-    
+
     start_time = datetime.datetime.now()
     message = await event.reply("Pinging.")
     end_time = datetime.datetime.now()
@@ -172,15 +157,18 @@ async def ping(event):
         parse_mode="html",
     )
 
+
 """RoseLoverX"""
-from telethon import events
-from telethon.tl import functions
-from telethon.tl import types
 import asyncio
+
+from telethon import events
+from telethon.tl import functions, types
+
 
 async def inline_query(client, bot, query):
     from telethon import custom
-    #RoseLoverX
+
+    # RoseLoverX
     return custom.InlineResults(
         client,
         await client(
@@ -193,105 +181,111 @@ async def inline_query(client, bot, query):
             )
         ),
     )
+
+
 @register(pattern="^/music (.*)")
 async def lybot(event):
-   k = event.pattern_match.group(1)
-   async with tbot.conversation("@roseloverx") as bot_conv:
-      response = bot_conv.wait_event(
-                events.NewMessage(incoming=True, from_users="@RoseLoverx")
-            )
-      await (await inline_query(ubot, "@lybot", k))[0].click("@MissEvie_Robot")
-      response = await response
-      await response.forward_to(event.chat_id)
-      await response.delete()
-#RoseLoverX
+    k = event.pattern_match.group(1)
+    async with tbot.conversation("@roseloverx") as bot_conv:
+        response = bot_conv.wait_event(
+            events.NewMessage(incoming=True, from_users="@RoseLoverx")
+        )
+        await (await inline_query(ubot, "@lybot", k))[0].click("@MissEvie_Robot")
+        response = await response
+        await response.forward_to(event.chat_id)
+        await response.delete()
+
+
+# RoseLoverX
+
 
 @register(pattern="^/gey ?(.*)")
 async def gey(event):
-   m = event.pattern_match.group(1)
-   from telethon.tl.functions.users import GetFullUserRequest
-   if event.reply_to_msg_id:
+    m = event.pattern_match.group(1)
+    from telethon.tl.functions.users import GetFullUserRequest
+
+    if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         replied_user = await tbot(GetFullUserRequest(previous_message.sender_id))
         k = replied_user.user.first_name
-   elif m:
+    elif m:
         k = m
-   else:
-      sender = await event.get_sender()
-      fname = sender.first_name
-      k = fname
-   async with tbot.conversation("@roseloverx") as bot_conv:
-      response = bot_conv.wait_event(
-                events.NewMessage(incoming=True, from_users="@RoseLoverx")
-            )
-      await (await inline_query(ubot, "@HowGayBot", k))[0].click("@MissEvie_Robot")
-      response = await response
-      await asyncio.sleep(1)
-      await tbot.send_message(event.chat_id, response.text)
+    else:
+        sender = await event.get_sender()
+        fname = sender.first_name
+        k = fname
+    async with tbot.conversation("@roseloverx") as bot_conv:
+        response = bot_conv.wait_event(
+            events.NewMessage(incoming=True, from_users="@RoseLoverx")
+        )
+        await (await inline_query(ubot, "@HowGayBot", k))[0].click("@MissEvie_Robot")
+        response = await response
+        await asyncio.sleep(1)
+        await tbot.send_message(event.chat_id, response.text)
+
 
 @register(pattern="^/betagey ?(.*)")
 async def bgay(event):
-   m = event.pattern_match.group(1)
-   from telethon.tl.functions.users import GetFullUserRequest
-   if event.reply_to_msg_id:
+    m = event.pattern_match.group(1)
+    from telethon.tl.functions.users import GetFullUserRequest
+
+    if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         replied_user = await tbot(GetFullUserRequest(previous_message.sender_id))
         k = replied_user.user.first_name
-   elif m:
+    elif m:
         k = m
-   else:
-      sender = await event.get_sender()
-      fname = sender.first_name
-      k = fname
-   async with ubot.conversation("@Gayroebot") as bot_conv:
-      await bot_conv.send_message("/gay")
-      response = await bot_conv.get_response()
-      s = response.text.replace("◡̈⃝RoseLoverX", k)
-      p = s.replace("*", "")
-      j = p.replace(k, "")
-      gey = j.replace("tg://user?id=1221693726", "")
-      uf = gey.replace("[]()", "")
-      await event.reply(f"{k} {uf}")
-
+    else:
+        sender = await event.get_sender()
+        fname = sender.first_name
+        k = fname
+    async with ubot.conversation("@Gayroebot") as bot_conv:
+        await bot_conv.send_message("/gay")
+        response = await bot_conv.get_response()
+        s = response.text.replace("◡̈⃝RoseLoverX", k)
+        p = s.replace("*", "")
+        j = p.replace(k, "")
+        gey = j.replace("tg://user?id=1221693726", "")
+        uf = gey.replace("[]()", "")
+        await event.reply(f"{k} {uf}")
 
 
 @register(pattern="^/shazam$")
 async def _(event):
- try:
-    if event.is_group:
-      if not await is_admin(event, event.sender_id):
-       return
-    if event.fwd_from:
-        return
-    if not event.reply_to_msg_id:
-        await event.reply("Reply to an audio message.")
-        return
-    reply_message = await event.get_reply_message()
-    stt = await event.reply("Identifying the song.")
-    tmp = './'
-    dl = await tbot.download_media(
-            reply_message,
-            tmp)
-    chat = "@auddbot"
-    await stt.edit("Identifying the song...")
-    async with ubot.conversation(chat) as conv:
-        try:
-            await conv.send_file(dl)
-            check = await conv.get_response()
-            if not check.text.startswith("Audio received"):
-                return await stt.edit("An error while identifying the song. Try to use a 5-10s long audio message.")
-            await stt.edit("Wait just a sec...")
-            result = await conv.get_response()
-            await ubot.send_read_acknowledge(conv.chat_id)
-        except Exception:
-            await stt.edit("Error, Report at @Eviesupport")
+    try:
+        if event.is_group:
+            if not await is_admin(event, event.sender_id):
+                return
+        if event.fwd_from:
             return
-    namem = f"Song Name : {result.text.splitlines()[0]}\
+        if not event.reply_to_msg_id:
+            await event.reply("Reply to an audio message.")
+            return
+        reply_message = await event.get_reply_message()
+        stt = await event.reply("Identifying the song.")
+        tmp = "./"
+        dl = await tbot.download_media(reply_message, tmp)
+        chat = "@auddbot"
+        await stt.edit("Identifying the song...")
+        async with ubot.conversation(chat) as conv:
+            try:
+                await conv.send_file(dl)
+                check = await conv.get_response()
+                if not check.text.startswith("Audio received"):
+                    return await stt.edit(
+                        "An error while identifying the song. Try to use a 5-10s long audio message."
+                    )
+                await stt.edit("Wait just a sec...")
+                result = await conv.get_response()
+                await ubot.send_read_acknowledge(conv.chat_id)
+            except Exception:
+                await stt.edit("Error, Report at @Eviesupport")
+                return
+        namem = f"Song Name : {result.text.splitlines()[0]}\
         \n\nDetails : {result.text.splitlines()[2]}"
-    await stt.edit(namem)
- except Exception as e:
-      await event.reply(e)
-
+        await stt.edit(namem)
+    except Exception as e:
+        await event.reply(e)
 
 
 file_help = os.path.basename(__file__)

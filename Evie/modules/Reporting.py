@@ -1,15 +1,11 @@
-import html
 import os
-from Evie import tbot
-from Evie import *
-from telethon import events, Button
-from telethon.tl import functions
-from telethon.tl import types
-from telethon.tl.functions.channels import EditBannedRequest
+
+from telethon import events
+from telethon.tl import functions, types
 from telethon.tl.types import *
-from telethon.errors import UserNotParticipantError
-from pymongo import MongoClient
-from Evie import MONGO_DB_URI
+
+from Evie import *
+from Evie import tbot
 from Evie.events import register
 from Evie.modules.sql import reporting_sql as sql
 
@@ -26,7 +22,7 @@ BANNED_RIGHTS = ChatBannedRights(
 )
 
 
-from Evie.function import is_admin, can_change_info
+from Evie.function import can_change_info, is_admin
 
 
 async def can_ban_users(chat, user):
@@ -70,9 +66,7 @@ async def _(event):
     if args:
         if args == "on" or args == "yes":
             sql.set_chat_setting(chat, True)
-            await event.reply(
-                "Users will now be able to report messages."
-            )
+            await event.reply("Users will now be able to report messages.")
 
         elif args == "off" or args == "no":
             sql.set_chat_setting(chat, False)
@@ -88,8 +82,11 @@ async def _(event):
             parse_mode="markdown",
         )
 
+
 from telethon import events
-@tbot.on(events.NewMessage(pattern='/report'))
+
+
+@tbot.on(events.NewMessage(pattern="/report"))
 async def _(event):
     if event.is_private:
         return
@@ -98,7 +95,6 @@ async def _(event):
 
     chat = event.chat_id
     user = event.sender
-    
 
     if not sql.chat_should_report(chat):
         return
@@ -112,9 +108,13 @@ async def _(event):
         if user.id == BOT_ID:
             await event.reply("Why would I report myself?")
             return
-        await tbot.send_message(event.chat_id, f"Reported [{reported_user_first_name}](tg://user?id={reported_user}) to admins.")
+        await tbot.send_message(
+            event.chat_id,
+            f"Reported [{reported_user_first_name}](tg://user?id={reported_user}) to admins.",
+        )
 
-@tbot.on(events.NewMessage(pattern='@admins'))
+
+@tbot.on(events.NewMessage(pattern="@admins"))
 async def _(event):
     if event.is_private:
         return
@@ -123,7 +123,6 @@ async def _(event):
 
     chat = event.chat_id
     user = event.sender
-   
 
     if not sql.chat_should_report(chat):
         return
@@ -137,7 +136,10 @@ async def _(event):
         if user.id == BOT_ID:
             await event.reply("Why would I report myself?")
             return
-        await tbot.send_message(event.chat_id, f"Reported [{reported_user_first_name}](tg://user?id={reported_user}) to admins.")
+        await tbot.send_message(
+            event.chat_id,
+            f"Reported [{reported_user_first_name}](tg://user?id={reported_user}) to admins.",
+        )
 
 
 file_help = os.path.basename(__file__)

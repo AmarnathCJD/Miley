@@ -1,25 +1,21 @@
-from telethon import events
-from Evie import tbot, BOT_ID, MONGO_DB_URI
 from pymongo import MongoClient
-from Evie.events import register
-import os
-from Evie.function import can_change_info, is_admin
 from telethon import *
+from telethon import events
 from telethon.tl import *
 from telethon.utils import pack_bot_file_id
 
-from Evie.modules.sql.welcome_sql import (
-    add_welcome_setting,
-    get_current_welcome_settings,
-    rm_welcome_setting,
-    update_previous_welcome,
-)
+from Evie import BOT_ID, MONGO_DB_URI, tbot
+from Evie.events import register
+from Evie.function import can_change_info, is_admin
 from Evie.modules.sql.welcome_sql import (
     add_goodbye_setting,
+    add_welcome_setting,
     get_current_goodbye_settings,
+    get_current_welcome_settings,
     rm_goodbye_setting,
-    update_previous_goodbye,
+    rm_welcome_setting,
 )
+
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
@@ -28,7 +24,6 @@ verified_user = db.user_verified
 
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
-
 
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
@@ -39,7 +34,7 @@ async def _(event):
     cws = get_current_welcome_settings(event.chat_id)
     if cws:
         if event.user_joined:
-            
+
             a_user = await event.get_user()
             title = event.chat.title
             mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
@@ -53,56 +48,55 @@ async def _(event):
             current_saved_welcome_message = cws.custom_welcome_message
             chats = botcheck.find({})
             for c in chats:
-                 if event.chat_id == c["id"]:
-                        current_message = await event.reply(
-                            current_saved_welcome_message.format(
-                                mention=mention,
-                                title=title,
-                                first=first,
-                                last=last,
-                                fullname=fullname,
-                                userid=userid,
-                            ),
-                            file=cws.media_file_id,
-                            buttons=[
-                                [
-                                    Button.inline(
-                                        "Click Here to prove you're Human", data=f"check-bot-{userid}"
-                                    )
-                                ]
-                            ],
-                        )
-                        smex = verified_user.find({})
-                        for c in smex:
-                            if event.chat_id == c["id"] and userid == c["user"]:
-                                return
-                        await tbot(
-                            EditBannedRequest(event.chat_id, userid, MUTE_RIGHTS)
-                        )
-                        return
+                if event.chat_id == c["id"]:
+                    current_message = await event.reply(
+                        current_saved_welcome_message.format(
+                            mention=mention,
+                            title=title,
+                            first=first,
+                            last=last,
+                            fullname=fullname,
+                            userid=userid,
+                        ),
+                        file=cws.media_file_id,
+                        buttons=[
+                            [
+                                Button.inline(
+                                    "Click Here to prove you're Human",
+                                    data=f"check-bot-{userid}",
+                                )
+                            ]
+                        ],
+                    )
+                    smex = verified_user.find({})
+                    for c in smex:
+                        if event.chat_id == c["id"] and userid == c["user"]:
+                            return
+                    await tbot(EditBannedRequest(event.chat_id, userid, MUTE_RIGHTS))
+                    return
             current_message = await event.reply(
-                    current_saved_welcome_message.format(
-                        mention=mention,
-                        title=title,
-                        first=first,
-                        last=last,
-                        fullname=fullname,
-                        userid=userid,
-                    ),
-                    file=cws.media_file_id,
-                )
+                current_saved_welcome_message.format(
+                    mention=mention,
+                    title=title,
+                    first=first,
+                    last=last,
+                    fullname=fullname,
+                    userid=userid,
+                ),
+                file=cws.media_file_id,
+            )
 
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
     cws = get_current_goodbye_settings(event.chat_id)
     if not cws:
-      if event.user_left or event.user_kicked:
-        if is_admin(event, BOT_ID):
-          await event.reply("Nice Knowing you!")
+        if event.user_left or event.user_kicked:
+            if is_admin(event, BOT_ID):
+                await event.reply("Nice Knowing you!")
     if cws:
         if event.user_left or event.user_kicked:
-            
+
             a_user = await event.get_user()
             title = event.chat.title
             mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
@@ -115,16 +109,17 @@ async def _(event):
             userid = a_user.id
             current_saved_goodbye_message = cws.custom_goodbye_message
             current_message = await event.reply(
-                    current_saved_goodbye_message.format(
-                        mention=mention,
-                        title=title,
-                        first=first,
-                        last=last,
-                        fullname=fullname,
-                        userid=userid,
-                    ),
-                    file=cws.media_file_id,
-                )
+                current_saved_goodbye_message.format(
+                    mention=mention,
+                    title=title,
+                    first=first,
+                    last=last,
+                    fullname=fullname,
+                    userid=userid,
+                ),
+                file=cws.media_file_id,
+            )
+
 
 @tbot.on(events.CallbackQuery(pattern=r"check-bot-(\d+)"))
 async def cbot(event):
@@ -139,12 +134,12 @@ async def cbot(event):
             await event.answer("You are already verified !")
             return
     if event.sender_id == user_id:
-      try:
+        try:
             await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
             verified_user.insert_one({"id": chat_id, "user": user_id})
             await event.answer("Yep you are verified as a human being")
-      except Exception as e:
-         print(e)
+        except Exception as e:
+            print(e)
 
 
 @register(pattern="^/setwelcome")  # pylint:disable=E0602
@@ -157,14 +152,14 @@ async def _(event):
     if msg and msg.media:
         cws = get_current_welcome_settings(event.chat_id)
         if cws:
-          rm_welcome_setting(event.chat_id)
+            rm_welcome_setting(event.chat_id)
         tbot_api_file_id = pack_bot_file_id(msg.media)
         add_welcome_setting(event.chat_id, msg.message, False, 0, tbot_api_file_id)
         await event.reply("Welcome message saved. ")
     else:
         cws = get_current_welcome_settings(event.chat_id)
         if cws:
-          rm_welcome_setting(event.chat_id)
+            rm_welcome_setting(event.chat_id)
         input_str = event.text.split(None, 1)
         add_welcome_setting(event.chat_id, input_str[1], False, 0, None)
         await event.reply("Welcome message saved. ")
@@ -183,6 +178,7 @@ async def _(event):
         + "The previous welcome message was `{}`".format(cws.custom_welcome_message)
     )
 
+
 @register(pattern="^/setgoodbye$")  # pylint:disable=E0602
 async def _(event):
     if event.fwd_from:
@@ -193,7 +189,7 @@ async def _(event):
     if msg and msg.media:
         cws = get_current_goodbye_settings(event.chat_id)
         if cws:
-          rm_goodbye_setting(event.chat_id)
+            rm_goodbye_setting(event.chat_id)
         tbot_api_file_id = pack_bot_file_id(msg.media)
         add_goodbye_setting(event.chat_id, msg.text, False, 0, tbot_api_file_id)
         await event.reply("Goodbye message saved. ")
@@ -201,7 +197,7 @@ async def _(event):
         input_str = msg.text
         cws = get_current_goodbye_settings(event.chat_id)
         if cws:
-          rm_goodbye_setting(event.chat_id)
+            rm_goodbye_setting(event.chat_id)
         add_goodbye_setting(event.chat_id, input_str, False, 0, None)
         await event.reply("Goodbye message saved. ")
 

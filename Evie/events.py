@@ -1,28 +1,22 @@
+import glob
 import inspect
-import time
 import logging
 import re
+import sys
 from pathlib import Path
 
-from telethon import events
-from telethon.tl import functions
-from telethon.tl import types
-
-
-from Evie import CMD_LIST, LOAD_PLUG, tbot
-import glob
-import sys
-from Evie import ubot
 from pymongo import MongoClient
-from Evie import MONGO_DB_URI
-from Evie.modules.sql.checkuser_sql import add_usersid_in_db, already_added, get_all_users
+from telethon import events
 
+from Evie import CMD_LIST, LOAD_PLUG, MONGO_DB_URI, tbot, ubot
+from Evie.modules.sql.checkuser_sql import add_usersid_in_db, already_added
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 blacklist = db.black
 sudo = db.sudo
+
 
 def register(**args):
     pattern = args.get("pattern")
@@ -65,11 +59,11 @@ def register(**args):
                 print("i don't work in channels")
                 return
             if check.is_group:
-               if check.chat.megagroup:
-                  pass
-               else:
-                  return
-                          
+                if check.chat.megagroup:
+                    pass
+                else:
+                    return
+
             users = blacklist.find({})
             for c in users:
                 if check.sender_id == c["user"]:
@@ -77,11 +71,11 @@ def register(**args):
             babe = sudo.find({})
             for k in babe:
                 if check.sender_id == k["user"]:
-                   pass
+                    pass
             if already_added(check.sender_id):
-               pass
+                pass
             elif not already_added(check.sender_id):
-               add_usersid_in_db(check.sender_id)
+                add_usersid_in_db(check.sender_id)
             try:
                 await func(check)
                 try:
@@ -105,7 +99,7 @@ def eviebot(**args):
     ignore_unsafe = args.get("ignore_unsafe", False)
     unsafe_pattern = r"^[^/!#@\$A-Za-z]"
     group_only = args.get("group_only", False)
-    disable_errors = args.get("disable_errors", False)
+    args.get("disable_errors", False)
     insecure = args.get("insecure", False)
     if pattern is not None and not pattern.startswith("(?i)"):
         args["pattern"] = "(?i)" + pattern
@@ -158,13 +152,11 @@ def eviebot(**args):
     return decorator
 
 
-
 def load_module(shortname):
     if shortname.startswith("__"):
         pass
     elif shortname.endswith("_"):
         import importlib
-        import Evie.events
 
         path = Path(f"Evie/modules/{shortname}.py")
         name = "Evie.modules.{}".format(shortname)
@@ -174,7 +166,6 @@ def load_module(shortname):
         print("Successfully imported " + shortname)
     else:
         import importlib
-        import Evie.events
 
         path = Path(f"Evie/modules/{shortname}.py")
         name = "Evie.modules.{}".format(shortname)

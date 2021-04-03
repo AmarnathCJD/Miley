@@ -1,6 +1,8 @@
 import threading
-from Evie.modules.sql import BASE, SESSION
+
 from sqlalchemy import Column, String
+
+from Evie.modules.sql import BASE, SESSION
 
 
 class ChatbotChats(BASE):

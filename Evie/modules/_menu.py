@@ -1,17 +1,11 @@
-from Evie import CMD_LIST, CMD_HELP, tbot
-import io
 import re
 from math import ceil
 
-from telethon import custom, events, Button
-
-from Evie.events import register
-
-from telethon import types
-from telethon.tl import functions
-
 from pymongo import MongoClient
-from Evie import MONGO_DB_URI
+from telethon import Button, custom, events
+
+from Evie import CMD_HELP, CMD_LIST, MONGO_DB_URI, tbot
+from Evie.events import register
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
@@ -19,11 +13,12 @@ db = client["evie"]
 pagenumber = db.pagenumber
 
 
-
 about = "**About Me**\n\nMy name is Evie, A group management bot who can take care of your groups with automated regular admin actions!\n\n**My Software Version:** 2.0.1\n**Telethon Version:** 1.21.1\n\n**My Developers:**\n• @RoseLoverX\n• @LegendX22\n• @Proboyx\n\nUpdates Channel: [Click Here](t.me/lunabotnews)\nSupport Chat: [Click Here](t.me/lunabotsupport)\n\nAnd finally thanks for Supporting me😘"
 ad_caption = "Hey! I am Evie, here to help you manage your groups! I perform most of the admin functions and make your group automated!\n\nJoin @Eviebotnews for updates.\n@Eviebotsupport for help and support\n\nYou can checkout more about me via following buttons."
 pm_caption = "Hey there! My name is Evie - I'm a Telethon based Bot Made to help you manage your groups!\n\nHit /help to find out more about me and unleash my full potential.\n\n"
 pmt = "Hello there! I'm Evie\nI'm a Telethon Based group management bot\n with a Much More! Have a look\nat the following for an idea of some of \nthe things I can help you with.\n\nMain commands available:\n/start : Starts me, can be used to check i'm alive or not.\n/help : PM's you this message.\nExplore My Commands🙃."
+
+
 @register(pattern="^/start$")
 async def start(event):
 
@@ -36,7 +31,7 @@ async def start(event):
                     Button.inline("Advanced", data="soon"),
                     Button.inline("Commands", data="help_menu"),
                 ],
-                  [
+                [
                     Button.url(
                         "Add Me To Your Group!", "t.me/missevie_robot?startgroup=true"
                     ),
@@ -45,6 +40,7 @@ async def start(event):
         )
     else:
         await event.reply("Heya Evie Here!,\nHow Can I Help Ya.")
+
 
 @tbot.on(events.CallbackQuery(pattern=r"reopen_again"))
 async def reopen_again(event):
@@ -56,7 +52,7 @@ async def reopen_again(event):
                     Button.inline("Advanced", data="soon"),
                     Button.inline("Commands", data="help_menu"),
                 ],
-                  [
+                [
                     Button.url(
                         "Add Me To Your Group!", "t.me/missevie_robot?startgroup=true"
                     ),
@@ -75,23 +71,39 @@ async def help(event):
     else:
         await event.reply(
             "Contact me in PM for help!",
-            buttons=[[Button.url("Click me for help!", "t.me/missevie_robot?start=help")]],
+            buttons=[
+                [Button.url("Click me for help!", "t.me/missevie_robot?start=help")]
+            ],
         )
+
 
 @tbot.on(events.CallbackQuery(pattern=r"help_menu"))
 async def help_menu(event):
     buttons = paginate_help(event, 0, CMD_LIST, "helpme")
     await event.edit(pmt, buttons=buttons)
 
+
 @tbot.on(events.CallbackQuery(pattern=r"soon"))
 async def soon(event):
-    buttons=[[Button.inline("About Me", data="about_me"), Button.inline("Commands", data="help_menu"),],[Button.inline("Go Back", data="reopen_again"),],]
+    buttons = [
+        [
+            Button.inline("About Me", data="about_me"),
+            Button.inline("Commands", data="help_menu"),
+        ],
+        [
+            Button.inline("Go Back", data="reopen_again"),
+        ],
+    ]
     await event.edit(ad_caption, buttons=buttons)
+
 
 @tbot.on(events.CallbackQuery(pattern=r"about_me"))
 async def soon(event):
-    buttons=[Button.inline("Go Back", data="soon"),]
+    buttons = [
+        Button.inline("Go Back", data="soon"),
+    ]
     await event.edit(about, buttons=buttons)
+
 
 @tbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"us_plugin_(.*)")))
 async def on_plug_in_callback_query_handler(event):
@@ -111,11 +123,11 @@ async def on_plug_in_callback_query_handler(event):
         reply_pop_up_alert = help_string
     try:
         await event.edit(
-            reply_pop_up_alert, buttons=[
-                [Button.inline("Back", data="go_back")]]
+            reply_pop_up_alert, buttons=[[Button.inline("Back", data="go_back")]]
         )
     except BaseException:
         pass
+
 
 @tbot.on(events.CallbackQuery(pattern=r"go_back"))
 async def go_back(event):
@@ -124,6 +136,7 @@ async def go_back(event):
     # print (number)
     buttons = paginate_help(event, number, CMD_LIST, "helpme")
     await event.edit(pm_caption, buttons=buttons)
+
 
 def get_page(id):
     return pagenumber.find_one({"id": id})
@@ -159,24 +172,25 @@ def paginate_help(event, page_number, loaded_plugins, prefix):
         )
         for x in helpable_plugins
     ]
-    pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols], modules[2::number_of_cols]))
+    pairs = list(
+        zip(
+            modules[::number_of_cols],
+            modules[1::number_of_cols],
+            modules[2::number_of_cols],
+        )
+    )
     if len(modules) % number_of_cols == 1:
         pairs.append((modules[-1],))
     max_num_pages = ceil(len(pairs) / number_of_rows)
     modulo_page = page_number % max_num_pages
-    pairs = pairs[
-            modulo_page * number_of_rows: number_of_rows * (modulo_page + 1)
-        ] + [
-            (
-                custom.Button.inline(
-                    "Go Back", data="reopen_again"
-                ),
-                custom.Button.inline(
-                    "Advanced Commands", data="fun_help"
-                ),
-            )
-        ]
+    pairs = pairs[modulo_page * number_of_rows : number_of_rows * (modulo_page + 1)] + [
+        (
+            custom.Button.inline("Go Back", data="reopen_again"),
+            custom.Button.inline("Advanced Commands", data="fun_help"),
+        )
+    ]
     return pairs
+
 
 def nood_page(event, page_number, loaded_plugins, prefix):
     number_of_rows = 15
@@ -208,18 +222,18 @@ def nood_page(event, page_number, loaded_plugins, prefix):
         )
         for x in helpable_plugins
     ]
-    pairs = list(zip(modules[::number_of_cols], modules[1::number_of_cols], modules[2::number_of_cols]))
+    pairs = list(
+        zip(
+            modules[::number_of_cols],
+            modules[1::number_of_cols],
+            modules[2::number_of_cols],
+        )
+    )
     if len(modules) % number_of_cols == 1:
         pairs.append((modules[-1],))
     max_num_pages = ceil(len(pairs) / number_of_rows)
     modulo_page = page_number % max_num_pages
-    pairs = pairs[
-            modulo_page * number_of_rows: number_of_rows * (modulo_page + 1)
-        ] + [
-            (
-                custom.Button.inline(
-                    "Go Back", data="help_menu"
-                ),
-            )
-        ]
+    pairs = pairs[modulo_page * number_of_rows : number_of_rows * (modulo_page + 1)] + [
+        (custom.Button.inline("Go Back", data="help_menu"),)
+    ]
     return pairs

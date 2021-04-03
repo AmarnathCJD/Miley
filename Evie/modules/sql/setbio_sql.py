@@ -1,7 +1,9 @@
-#By RoseLoverX
+# By RoseLoverX
 import threading
+
+from sqlalchemy import Boolean, Column, Integer, UnicodeText
+
 from Evie.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
 
 class BIO(BASE):
@@ -66,10 +68,13 @@ def rm_bio(user_id):
 
         SESSION.close()
         return False
+
+
 def get_all_bio_id():
     stark = SESSION.query(BIO).all()
     SESSION.close()
     return stark
+
 
 def __load_sudo_users():
     global SUDO_USERS

@@ -1,18 +1,12 @@
-from youtubesearchpython import SearchVideos, VideosSearch
-from Evie import tbot, CMD_HELP
-from html import unescape
 import os
-from telethon import types, Button, custom, events
-from telethon.tl import functions
-from Evie.events import register
-import re
-
-from re import findall
-from urllib.parse import quote
+import urllib
 
 import requests
-import urllib
-from telethon import events
+from telethon import Button, events
+from youtubesearchpython import SearchVideos, VideosSearch
+
+from Evie import CMD_HELP, tbot
+from Evie.events import register
 
 
 @tbot.on(events.InlineQuery(pattern=r"yt (.*)"))
@@ -20,15 +14,17 @@ async def inline_id_handler(event: events.InlineQuery.Event):
     builder = event.builder
     k = event.pattern_match.group(1)
     if ":" in k:
-         testinput,evlin = event.pattern_match.group(1).split(":")
+        testinput, evlin = event.pattern_match.group(1).split(":")
     else:
-         testinput = event.pattern_match.group(1)
-         evlin = 5
+        testinput = event.pattern_match.group(1)
+        evlin = 5
     urllib.parse.quote_plus(testinput)
     lund = event.sender_id
     if lund == lund:
         results = []
-        search = SearchVideos(f"{testinput}", offset=1, mode="dict", max_results=int(evlin))
+        search = SearchVideos(
+            f"{testinput}", offset=1, mode="dict", max_results=int(evlin)
+        )
         mi = search.result()
         moi = mi["search_result"]
         if search == None:
@@ -67,17 +63,17 @@ async def inline_id_handler(event: events.InlineQuery.Event):
 
 @register(pattern="^/ytinfo (.*)")
 async def yts_search(video_q):
-    query = video_q.pattern_match.group(1)    
-    videosSearch = VideosSearch(query, limit = 1)  
+    query = video_q.pattern_match.group(1)
+    videosSearch = VideosSearch(query, limit=1)
     h = videosSearch.result()
-    title= (h['result'][0]['title'])
-    ptime= (h['result'][0]['publishedTime'])
-    dur= (h['result'][0]['duration'])
-    views= (h['result'][0]['viewCount']['short'])
-    des= (h['result'][0]['descriptionSnippet'][0]['text'])
-    chn= (h['result'][0]['channel']['name'])
-    chnl= (h['result'][0]['channel']['link'])
-    vlink= (h['result'][0]['link'])
+    title = h["result"][0]["title"]
+    ptime = h["result"][0]["publishedTime"]
+    dur = h["result"][0]["duration"]
+    views = h["result"][0]["viewCount"]["short"]
+    des = h["result"][0]["descriptionSnippet"][0]["text"]
+    chn = h["result"][0]["channel"]["name"]
+    chnl = h["result"][0]["channel"]["link"]
+    vlink = h["result"][0]["link"]
     final = f"""**Extracted information from youtube**:
 **Title**: `{title}`
 **Published Time**: `{ptime}`
@@ -163,8 +159,6 @@ async def inline_id_handler(event: events.InlineQuery.Event):
                 )
             )
     await event.answer(results)
-
-
 
 
 file_help = os.path.basename(__file__)

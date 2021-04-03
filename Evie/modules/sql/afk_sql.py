@@ -1,9 +1,10 @@
 # timer added
 
 import threading
-import time
+
+from sqlalchemy import Boolean, Column, Integer, UnicodeText
+
 from Evie.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
 
 class AFK(BASE):
