@@ -159,7 +159,7 @@ Notes are great to save random tidbits of information; a phone number, a nice gi
 - /save `<notename>` `<note text>`: Save a new note called "word". Replying to a message will save that message. Even works on media!
 - /clear `<notename>`: Delete the associated note.
 - /notes: List all notes in the current chat.
-- /clearall: Delete ALL notes in a chat. This cannot be undone.
+- /clearall: Delete **ALL** notes in a chat. This cannot be undone.
 """
 
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
