@@ -98,7 +98,7 @@ async def _(event):
     cws = get_current_goodbye_settings(event.chat_id)
     if not cws:
       if event.user_left or event.user_kicked:
-        if is_admin(event, BOT_ID):
+        if await is_admin(event, BOT_ID):
           await event.reply("Nice Knowing you!")
     if cws:
         if event.user_left or event.user_kicked:
