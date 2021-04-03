@@ -30,11 +30,7 @@ db = client["evie"]
 gbanned = db.gban
 blacklist = db.black
 
-def is_bio(user_id):
- if is_bio(user_id):
-  return True
- else:
-  return False
+
 
 
 
@@ -82,9 +78,9 @@ async def detail(replied_user, event):
     if username:
       caption += f"Username: {username} \n"
     caption += f'Permalink: <a href="tg://user?id={user_id}">link</a>'
-    if is_bio(user_id):
-         k = boss[user_id]
-         caption += f"\n\n<b>What others say:</b>\n{k}"
+    if is_bio(replied_user.user.id):
+         smx = boss[replied_user.user.id]
+         caption += f"\n\n<b>What others say:</b>\n{smx}"
     a = blacklist.find({})
     for i in a:
          if user_id == i["user"]:
