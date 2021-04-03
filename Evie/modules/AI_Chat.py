@@ -57,6 +57,30 @@ async def _(event):
     sql.rem_chat(chat.id)
     await event.reply("AI Bot disabled successfully!")
 
+@register(pattern="q ?(.*)")
+async def q(event):
+        test = event.pattern_match.group(1)
+        test = test.replace("Evie", "Aco")
+        test = test.replace("evie", "Aco")
+        querystring = {
+            "bid": "178",
+            "key": "sX5A2PcYZbsN5EY6",
+            "uid": "mashape",
+            "msg": {test},
+        }
+        headers = {
+            "x-rapidapi-key": "cf9e67ea99mshecc7e1ddb8e93d1p1b9e04jsn3f1bb9103c3f",
+            "x-rapidapi-host": "acobot-brainshop-ai-v1.p.rapidapi.com",
+        }
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        result = response.text
+        result = result.replace('{"cnt":"', "")
+        result = result.replace('"}', "")
+        result = result.replace("Aco", "Evie")
+        result = result.replace("<a href=\\", "<a href =")
+        result = result.replace("<\/a>", "</a>")
+        pro = result
+        await event.reply(pro)
 
 @tbot.on(events.NewMessage(pattern=None))
 async def _(event):
