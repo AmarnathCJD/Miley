@@ -59,4 +59,32 @@ async def _(event):
         )
     await event.reply(f"Saved note `{name}`.")
 
+@register(pattern="^/notes$")
+async def on_note_list(event):
+    if event.is_group:
+        pass
+    else:
+        return
+    all_notes = get_all_notes(event.chat_id)
+    OUT_STR = f"List of notes in {event.chat.title}:\n"
+    if len(all_notes) > 0:
+        for a_note in all_notes:
+            OUT_STR += f"- `{a_note.keyword}`\n"
+    else:
+        OUT_STR = "No notes in {event.chat.title}!"
+    OUT_STR += "\nYou can retrieve these notes\nby using `/get notename`, or \n#notename"
+    if len(OUT_STR) > 4096:
+        with io.BytesIO(str.encode(OUT_STR)) as out_file:
+            out_file.name = "notes.text"
+            await tbot.send_file(
+                event.chat_id,
+                out_file,
+                force_document=True,
+                allow_cache=False,
+                caption="Available notes",
+                reply_to=event,
+            )
+    else:
+        await event.reply(OUT_STR)
+
 #Balance Soon
