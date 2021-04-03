@@ -29,32 +29,16 @@ async def _(event):
         return
     else:
         return
-    input = event.pattern_match.group(1)
-    if input:
-     arg = input.split(" ", 1)
     if not event.reply_to_msg_id:
+     input = event.pattern_match.group(1)
+     if input:
+       arg = input.split(" ", 1)
      if len(arg) == 2:
       name = arg[0]
       msg = arg[1]
-     else:
-      name = arg[0]
-      if not name:
-        await event.reply("You need to give the note a name!")
-        return
-      await event.reply("You need to give the note some content!")
-      return
-    else:
-     reply_message = await event.get_reply_message()
-     msg = reply_message.text
-     name = event.pattern_match.group(1)
-     if not msg:
-        return
-     if not name:
-        await event.reply("You need to give the note a name!")
-        return
     print(1)
     if msg:
-        note = msg.text
+        note = msg
         add_note(
             event.chat_id,
             name,
