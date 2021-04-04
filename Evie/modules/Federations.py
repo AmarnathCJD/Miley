@@ -192,6 +192,7 @@ async def p(event):
  for f in fedowner:
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
+ print(69)
  user_id = args.id
  replied_user = await tbot(GetFullUserRequest(user_id))
  fname = replied_user.user.first_name
