@@ -212,7 +212,6 @@ async def p(event):
             
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
 async def delete_fed(event):
- try:
   tata = event.pattern_match.group(1)
   data = tata.decode()
   input = data.split("_", 1)[1]
@@ -227,7 +226,5 @@ async def delete_fed(event):
   res = sql.user_join_fed(fed_id, int(user))
   if res:
      return await event.edit(f"User [{fname}](tg://user?id={user}) is now an admin of {name} [{fed_id}]")
- except Exception as e:
-  await event.reply(e)
  
  
