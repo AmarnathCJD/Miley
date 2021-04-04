@@ -4,6 +4,7 @@ from Evie.function import is_admin
 from io import BytesIO
 import Evie.modules.sql.feds_sql as sql
 from telethon import *
+from telethon import Button
 from telethon.tl import *
 from telethon.tl.types import User
 from Evie import *
@@ -82,9 +83,7 @@ async def smexy(event):
             name = f["fed"]["fname"]
     await tbot.send_message(
             event.chat_id,
-            "Are you sure you want to delete your federation? This action cannot be undone - you will lose your entire ban list, and '{}' will be permanently gone.".format(
-                name
-            ),
+            "Are you sure you want to delete your federation? This action cannot be undone - you will lose your entire ban list, and '{}' will be permanently gone.".format(name),
             buttons=[
                 [Button.inline("Delete Federation", data="rmfed_{}".format(fed_id))],
                 [Button.inline("Cancel", data="nada")],
