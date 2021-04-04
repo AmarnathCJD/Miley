@@ -361,6 +361,7 @@ async def smex_fed(event):
 @register(pattern="^/fban ?(.*)")
 async def _(event):
     user = event.sender
+    chat = event.chat_id
     fed_id = sql.get_fed_id(chat)
     if not fed_id:
       return await event.reply("This chat isn't in any federations.")
