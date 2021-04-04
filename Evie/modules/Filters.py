@@ -23,7 +23,9 @@ TYPE_DOCUMENT = 2
 
 @register(pattern="^/(filter|filters) ?(.*)")
 async def save(event):
- await event.reply(event.pattern_match.group(1))
+ smex = event.pattern_match.group(1)
+ if smex == "filters":
+    return
  if event.is_private:
      return
  if event.is_group:
