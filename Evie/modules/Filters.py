@@ -21,11 +21,8 @@ TYPE_PHOTO = 1
 TYPE_DOCUMENT = 2
 
 
-@register(pattern="^/(filter|filters) ?(.*)")
+@register(pattern="^/filter ?(.*)")
 async def save(event):
- smex = event.pattern_match.group(1)
- if smex == "filters":
-    return
  if event.is_private:
      return
  if event.is_group:
@@ -36,7 +33,7 @@ async def save(event):
         await event.reply("You are missing the following rights to use this command: CanChangeInfo")
         return
  if not event.reply_to_msg_id:
-     input = event.pattern_match.group(2)
+     input = event.pattern_match.group(1)
      if input:
        arg = input.split(" ", 1)
      if len(arg) == 2:
@@ -52,7 +49,7 @@ async def save(event):
       return
  else:
       message = await event.get_reply_message()
-      name = event.pattern_group.match(2)
+      name = event.pattern_group.match(1)
       if not name:
         await event.reply("You need to give the filter a name!")
         return
@@ -83,7 +80,7 @@ async def save(event):
         )
  await event.reply(f"Saved filter `{name}`")
 
-@register(pattern="^/filters$")
+@register(pattern="^/listfilters$")
 async def on_snip_list(event):
     if event.is_group:
         pass
