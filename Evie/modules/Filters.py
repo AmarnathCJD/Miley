@@ -162,6 +162,7 @@ async def filter(event):
   name = event.raw_text
   if name.startswith("/stop") or name.startswith("/filter"):
      return
+  if name.startswith("/clear") or name.startswith("/save"):
   snips = get_all_filters(event.chat_id)
   if snips:
     for snip in snips:
