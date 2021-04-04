@@ -15,17 +15,23 @@ from Evie.modules.sql.filters_sql import (
     remove_all_filters,
 )
 
-DELETE_TIMEOUT = 0
 
 TYPE_TEXT = 0
-
 TYPE_PHOTO = 1
-
 TYPE_DOCUMENT = 2
 
 
 @register(pattern="^/filter ?(.*)")
 async def save(event):
+ if event.is_group:
+      if not await is_admin(event, event.sender_id):
+        await event.reply("You need to be an admin to do this.")
+        return
+      if not await can_change_info(message=event):
+        await event.reply("You are missing the following rights to use this command: CanChangeInfo")
+        return
+    else:
+        return
  if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
      if input:
@@ -104,8 +110,12 @@ async def on_snip_list(event):
 @register(pattern="^/stop (.*)")
 async def on_snip_delete(event):
     if event.is_group:
-        if not await can_change_info(message=event):
-            return
+      if not await is_admin(event, event.sender_id):
+        await event.reply("You need to be an admin to do this.")
+        return
+      if not await can_change_info(message=event):
+        await event.reply("You are missing the following rights to use this command: CanChangeInfo")
+        return
     else:
         return
     name = event.pattern_match.group(1)
@@ -146,4 +156,62 @@ async def start_again(event):
         await event.edit("Deleted all chat filters.")
 
 
-#balance Soon
+@tbot.on(events.NewMessage(pattern=None))
+async def filter(event):
+  snips = get_all_filters(event.chat_id)
+  if snips:
+    for snip in snips:
+            pattern = r"( |^|[^\w])" + re.escape(snip.keyword) + r"( |$|[^\w])"
+            if re.search(pattern, name, flags=re.IGNORECASE):
+                if snip.snip_type == TYPE_PHOTO:
+                    media = types.InputPhoto(
+                        int(snip.media_id),
+                        int(snip.media_access_hash),
+                        snip.media_file_reference,
+                    )
+                elif snip.snip_type == TYPE_DOCUMENT:
+                    media = types.InputDocument(
+                        int(snip.media_id),
+                        int(snip.media_access_hash),
+                        snip.media_file_reference,
+                    )
+                else:
+                    media = None
+                event.message.id
+                if event.reply_to_msg_id:
+                    event.reply_to_msg_id
+                filter = ""
+                options = ""
+                butto = None
+                if "|" in snip.reply:
+                    filter, options = snip.reply.split("|")
+                else:
+                    filter = str(snip.reply)
+                try:
+                    filter = filter.strip()
+                    button = options.strip()
+                    if "•" in button:
+                        mbutton = button.split("•")
+                        lbutton = []
+                        for i in mbutton:
+                            params = re.findall(r"\'(.*?)\'", i) or re.findall(
+                                r"\"(.*?)\"", i
+                            )
+                            lbutton.append(params)
+                        longbutton = []
+                        for c in lbutton:
+                            butto = [Button.url(*c)]
+                            longbutton.append(butto)
+                    else:
+                        params = re.findall(r"\'(.*?)\'", button) or re.findall(
+                            r"\"(.*?)\"", button
+                        )
+                        butto = [Button.url(*params)]
+                except BaseException:
+                    filter = filter.strip()
+                    butto = None
+                try:
+                    await event.reply(filter, buttons=longbutton, file=media)
+                except:
+                    await event.reply(filter, buttons=butto, file=media)
+
