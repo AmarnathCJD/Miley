@@ -180,6 +180,7 @@ async def lf(event):
 
 @register(pattern="^/fpromote ?(.*)")
 async def p(event):
+ print(69)
  if event.is_private:
   return await event.reply("This command is made to be run in a group where the person you would like to promote is present.")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
