@@ -221,7 +221,7 @@ async def delete_fed(event):
  fed_id = fed_id.strip()
  rt = await tbot(GetFullUserRequest(user))
  fname = rt.user.first_name
- if not event.sender_id == int(owner) or not event.sender_id == int(user):
+ if not event.sender_id == int(user):
    return await event.answer("You are not the user being fpromoted")
  res = sql.user_join_fed(fed_id, int(user))
  if res:
