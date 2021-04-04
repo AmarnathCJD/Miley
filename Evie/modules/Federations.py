@@ -198,7 +198,8 @@ async def p(event):
  getuser = sql.search_user_in_fed(fed_id, user_id)
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
- await tbot.send_message(
+ try:
+  await tbot.send_message(
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
@@ -206,6 +207,8 @@ async def p(event):
                 Button.inline("Cancel", data="smex_{}•{}".format(user_id, event.sender_id)),
             ],
         )
+ except Exception as e:
+   print(e)
             
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
 async def delete_fed(event):
