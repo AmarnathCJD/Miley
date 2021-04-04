@@ -199,14 +199,15 @@ async def p(event):
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  print(4)
- mk = None
+ mk = f"{user_id}|{event.sender_id}|{fed_id}"
+ km = f"{user_id}|{event.sender_id}"
  try:
   await tbot.send_message(
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
-                Button.inline("Confirm", data="fkfed_{}•{}•{}".format(user_id, event.sender_id, fed_id)),
-                Button.inline("Cancel", data="smex_{}•{}".format(user_id, event.sender_id)),
+                Button.inline("Confirm", data="fkfed_{}".format(mk)),
+                Button.inline("Cancel", data="smex_{}".format(km)),
             ],
         )
  except Exception as e:
