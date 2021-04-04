@@ -240,7 +240,7 @@ async def smex(event):
      fname = rt.user.first_name
      await event.reply("Fedadmin promotion cancelled by [{fname}](tg://user?id={owner})")
      return
-  if event.sender_id == int(user);
+  if event.sender_id == int(user):
      rt = await tbot(GetFullUserRequest(int(user)))
      fname = rt.user.first_name
      await event.reply("Fedadmin promotion has been refused by [{fname}](tg://user?id={user}).")
