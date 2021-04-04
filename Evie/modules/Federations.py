@@ -201,8 +201,7 @@ async def p(event):
  print(4)
  mk = f"{user_id}|{event.sender_id}|{fed_id}"
  km = f"{user_id}|{event.sender_id}"
- try:
-  await tbot.send_message(
+ await tbot.send_message(
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
@@ -210,13 +209,15 @@ async def p(event):
                 Button.inline("Cancel", data="smex_{}".format(km)),
             ],
         )
- except Exception as e:
-    await event.reply(e)
             
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
 async def delete_fed(event):
  tata = event.pattern_match.group(1)
  data = tata.decode()
  input = data.split("_", 1)[1]
- await tbot.send_message(event.chat_id, input)
+ user, owner, fed_id = input.split("|")
+ user = user.strip()
+ owner = owner.strip()
+ fed_id = fed_id.strip()
+ await tbot.send_message(event.chat_id, f"User:{user}\nOwner:{owner}\nFed_Id:{fed_id}")
 
