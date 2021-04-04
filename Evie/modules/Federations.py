@@ -289,7 +289,7 @@ async def info(event):
    for f in fedowner:
             fed_id = f["fed_id"]
    info = sql.get_fed_info(fed_id)
- print(69)
+ await event.reply(fed_id)
  try:
   owner = int(info["owner"])
   getfban = sql.get_all_fban_users(fed_id)
