@@ -118,20 +118,17 @@ async def cgname(event):
 
 @register(pattern="^/chatfed")
 async def cf(event):
+ chat = event.chat_id
  if event.is_private:
    return
  if not await is_admin(event, event.sender_id):
    return await event.reply("You need to be an admin to do this.")
  fed_id = sql.get_fed_id(chat)
- try:
-  if not fed_id:
-   return await event.reply("This chat isn't part of any feds yet!")
-  info = sql.get_fed_info(fed_id)
-  name = info["fname"]
-  await event.reply(f"Chat {event.chat.title} is part of the following federation: {name} [ID: `{fed_id}`]")
- except Exception as e:
-   print(e)
-
+ if not fed_id:
+  return await event.reply("This chat isn't part of any feds yet!")
+ info = sql.get_fed_info(fed_id)
+ name = info["fname"]
+ await event.reply(f"Chat {event.chat.title} is part of the following federation: {name} [ID: `{fed_id}`]")
  
 
 
