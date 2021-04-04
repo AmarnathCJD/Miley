@@ -308,7 +308,9 @@ async def info(event):
   caption += f"Number of bans: `{len(getfban)}`\n"
   caption += f"Number of connected chats: `{len(getfchat)}`\n"
   caption += f"Number of subscribed feds: `{len(getmy)}`\n"
+  if not len(getmy) == 0:
+     for x in getmy:
+                caption += "- `{}`\n".format(x)
   await event.reply(caption)
-  await event.reply("Hi")
  except Exception as e:
    print(e)
