@@ -402,4 +402,4 @@ async def _(event):
         else:
           reason = "None"
         r_sender_id = iid
-    await event.reply(r_sender_id)
+    await event.reply(fname)
