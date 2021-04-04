@@ -367,7 +367,7 @@ async def ugban(event):
 
 
 @tbot.on(events.ChatAction)
-async def handler(event):
+async def joinban(event):
     if event.user_joined:
       if is_admin(event, BOT_ID):
         chats = gbanned.find({})
@@ -383,7 +383,7 @@ async def handler(event):
                    pass
               
 @tbot.on(events.NewMessage(pattern=None))
-async def nm(event):
+async def gmute(event):
     chats = gmuted.find({})
     for c in chats:
         if event.sender_id == c["user"]: 
