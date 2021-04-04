@@ -163,6 +163,7 @@ async def filter(event):
   if name.startswith("/stop") or name.startswith("/filter"):
      return
   if name.startswith("/clear") or name.startswith("/save"):
+     return
   snips = get_all_filters(event.chat_id)
   if snips:
     for snip in snips:
