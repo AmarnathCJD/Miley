@@ -85,7 +85,6 @@ async def smexy(event):
                 [Button.inline("Delete Federation", data="rmfed_{}".format(fed_id))],
                 [Button.inline("Cancel", data="nada")],
             ],
-            reply_to=event.message.id,
         )
 
 @tbot.on(events.CallbackQuery(pattern=r"rmfed(\_(.*))"))
