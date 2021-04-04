@@ -32,8 +32,6 @@ async def save(event):
       if not await can_change_info(message=event):
         await event.reply("You are missing the following rights to use this command: CanChangeInfo")
         return
-      else:
-        return
  if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
      if input:
