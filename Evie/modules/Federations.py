@@ -354,5 +354,7 @@ async def _(event):
     fed_id = sql.get_fed_id(chat)
     if not fed_id:
       return await event.reply("This chat isn't in any federations.")
+    info = sql.get_fed_info(fed_id)
+    name = info["fname"]
     if not await is_user_fed_admin(fed_id, user.id):
       return await event.reply(f"You aren't a federation admin for {name}!")
