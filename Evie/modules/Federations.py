@@ -328,19 +328,22 @@ async def smex_fed(event):
   fed_id = input
   info = sql.get_fed_info(fed_id)
   try:
-        text = "Admins in federation '{}':</b>\n\n".format(info["fname"])
+        text = "Admins in federation '{}':\n".format(info["fname"])
         owner = await tbot.get_entity(int(info["owner"]))
         try:
             owner_name = owner.first_name + " " + owner.last_name
         except:
             owner_name = owner.first_name
-        text += f"- <p><a href='tg://user?id={owner.id}'>{owner_name}</a></p>\n"
+        text += f"- [{owner_name}](tg://user?id={owner.id}) ({owner.id})\n"
 
         members = sql.all_fed_members(fed_id)
         for x in members:
+          try:
             user = await tbot.get_entity(int(x))
             unamee = user.first_name
-            text += f"- <p><a href='tg://user?id={user.id}'>{unamee}</a></p>\n"
+            text += f"- [{unamee}](tg://user?id={user.id}) ({user.id})"
+          except Exception:
+            text += f"- {x}/n"
   except Exception as e:
    print(e)
   await event.reply(text)
