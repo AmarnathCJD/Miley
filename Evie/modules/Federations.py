@@ -65,7 +65,7 @@ async def new(event):
  fed_id = str(uuid.uuid4())
  fed_name = name
  x = sql.new_fed(event.sender_id, fed_name, fed_id)
- await event.reply("Created new federation with FedID: `{}`.\nUse this ID to join the federation! eg:\n`/joinfed {}`").format(fed_id, fed_id)
+ await event.reply(f"Created new federation with FedID: `{fed_id}`.\nUse this ID to join the federation! eg:\n`/joinfed {fed_id}`")
    
  
  
