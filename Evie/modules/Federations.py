@@ -347,3 +347,12 @@ async def smex_fed(event):
   except Exception as e:
    print(e)
   await event.reply(text)
+
+@register(pattern="^/fban (.*)")
+async def _(event):
+    user = event.sender
+    fed_id = sql.get_fed_id(chat)
+    if not fed_id:
+      return await event.reply("This chat isn't in any federations.")
+    if not await is_user_fed_admin(fed_id, user.id):
+      return await event.reply(f"You aren't a federation admin for {name}!")
