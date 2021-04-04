@@ -226,17 +226,13 @@ file_helpo = file_help.replace("_", " ")
 
 __help__ = """
 **Filters**
-
 Make your chat more lively with filters; The bot will reply to certain words!
-
-Filters are case insensitive; every time someone says your trigger words, Rose will reply something else! can be used to create your own commands, if desired.
-
+Filters are case insensitive; every time someone says your trigger words, Evie will reply something else! can be used to create your own commands, if desired.
 **Commands:**
 - /filter <trigger> <reply>: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
 - /listfilters: List all chat filters.
 - /stop <trigger>: Stop the bot from replying to "trigger".
 - /stopall: Stop **ALL** filters in the current chat. This cannot be undone.
-
 **Examples:**
 - Set a filter:
 -> /filter hello Hello there! How are you?
@@ -249,8 +245,6 @@ If you want more buttons, seperate each with "`•`", example send `/filter sear
 You need to use either ' or " to enclose the button text and url
 eg : `[button('Google', 'google.com')]`
 **or** `[button("Google", "google.com")]`
-Admin only filter in next update.
-Current filter limit: None
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
 
