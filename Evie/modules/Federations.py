@@ -199,7 +199,7 @@ async def p(event):
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  print(4)
- mk = 
+ mk = None
  try:
   await tbot.send_message(
             event.chat_id,
