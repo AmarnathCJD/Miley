@@ -83,7 +83,7 @@ async def save(event):
         )
  await event.reply(f"Saved filter `{name}`")
 
-@register(pattern="^/listfilters$")
+@register(pattern="^/filters$")
 async def on_snip_list(event):
     if event.is_group:
         pass
