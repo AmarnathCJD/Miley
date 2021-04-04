@@ -199,15 +199,17 @@ async def p(event):
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  print(4)
- await tbot.send_message(
+ try:
+  await tbot.send_message(
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
-                Button.inline("Confirm", data="fkfed_{}".format(user_id)),
-                Button.inline("Cancel", data="smex_{}".format(user_id)),
+                Button.inline("Confirm", data="fkfed_{}•{}•{}".format(user_id, event.sender_id, fed_id)),
+                Button.inline("Cancel", data="smex_{}•{}•{}".format(user_id, event.sender_id)),
             ],
         )
- 
+ except Exception as e:
+    print(e)
             
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
 async def delete_fed(event):
