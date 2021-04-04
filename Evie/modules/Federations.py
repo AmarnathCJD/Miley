@@ -205,8 +205,8 @@ async def p(event):
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
-                Button.inline("Confirm", data="fkfed_{}•{}•{}".format(user_id, event.sender_id, fed_id)),
-                Button.inline("Cancel", data="smex_{}•{}".format(user_id, event.sender_id)),
+                Button.inline("Confirm", data="fkfed_{}+{}+{}".format(user_id, event.sender_id, fed_id)),
+                Button.inline("Cancel", data="smex_{}+{}".format(user_id, event.sender_id)),
             ],
         )
  
