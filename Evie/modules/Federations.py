@@ -193,7 +193,6 @@ async def p(event):
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
  user_id = args.id
- k = args.user.first_name
  replied_user = await tbot(GetFullUserRequest(user_id))
  fname = replied_user.user.first_name
  getuser = sql.search_user_in_fed(fed_id, user_id)
@@ -201,10 +200,17 @@ async def p(event):
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  await tbot.send_message(
             event.chat_id,
-            f"Please get [{fname}](tg://user?id={args.id}) to confirm {k} that they would like to be fed admin for {name}",
+            f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
                 Button.inline("Confirm", data="fkfed_{}•{}•{}".format(user_id, event.sender_id, fed_id)),
                 Button.inline("Cancel", data="smex_{}•{}".format(user_id, event.sender_id)),
             ],
         )
             
+@tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
+async def delete_fed(event):
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ input = data.split("_", 1)[1]
+ await tbot.send_message(event.chat_id, input)
+
