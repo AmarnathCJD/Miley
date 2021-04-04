@@ -224,7 +224,7 @@ file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
 
 
-_help_ = """
+__help__ = """
 **Filters**
 
 Make your chat more lively with filters; The bot will reply to certain words!
