@@ -21,8 +21,16 @@ TYPE_PHOTO = 1
 TYPE_DOCUMENT = 2
 
 
-@register(pattern="^/filter ?(.*)")
+@tbot.on(events.NewMessage(pattern=None))
 async def save(event):
+ name = event.raw_text
+ if name.startswith("/filters"):
+    return
+ elif name.startswith("/filter"):
+    input = name.replace("/filter", "")
+    pass
+ else:
+    return
  if event.is_private:
      return
  if event.is_group:
@@ -33,7 +41,6 @@ async def save(event):
         await event.reply("You are missing the following rights to use this command: CanChangeInfo")
         return
  if not event.reply_to_msg_id:
-     input = event.pattern_match.group(1)
      if input:
        arg = input.split(" ", 1)
      if len(arg) == 2:
@@ -49,7 +56,7 @@ async def save(event):
       return
  else:
       message = await event.get_reply_message()
-      name = event.pattern_match.group(1)
+      name = input
       if not name:
         await event.reply("You need to give the filter a name!")
         return
