@@ -436,7 +436,38 @@ async def _(event):
        sax += f"**User:** [{fname}](tg://user?id={r_sender_id})\n"
        sax += f"**User ID:** `{r_sender_id}`\n"
        sax += f"**Reason:** {reason}"
-       await tbot.send_message(
+    else:
+            fed_name = info["fname"]
+            temp = sql.un_fban_user(fed_id, fban_user_id)
+            if not temp:
+                await event.reply("Failed to update the reason for fedban!")
+                return
+            x = sql.fban_user(
+                fed_id,
+                fban_user_id,
+                fban_user_name,
+                fban_user_lname,
+                fban_user_uname,
+                reason,
+                int(time.time()),
+            )
+            sax = "**FedBan Update**\n"
+            sax += f"**Fed:** {name}\n"
+            sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n"
+            sax += f"**User:** [{fname}](tg://user?id={r_sender_id})\n"
+            sax += f"**User ID:** `{r_sender_id}`\n"
+            sax += f"**Reason:** {reason}"
+    await tbot.send_message(
                 event.chat_id,
+                sax)
+    getfednotif = sql.user_feds_report(info["owner"])
+    if getfednotif:
+         await tbot.send_message(
+                int(info["owner"]),
+                sax)
+    get_fedlog = sql.get_fed_log(fed_id)
+    if get_fedlog:
+           await tbot.send_message(
+                int(get_fedlog),
                 sax)
                 
