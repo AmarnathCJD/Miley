@@ -279,7 +279,6 @@ async def info(event):
  if not input:
   if not fedowner:
    return await event.reply("You need to give me a FedID to check, or be a federation creator to use this command!")
-  fed_id = input
  if input:
    fed_id = input
    info = sql.get_fed_info(fed_id)
