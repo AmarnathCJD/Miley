@@ -311,6 +311,7 @@ async def info(event):
   if not len(getmy) == 0:
      for x in getmy:
                 caption += "- `{}`\n".format(x)
-  await event.reply(caption)
+  buttons = Button.inline("Check Fed Admins", data="fed_adm_{}".format(fed_id))
+  await tbot.send_message(event.chat_id, caption, buttons=buttons)
  except Exception as e:
    print(e)
