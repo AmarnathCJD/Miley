@@ -159,7 +159,7 @@ async def start_again(event):
 @tbot.on(events.NewMessage(pattern=None))
 async def filter(event):
   name = event.raw_text
-  if name.startswith("/stop"):
+  if name.startswith("/stop") or name.startswith("/filter"):
      return
   snips = get_all_filters(event.chat_id)
   if snips:
