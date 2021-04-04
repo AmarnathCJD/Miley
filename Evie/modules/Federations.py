@@ -378,7 +378,7 @@ async def _(event):
         reason = arg[1]
      else:
         iid = arg[0]
-        reason = "None"
+        reason = None
      if not iid.isnumeric():
         entity = await tbot.get_input_entity(iid)
         try:
@@ -391,8 +391,12 @@ async def _(event):
      try:
         replied_user = await tbot(GetFullUserRequest(r_sender_id))
         fname = replied_user.user.first_name
+        username = replied_user.user.username
+        lname = replied_user.user.last_name
      except Exception:
         fname = "User"
+        username = None
+        lname = None
     else:
         reply_message = await event.get_reply_message()
         iid = reply_message.sender_id
@@ -400,7 +404,7 @@ async def _(event):
         if input:
           reason = input
         else:
-          reason = "None"
+          reason = None
         r_sender_id = iid
     if r_sender_id == BOT_ID or r_sender_id == OWNER_ID:
         return
@@ -409,4 +413,31 @@ async def _(event):
            return await event.reply(f"I'm not banning a fed admin from their own fed! [{name}]")
     if is_user_fed_admin(fed_id, int(r_sender_id)) is True:
            return await event.reply(f"I'm not banning a fed admin from their own fed! [{name}]")
-
+    fban_user_id = int(r_sender_id)
+    fban_user_name = fname
+    fban_user_lname = lname
+    fban_user_uname = username
+    fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(r_sender_id))
+    if fban:
+       temp = sql.un_fban_user(fed_id, fban_user_id)
+       if not temp:
+            return await event.reply("Failed to update the reason for fedban!")
+       x = sql.fban_user(
+                fed_id,
+                fban_user_id,
+                fban_user_name,
+                fban_user_lname,
+                fban_user_uname,
+                reason,
+                int(time.time()),
+            )
+       sax = "**New FedBan**\n"
+       sax += f"**Fed:** {name}\n"
+       sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n")
+       sax += f"**User:** [{fname}](tg://user?id={r_sender_id})\n")
+       sax += f"**User ID:** `{r_sender_id}`\n"
+       sax += f"**Reason:** {reason}"
+       await tbot.send_message(
+                event.chat_id,
+                sax)
+                
