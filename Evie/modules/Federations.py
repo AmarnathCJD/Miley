@@ -67,8 +67,6 @@ async def new(event):
  fed_name = name
  x = sql.new_fed(event.sender_id, fed_name, fed_id)
  return await event.reply(f"Created new federation with FedID: `{fed_id}`.\nUse this ID to join the federation! eg:\n`/joinfed {fed_id}`")
-   
-
 
 @register(pattern="^/delfed")
 async def smexy(event):
@@ -77,11 +75,10 @@ async def smexy(event):
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
  if not fedowner:
   return await event.reply("It doesn't look like you have a federation yet!")
- try:
-   for f in fedowner:
+ for f in fedowner:
             fed_id = "{}".format(f["fed_id"])
             name = f["fed"]["fname"]
-   await tbot.send_message(
+ await tbot.send_message(
             event.chat_id,
             "Are you sure you want to delete your federation? This action cannot be undone - you will lose your entire ban list, and '{}' will be permanently gone.".format(name),
             buttons=[
@@ -90,8 +87,6 @@ async def smexy(event):
             ],
             reply_to=event.message.id,
         )
- except Exception as e:
-   print(e)
 
 @tbot.on(events.CallbackQuery(pattern=r"rmfed(\_(.*))"))
 async def delete_fed(event):
