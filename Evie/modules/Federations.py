@@ -313,7 +313,34 @@ async def info(event):
   if not len(getmy) == 0:
      for x in getmy:
                 caption += "- `{}`\n".format(x)
-  buttons = Button.inline("Check Fed Admins", data="fed_adm_{}".format(fed_id))
+  buttons = Button.inline("Check Fed Admins", data="fedadm_{}".format(fed_id))
   await tbot.send_message(event.chat_id, caption, buttons=buttons)
  except Exception as e:
    print(e)
+
+@tbot.on(events.CallbackQuery(pattern=r"fedadm(\_(.*))"))
+async def smex_fed(event):
+  if not await is_admin(event, event.sender_id):
+     return await event.answer("You need to be an admin to do this")
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  fed_id = input
+  info = sql.get_fed_info(fed_id)
+  try:
+        text = "Admins in federation '{}':</b>\n\n".format(info["fname"])
+        owner = await tbot.get_entity(int(info["owner"]))
+        try:
+            owner_name = owner.first_name + " " + owner.last_name
+        except:
+            owner_name = owner.first_name
+        text += f"- <p><a href='tg://user?id={owner.id}'>{owner_name}</a></p>\n"
+
+        members = sql.all_fed_members(fed_id)
+        for x in members:
+            user = await tbot.get_entity(int(x))
+            unamee = user.first_name
+            text += f"- <p><a href='tg://user?id={user.id}'>{unamee}</a></p>\n"
+  except Exception as e:
+   print(e)
+  await event.reply(text)
