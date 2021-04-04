@@ -418,10 +418,7 @@ async def _(event):
     fban_user_lname = lname
     fban_user_uname = username
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(r_sender_id))
-    if fban:
-       temp = sql.un_fban_user(fed_id, fban_user_id)
-       if not temp:
-            return await event.reply("Failed to update the reason for fedban!")
+    if not fban:
        x = sql.fban_user(
                 fed_id,
                 fban_user_id,
