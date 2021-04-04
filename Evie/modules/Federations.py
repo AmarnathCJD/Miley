@@ -193,7 +193,7 @@ async def p(event):
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
  user_id = args.id
- k = args.first_name
+ k = args.user.first_name
  replied_user = await tbot(GetFullUserRequest(user_id))
  fname = replied_user.user.first_name
  getuser = sql.search_user_in_fed(fed_id, user_id)
