@@ -130,5 +130,32 @@ async def cf(event):
  name = info["fname"]
  await event.reply(f"Chat {event.chat.title} is part of the following federation: {name} [ID: `{fed_id}`]")
  
+@register(pattern="^/joinfed ?(.*)")
+async def jf(event):
+ if not event.is_group:
+   return
+ if not await is_admin(event, event.sender_id):
+   await event.reply("You need to be an admin to do this.")
+   return
+ permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+ if not permissions.is_creator:
+          return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
+ args = event.pattern_match.group(1)
+ if not args:
+   return await event.reply("You need to specify which federation you're asking about by giving me a FedID!")
+ if len(args) < 8:
+   return await event.reply("This isn't a valid FedID format!")
+ getfed = sql.search_fed_by_id(args)
+ name = getfed["fname"]
+ if not getfed:
+  return await event.reply("This FedID does not refer to an existing federation.")
+ fed_id = sql.get_fed_id(event.chat_id)
+ if fed_id:
+    sql.chat_leave_fed(event.chat_id)
+ x = sql.chat_join_fed(args, event.chat.title, event.chat_id)
+ return await event.reply(f"Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.")
+ 
+ 
+
 
 
