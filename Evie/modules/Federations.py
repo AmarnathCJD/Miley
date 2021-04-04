@@ -155,7 +155,23 @@ async def jf(event):
  x = sql.chat_join_fed(args, event.chat.title, event.chat_id)
  return await event.reply(f'Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.')
  
- 
+@register(pattern="^/leavefed")
+async def lf(event):
+ if not event.is_group:
+   return
+ if not await is_admin(event, event.sender_id):
+   await event.reply("You need to be an admin to do this.")
+   return
+ permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+ if not permissions.is_creator:
+          return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
+ fed_id = sql.get_fed_id(chat)
+ if not fed_id:
+   return await event.reply("This chat isn't currently in any federations!")
+ fed_info = sql.get_fed_info(fed_id)
+ name = fed_info["fname"]
+ sql.chat_leave_fed(chat)
+ return await event.reply(f'Chat {event.chat.title} has left the " {name} " federation.')
 
 
 
