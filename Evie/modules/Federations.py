@@ -120,7 +120,7 @@ async def cgname(event):
 async def cf(event):
  if event.is_private:
    return
- if not is_admin(event, event.sender_id):
+ if not await is_admin(event, event.sender_id):
    return await event.reply("You need to be an admin to do this.")
  fed_id = sql.get_fed_id(chat)
  try:
