@@ -1,4 +1,4 @@
-from Evie import tbot, CMD_HELP
+from Evie import tbot, CMD_HELP, OWNER_ID
 import os, re, csv, json, time, uuid
 from Evie.function import is_admin
 from io import BytesIO
