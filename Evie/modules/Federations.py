@@ -153,7 +153,7 @@ async def jf(event):
  if fed_id:
     sql.chat_leave_fed(event.chat_id)
  x = sql.chat_join_fed(args, event.chat.title, event.chat_id)
- return await event.reply(f"Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.")
+ return await event.reply(f'Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.')
  
  
 
