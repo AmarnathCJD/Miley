@@ -39,6 +39,16 @@ async def get_user_from_event(event):
 
     return user_obj
 
+def is_user_fed_admin(fed_id, user_id):
+    fed_admins = sql.all_fed_users(fed_id)
+    if fed_admins is False:
+        return False
+    if int(user_id) in fed_admins or int(user_id) == OWNER_ID:
+        return True
+    else:
+        return False
+
+
 def is_user_fed_owner(fed_id, user_id):
     getsql = sql.get_fed_info(fed_id)
     if getsql is False:
@@ -348,7 +358,7 @@ async def smex_fed(event):
    print(e)
   await event.reply(text)
 
-@register(pattern="^/fban (.*)")
+@register(pattern="^/fban ?(.*)")
 async def _(event):
     user = event.sender
     fed_id = sql.get_fed_id(chat)
