@@ -98,7 +98,35 @@ async def delete_fed(event):
 @tbot.on(events.CallbackQuery(pattern=r"nada"))
 async def delete_fed(event):
   await event.edit("Federation deletion canceled")
-    
+
+@register(pattern="^/renamefed ?(.*)")
+async def cgname(event):
+ if not event.is_private:
+   return await event.reply("You can only rename your fed in PM.")
+ user_id = event.sender_id
+ newname = event.pattern_match.group(1)
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+  return await event.reply("It doesn't look like you have a federation yet!")
+ if not newname:
+  return await event.reply("You need to give your federation a new name! Federation names can be up to 64 characters long.")
+ for f in fedowner:
+            fed_id = "{}".format(f["fed_id"])
+ sql.rename_fed(fed_id, user_id, newname)
+
+@register(pattern="^/chatfed")
+async def cf(event):
+ if event.is_private:
+   return
+ if not is_admin(event, event.sender_id):
+   return await event.reply("You need to be an admin to do this.")
+ fed_id = sql.get_fed_id(chat)
+ if not fed_id:
+  return await event.reply("This chat isn't part of any feds yet!")
+ info = sql.get_fed_info(fed_id)
+ name = info["fname"]
+ await event.reply(f"Chat {event.chat.title} is part of the following federation: {name} [ID: `{fed_id}`]")
+
  
 
 
