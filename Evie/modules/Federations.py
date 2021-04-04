@@ -212,19 +212,22 @@ async def p(event):
             
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
 async def delete_fed(event):
- tata = event.pattern_match.group(1)
- data = tata.decode()
- input = data.split("_", 1)[1]
- user, owner, fed_id= input.split("|")
- user = user.strip()
- name = owner.strip()
- fed_id = fed_id.strip()
- rt = await tbot(GetFullUserRequest(user))
- fname = rt.user.first_name
- if not event.sender_id == int(user):
-   return await event.answer("You are not the user being fpromoted")
- res = sql.user_join_fed(fed_id, int(user))
- if res:
-    return await event.edit(f"User [{fname}](tg://user?id={user}) is now an admin of {name} [{fed_id}]")
+ try:
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user, owner, fed_id= input.split("|")
+  user = user.strip()
+  name = owner.strip()
+  fed_id = fed_id.strip()
+  rt = await tbot(GetFullUserRequest(int(user)))
+  fname = rt.user.first_name
+  if not event.sender_id == int(user):
+    return await event.answer("You are not the user being fpromoted")
+  res = sql.user_join_fed(fed_id, int(user))
+  if res:
+     return await event.edit(f"User [{fname}](tg://user?id={user}) is now an admin of {name} [{fed_id}]")
+ except Exception as e:
+  await event.reply(e)
  
  
