@@ -235,7 +235,7 @@ Filters are case insensitive; every time someone says your trigger words, Rose w
 - /filter <trigger> <reply>: Every time someone says "trigger", the bot will reply with "sentence". For multiple word filters, quote the trigger.
 - /listfilters: List all chat filters.
 - /stop <trigger>: Stop the bot from replying to "trigger".
-- /stopall: Stop ALL filters in the current chat. This cannot be undone.
+- /stopall: Stop **ALL** filters in the current chat. This cannot be undone.
 
 **Examples:**
 - Set a filter:
@@ -250,6 +250,7 @@ You need to use either ' or " to enclose the button text and url
 eg : `[button('Google', 'google.com')]`
 **or** `[button("Google", "google.com")]`
 Admin only filter in next update.
+Current filter limit: None
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
 
