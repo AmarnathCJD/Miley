@@ -404,6 +404,7 @@ async def _(event):
         r_sender_id = iid
     if r_sender_id == BOT_ID or r_sender_id == OWNER_ID:
         return
+    name = info["fname"]
     if is_user_fed_owner(fed_id, int(r_sender_id)) is True:
            return await event.reply(f"I'm not banning a fed admin from their own fed! ({name})")
     if is_user_fed_admin(fed_id, int(r_sender_id)) is True:
