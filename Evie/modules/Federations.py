@@ -199,7 +199,7 @@ async def p(event):
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  print(4)
- mk = f"{user_id}|{event.sender_id}|{fed_id}|{name}"
+ mk = f"{user_id}|{event.sender_id}|{fed_id}"
  km = f"{user_id}|{event.sender_id}"
  await tbot.send_message(
             event.chat_id,
@@ -215,13 +215,13 @@ async def delete_fed(event):
  tata = event.pattern_match.group(1)
  data = tata.decode()
  input = data.split("_", 1)[1]
- user, owner, fed_id, name = input.split("|")
+ user, owner, fed_id= input.split("|")
  user = user.strip()
  owner = owner.strip()
  fed_id = fed_id.strip()
  rt = await tbot(GetFullUserRequest(user_id))
  fname = rt.user.first_name
- name = name.strip()
+ name = "Up"
  if not event.sender_id == int(owner) or not event.sender_id == int(user):
    return await event.answer("You are not the user being fpromoted")
  res = sql.user_join_fed(fed_id, int(user))
