@@ -211,7 +211,7 @@ async def p(event):
             ],
         )
  except Exception as e:
-    print(e)
+    await event.reply(e)
             
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
 async def delete_fed(event):
