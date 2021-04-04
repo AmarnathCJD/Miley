@@ -88,7 +88,7 @@ async def smexy(event):
                 [Button.inline("Delete Federation", data="rmfed_{}".format(fed_id))],
                 [Button.inline("Cancel", data="nada")],
             ],
-            reply_to=message,
+            reply_to=event.message.id,
         )
  except Exception as e:
    print(e)
