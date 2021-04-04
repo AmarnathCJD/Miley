@@ -211,7 +211,7 @@ async def p(event):
         )
             
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
-async def delete_fed(event):
+async def smex_fed(event):
   tata = event.pattern_match.group(1)
   data = tata.decode()
   input = data.split("_", 1)[1]
@@ -227,4 +227,22 @@ async def delete_fed(event):
   if res:
      return await event.edit(f"User [{fname}](tg://user?id={user}) is now an admin of {name} [{fed_id}]")
  
- 
+@tbot.on(events.CallbackQuery(pattern=r"smex(\_(.*))"))
+async def smex(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user, owner= input.split("|")
+  user = user.strip()
+  owner = owner.strip()
+  if event.sender_id == int(owner):
+     rt = await tbot(GetFullUserRequest(int(owner)))
+     fname = rt.user.first_name
+     await event.reply("Fedadmin promotion cancelled by [{fname}](tg://user?id={owner})")
+     return
+  if event.sender_id == int(user);
+     rt = await tbot(GetFullUserRequest(int(user)))
+     fname = rt.user.first_name
+     await event.reply("Fedadmin promotion has been refused by [{fname}](tg://user?id={user}).")
+     return
+  await event.answer("You are not the user being fpromoted")
