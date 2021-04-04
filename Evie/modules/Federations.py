@@ -401,6 +401,8 @@ async def _(event):
         reply_message = await event.get_reply_message()
         iid = reply_message.sender_id
         fname = reply_message.sender.first_name
+        lname = reply_message.sender.last_name
+        username = reply_message.sender.username
         if input:
           reason = input
         else:
