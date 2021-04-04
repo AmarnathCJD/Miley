@@ -219,5 +219,5 @@ async def delete_fed(event):
  user = user.strip()
  owner = owner.strip()
  fed_id = fed_id.strip()
- await tbot.send_message(event.chat_id, f"User:{user}\nOwner:{owner}\nFed_Id:{fed_id}")
-
+ if not event.sender_id == int(owner) or not event.sender_id == int(user):
+   return await event.answer("You are not the user being fpromoted")
