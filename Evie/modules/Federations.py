@@ -285,20 +285,22 @@ async def info(event):
    info = sql.get_fed_info(fed_id)
    if not info:
       return await event.reply("There is no federation with this FedID.")
-   owner = int(info["owner"])
-   getfban = sql.get_all_fban_users(fed_id)
-   getfchat = sql.all_fed_chats(fed_id)
-   FEDADMIN = sql.all_fed_users(fed_id)
-   TotalAdminFed = len(FEDADMIN)
-   caption = "Fed info:\n"
-   caption += f"FedID: `{fed_id}`\n"
-   caption += f"Name: {name}\n"
-   caption += f"Creator: [this person](tg://user?id={owner})\n"
-   caption += f"Number of admins: `{TotalAdminFed}`\n"
-   caption += f"Number of bans: `{len(getfban)}`
-   caption += f"Number of connected chats: `{len(getfchat)}`"
- #Balance Soon
- if fedowner:
-    for f in fedowner:
+   
+ else:
+   for f in fedowner:
             fed_id = f["fed_id"]
-     
+   info = sql.get_fed_info(fed_id)
+ owner = int(info["owner"])
+ getfban = sql.get_all_fban_users(fed_id)
+ getfchat = sql.all_fed_chats(fed_id)
+ FEDADMIN = sql.all_fed_users(fed_id)
+ TotalAdminFed = len(FEDADMIN)
+ getmy = sql.get_mysubs(fed_id)
+ caption = "Fed info:\n"
+ caption += f"FedID: `{fed_id}`\n"
+ caption += f"Name: {name}\n"
+ caption += f"Creator: [this person](tg://user?id={owner})\n"
+ caption += f"Number of admins: `{TotalAdminFed}`\n"
+ caption += f"Number of bans: `{len(getfban)}`
+ caption += f"Number of connected chats: `{len(getfchat)}`"
+ caption += f"Number of subscribed feds: `{len(getmy)}`"
