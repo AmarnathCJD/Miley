@@ -284,10 +284,11 @@ async def info(event):
    info = sql.get_fed_info(fed_id)
    if not info:
       return await event.reply("There is no federation with this FedID.")
-   
+   name = info["fname"]
  elif fedowner:
    for f in fedowner:
             fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
    info = sql.get_fed_info(fed_id)
  try:
   owner = int(info["owner"])
