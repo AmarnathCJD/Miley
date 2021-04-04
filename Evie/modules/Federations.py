@@ -301,6 +301,7 @@ async def info(event):
  caption += f"Name: {name}\n"
  caption += f"Creator: [this person](tg://user?id={owner})\n"
  caption += f"Number of admins: `{TotalAdminFed}`\n"
- caption += f"Number of bans: `{len(getfban)}`
- caption += f"Number of connected chats: `{len(getfchat)}`"
- caption += f"Number of subscribed feds: `{len(getmy)}`"
+ caption += f"Number of bans: `{len(getfban)}`\n"
+ caption += f"Number of connected chats: `{len(getfchat)}`\n"
+ caption += f"Number of subscribed feds: `{len(getmy)}`\n"
+ await event.reply(caption)
