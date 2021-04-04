@@ -289,22 +289,25 @@ async def info(event):
    for f in fedowner:
             fed_id = f["fed_id"]
    info = sql.get_fed_info(fed_id)
- await event.reply(fed_id)
- owner = int(info["owner"])
- getfban = sql.get_all_fban_users(fed_id)
- getfchat = sql.all_fed_chats(fed_id)
- FEDADMIN = sql.all_fed_users(fed_id)
- TotalAdminFed = len(FEDADMIN)
  try:
-    getmy = sql.get_mysubs(fed_id)
- except:
-    getmy = []
- caption = "Fed info:\n"
- caption += f"FedID: `{fed_id}`\n"
- caption += f"Name: {name}\n"
- caption += f"Creator: [this person](tg://user?id={owner})\n"
- caption += f"Number of admins: `{TotalAdminFed}`\n"
- caption += f"Number of bans: `{len(getfban)}`\n"
- caption += f"Number of connected chats: `{len(getfchat)}`\n"
- caption += f"Number of subscribed feds: `{len(getmy)}`\n"
- await event.reply(caption)
+  owner = int(info["owner"])
+  getfban = sql.get_all_fban_users(fed_id)
+  getfchat = sql.all_fed_chats(fed_id)
+  FEDADMIN = sql.all_fed_users(fed_id)
+  TotalAdminFed = len(FEDADMIN)
+  try:
+     getmy = sql.get_mysubs(fed_id)
+  except:
+     getmy = []
+  caption = "Fed info:\n"
+  caption += f"FedID: `{fed_id}`\n"
+  caption += f"Name: {name}\n"
+  caption += f"Creator: [this person](tg://user?id={owner})\n"
+  caption += f"Number of admins: `{TotalAdminFed}`\n"
+  caption += f"Number of bans: `{len(getfban)}`\n"
+  caption += f"Number of connected chats: `{len(getfchat)}`\n"
+  caption += f"Number of subscribed feds: `{len(getmy)}`\n"
+  await event.reply(caption)
+  await event.reply("Hi")
+ except Exception as e:
+   print(e)
