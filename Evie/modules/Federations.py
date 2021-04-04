@@ -62,6 +62,13 @@ async def new(event):
   return await event.reply("You need to give your federation a name! Federation names can be up to 64 characters long.")
  if len(name) > 64:
   return await event.reply("Federation names can only be upto 64 charactors long")
+ fed_id = str(uuid.uuid4())
+ fed_name = name
+ x = sql.new_fed(event.sender_id, fed_name, fed_id)
+ if x:
+   await event.reply("Created new federation with FedID: `{}`.\nUse this ID to join the federation! eg:\n`/joinfed {}`").format(fed_id, fed_id)
+   
+ 
  
 
  
