@@ -198,7 +198,7 @@ async def p(event):
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  await tbot.send_message(
             event.chat_id,
-            f"Please get {fname} to confirm that they would like to be fed admin for {name}",
+            f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
                 Button.inline("Confirm", data="fkfed_{}".format(user_id)),
                 Button.inline("Cancel", data="smex_{}".format(user_id)),
