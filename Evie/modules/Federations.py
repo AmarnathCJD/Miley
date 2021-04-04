@@ -404,8 +404,8 @@ async def _(event):
         r_sender_id = iid
     if r_sender_id == BOT_ID or r_sender_id == OWNER_ID:
         return
-    if is_user_fed_owner(fed_id, user_id) is True:
+    if is_user_fed_owner(fed_id, r_sender_id) is True:
            return await event.reply("I'm not banning a fed admin from their own fed! ({name})")
-    if is_user_fed_admin(fed_id, user_id) is True:
+    if is_user_fed_admin(fed_id, r_sender_id) is True:
            return await event.reply("I'm not banning a fed admin from their own fed! ({name})")
 
