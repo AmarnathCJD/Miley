@@ -111,8 +111,10 @@ async def cgname(event):
  if not newname:
   return await event.reply("You need to give your federation a new name! Federation names can be up to 64 characters long.")
  for f in fedowner:
-            fed_id = "{}".format(f["fed_id"])
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
  sql.rename_fed(fed_id, user_id, newname)
+ return await event.reply(f"Tada! I've renamed your federation from '{name}' to '{newname}'. [FedID: `{fed_id}`].")
 
 @register(pattern="^/chatfed")
 async def cf(event):
