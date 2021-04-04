@@ -116,7 +116,7 @@ async def on_snip_delete(event):
       if not await can_change_info(message=event):
         await event.reply("You are missing the following rights to use this command: CanChangeInfo")
         return
-      else:
+    else:
         return
     name = event.pattern_match.group(1)
     remove_filter(event.chat_id, name)
