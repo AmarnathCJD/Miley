@@ -8,6 +8,7 @@ from telethon import Button
 from telethon.tl import *
 from telethon.tl.types import User
 from Evie import *
+from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
 from Evie.events import register
 
@@ -17,6 +18,7 @@ async def get_user_from_event(event):
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         user_obj = await tbot.get_entity(previous_message.sender_id)
+        fname = previous_message.sender.first_name
     else:
         user = event.pattern_match.group(1)
 
@@ -174,5 +176,32 @@ async def lf(event):
  sql.chat_leave_fed(chat)
  return await event.reply(f'Chat {event.chat.title} has left the " {name} " federation.')
 
-
-
+@register(pattern="^/fpromote ?(.*)")
+async def p(event):
+ if event.is_private:
+  return await event.reply("This command is made to be run in a group where the person you would like to promote is present.")
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+   return await event.reply("Only federation creators can promote people, and you don't seem to have a federation to promote to!")
+ args = await get_user_from_event(event)
+ if not args:
+   return await event.reply("I don't know who you're talking about, you're going to need to specify a user...!")
+ chat = event.chat
+ for f in fedowner:
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
+ user_id = args.id
+ replied_user = await tbot(GetFullUserRequest(user_id))
+ fname = replied_user.user.first_name
+ getuser = sql.search_user_in_fed(fed_id, user_id)
+ if getuser:
+   return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
+ await tbot.send_message(
+            event.chat_id,
+            f"Please get {fname} to confirm that they would like to be fed admin for {name}",
+            buttons=[
+                Button.inline("Confirm", data="fkfed_{}".format(user_id)),
+                Button.inline("Cancel", data="smex_{}".format(user_id)),
+            ],
+        )
+            
