@@ -369,3 +369,37 @@ async def _(event):
     name = info["fname"]
     if is_user_fed_admin(fed_id, user.id) is False:
       return await event.reply(f"You aren't a federation admin for {name}!")
+    input = event.pattern_match.group(1)
+    if input:
+      arg = input.split(" ", 1)
+    if not event.reply_to_msg_id:
+     if len(arg) == 2:
+        iid = arg[0]
+        reason = arg[1]
+     else:
+        iid = arg[0]
+        reason = "None"
+     if not iid.isnumeric():
+        entity = await tbot.get_input_entity(iid)
+        try:
+          r_sender_id = entity.user_id
+        except Exception:
+           await event.reply("Couldn't fetch that user.")
+           return
+     else:
+        r_sender_id = int(iid)
+     try:
+        replied_user = await tbot(GetFullUserRequest(r_sender_id))
+        fname = replied_user.user.first_name
+     except Exception:
+        fname = "User"
+    else:
+        reply_message = await event.get_reply_message()
+        iid = reply_message.sender_id
+        fname = reply_message.sender.first_name
+        if input:
+          reason = input
+        else:
+          reason = "None"
+        r_sender_id = iid
+    await event.reply(r_sender_id)
