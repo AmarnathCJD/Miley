@@ -430,8 +430,8 @@ async def _(event):
             )
        sax = "**New FedBan**\n"
        sax += f"**Fed:** {name}\n"
-       sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n")
-       sax += f"**User:** [{fname}](tg://user?id={r_sender_id})\n")
+       sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n"
+       sax += f"**User:** [{fname}](tg://user?id={r_sender_id})\n"
        sax += f"**User ID:** `{r_sender_id}`\n"
        sax += f"**Reason:** {reason}"
        await tbot.send_message(
