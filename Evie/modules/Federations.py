@@ -180,7 +180,6 @@ async def lf(event):
 
 @register(pattern="^/fpromote ?(.*)")
 async def p(event):
- print(69)
  if event.is_private:
   return await event.reply("This command is made to be run in a group where the person you would like to promote is present.")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
@@ -193,7 +192,6 @@ async def p(event):
  for f in fedowner:
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
- print(69)
  user_id = args.id
  replied_user = await tbot(GetFullUserRequest(user_id))
  fname = replied_user.user.first_name
@@ -205,8 +203,8 @@ async def p(event):
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
-                Button.inline("Confirm", data="fkfed_{}+{}+{}".format(user_id, event.sender_id, fed_id)),
-                Button.inline("Cancel", data="smex_{}+{}".format(user_id, event.sender_id)),
+                Button.inline("Confirm", data="fkfed_{}".format(user_id)),
+                Button.inline("Cancel", data="smex_{}".format(user_id)),
             ],
         )
  
