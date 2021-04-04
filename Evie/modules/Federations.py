@@ -165,6 +165,7 @@ async def lf(event):
  permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
  if not permissions.is_creator:
           return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
+ chat = event.chat_id
  fed_id = sql.get_fed_id(chat)
  if not fed_id:
    return await event.reply("This chat isn't currently in any federations!")
