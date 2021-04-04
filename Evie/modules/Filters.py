@@ -21,10 +21,9 @@ TYPE_PHOTO = 1
 TYPE_DOCUMENT = 2
 
 
+
 @register(pattern="^/filter ?(.*)")
 async def save(event):
- if event.is_private:
-     return
  if event.is_group:
       if not await is_admin(event, event.sender_id):
         await event.reply("You need to be an admin to do this.")
@@ -32,6 +31,8 @@ async def save(event):
       if not await can_change_info(message=event):
         await event.reply("You are missing the following rights to use this command: CanChangeInfo")
         return
+ else:
+   return
  if not event.reply_to_msg_id:
      input = event.pattern_match.group(1)
      if input:
@@ -49,7 +50,7 @@ async def save(event):
       return
  else:
       message = await event.get_reply_message()
-      name = event.pattern_group.match(1)
+      name = event.pattern_match.group(1)
       if not name:
         await event.reply("You need to give the filter a name!")
         return
