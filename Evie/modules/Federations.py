@@ -65,10 +65,12 @@ async def new(event):
  fed_id = str(uuid.uuid4())
  fed_name = name
  x = sql.new_fed(event.sender_id, fed_name, fed_id)
- await event.reply(f"Created new federation with FedID: `{fed_id}`.\nUse this ID to join the federation! eg:\n`/joinfed {fed_id}`")
+ return await event.reply(f"Created new federation with FedID: `{fed_id}`.\nUse this ID to join the federation! eg:\n`/joinfed {fed_id}`")
    
-@register(pattern="^/delfed$")
-async def del(event):
+
+
+@register(pattern="^/delfed")
+async def smexy(event):
  if not event.is_private:
   return await event.reply("Delete your federation in my PM - not in a group.")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
