@@ -158,6 +158,7 @@ async def start_again(event):
 
 @tbot.on(events.NewMessage(pattern=None))
 async def filter(event):
+  name = event.raw_text
   snips = get_all_filters(event.chat_id)
   if snips:
     for snip in snips:
