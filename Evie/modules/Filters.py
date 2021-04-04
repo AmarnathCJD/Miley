@@ -237,7 +237,7 @@ Filters are case insensitive; every time someone says your trigger words, Rose w
 - /stop <trigger>: Stop the bot from replying to "trigger".
 - /stopall: Stop ALL filters in the current chat. This cannot be undone.
 
-Examples:
+**Examples:**
 - Set a filter:
 -> /filter hello Hello there! How are you?
 - Set a multiword filter:
