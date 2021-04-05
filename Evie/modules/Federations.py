@@ -716,6 +716,9 @@ async def test(event):
  for f in fedowner:
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
- k = sql.FEDS_SUBSCRIBER
- sex = len(k[fed_id])
- await event.reply(sex)
+ try:
+  k = sql.FEDS_SUBSCRIBER
+  sex = len(k['fed_id'])
+  await event.reply(sex)
+ except Exception as e:
+   print(e)
