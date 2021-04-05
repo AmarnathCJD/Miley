@@ -232,7 +232,7 @@ async def p(event):
   if fbanreason != '':
    return await event.reply(f"User {fname} is fbanned in {name}. You should unfban them before promoting.\n\nReason:\n{fbanreason}")
   else:
-   return await event.reply(f"User {fname} is fbanned in in {name}. You should unfban them before promoting.")
+   return await event.reply(f"User {fname} is fbanned in {name}. You should unfban them before promoting.")
  getuser = sql.search_user_in_fed(fed_id, user_id)
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
