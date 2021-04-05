@@ -359,8 +359,11 @@ async def info(event):
   if len(subs) == 0:
    caption += "\n\nThis federation is not subscribed to any other feds."
   if not len(getmy) == 0:
+     caption += "\n\nSubscribed to the following feds:"
      for x in getmy:
-                caption += "- `{}`\n".format(x)
+                nfo = sql.get_fed_info(x)
+                nme = nfo["fname"]
+                caption += f"\n- {nme} (`{x}`)"
   buttons = Button.inline("Check Fed Admins", data="fedadm_{}".format(fed_id))
   await tbot.send_message(event.chat_id, caption, buttons=buttons)
  except Exception as e:
