@@ -239,7 +239,7 @@ async def p(event):
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  print(4)
  try:
-  mk = f"{user_id}|{name}|{fed_id}"
+  mk = f"{user_id}|{name[:5]}|{fed_id}"
   km = f"{user_id}|{event.sender_id}"
   await tbot.send_message(
             event.chat_id,
