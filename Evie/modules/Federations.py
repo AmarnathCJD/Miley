@@ -364,12 +364,12 @@ async def info(event):
   try:
      subs = luv[fed_id]
   except:
-     subs = []
-  if len(subs) == 0:
+     subs = None
+  if len(subs) == None:
    caption += "\n\nThis federation is not subscribed to any other feds."
-  if not len(getmy) == 0:
+  if subs:
      caption += "\n\nSubscribed to the following feds:"
-     for x in getmy:
+     for x in subs:
                 nfo = sql.get_fed_info(x)
                 nme = nfo["fname"]
                 caption += f"\n- {nme} (`{x}`)"
