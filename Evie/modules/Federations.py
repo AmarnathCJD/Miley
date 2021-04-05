@@ -446,6 +446,8 @@ async def _(event):
     if fban:
       if fbanreason == '' and reason == None:
          return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}. There is no reason set for their fedban yet, so feel free to set one.")
+      if reason == fbanreason:
+         return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) has already been fbanned, with the exact same reason.")
     if not fban:
        x = sql.fban_user(
                 fed_id,
