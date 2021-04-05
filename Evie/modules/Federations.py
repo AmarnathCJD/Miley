@@ -365,7 +365,7 @@ async def info(event):
      subs = luv[fed_id]
   except:
      subs = None
-  if len(subs) == None:
+  if subs == None:
    caption += "\n\nThis federation is not subscribed to any other feds."
   if subs:
      caption += "\n\nSubscribed to the following feds:"
@@ -725,7 +725,7 @@ async def sub(event):
    subs = luv[fed_id]
  except:
    subs = []
- if len(subs) > 5:
+ if len(subs) >= 5:
   return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
  subfed = sql.subs_fed(args, fed_id)
  await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in {sname} will now take effect in both feds.")
