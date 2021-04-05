@@ -16,6 +16,22 @@ from Evie.events import register
 Fully Written by RoseLoverX 🐈
 """
 
+from telethon.tl.types import ChatBannedRights
+from telethon.tl.functions.channels import EditBannedRequest
+BANNED_RIGHTS = ChatBannedRights(
+    until_date=None,
+    view_messages=True,
+    send_messages=True,
+    send_media=True,
+    send_stickers=True,
+    send_gifs=True,
+    send_games=True,
+    send_inline=True,
+    embed_links=True,
+)
+
+
+
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
     if event.reply_to_msg_id:
@@ -479,6 +495,25 @@ async def _(event):
            await tbot.send_message(
                 int(get_fedlog),
                 sax)
-
+    for fedschat in fed_chats:
+                try:
+                    await tbot(
+                        EditBannedRequest(fedschat, fban_user_id, BANNED_RIGHTS)
+                        )
+                except Exception:
+                    sql.chat_leave_fed(fedschat)
+                    pass
+    subscriber = list(sql.get_subscriber(fed_id))
+    if len(subscriber) != 0:
+           for fedsid in subscriber:
+                 all_fedschat = sql.all_fed_chats(fedsid)
+                 for fedschat in all_fedschat:
+                     try:
+                        await tbot(
+                        EditBannedRequest(fedschat, fban_user_id, BANNED_RIGHTS)
+                        )
+                     except Exception:
+                            continue
+    
                 
 #Balance Soon!
