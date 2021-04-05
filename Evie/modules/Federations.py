@@ -700,19 +700,11 @@ async def sub(event):
  if not getfed:
     return await event.reply("This FedID does not refer to an existing federation.")
  sname = getfed["fname"]
+ if args == fed_id:
+   return await event.reply("... What's the point in subscribing a fed to itself?")
  subs = luv[fed_id]
- if len(subs) < 5:
+ if len(subs) > 5:
   return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
  subfed = sql.subs_fed(args, fed_id)
  await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in h will now take effect in both feds.")
  
-@register(pattern="^/test")
-async def test(event):
- fedowner = sql.get_user_owner_fed_full(event.sender_id)
- if not fedowner:
-     return await event.reply("Only federation creators can subscribe to a fed. But you don't have a federation!")
- for f in fedowner:
-            fed_id = f["fed_id"]
-            name = f["fed"]["fname"]
- s = luv[fed_id]
- await event.reply(len(s))
