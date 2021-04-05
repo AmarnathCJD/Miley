@@ -750,3 +750,22 @@ async def unsub(event):
  unsubfed = sql.unsubs_fed(args, fed_id)
  await event.reply(f"Federation {name} is no longer subscribed to {sname}. Bans in {sname} will no longer be applied.\nPlease note that any bans that happened because the user was banned from the subfed will need to be removed manually.")
  
+@register(pattern="^/(fstat|fbanstat) ?(.*)")
+async def fstat(event):
+ if event.is_group:
+   if not await is_admin(event, event.sender_id):
+     return await event.reply("You need to be an admin to do this!")
+ args = event.pattern_match.group(2)
+ if args:
+  if len(args) > 12:
+    info = sql.get_fed_info(args)
+    if not info:
+      return await event.reply("There is no federation with this FedID.")
+    name = info["fname"]
+    if event.reply_to_msg_id:
+        msg = await event.get_reply_message()
+        user_id = msg.sender_id
+    else:
+        user_id = event.sender_id
+    await event.reply(user_id)
+    
