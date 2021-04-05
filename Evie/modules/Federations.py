@@ -767,5 +767,5 @@ async def fstat(event):
         user_id = msg.sender_id
     else:
         user_id = event.sender_id
-    await event.reply(user_id)
+    await event.reply(f"Sayonara {user_id}")
     
