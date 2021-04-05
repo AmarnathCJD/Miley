@@ -377,6 +377,7 @@ Fully Written by RoseLoverX
 async def smex_fed(event):
   if not await is_admin(event, event.sender_id):
      return await event.answer("You need to be an admin to do this")
+  await event.edit(buttons=None)
   tata = event.pattern_match.group(1)
   data = tata.decode()
   input = data.split("_", 1)[1]
