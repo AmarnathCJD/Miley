@@ -3,6 +3,7 @@ import os, re, csv, json, time, uuid
 from Evie.function import is_admin
 from io import BytesIO
 import Evie.modules.sql.feds_sql as sql
+from Evie.modules.sql.feds_sql import FEDS_SUBSCRIBER as luv
 from telethon import *
 from telethon import Button
 from telethon.tl import *
@@ -716,9 +717,5 @@ async def test(event):
  for f in fedowner:
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
- try:
-  k = sql.FEDS_SUBSCRIBER
-  sex = len(k['fed_id'])
-  await event.reply(sex)
- except Exception as e:
-   print(e)
+ s = luv[fed_id]
+ await event.reply(len(s))
