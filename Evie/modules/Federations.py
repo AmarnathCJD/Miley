@@ -557,7 +557,6 @@ async def _(event):
     
 @register(pattern="^/unfban ?(.*)")
 async def unfban(event):
- try:
     user = event.sender
     chat = event.chat_id
     if event.is_group:
@@ -647,7 +646,26 @@ async def unfban(event):
            await tbot.send_message(
                 int(get_fedlog),
                 sxa)
- except Exception as e:
-    print(e)
      
-    
+@register(pattern="^/setfedlog ?(.*)")
+async def log(event):
+ chat = event.chat_id
+ if not is_admin(event, event.sender_id):
+   return await event.reply("You need to be an admin to do this")
+ args = event.pattern_match.group(1)
+ if not args:
+   fedowner = sql.get_user_owner_fed_full(event.sender_id)
+   if not fedowner:
+     return await event.reply("Only fed creators can set a fed log - but you don't have a federation!")
+   for f in fedowner:
+            args = "{}".format(f["fed_id"])
+            name = f["fed"]["fname"]
+ else:
+   if len(args) < 8:
+      return await event.reply("This isn't a valid FedID format!")
+   getfed = sql.search_fed_by_id(args)
+   name = getfed["fname"]
+   if not getfed:
+     return await event.reply("This FedID does not refer to an existing federation.")
+ setlog = sql.set_fed_log(args, chat)
+ await event.reply(f"This has been set as the fed log for {name} - all fed related actions will be logged here.")
