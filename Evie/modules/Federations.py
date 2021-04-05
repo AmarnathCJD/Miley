@@ -373,7 +373,7 @@ async def info(event):
   buttons = Button.inline("Check Fed Admins", data="fedadm_{}".format(fed_id))
   await tbot.send_message(event.chat_id, caption, buttons=buttons)
  except Exception as e:
-   await tbot.send_message(event.chat_id, e)
+  print(e)
 
 
 """
