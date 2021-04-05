@@ -238,9 +238,10 @@ async def p(event):
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  print(4)
- mk = f"{user_id}|{name}|{fed_id}"
- km = f"{user_id}|{event.sender_id}"
- await tbot.send_message(
+ try
+  mk = f"{user_id}|{name}|{fed_id}"
+  km = f"{user_id}|{event.sender_id}"
+  await tbot.send_message(
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
@@ -248,6 +249,8 @@ async def p(event):
                 Button.inline("Cancel", data="smex_{}".format(km)),
             ],
         )
+ except Exception as e:
+    print(e)
             
 
 """
