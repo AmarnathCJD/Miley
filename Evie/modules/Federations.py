@@ -459,7 +459,7 @@ async def _(event):
           reason = None
         r_sender_id = iid
     if r_sender_id == BOT_ID or r_sender_id == OWNER_ID:
-        return
+        return await event.reply("Oh you're a funny one aren't you! I am _not_ going to fedban myself.")
     name = info["fname"]
     if is_user_fed_owner(fed_id, int(r_sender_id)) is True:
            return await event.reply(f"I'm not banning a fed admin from their own fed! [{name}]")
@@ -472,7 +472,7 @@ async def _(event):
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(r_sender_id))
     if fban:
       if fbanreason == '' and reason == None:
-         return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}. There is no reason set for their fedban yet, so feel free to set one.")
+         return await event.reply(f"User [{fname}](tg:/")/user?id={r_sender_id}) is already banned in {name}. There is no reason set for their fedban yet, so feel free to set one.")
       if reason == fbanreason:
          return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) has already been fbanned, with the exact same reason.")
       if reason == None:
@@ -555,5 +555,92 @@ async def _(event):
                      except Exception:
                             continue
     
-                
-#Balance Soon!
+@register(pattern="^/unfban ?(.*)")
+async def unfban(event):
+    user = event.sender
+    chat = event.chat_id
+    if event.is_group:
+        fed_id = sql.get_fed_id(chat)
+        if not fed_id:
+           return await event.reply("This chat isn't in any federations.")
+    else:
+      fedowner = sql.get_user_owner_fed_full(event.sender_id)
+      if not fedowner:
+          return await event.reply("It doesn't look like you have a federation yet!")
+      for f in fedowner:
+            fed_id = "{}".format(f["fed_id"])
+    info = sql.get_fed_info(fed_id)
+    name = info["fname"]
+    if is_user_fed_admin(fed_id, user.id) is False:
+      return await event.reply(f"You aren't a federation admin for {name}!")
+    input = event.pattern_match.group(1)
+    if input:
+      arg = input.split(" ", 1)
+    if not event.reply_to_msg_id:
+     if len(arg) == 2:
+        iid = arg[0]
+        reason = arg[1]
+     else:
+        iid = arg[0]
+        reason = None
+     if not iid.isnumeric():
+        entity = await tbot.get_input_entity(iid)
+        try:
+          r_sender_id = entity.user_id
+        except Exception:
+           await event.reply("Couldn't fetch that user.")
+           return
+     else:
+        r_sender_id = int(iid)
+     try:
+        replied_user = await tbot(GetFullUserRequest(r_sender_id))
+        fname = replied_user.user.first_name
+        username = replied_user.user.username
+        lname = replied_user.user.last_name
+     except Exception:
+        fname = "User"
+        username = None
+        lname = None
+    else:
+        reply_message = await event.get_reply_message()
+        iid = reply_message.sender_id
+        fname = reply_message.sender.first_name
+        lname = reply_message.sender.last_name
+        username = reply_message.sender.username
+        if input:
+          reason = input
+        else:
+          reason = None
+        r_sender_id = iid
+    if r_sender_id == BOT_ID or r_sender_id == OWNER_ID:
+        return await event.reply("Oh you're a funny one aren't you! How do you think I would have fbanned myself hm?.")
+    name = info["fname"]
+    fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(r_sender_id))
+    if not fban:
+      return await event.reply(f"This user isn't banned in the current federation, {name}. [{fed_id}]")
+    temp = sql.un_fban_user(fed_id, fban_user_id)
+    if temp:
+      sxa = "**New un-FedBan**\n"
+      sxa += f"**Fed:** {name}\n"
+      sxa += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n"
+      sxa += f"**User:** [{fname}](tg://user?id={r_sender_id})\n"
+      sxa += f"**User ID:** `{r_sender_id}`\n"
+      if reason:
+        sxa += f"**Reason:** {reason}"
+      await tbot.send_message(
+                event.chat_id,
+                sxa)
+      getfednotif = sql.user_feds_report(info["owner"])
+      if getfednotif:
+        if int(info["owner"]) != int(chat):
+          await tbot.send_message(
+                int(info["owner"]),
+                sxa)
+      get_fedlog = sql.get_fed_log(fed_id)
+      if get_fedlog:
+         if int(get_fedlog) != int(chat):
+           await tbot.send_message(
+                int(get_fedlog),
+                sxa)
+     
+    
