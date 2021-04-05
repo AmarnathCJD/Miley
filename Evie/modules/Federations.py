@@ -13,7 +13,7 @@ from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
 from Evie.events import register
 
 """
-Fully Written by RoseLoverX 🐈
+Fully Written by RoseLoverX
 """
 
 from telethon.tl.types import ChatBannedRights
@@ -31,6 +31,9 @@ BANNED_RIGHTS = ChatBannedRights(
 )
 
 
+"""
+Fully Written by RoseLoverX
+"""
 
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
@@ -79,6 +82,9 @@ def is_user_fed_owner(fed_id, user_id):
         return False
 
 
+"""
+Fully Written by RoseLoverX
+"""
 @register(pattern="^/newfed ?(.*)")
 async def new(event):
  if not event.is_private:
@@ -219,8 +225,14 @@ async def p(event):
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
  user_id = args.id
+ fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(args.id))
  replied_user = await tbot(GetFullUserRequest(user_id))
  fname = replied_user.user.first_name
+ if fban:
+  if fbanreason != '':
+   return await event.reply("User {fname} is fbanned in in {name}. You should unfban them before promoting.\n\nReason:\n{fbanreason}")
+  else:
+   return await event.reply("User {fname} is fbanned in in {name}. You should unfban them before promoting.")
  getuser = sql.search_user_in_fed(fed_id, user_id)
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
@@ -236,6 +248,10 @@ async def p(event):
             ],
         )
             
+
+"""
+Fully Written by RoseLoverX
+"""
 @tbot.on(events.CallbackQuery(pattern=r"fkfed(\_(.*))"))
 async def smex_fed(event):
   tata = event.pattern_match.group(1)
@@ -344,6 +360,10 @@ async def info(event):
  except Exception as e:
    print(e)
 
+
+"""
+Fully Written by RoseLoverX
+"""
 @tbot.on(events.CallbackQuery(pattern=r"fedadm(\_(.*))"))
 async def smex_fed(event):
   if not await is_admin(event, event.sender_id):
@@ -374,6 +394,9 @@ async def smex_fed(event):
    print(e)
   await event.reply(text)
 
+"""
+Fully Written by RoseLoverX
+"""
 @register(pattern="^/fban ?(.*)")
 async def _(event):
     user = event.sender
@@ -509,8 +532,7 @@ async def _(event):
                     await tbot(
                         EditBannedRequest(int(fedschat), int(fban_user_id), BANNED_RIGHTS)
                         )
-                except Exception as e:
-                    print(e)
+                except Exception:
                     pass
     subscriber = list(sql.get_subscriber(fed_id))
     if len(subscriber) != 0:
