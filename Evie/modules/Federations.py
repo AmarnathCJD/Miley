@@ -472,14 +472,14 @@ async def _(event):
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(r_sender_id))
     if fban:
       if fbanreason == '' and reason == None:
-         return await event.reply(f"User [{fname}](tg:/")/user?id={r_sender_id}) is already banned in {name}. There is no reason set for their fedban yet, so feel free to set one.")
+         return await event.reply(f'User [{fname}](tg://)/user?id={r_sender_id}) is already banned in {name}. There is no reason set for their fedban yet, so feel free to set one.')
       if reason == fbanreason:
-         return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) has already been fbanned, with the exact same reason.")
+         return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) has already been fbanned, with the exact same reason.')
       if reason == None:
        if fbanreason == '':
-         return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}.")
+         return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}.')
        else:
-         return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}, with reason:\n`{fbanreason}`.")
+         return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}, with reason:\n`{fbanreason}`.')
     if not fban:
        x = sql.fban_user(
                 fed_id,
