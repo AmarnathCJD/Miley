@@ -557,6 +557,7 @@ async def _(event):
     
 @register(pattern="^/unfban ?(.*)")
 async def unfban(event):
+ try:
     user = event.sender
     chat = event.chat_id
     if event.is_group:
@@ -642,5 +643,7 @@ async def unfban(event):
            await tbot.send_message(
                 int(get_fedlog),
                 sxa)
+ except Exception as e:
+    print(e)
      
     
