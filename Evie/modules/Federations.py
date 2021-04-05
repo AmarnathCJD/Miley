@@ -361,7 +361,10 @@ async def info(event):
   caption += f"Number of bans: `{len(getfban)}`\n"
   caption += f"Number of connected chats: `{len(getfchat)}`\n"
   caption += f"Number of subscribed feds: `{len(getmy)}`"
-  subs = luv[fed_id]
+  try:
+     subs = luv[fed_id]
+  except:
+     subs = []
   if len(subs) == 0:
    caption += "\n\nThis federation is not subscribed to any other feds."
   if not len(getmy) == 0:
