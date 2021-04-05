@@ -495,7 +495,9 @@ async def _(event):
            await tbot.send_message(
                 int(get_fedlog),
                 sax)
-    for fedschat in fed_chats:
+    fed_chats = sql.all_fed_chats(fedsid)
+    if len(fed_chats) != 0:
+        for fedschat in fed_chats:
                 try:
                     await tbot(
                         EditBannedRequest(fedschat, fban_user_id, BANNED_RIGHTS)
