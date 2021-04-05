@@ -443,6 +443,9 @@ async def _(event):
     fban_user_lname = lname
     fban_user_uname = username
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(r_sender_id))
+    if fban:
+      if fbanreason == '' and reason == None:
+         return await event.reply(f"User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}. There is no reason set for their fedban yet, so feel free to set one.")
     if not fban:
        x = sql.fban_user(
                 fed_id,
@@ -479,6 +482,8 @@ async def _(event):
             sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n"
             sax += f"**User:** [{fname}](tg://user?id={r_sender_id})\n"
             sax += f"**User ID:** `{r_sender_id}`\n"
+            if not fbanreason == '':
+              sax += f"**Previous Reason:** {fbanreason}\n"
             sax += f"**New Reason:** {reason}"
     await tbot.send_message(
                 event.chat_id,
