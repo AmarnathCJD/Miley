@@ -710,7 +710,7 @@ async def sub(event):
  
 @register(pattern="^/test")
 async def test(event):
-  fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
  if not fedowner:
      return await event.reply("Only federation creators can subscribe to a fed. But you don't have a federation!")
  for f in fedowner:
