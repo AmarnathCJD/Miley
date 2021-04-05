@@ -616,6 +616,10 @@ async def unfban(event):
     if r_sender_id == BOT_ID or r_sender_id == OWNER_ID:
         return await event.reply("Oh you're a funny one aren't you! How do you think I would have fbanned myself hm?.")
     name = info["fname"]
+    fban_user_id = int(r_sender_id)
+    fban_user_name = fname
+    fban_user_lname = lname
+    fban_user_uname = username
     fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(r_sender_id))
     if not fban:
       return await event.reply(f"This user isn't banned in the current federation, {name}. [{fed_id}]")
