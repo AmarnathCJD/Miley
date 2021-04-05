@@ -708,4 +708,14 @@ async def sub(event):
  subfed = sql.subs_fed(args, fed_id)
  await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in h will now take effect in both feds.")
  
-
+@register(pattern="^/test")
+async def test(event):
+  fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+     return await event.reply("Only federation creators can subscribe to a fed. But you don't have a federation!")
+ for f in fedowner:
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
+ k = sql.FEDS_SUBSCRIBER
+ sex = len(k[fed_id])
+ await event.reply(sex)
