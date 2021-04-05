@@ -750,12 +750,12 @@ async def unsub(event):
  unsubfed = sql.unsubs_fed(args, fed_id)
  await event.reply(f"Federation {name} is no longer subscribed to {sname}. Bans in {sname} will no longer be applied.\nPlease note that any bans that happened because the user was banned from the subfed will need to be removed manually.")
  
-@register(pattern="^/(fstat|fbanstat) ?(.*)")
+@register(pattern="^/fstat ?(.*)")
 async def fstat(event):
  if event.is_group:
    if not await is_admin(event, event.sender_id):
      return await event.reply("You need to be an admin to do this!")
- args = event.pattern_match.group(2)
+ args = event.pattern_match.group(1)
  if args:
   if len(args) > 12:
     info = sql.get_fed_info(args)
@@ -765,7 +765,22 @@ async def fstat(event):
     if event.reply_to_msg_id:
         msg = await event.get_reply_message()
         user_id = msg.sender_id
+        fname = msg.sender.first_name
     else:
         user_id = event.sender_id
-    await event.reply(f"Sayonara {user_id}")
-    
+        fname = event.sender.first_name
+  elif len(args) < 12:
+   person = await get_user_from_event(event)
+   user_id = person.id
+   replied_user = await tbot(GetFullUserRequest(user_id))
+   fname = replied_user.user.first_name
+ else:
+   user_id = event.sender_id
+   fname = event.sender.first_name
+ mex = await event.reply(f"Checking fbans for {fname}...")
+ uname, fbanlist = sql.get_user_fbanlist(str(user_id))
+ if len(fbanlist) == 0:
+   return await mex.edit(f"User {fname} hasn't been banned in any chats due to fedbans.")
+ 
+ 
+ 
