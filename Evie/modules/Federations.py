@@ -700,11 +700,8 @@ async def sub(event):
  if not getfed:
     return await event.reply("This FedID does not refer to an existing federation.")
  sname = getfed["fname"]
- try:
-   getmy = sql.get_mysubs(fed_id)
- except:
-   getmy = []
- if len(getmy) > 5:
+ subs = luv[fed_id]
+ if len(subs) < 5:
   return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
  subfed = sql.subs_fed(args, fed_id)
  await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in h will now take effect in both feds.")
