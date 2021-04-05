@@ -748,5 +748,5 @@ async def unsub(event):
     return await event.reply("This FedID does not refer to an existing federation.")
  sname = getfed["fname"]
  unsubfed = sql.unsubs_fed(args, fed_id)
- await event.reply(f"Federation {name} is no longer subscribed to {sname}. Bans in 「 @TheUnknownArmy_1 」 will no longer be applied. Please note that any bans that happened because the user was banned from the subfed will need to be removed manually.")
+ await event.reply(f"Federation {name} is no longer subscribed to {sname}. Bans in {sname} will no longer be applied. Please note that any bans that happened because the user was banned from the subfed will need to be removed manually.")
  
