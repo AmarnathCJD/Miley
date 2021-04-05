@@ -671,6 +671,7 @@ async def log(event):
  await event.reply(f"This has been set as the fed log for {name} - all fed related actions will be logged here.")
 
 @register(pattern="^/unsetfedlog")
+async def ligunset(event):
  chat = event.chat_id
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
  if not fedowner:
