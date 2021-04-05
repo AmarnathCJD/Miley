@@ -1,3 +1,6 @@
+"""
+Fully Written by RoseLoverX
+"""
 from Evie import tbot, CMD_HELP, OWNER_ID
 import os, re, csv, json, time, uuid
 from Evie.function import is_admin
@@ -273,7 +276,10 @@ async def smex_fed(event):
   res = sql.user_join_fed(fed_id, int(user))
   if res:
      return await event.edit(f"User [{fname}](tg://user?id={user}) is now an admin of {name} [{fed_id}]")
- 
+
+"""
+Fully Written by RoseLoverX
+"""
 @tbot.on(events.CallbackQuery(pattern=r"smex(\_(.*))"))
 async def smex(event):
   tata = event.pattern_match.group(1)
@@ -561,6 +567,10 @@ async def _(event):
                      except Exception:
                             continue
     
+
+"""
+Fully Written by RoseLoverX
+"""
 @register(pattern="^/unfban ?(.*)")
 async def unfban(event):
     user = event.sender
@@ -688,6 +698,9 @@ async def ligunset(event):
  setlog = sql.set_fed_log(args, None)
  await event.reply(f"The {name} federation has had its log location unset.")
 
+"""
+Fully Written by AmarnathCdj aka RoseloverX
+"""
 @register(pattern="^/subfed ?(.*)")
 async def sub(event):
  args = event.pattern_match.group(1)
@@ -711,5 +724,29 @@ async def sub(event):
  if len(subs) > 5:
   return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
  subfed = sql.subs_fed(args, fed_id)
- await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in h will now take effect in both feds.")
+ await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in {sname} will now take effect in both feds.")
+
+"""
+Fully Written by RoseLoverX aka AmarnathCdj
+"""
+
+@register(pattern="^/unsubfed ?(.*)")
+async def unsub(event):
+ args = event.pattern_match.group(1)
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+     return await event.reply("Only federation creators can unsubscribe from a fed. But you don't have a federation!")
+ for f in fedowner:
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
+ if not args:
+  return await event.reply("You need to specify which federation you're asking about by giving me a FedID!")
+ if len(args) < 8:
+      return await event.reply("This isn't a valid FedID format!")
+ getfed = sql.search_fed_by_id(args)
+ if not getfed:
+    return await event.reply("This FedID does not refer to an existing federation.")
+ sname = getfed["fname"]
+ unsubfed = sql.unsubs_fed(args, fed_id)
+ await event.reply(f"Federation {name} is no longer subscribed to {sname}. Bans in 「 @TheUnknownArmy_1 」 will no longer be applied. Please note that any bans that happened because the user was banned from the subfed will need to be removed manually.")
  
