@@ -500,7 +500,7 @@ async def _(event):
         for fedschat in fed_chats:
                 try:
                     await tbot(
-                        EditBannedRequest(fedschat, int(fban_user_id), BANNED_RIGHTS)
+                        EditBannedRequest(int(fedschat), int(fban_user_id), BANNED_RIGHTS)
                         )
                 except Exception as e:
                     print(e)
@@ -512,7 +512,7 @@ async def _(event):
                  for fedschat in all_fedschat:
                      try:
                         await tbot(
-                        EditBannedRequest(fedschat, fban_user_id, BANNED_RIGHTS)
+                        EditBannedRequest(int(fedschat), int(fban_user_id), BANNED_RIGHTS)
                         )
                      except Exception:
                             continue
