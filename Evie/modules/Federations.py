@@ -228,7 +228,12 @@ async def p(event):
  fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(args.id))
  replied_user = await tbot(GetFullUserRequest(user_id))
  fname = replied_user.user.first_name
- 
+ print(69)
+ if fban:
+  if fbanreason != '':
+   return await event.reply(f"User {fname} is fbanned in {name}. You should unfban them before promoting.\n\nReason:\n{fbanreason}")
+  else:
+   return await event.reply(f"User {fname} is fbanned in {name}. You should unfban them before promoting.")
  getuser = sql.search_user_in_fed(fed_id, user_id)
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
