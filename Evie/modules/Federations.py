@@ -343,7 +343,7 @@ async def info(event):
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
    info = sql.get_fed_info(fed_id)
- try:
+ if info:
   owner = int(info["owner"])
   getfban = sql.get_all_fban_users(fed_id)
   getfchat = sql.all_fed_chats(fed_id)
@@ -372,8 +372,6 @@ async def info(event):
                 caption += f"\n- {nme} (`{x}`)"
   buttons = Button.inline("Check Fed Admins", data="fedadm_{}".format(fed_id))
   await tbot.send_message(event.chat_id, caption, buttons=buttons)
- except Exception as e:
-  print(e)
 
 
 """
