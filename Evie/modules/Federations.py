@@ -500,10 +500,10 @@ async def _(event):
         for fedschat in fed_chats:
                 try:
                     await tbot(
-                        EditBannedRequest(int(fedschat), int(fban_user_id), BANNED_RIGHTS)
+                        EditBannedRequest(fedschat, fban_user_id, BANNED_RIGHTS)
                         )
                 except Exception as e:
-                    await event.reply(e)
+                    print(e)
                     pass
     subscriber = list(sql.get_subscriber(fed_id))
     if len(subscriber) != 0:
