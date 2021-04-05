@@ -681,3 +681,31 @@ async def ligunset(event):
             name = f["fed"]["fname"]
  setlog = sql.set_fed_log(args, None)
  await event.reply(f"The {name} federation has had its log location unset.")
+
+@register(pattern="^/subfed ?(.*)")
+async def sub(event):
+ args = event.pattern_match.group(1)
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+     return await event.reply("Only federation creators can subscribe to a fed. But you don't have a federation!")
+ for f in fedowner:
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
+ if not args:
+  return await event.reply("You need to specify which federation you're asking about by giving me a FedID!")
+ if len(args) < 8:
+      return await event.reply("This isn't a valid FedID format!")
+ getfed = sql.search_fed_by_id(args)
+ if not getfed:
+    return await event.reply("This FedID does not refer to an existing federation.")
+ sname = getfed["fname"]
+ try:
+   getmy = sql.get_mysubs(fed_id)
+ except:
+   getmy = []
+ if len(getmy) > 5:
+  return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
+ subfed = sql.subs_fed(args, fed_id)
+ await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in h will now take effect in both feds.")
+ 
+
