@@ -362,9 +362,16 @@ async def smex_fed(event):
 async def _(event):
     user = event.sender
     chat = event.chat_id
-    fed_id = sql.get_fed_id(chat)
-    if not fed_id:
-      return await event.reply("This chat isn't in any federations.")
+    if event.is_group:
+        fed_id = sql.get_fed_id(chat)
+        if not fed_id:
+           return await event.reply("This chat isn't in any federations.")
+    else:
+      fedowner = sql.get_user_owner_fed_full(event.sender_id)
+      if not fedowner:
+          return await event.reply("It doesn't look like you have a federation yet!")
+      for f in fedowner:
+            fed_id = "{}".format(f["fed_id"])
     info = sql.get_fed_info(fed_id)
     name = info["fname"]
     if is_user_fed_admin(fed_id, user.id) is False:
@@ -462,13 +469,16 @@ async def _(event):
                 sax)
     getfednotif = sql.user_feds_report(info["owner"])
     if getfednotif:
+      if int(info["owner"]) != int(chat):
          await tbot.send_message(
                 int(info["owner"]),
                 sax)
     get_fedlog = sql.get_fed_log(fed_id)
     if get_fedlog:
+        if int(get_fedlog) != int(chat):
            await tbot.send_message(
                 int(get_fedlog),
                 sax)
+
                 
 #Balance Soon!
