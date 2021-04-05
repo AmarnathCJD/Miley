@@ -669,3 +669,14 @@ async def log(event):
      return await event.reply("This FedID does not refer to an existing federation.")
  setlog = sql.set_fed_log(args, chat)
  await event.reply(f"This has been set as the fed log for {name} - all fed related actions will be logged here.")
+
+@register(pattern="^/unsetfedlog")
+ chat = event.chat_id
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+     return await event.reply("Only fed creators can unset a fed log - but you don't have a federation!")
+ for f in fedowner:
+            args = f["fed_id"]
+            name = f["fed"]["fname"]
+ setlog = sql.set_fed_log(args, None)
+ await event.reply(f"The {name} federation has had its log location unset.")
