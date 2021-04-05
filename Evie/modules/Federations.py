@@ -775,8 +775,13 @@ async def fstat(event):
    replied_user = await tbot(GetFullUserRequest(user_id))
    fname = replied_user.user.first_name
  else:
-   user_id = event.sender_id
-   fname = event.sender.first_name
+   if event.reply_to_msg_id:
+      msg = await event.get_reply_message()
+      user_id = msg.sender_id
+      fname = msg.sender.first_name
+   else:
+      user_id = event.sender_id
+      fname = event.sender.first_name
  mex = await event.reply(f"Checking fbans for {fname}...")
  uname, fbanlist = sql.get_user_fbanlist(str(user_id))
  if len(fbanlist) == 0:
