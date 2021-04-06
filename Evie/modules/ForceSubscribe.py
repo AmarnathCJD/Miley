@@ -42,7 +42,8 @@ async def f(event):
     channel = chat_db.channel
     rip = await check_him(channel, event.sender_id)
     if rip is False:
-      buttons = [[Button.url("Join Channel", "t.me\{}".format(channel))],
+      grp = f"t.me/{channel}"
+      buttons = [[Button.url("Join Channel", grp],
                [Button.inline("Unmute Me", data='unmutereq')],]
       text = "test"
       await tbot.send_message(event.chat_id, text, buttons=buttons)
