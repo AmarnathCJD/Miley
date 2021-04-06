@@ -1,6 +1,6 @@
 #test modules
 
-from Evie import tbot
+from Evie import tbot, BOT_ID
 from Evie.events import register
 from Evie.function import is_admin
 import Evie.modules.sql.fsub_sql as sql
@@ -23,6 +23,19 @@ async def check_him(channel, uid):
         return True
     except telethon.errors.rpcerrorlist.UserNotParticipantError:
         return False
+
+async def rights(event):
+    result = await tbot(
+        functions.channels.GetParticipantRequest(
+            channel=event.chat_id,
+            user_id=BOT_ID,
+        )
+    )
+    p = result.participant
+    return isinstance(p, types.ChannelParticipantCreator) or (
+        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
+    )
+
 
 @register(pattern="^/fsub ?(.*)")
 async def fs(event):
@@ -50,12 +63,35 @@ async def f(event):
       fname = event.sender.first_name
       grp = f"t.me/{channel}"
       buttons = [[Button.url("Join Channel", grp)],
-               [Button.inline("Unmute Me", data='unmutereq')],]
-      text = "{}, you have **not subscribed** to our [channel](https://t.me/{}) yet. Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
+               [Button.inline("Unmute Me", data='fs_{}'.format(event.sender_id)],]
+      text = "{}, you have **not subscribed** to our [channel](https://t.me/{}) yet.❗ Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
       await tbot.send_message(event.chat_id, text, buttons=buttons, link_preview=False)
       await tbot(EditBannedRequest(event.chat_id, event.sender_id, MUTE_RIGHTS))
   except Exception as e:
    print(e)
      
-  
+@tbot.on(events.CallbackQuery(pattern=r"fs(\_(.*))"))
+async def start_again(event):
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ user_id = data.split("_", 1)[1]
+ if not event.sender_id == user_id:
+  return await event.answer("You are not the muted user!")
+ chat_id = event.chat_id
+ chat_db = sql.fs_settings(chat_id)
+ if chat_db:
+    channel = chat_db.channel
+    rip = await check_him(channel, event.sender_id)
+    if rip is True:
+     try:
+       await event.delete()
+       await tbot(EditBannedRequest(event.chat_id, user_id, UNMUTE_RIGHTS))
+     else:
+       if not await rights(event):
+         return await event.reply("❗ **I am not an admin here.**\n__Make me admin with ban user permission")
+    else:
+     await event.answer("Please join the Channel!")
+    
+       
+      
  
