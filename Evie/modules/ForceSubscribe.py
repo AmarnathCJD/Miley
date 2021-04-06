@@ -6,7 +6,12 @@ from Evie.function import is_admin
 import Evie.modules.sql.fsub_sql as sql
 from telethon import events, functions, Button
 import telethon
+from telethon.tl.functions.channels import EditBannedRequest
+from telethon.tl.types import ChatBannedRights
 
+MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
+
+UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
 async def check_him(channel, uid):
     try:
@@ -48,6 +53,7 @@ async def f(event):
                [Button.inline("Unmute Me", data='unmutereq')],]
       text = "{}, you have **not subscribed** to our [channel](https://t.me/{}) yet. Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
       await tbot.send_message(event.chat_id, text, buttons=buttons, link_preview=False)
+      await tbot(EditBannedRequest(event.chat_id, event.sender_id, MUTE_RIGHTS))
   except Exception as e:
    print(e)
      
