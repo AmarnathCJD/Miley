@@ -37,18 +37,26 @@ async def rights(event):
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
     )
 
-@register(pattern="^/fsub ?(.*)")
+@register(pattern="^/(fsub|forcesubscribe) ?(.*)")
 async def fs(event):
+  permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+  if not permissions.is_creator:
+          return await event.reply("❗**Group Creator Required**\nYou have to be the group creator to do that.")
   if not await is_admin(event, BOT_ID):
    return await event.reply("I'm not an admin Mind Promoting Me?!")
-  args = event.pattern_match.group(1)
+  args = event.pattern_match.group(2)
   channel = args.replace("@", "")
-  if len(args) > 2:
+  if args in ("off", "no", "disable"):
+    sql.disapprove(event.chat_id)
+    await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
+  else:
     rip = await check_him(channel, BOT_ID)
     if rip is False:
       return await event.reply(f"❗**Not an Admin in the Channel**\nI am not an admin in the [channel](https://t.me/{args}). Add me as a admin in order to enable ForceSubscribe.", link_preview=False)
     sql.add_channel(event.chat_id, str(channel))
-    await event.reply(f"✅ **Force Subscribe is Enabled** to @{channel}")
+    await event.reply(f"✅ **Force Subscribe is Enabled** to @{channel}.")
+  
+    
       
 @tbot.on(events.NewMessage(pattern=None))
 async def f(event):
