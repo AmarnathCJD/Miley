@@ -61,10 +61,11 @@ async def f(event):
     channel = chat_db.channel
     rip = await check_him(channel, event.sender_id)
     if rip is False:
+      rk f"{event.sender_id}"
       fname = event.sender.first_name
       grp = f"t.me/{channel}"
       buttons = [[Button.url("Join Channel", grp)],
-               [Button.inline("Unmute Me", data="fs_{}".format(user_id))],]
+               [Button.inline("Unmute Me", data="fs_{}".format(rk))],]
       text = "{}, you have **not subscribed** to our [channel](https://t.me/{}) yet❗.Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
       await tbot.send_message(event.chat_id, text, buttons=buttons, link_preview=False)
       await tbot(EditBannedRequest(event.chat_id, event.sender_id, MUTE_RIGHTS))
@@ -75,9 +76,9 @@ async def f(event):
 async def start_again(event):
  tata = event.pattern_match.group(1)
  data = tata.decode()
- user_id = data.split("_", 1)[1]
- await event.reply(int(user_id))
- if not event.sender_id == user_id:
+ user = data.split("_", 1)[1]
+ await event.reply(int(user))
+ if not event.sender_id == int(user):
   return await event.answer("You are not the muted user!")
  chat_id = event.chat_id
  chat_db = sql.fs_settings(chat_id)
@@ -87,7 +88,7 @@ async def start_again(event):
     if rip is True:
      try:
        await event.delete()
-       await tbot(EditBannedRequest(event.chat_id, user_id, UNMUTE_RIGHTS))
+       await tbot(EditBannedRequest(event.chat_id, user, UNMUTE_RIGHTS))
      except:
        if not await rights(event):
          return await tbot.send_message(event.chat_id, "❗ **I am not an admin here.**\n__Make me admin with ban user permission")
