@@ -364,8 +364,9 @@ async def info(event):
   caption += f"Number of subscribed feds: `{len(subs)}`"
   try:
     getmy = sql.MYFEDS_SUBSCRIBER(fed_id)
-  except:
-    getmy = []
+  except Exception as e:
+    print(e)
+    print(69)
   if len(getmy) == 0:
    caption += "\n\nThis federation is not subscribed to any other feds."
   else:
