@@ -349,10 +349,7 @@ async def info(event):
   getfchat = sql.all_fed_chats(fed_id)
   FEDADMIN = sql.all_fed_users(fed_id)
   TotalAdminFed = len(FEDADMIN)
-  try:
-     getmy = sql.get_mysubs(fed_id)
-  except:
-     getmy = []
+  
   caption = "Fed info:\n"
   caption += f"FedID: `{fed_id}`\n"
   caption += f"Name: {name}\n"
@@ -729,6 +726,7 @@ async def sub(event):
  if len(subs) >= 5:
   return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
  subfed = sql.subs_fed(args, fed_id)
+ addsub = sql.add_sub(fed_id, args)
  await event.reply(f"Federation {name} has now subscribed to {sname}. All fedbans in {sname} will now take effect in both feds.")
 
 """
