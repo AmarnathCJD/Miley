@@ -831,14 +831,16 @@ async def fstat(event):
 """
 Fully Written by RoseLoverX aka AmarnathCdj
 """
-@register(pattern="^/fedexport")
+
+
+@register(pattern="^/fedexport$")
 async def fex(event):
  if event.is_group:
-  fed_id = sql.get_fed_id(chat)
+  fed_id = sql.get_fed_id(event.chat_id)
   if not fed_id:
        return await event.reply("This chat isn't in any federations.")
   else:
-     if is_user_fed_owner(fed_id, int(r_sender_id)) is False:
+     if is_user_fed_owner(fed_id, int(event.sender_id)) is False:
         return await event.reply("Only the fed creator can export the ban list.")
  else:
   fedowner = sql.get_user_owner_fed_full(event.sender_id)
