@@ -9,7 +9,9 @@ import Evie.modules.sql.fsub_sql as sql
 async def fs(event):
   args = event.pattern_match.group(1)
   if args:
-    FK = sql.set_fsub(event.chat_id, args)
+    k = f"{event.chat_id}"
+    chat = k.replace("-", "")
+    FK = sql.set_fsub(chat, args)
     if FK:
       await event.reply("Set fsub")
       
