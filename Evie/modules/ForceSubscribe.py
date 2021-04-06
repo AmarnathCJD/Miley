@@ -75,7 +75,9 @@ async def start_again(event):
  tata = event.pattern_match.group(1)
  data = tata.decode()
  user_id = data.split("_", 1)[1]
- if not event.sender_id == user_id:
+ await event.reply(user_id)
+ await event.reply(event.sender_id)
+ if not event.sender_id == int(user_id):
   return await event.answer("You are not the muted user!")
  chat_id = event.chat_id
  chat_db = sql.fs_settings(chat_id)
