@@ -11,7 +11,7 @@ async def fs(event):
   if args:
     k = f"{event.chat_id}"
     chat = k.replace("-", "")
-    FK = sql.set_fsub(int(chat), args)
+    FK = sql.set_afk(event.chat_id, args, 0)
     if FK:
       await event.reply("Set fsub")
       
