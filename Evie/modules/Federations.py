@@ -793,6 +793,18 @@ async def fstat(event):
  uname, fbanlist = sql.get_user_fbanlist(str(user_id))
  if len(fbanlist) == 0:
    return await mex.edit(f"User {fname} hasn't been banned in any chats due to fedbans.")
+ if len(fbanlist) <= 10:
+  flist = f"The following federations have caused {fname} to be banned in chats:"
+  for x in fbanlist:
+   try:
+     getfed = sql.search_fed_by_id(x)
+     fname = getfed["fname"]
+     flist += f"\n- `{x}`:{fname}"
+   except:
+     pass
+  await mex.edit(flist)
+    
+ 
  
  
  
