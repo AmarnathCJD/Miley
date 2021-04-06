@@ -850,6 +850,10 @@ def __load_all_feds_settings():
     finally:
         SESSION.close()
 
+def fk_sub():
+  all_fedsubs = SESSION.query(FedSubs).all()
+  finally:
+    SESSION.close()
 
 def __load_feds_subscriber():
     global FEDS_SUBSCRIBER
