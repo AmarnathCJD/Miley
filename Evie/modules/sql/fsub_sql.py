@@ -9,7 +9,7 @@ from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 class FSUB(BASE):
     __tablename__ = "forcesub"
 
-    chat_id = Column(Integer, primary_key=True)
+    chat_id = Column(UnicodeText, primary_key=True)
     is_chat = Column(Boolean)
     channel = Column(UnicodeText)
 
