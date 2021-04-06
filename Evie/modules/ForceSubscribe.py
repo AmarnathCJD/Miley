@@ -1,14 +1,14 @@
-#test modules
-
 from Evie import tbot, BOT_ID
 from Evie.events import register
 from Evie.function import is_admin
 import Evie.modules.sql.fsub_sql as sql
 from telethon import events, functions, Button
 import telethon
+#ported by RoseLoverX
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 from telethon.tl import types
+from telethon.errors import ChannelInvalidError
 
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 
@@ -50,6 +50,10 @@ async def fs(event):
     sql.disapprove(event.chat_id)
     await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
   else:
+    try:
+      k = functions.channels.GetChannelsRequest(id=['channel'])
+    except ChannelInvalidError:
+      return await event.reply("❗**Invalid Channel Username.**")
     rip = await check_him(channel, BOT_ID)
     if rip is False:
       return await event.reply(f"❗**Not an Admin in the Channel**\nI am not an admin in the [channel](https://t.me/{args}). Add me as a admin in order to enable ForceSubscribe.", link_preview=False)
