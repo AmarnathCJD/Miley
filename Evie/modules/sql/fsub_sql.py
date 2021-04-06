@@ -3,7 +3,7 @@
 import threading
 import time
 from Evie.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
+from sqlalchemy import Boolean, Column, Integer, UnicodeText, String, Numeric
 
 
 class FSUB(BASE):
