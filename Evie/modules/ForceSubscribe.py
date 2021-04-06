@@ -42,10 +42,11 @@ async def f(event):
     channel = chat_db.channel
     rip = await check_him(channel, event.sender_id)
     if rip is False:
+      fname = event.sender.first_name
       grp = f"t.me/{channel}"
       buttons = [[Button.url("Join Channel", grp)],
                [Button.inline("Unmute Me", data='unmutereq')],]
-      text = "test"
+      text = "{}, you are **not subscribed** to my [channel](https://t.me/{}) yet. Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
       await tbot.send_message(event.chat_id, text, buttons=buttons)
   except Exception as e:
    print(e)
