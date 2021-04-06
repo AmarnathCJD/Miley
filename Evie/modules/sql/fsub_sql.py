@@ -3,61 +3,68 @@
 import threading
 import time
 from Evie.modules.sql import BASE, SESSION
-from sqlalchemy import Boolean, Column, Integer, UnicodeText, String, Numeric
+from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 
 
-class FSUB(BASE):
-    __tablename__ = "forcesub"
+class AFK(BASE):
+    __tablename__ = "fsub"
 
-    chat_id = Column(Numeric, primary_key=True)
-    channel = Column(String)
-    is_chat = Column(Boolean)
+    user_id = Column(Integer, primary_key=True)
+    is_afk = Column(Boolean)
+    reason = Column(UnicodeText)
+    start_time = Column(UnicodeText)
 
-    def __init__(self, chat_id, channel="", is_chat=True):
-        self.chat_id = chat_id
-        self.channel = channel
-        self.is_chat = is_chat
+    def __init__(self, user_id, reason="", is_afk=True, start_time=""):
+        self.user_id = user_id
+        self.reason = reason
+        self.is_afk = is_afk
+        self.start_time = start_time
 
     def __repr__(self):
-        return "{}".format(self.chat_id)
+        return "afk_status for {}".format(self.user_id)
 
 
-FSUB.__table__.create(checkfirst=True)
+AFK.__table__.create(checkfirst=True)
 INSERTION_LOCK = threading.RLock()
 
-FSUB_CHATS = {}
+AFK_USERS = {}
+AFK_USERSS = {}
 
 
-def is_chat(chat_id):
-    return chat_id in FSUB_CHATS
+def is_afk(user_id):
+    return user_id in AFK_USERS
+    return user_id in AFK_USERSS
 
 
-def check_fsub_status(chat_id):
+def check_afk_status(user_id):
     try:
-        return SESSION.query(FSUB).get(chat_id)
+        return SESSION.query(AFK).get(user_id)
     finally:
         SESSION.close()
 
 
-def set_fsub(chat_id, channel):
+def set_afk(user_id, reason, start_time=""):
     with INSERTION_LOCK:
-        curr = SESSION.query(FSUB).get(chat_id)
+        curr = SESSION.query(AFK).get(user_id)
         if not curr:
-            curr = FSUB(chat_id, channel, True)
+            curr = AFK(user_id, reason, True, start_time)
         else:
-            curr.is_chat = True
-            curr.channel = channel
-        FSUB_CHATS[chat_id] = channel
+            curr.is_afk = True
+            curr.reason = reason
+            curr.start_time = start_time
+        AFK_USERS[user_id] = reason
+        AFK_USERSS[user_id] = start_time
         SESSION.add(curr)
         SESSION.commit()
 
 
-def rm_fsub(chat_id):
+def rm_afk(user_id):
     with INSERTION_LOCK:
-        curr = SESSION.query(FSUB).get(chat_id)
+        curr = SESSION.query(AFK).get(user_id)
         if curr:
-            if chat_id in FSUB_CHATS:  # sanity check
-                del FSUB_CHATS[chat_id]
+            if user_id in AFK_USERS:  # sanity check
+                del AFK_USERS[user_id]
+                del AFK_USERSS[user_id]
             SESSION.delete(curr)
             SESSION.commit()
             return True
@@ -66,13 +73,15 @@ def rm_fsub(chat_id):
         return False
 
 
-def __load_fsub_chats():
-    global FSUB_CHATS
+def __load_afk_users():
+    global AFK_USERS
+    global AFK_USERSS
     try:
-        all_chat = SESSION.query(FSUB).all()
-        FSUB_CHATS = {chat.chat_id: chat.channel for chat in all_chat if chat.is_chat}
+        all_afk = SESSION.query(AFK).all()
+        AFK_USERS = {user.user_id: user.reason for user in all_afk if user.is_afk}
+        AFK_USERSS = {user.user_id: user.start_time for user in all_afk if user.is_afk}
     finally:
         SESSION.close()
 
 
-__load_fsub_chats()
+__load_afk_users()
