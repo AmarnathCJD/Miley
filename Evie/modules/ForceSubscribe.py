@@ -37,19 +37,18 @@ async def rights(event):
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
     )
 
-
 @register(pattern="^/fsub ?(.*)")
 async def fs(event):
   if not await is_admin(event, BOT_ID):
    return await event.reply("I'm not an admin Mind Promoting Me?!")
   args = event.pattern_match.group(1)
+  channel = args.replace("@", "")
   if len(args) > 2:
-    rip = await check_him(args, BOT_ID)
+    rip = await check_him(channel, BOT_ID)
     if rip is False:
       return await event.reply(f"❗**Not an Admin in the Channel**\nI am not an admin in the [channel](https://t.me/{args}). Add me as a admin in order to enable ForceSubscribe.", link_preview=False)
-    FK = sql.add_channel(event.chat_id, args)
-    if FK:
-      await event.reply("Successfully Set Fsub to Channel @{args}\n❗Please Make sure if I'm admin in that Channel.")
+    sql.add_channel(event.chat_id, str(channel))
+    await event.reply("Successfully Set Fsub to Channel @{args}\n❗Please Make sure if I'm admin in that Channel.")
       
 @tbot.on(events.NewMessage(pattern=None))
 async def f(event):
