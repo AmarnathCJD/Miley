@@ -874,6 +874,8 @@ async def fex(event):
                         len(getfban), info["fname"]
                     ),
                 )
+ except Exception as e:
+  print(e)
      
   
  
