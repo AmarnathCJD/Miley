@@ -9,9 +9,9 @@ from sqlalchemy import Boolean, Column, Integer, UnicodeText, String
 class FSUB(BASE):
     __tablename__ = "forcesub"
 
-    chat_id = Column(String(14), primary_key=True)
+    chat_id = Column(Numeric, primary_key=True)
+    channel = Column(String)
     is_chat = Column(Boolean)
-    channel = Column(UnicodeText)
 
     def __init__(self, chat_id, channel="", is_chat=True):
         self.chat_id = chat_id
