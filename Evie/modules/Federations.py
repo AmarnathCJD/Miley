@@ -880,7 +880,7 @@ async def fex(event):
   print(e)
      
 #yeah fuckoof
- 
+#in halt need to find a way to send CSV file
  
 
 
