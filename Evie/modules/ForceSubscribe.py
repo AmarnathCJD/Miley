@@ -8,6 +8,7 @@ from telethon import events, functions, Button
 import telethon
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
+from telethon.tl import types
 
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 
@@ -88,7 +89,7 @@ async def start_again(event):
     if rip is True:
      try:
        await event.delete()
-       await tbot(EditBannedRequest(event.chat_id, user, UNMUTE_RIGHTS))
+       await tbot(EditBannedRequest(event.chat_id, int(user), UNMUTE_RIGHTS))
      except:
        if not await rights(event):
          return await tbot.send_message(event.chat_id, "❗ **I am not an admin here.**\n__Make me admin with ban user permission")
