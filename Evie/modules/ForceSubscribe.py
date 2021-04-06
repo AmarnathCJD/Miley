@@ -86,7 +86,7 @@ async def start_again(event):
      try:
        await event.delete()
        await tbot(EditBannedRequest(event.chat_id, user_id, UNMUTE_RIGHTS))
-     else:
+     except:
        if not await rights(event):
          return await event.reply("❗ **I am not an admin here.**\n__Make me admin with ban user permission")
     else:
