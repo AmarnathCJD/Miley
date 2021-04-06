@@ -790,10 +790,14 @@ async def fstat(event):
     fban, fbanreason, fbantime = sql.get_fban_user(args, int(user_id))
     if not fban:
       return await event.reply(f"{fname} is not banned in this fed.")
+    tym = fbantime
+    k = f"{tym}"
+    re = k[:4]
+    rs = f"{k[:4]}/{k[-2:]}/{k[:6].replace(re, '')}"
     if fbanreason == '':
-       text = f"{fname} is currently banned in {name}.\n\n**Date of Ban:** {fbantime}"
+       text = f"{fname} is currently banned in {name}.\n\n**Date of Ban:** {rs}"
     if not fbanreason == '':
-       text = f"{fname} is currently banned in {name},for the following **reason**:\n{fbanreason}\n\n**Date of Ban:** {fbantime}"
+       text = f"{fname} is currently banned in {name},for the following **reason**:\n{fbanreason}\n\n**Date of Ban:** {rs}"
     return await event.reply(text)
   elif len(args) < 12:
    person = await get_user_from_event(event)
