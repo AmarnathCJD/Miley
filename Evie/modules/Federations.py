@@ -362,6 +362,7 @@ async def info(event):
   except:
      subs = []
   caption += f"Number of subscribed feds: `{len(subs)}`"
+  getmy = sql.MYFEDS_SUBSCRIBER
   if len(getmy) == 0:
    caption += "\n\nThis federation is not subscribed to any other feds."
   else:
@@ -723,7 +724,7 @@ async def sub(event):
    subs = sql.MYFEDS_SUBSCRIBER
  except:
    subs = []
- if len(subs) <= 5:
+ if len(subs) >= 5:
   return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
  subfed = sql.subs_fed(args, fed_id)
  addsub = sql.add_sub(fed_id, args)
