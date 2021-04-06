@@ -768,12 +768,12 @@ async def unsub(event):
  unsubfed = sql.unsubs_fed(args, fed_id)
  await event.reply(f"Federation {name} is no longer subscribed to {sname}. Bans in {sname} will no longer be applied.\nPlease note that any bans that happened because the user was banned from the subfed will need to be removed manually.")
  
-@register(pattern="^/fstat ?(.*)")
+@register(pattern="^/(fstat|fbanstat) ?(.*)")
 async def fstat(event):
  if event.is_group:
    if not await is_admin(event, event.sender_id):
      return await event.reply("You need to be an admin to do this!")
- args = event.pattern_match.group(1)
+ args = event.pattern_match.group(2)
  if args:
   if len(args) > 12:
     info = sql.get_fed_info(args)
@@ -827,8 +827,55 @@ async def fstat(event):
      pass
   await mex.edit(flist)
     
- 
- 
+
+"""
+Fully Written by RoseLoverX aka AmarnathCdj
+"""
+@register(pattern="^/fedexport")
+async def fex(event):
+ if event.is_group:
+  fed_id = sql.get_fed_id(chat)
+  if not fed_id:
+       return await event.reply("This chat isn't in any federations.")
+  else:
+     if is_user_fed_owner(fed_id, int(r_sender_id)) is False:
+        return await event.reply("Only the fed creator can export the ban list.")
+ else:
+  fedowner = sql.get_user_owner_fed_full(event.sender_id)
+  if not fedowner:
+          return await event.reply("It doesn't look like you have a federation yet!")
+  for f in fedowner:
+          fed_id = f["fed_id"]
+ info = sql.get_fed_info(fed_id)
+ name = info["fname"]
+ getfban = sql.get_all_fban_users(fed_id)
+ if len(getfban) == 0:
+  return await event.reply(f"There are no banned users in {name}")
+ backups = ""
+ try:
+            for users in getfban:
+                getuserinfo = sql.get_all_fban_users_target(fed_id, users)
+                json_parser = {
+                    "user_id": users,
+                    "first_name": getuserinfo["first_name"],
+                    "last_name": getuserinfo["last_name"],
+                    "user_name": getuserinfo["user_name"],
+                    "reason": getuserinfo["reason"],
+                }
+                backups += json.dumps(json_parser)
+                backups += "\n"
+            with BytesIO(str.encode(backups)) as output:
+                output.name = "fbanned_users.json"
+                await tbot.send_file(
+                    event.chat_id,
+                    file=output,
+                    filename="fbanned_users.json",
+                    caption="Total {} users are blocked by the Federation {}.".format(
+                        len(getfban), info["fname"]
+                    ),
+                )
+     
+  
  
  
 
