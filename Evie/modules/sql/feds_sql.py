@@ -718,7 +718,7 @@ def subs_fed(fed_id, my_fed):
             FEDS_SUBSCRIBER.get(fed_id, set()).add(my_fed)
         return True
 
-def get_sub(my_fed, fed_id):
+def add_sub(my_fed, fed_id):
      with FEDS_SUBSCRIBER_LOCK:
         mime = FedSubs(my_fed, fed_id)
 
@@ -745,6 +745,19 @@ def unsubs_fed(fed_id, my_fed):
         SESSION.close()
         return False
 
+def rem_sub(my_fed, fed_id):
+  with FEDS_SUBSCRIBER_LOCK:
+        sox = SESSION.query(FedSubs).get((my_fed, fed_id))
+        if sox:
+            if fed_id in MYFEDS_SUBSCRIBER.get(my_fed, set()):  # sanity check
+                MYFEDS_SUBSCRIBER.get(my_fed, set()).remove(fed_id)
+
+            SESSION.delete(sox)
+            SESSION.commit()
+            return True
+
+        SESSION.close()
+        return False
 
 def get_all_subs(fed_id):
     return FEDS_SUBSCRIBER.get(fed_id, set())
