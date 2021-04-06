@@ -8,7 +8,7 @@ from telethon import events, functions, Button
 import telethon
 
 
-async def check_him(channel, user_is):
+async def check_him(channel, user_id):
     try:
         result = await tbot(
             functions.channels.GetParticipantRequest(
@@ -38,6 +38,7 @@ async def f(event):
  if await is_admin(event, event.sender_id):
    return
  if chat_db:
+  
   channel = chat_db.channel
   rip = await check_him(channel, event.sender_id)
   if rip is False:
