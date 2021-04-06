@@ -353,7 +353,7 @@ async def info(event):
   caption = "Fed info:\n"
   caption += f"FedID: `{fed_id}`\n"
   caption += f"Name: {name}\n"
-  caption += f"Creator: [this person](tg://user?id={owner})\n"
+  caption += f"Creator: [this person](tg://user?id={owner}) (`{owner}`)\n"
   caption += f"Number of admins: `{TotalAdminFed}`\n"
   caption += f"Number of bans: `{len(getfban)}`\n"
   caption += f"Number of connected chats: `{len(getfchat)}`\n"
