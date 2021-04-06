@@ -751,6 +751,7 @@ async def unsub(event):
  if not getfed:
     return await event.reply("This FedID does not refer to an existing federation.")
  sname = getfed["fname"]
+ remsub = sql.rem_sub(fed_id, args)
  unsubfed = sql.unsubs_fed(args, fed_id)
  await event.reply(f"Federation {name} is no longer subscribed to {sname}. Bans in {sname} will no longer be applied.\nPlease note that any bans that happened because the user was banned from the subfed will need to be removed manually.")
  
