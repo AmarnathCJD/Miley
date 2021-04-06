@@ -6,7 +6,6 @@ import os, re, csv, json, time, uuid
 from Evie.function import is_admin
 from io import BytesIO
 import Evie.modules.sql.feds_sql as sql
-from Evie.modules.sql.feds_sql import FEDS_SUBSCRIBER as luv
 from telethon import *
 from telethon import Button
 from telethon.tl import *
