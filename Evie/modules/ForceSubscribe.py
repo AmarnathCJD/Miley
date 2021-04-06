@@ -68,17 +68,17 @@ async def f(event):
       buttons = [[Button.url("Join Channel", grp)],
                [Button.inline("Unmute Me", data="fs_{}".format(rk))],]
       text = "{}, you have **not subscribed** to our [channel](https://t.me/{}) yet❗.Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
-      await tbot.send_message(event.chat_id, text, buttons=buttons, link_preview=False)
       await tbot(EditBannedRequest(event.chat_id, event.sender_id, MUTE_RIGHTS))
-  except Exception as e:
-   print(e)
+      await tbot.send_message(event.chat_id, text, buttons=buttons, link_preview=False)
+  except:
+    if not await rights(event):
+       await tbot.send_message(event.chat_id, "❗**I am not an admin here.**\nMake me admin with ban user permission")
      
 @tbot.on(events.CallbackQuery(pattern=r"fs(\_(.*))"))
 async def start_again(event):
  tata = event.pattern_match.group(1)
  data = tata.decode()
  user = data.split("_", 1)[1]
- print(int(user))
  if not event.sender_id == int(user):
   return await event.answer("You are not the muted user!")
  chat_id = event.chat_id
