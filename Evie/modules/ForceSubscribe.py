@@ -8,11 +8,11 @@ from telethon import events, functions, Button
 import telethon
 
 
-async def check_him(channel, user_id):
+async def check_him(channel, uid):
     try:
         result = await tbot(
             functions.channels.GetParticipantRequest(
-                channel=channel, user_id=user_id
+                channel=channel, user_id=uid
             )
         )
         return True
