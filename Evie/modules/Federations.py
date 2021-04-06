@@ -836,8 +836,8 @@ Federation admin commands:
 - /myfeds: List all your feds.
 
 Federation owner commands:
-- /fedpromote: Promote a user to fedadmin in your fed.
-- /feddemote: Demote a federation admin in your fed.
+- /fpromote: Promote a user to fedadmin in your fed.
+- /fdemote: Demote a federation admin in your fed.
 - /fednotif <yes/no/on/off>: Whether or not to receive PM notifications of every fed action.
 - /subfed <FedId>: Subscribe your federation to another. Users banned in the subscribed fed will also be banned in this one.
 - /unsubfed <FedId>: Unsubscribes your federation from another. Bans from the other fed will no longer take effect.
