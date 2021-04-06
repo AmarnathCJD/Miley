@@ -851,7 +851,8 @@ def __load_all_feds_settings():
         SESSION.close()
 
 def fk_sub():
-  all_fedsubs = SESSION.query(FedSubs).all()
+  try:
+    all_fedsubs = SESSION.query(FedSubs).all()
   finally:
     SESSION.close()
 
