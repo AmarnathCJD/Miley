@@ -718,6 +718,18 @@ def subs_fed(fed_id, my_fed):
             FEDS_SUBSCRIBER.get(fed_id, set()).add(my_fed)
         return True
 
+def get_sub(my_fed, fed_id):
+     with FEDS_SUBSCRIBER_LOCK:
+        mime = FedSubs(my_fed, fed_id)
+
+        SESSION.merge(mime)  # merge to avoid duplicate key issues
+        SESSION.commit()
+        global MYFEDS_SUBSCRIBER
+        if MYFEDS_SUBSCRIBER.get(my_fed, set()) == set():
+            MYFEDS_SUBSCRIBER[my_fed] = {fed_id}
+        else:
+            MYFEDS_SUBSCRIBER.get(my_fed, set()).add(fed_id)
+        return True
 
 def unsubs_fed(fed_id, my_fed):
     with FEDS_SUBSCRIBER_LOCK:
@@ -840,7 +852,6 @@ def __load_all_feds_banned():
     finally:
         SESSION.close()
 
-
 def __load_all_feds_settings():
     global FEDERATION_NOTIFICATION
     try:
@@ -850,11 +861,6 @@ def __load_all_feds_settings():
     finally:
         SESSION.close()
 
-def fk_sub():
-  try:
-    all_fedsubs = SESSION.query(FedSubs).all()
-  finally:
-    SESSION.close()
 
 def __load_feds_subscriber():
     global FEDS_SUBSCRIBER
