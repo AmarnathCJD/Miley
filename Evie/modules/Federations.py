@@ -16,7 +16,6 @@ from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
 from Evie.events import register
 
-dt = datetime.now(pytz.timezone("Asia/Kolkata"))
 
 """
 Fully Written by RoseLoverX
@@ -499,6 +498,10 @@ async def _(event):
        else:
          return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}, with reason:\n`{fbanreason}`.')
     if not fban:
+       current_datetime = datetime.now(pytz.timezone("Asia/Kolkata"))
+       kuk =  f"{current_datetime}"
+       mal = kuk[:10]
+       rec = mal.replace("-", "")
        x = sql.fban_user(
                 fed_id,
                 fban_user_id,
@@ -506,7 +509,7 @@ async def _(event):
                 fban_user_lname,
                 fban_user_uname,
                 reason,
-                int(time.time()),
+                int(rec),
             )
        sax = "**New FedBan**\n"
        sax += f"**Fed:** {name}\n"
@@ -515,6 +518,10 @@ async def _(event):
        sax += f"**User ID:** `{r_sender_id}`\n"
        sax += f"**Reason:** {reason}"
     else:
+            current_datetime = datetime.now(pytz.timezone("Asia/Kolkata"))
+            kuk =  f"{current_datetime}"
+            mal = kuk[:10]
+            rec = mal.replace("-", "")
             fed_name = info["fname"]
             temp = sql.un_fban_user(fed_id, fban_user_id)
             if not temp:
@@ -527,7 +534,7 @@ async def _(event):
                 fban_user_lname,
                 fban_user_uname,
                 reason,
-                int(time.time()),
+                int(rec),
             )
             sax = "**FedBan Reason Update**\n"
             sax += f"**Fed:** {name}\n"
