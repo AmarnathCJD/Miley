@@ -48,7 +48,7 @@ async def fs(event):
     if rip is False:
       return await event.reply(f"❗**Not an Admin in the Channel**\nI am not an admin in the [channel](https://t.me/{args}). Add me as a admin in order to enable ForceSubscribe.", link_preview=False)
     sql.add_channel(event.chat_id, str(channel))
-    await event.reply("Successfully Set Fsub to Channel @{args}\n❗Please Make sure if I'm admin in that Channel.")
+    await event.reply(f"✅ **Force Subscribe is Enabled** to @{channel}")
       
 @tbot.on(events.NewMessage(pattern=None))
 async def f(event):
