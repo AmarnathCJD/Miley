@@ -51,6 +51,7 @@ async def fs(event):
 async def f(event):
  chat_id = event.chat_id
  chat_db = sql.fs_settings(chat_id)
+ user_id = event.sender_id
  if not chat_db:
    return
  if await is_admin(event, event.sender_id):
@@ -63,7 +64,7 @@ async def f(event):
       fname = event.sender.first_name
       grp = f"t.me/{channel}"
       buttons = [[Button.url("Join Channel", grp)],
-               [Button.inline("Unmute Me", data='fs_{}'.format(event.sender_id))],]
+               [Button.inline("Unmute Me", data="fs_{}".format(user_id))],]
       text = "{}, you have **not subscribed** to our [channel](https://t.me/{}) yet❗.Please [join](https://t.me/{}) and **press the button below** to unmute yourself.".format(fname, channel, channel)
       await tbot.send_message(event.chat_id, text, buttons=buttons, link_preview=False)
       await tbot(EditBannedRequest(event.chat_id, event.sender_id, MUTE_RIGHTS))
@@ -76,8 +77,7 @@ async def start_again(event):
  data = tata.decode()
  user_id = data.split("_", 1)[1]
  await event.reply(user_id)
- await event.reply(event.sender_id)
- if not event.sender_id == int(user_id):
+ if not event.sender_id == user_id:
   return await event.answer("You are not the muted user!")
  chat_id = event.chat_id
  chat_db = sql.fs_settings(chat_id)
