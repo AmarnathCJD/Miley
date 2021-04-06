@@ -361,13 +361,13 @@ async def info(event):
   caption += f"Number of bans: `{len(getfban)}`\n"
   caption += f"Number of connected chats: `{len(getfchat)}`\n"
   try:
-     subs = luv[fed_id]
+     subs = sql.get_subscriber(fed_id)
   except:
      subs = []
   caption += f"Number of subscribed feds: `{len(subs)}`"
-  if getmy == None:
+  if len(getmy) == 0:
    caption += "\n\nThis federation is not subscribed to any other feds."
-  if getmy:
+  else:
      caption += "\n\nSubscribed to the following feds:"
      for x in getmy:
                 nfo = sql.get_fed_info(x)
