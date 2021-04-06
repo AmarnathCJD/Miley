@@ -797,9 +797,7 @@ async def fstat(event):
   flist = f"The following federations have caused {fname} to be banned in chats:"
   for x in fbanlist:
    try:
-     getfed = sql.search_fed_by_id(x)
-     fname = getfed["fname"]
-     flist += f"\n- `{x}`:{fname}"
+     flist += f"\n- `{x}`"
    except:
      pass
   await mex.edit(flist)
