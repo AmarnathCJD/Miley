@@ -46,7 +46,7 @@ async def fs(event):
   if len(args) > 2:
     rip = await check_him(args, BOT_ID)
     if rip is False:
-      return await event.reply(f"❗**Not an Admin in the Channel**\nI am not an admin in the [channel](https://t.me/{args}). Add me as a admin in order to enable ForceSubscribe.", link_preview=False))
+      return await event.reply(f"❗**Not an Admin in the Channel**\nI am not an admin in the [channel](https://t.me/{args}). Add me as a admin in order to enable ForceSubscribe.", link_preview=False)
     FK = sql.add_channel(event.chat_id, args)
     if FK:
       await event.reply("Successfully Set Fsub to Channel @{args}\n❗Please Make sure if I'm admin in that Channel.")
