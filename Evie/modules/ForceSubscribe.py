@@ -43,10 +43,13 @@ async def fs(event):
   if not await is_admin(event, BOT_ID):
    return await event.reply("I'm not an admin Mind Promoting Me?!")
   args = event.pattern_match.group(1)
-  if args:
+  if len(args) > 2:
+    rip = await check_him(args, BOT_ID)
+    if rip is False:
+      return await event.reply(f"❗**Not an Admin in the Channel**\n__I am not an admin in the [channel](https://t.me/{args}). Add me as a admin in order to enable ForceSubscribe.")
     FK = sql.add_channel(event.chat_id, args)
     if FK:
-      await event.reply("Set fsub")
+      await event.reply("Successfully Set Fsub to Channel @{args}\n❗Please Make sure if I'm admin in that Channel.")
       
 @tbot.on(events.NewMessage(pattern=None))
 async def f(event):
