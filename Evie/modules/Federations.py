@@ -2,7 +2,8 @@
 Fully Written by RoseLoverX
 """
 from Evie import tbot, CMD_HELP, OWNER_ID
-import os, re, csv, json, time, uuid
+import os, re, csv, json, time, uuid, pytz
+from datetime import datetime
 from Evie.function import is_admin
 from io import BytesIO
 import Evie.modules.sql.feds_sql as sql
@@ -14,6 +15,8 @@ from Evie import *
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
 from Evie.events import register
+
+dt = datetime.now(pytz.timezone("Asia/Kolkata"))
 
 """
 Fully Written by RoseLoverX
@@ -417,6 +420,7 @@ Fully Written by RoseLoverX
 """
 @register(pattern="^/fban ?(.*)")
 async def _(event):
+    
     user = event.sender
     chat = event.chat_id
     if event.is_group:
@@ -494,6 +498,7 @@ async def _(event):
          return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}.')
        else:
          return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}, with reason:\n`{fbanreason}`.')
+    dt = datetime.now(pytz.timezone("Asia/Kolkata"))
     if not fban:
        x = sql.fban_user(
                 fed_id,
@@ -502,7 +507,7 @@ async def _(event):
                 fban_user_lname,
                 fban_user_uname,
                 reason,
-                int(time.time()),
+                dt,
             )
        sax = "**New FedBan**\n"
        sax += f"**Fed:** {name}\n"
