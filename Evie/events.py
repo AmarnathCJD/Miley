@@ -63,7 +63,6 @@ def register(**args):
                 pass
             else:
                 print("i don't work in channels")
-                return
             if check.is_group:
                if check.chat.megagroup:
                   pass
