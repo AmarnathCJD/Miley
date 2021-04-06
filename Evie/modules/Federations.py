@@ -720,10 +720,10 @@ async def sub(event):
  if args == fed_id:
    return await event.reply("... What's the point in subscribing a fed to itself?")
  try:
-   subs = luv[fed_id]
+   subs = sql.MYFEDS_SUBSCRIBER
  except:
    subs = []
- if len(subs) >= 5:
+ if len(subs) <= 5:
   return await event.reply("You can subscribe to at most 5 federations. Please unsubscribe from other federations before adding more.")
  subfed = sql.subs_fed(args, fed_id)
  addsub = sql.add_sub(fed_id, args)
