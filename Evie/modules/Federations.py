@@ -776,6 +776,9 @@ async def fstat(event):
     else:
         user_id = event.sender_id
         fname = event.sender.first_name
+    fban, fbanreason, fbantime = sql.get_fban_user(args, int(user_id))
+    if not fban:
+      return await event.reply(f"{fname} is not banned in this fed.")
   elif len(args) < 12:
    person = await get_user_from_event(event)
    user_id = person.id
