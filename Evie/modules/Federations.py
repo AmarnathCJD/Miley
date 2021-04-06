@@ -498,7 +498,6 @@ async def _(event):
          return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}.')
        else:
          return await event.reply(f'User [{fname}](tg://user?id={r_sender_id}) is already banned in {name}, with reason:\n`{fbanreason}`.')
-    dt = datetime.now(pytz.timezone("Asia/Kolkata"))
     if not fban:
        x = sql.fban_user(
                 fed_id,
@@ -507,7 +506,7 @@ async def _(event):
                 fban_user_lname,
                 fban_user_uname,
                 reason,
-                dt,
+                int(time.time()),
             )
        sax = "**New FedBan**\n"
        sax += f"**Fed:** {name}\n"
