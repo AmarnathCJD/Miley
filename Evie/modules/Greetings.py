@@ -137,12 +137,14 @@ async def cbot(event):
     for c in chats:
         if chat_id == c["id"] and user_id == c["user"]:
             await event.answer("You are already verified !")
+            await event.edit(buttons=None)
             return
     if event.sender_id == user_id:
       try:
             await tbot(EditBannedRequest(chat_id, user_id, UNMUTE_RIGHTS))
             verified_user.insert_one({"id": chat_id, "user": user_id})
             await event.answer("Yep you are verified as a human being")
+            await event.edit(buttons=None)
       except Exception as e:
          print(e)
 
