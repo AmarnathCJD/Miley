@@ -77,7 +77,7 @@ def __load_fsub_chats():
     global FSUB_CHATS
     global FSUB_CHATSS
     try:
-        all_chat = SESSION.query(AFK).all()
+        all_chat = SESSION.query(FSUB).all()
         FSUB_CHATS = {chat.chat_id: chat.channel for chat in all_chat if chat.is_chat}
         FSUB_CHATSS = {chat.chat_id: chat.start_time for chat in all_chat if chat.is_chat}
     finally:
