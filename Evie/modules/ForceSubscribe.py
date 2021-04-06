@@ -61,7 +61,7 @@ async def f(event):
     channel = chat_db.channel
     rip = await check_him(channel, event.sender_id)
     if rip is False:
-      rk f"{event.sender_id}"
+      rk = f"{event.sender_id}"
       fname = event.sender.first_name
       grp = f"t.me/{channel}"
       buttons = [[Button.url("Join Channel", grp)],
