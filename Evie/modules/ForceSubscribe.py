@@ -8,7 +8,7 @@ import telethon
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 from telethon.tl import types
-from telethon.errors import ChannelInvalidError
+from telethon.tl.functions.channels import GetFullChannelRequest
 
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 
@@ -53,8 +53,8 @@ async def fs(event):
     await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
   else:
     try:
-      smexy = functions.channels.GetChannelsRequest(channel)
-    except ChannelInvalidError:
+      ch_full = await client(GetFullChannelRequest(channel=channel))
+    except:
       return await event.reply("❗**Invalid Channel Username.**")
     rip = await check_him(channel, BOT_ID)
     if rip is False:
