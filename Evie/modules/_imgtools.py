@@ -44,7 +44,7 @@ async def lg(event):
     x = (image_widthz - w) / 2
     y = (image_heightz - h) / 2
     draw.text(
-        (x, y), text, font=font, fill=color, stroke_width=8, stroke_fill=stroke
+        (x, y), text, font=font, fill=color, stroke_width=width, stroke_fill=stroke
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
