@@ -295,6 +295,27 @@ def rename_fed(fed_id, owner_id, newname):
         FEDERATION_BYNAME[newname] = tempdata
         return True
 
+def f_fed(fed_id, owner_id, fname):
+    with FEDS_LOCK:
+        global FEDERATION_BYFEDID, FEDERATION_BYOWNER, FEDERATION_BYNAME
+        fed = SESSION.query(Federations).get(fed_id)
+        if not fed:
+            return False
+        fed.owner_id = owner_id
+        SESSION.commit()
+
+        # Update the dicts
+        old = FEDERATION_BYFEDID[str(fed_id)]["fusers"]["owner"]
+        tempdata = FEDERATION_BYOWNER[old]
+        FEDERATION_BYOWNER.pop(old)
+        
+
+        FEDERATION_BYNAME[str(fname)]["owner"] = owner_id
+        FEDERATION_BYFEDID[str(fed_id)]["fusers"]["owner"] = owner_id
+        FEDERATION_BYFEDID[str(fed_id)]["owner"] = owner_id
+        FEDERATION_BYOWNER[owner_id] = tempdata
+        return True
+
 
 
 def chat_join_fed(fed_id, chat_name, chat_id):
