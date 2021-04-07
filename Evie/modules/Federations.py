@@ -922,6 +922,7 @@ async def sk(event):
   return await event.reply("This command is made to be used in PM.")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
  if fedowner:
+  try:
    for f in fedowner:
           name = f["fed"]["fname"]
           fed_id = f["fed"]
@@ -929,6 +930,8 @@ async def sk(event):
    if len(f) < 10:
       text =+ f"Looks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
    await event.reply(text)
+  except Exception as e:
+   await event.reply(f"{e}")
 
  
 
