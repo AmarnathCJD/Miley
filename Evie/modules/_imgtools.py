@@ -38,11 +38,12 @@ async def lg(event):
             event.chat_id,
             file=file_name,
             caption="By_MissEvie_Robot",
+            force_document=True,
             reply_to=event.message.id
         )
       else:
         await tbot.send_file(
-            event.chat_id, file=file_name, caption="By_MissEvie_Robot"
+            event.chat_id, file=file_name, caption="By_MissEvie_Robot, force_document=True"
         )
     if os.path.exists(file_name):
         os.remove(file_name)
