@@ -864,8 +864,6 @@ async def fex(event):
                 ]
                 backups += json.dumps(json_parser)
                 backups += "\n"
-            try:
-              
             with BytesIO(str.encode(backups)) as output:
                 output.name = "fbanned_users.csv"
                 await tbot.send_file(
