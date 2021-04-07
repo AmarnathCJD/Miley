@@ -143,7 +143,7 @@ def get_user_fban(fed_id, user_id):
 def get_user_admin_fed_name(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) in eval(eval(FEDERATION_BYFEDID[f]["fusers"])["members"]):
+        if int(user_id) in FEDERATION_BYFEDID[f]["owner"]:
             user_feds.append(FEDERATION_BYFEDID[f]["fname"])
     return user_feds
 
@@ -167,7 +167,7 @@ def get_user_admin_fed_full(user_id):
 def get_user_owner_fed_full(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) == int(eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]):
+        if int(user_id) == FEDERATION_BYFEDID[f]["owner"]:
             user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
     return user_feds
 
@@ -209,7 +209,7 @@ def new_fed(owner_id, fed_name, fed_id):
             "fname": fed_name,
             "frules": "Rules is not set in this federation.",
             "flog": None,
-            "fusers": {"owner": owner_id, "members": "[]"},
+            "fusers": str({"owner": str(owner_id), "members": "[]"}),
         }
         FEDERATION_BYNAME[fed_name] = {
             "fid": str(fed_id),
@@ -301,20 +301,20 @@ def f_fed(fed_id, owner_id, fname):
         fed = SESSION.query(Federations).get(fed_id)
         if not fed:
             return False
-        fed.owner_id = owner_id
+        fed.fed_name = newname
         SESSION.commit()
 
         # Update the dicts
-        old = FEDERATION_BYFEDID[fed_id]["owner"]
-        tempdata = FEDERATION_BYOWNER[old]
-        FEDERATION_BYOWNER.pop(old)
+        oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
+        tempdata = FEDERATION_BYOWNER[oldname]
+        FEDERATION_BYOWNER.pop(oldname)
         
 
-        FEDERATION_BYNAME[fname]["owner"] = owner_id
-        FEDERATION_BYFEDID[fed_id)]["fusers"]["owner"] = owner_id
-        FEDERATION_BYFEDID[fed_id]["owner"] = owner_id
+        FEDERATION_BYNAME[str(fname)]["owner"] = owner_id
+        FEDERATION_BYFEDID[str(fed_id)]["owner"] = owner_id
         FEDERATION_BYOWNER[owner_id] = tempdata
         return True
+
 
 
 
