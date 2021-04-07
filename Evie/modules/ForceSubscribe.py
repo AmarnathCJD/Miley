@@ -39,6 +39,8 @@ async def rights(event):
 
 @register(pattern="^/(fsub|forcesubscribe) ?(.*)")
 async def fs(event):
+  if not await is_admin(event, event.sender_id):
+    return await event.reply("You need to be an admin to do this!")
   permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
   if not permissions.is_creator:
           return await event.reply("❗**Group Creator Required**\nYou have to be the group creator to do that.")
@@ -49,9 +51,9 @@ async def fs(event):
   if not args:
     chat_db = sql.fs_settings(event.chat_id)
     if chat_db:
-      return await event.reply(f"Currently Forsubscribe is ✅Enabled\nSubscribed to @{chat_db.channel}")
+      return await event.reply(f"Currently Forsubscribe is ✅Enabled.\nSubscribed to @{chat_db.channel}")
     else:
-      return await event.reply("Forcesubscribe is currently ❌Disabled")
+      return await event.reply("Forcesubscribe is currently ❌Disabled.")
   if args == "on" or args == "On":
      return await event.reply("❗Please Specify the Channel Username")
   elif args in ("off", "no", "disable"):
