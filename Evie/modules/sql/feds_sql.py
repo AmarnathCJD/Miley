@@ -305,15 +305,15 @@ def f_fed(fed_id, owner_id, fname):
         SESSION.commit()
 
         # Update the dicts
-        old = FEDERATION_BYFEDID[str(fed_id)]["fusers"]["owner"]
-        tempdata = FEDERATION_BYOWNER[old]
-        FEDERATION_BYOWNER.pop(old)
+        old = FEDERATION_BYFEDID[str(fed_id)]["owner"]
+        tempdata = FEDERATION_BYOWNER[str(old)]
+        FEDERATION_BYOWNER.pop(str(old))
         
 
         FEDERATION_BYNAME[str(fname)]["owner"] = owner_id
-        FEDERATION_BYFEDID[str(fed_id)]["fusers"]["owner"] = owner_id
-        FEDERATION_BYFEDID[str(fed_id)]["owner"] = owner_id
-        FEDERATION_BYOWNER[owner_id] = tempdata
+        FEDERATION_BYFEDID[str(fed_id)]["fusers"]["owner"] = str(owner_id)
+        FEDERATION_BYFEDID[str(fed_id)]["owner"] = str(owner_id)
+        FEDERATION_BYOWNER[str(owner_id)] = tempdata
         return True
 
 
