@@ -12,16 +12,19 @@ async def lg(event):
         await event.edit("`Please Give Me A Valid Input.`")
         return
     if "|" in arg:
-       text, color = arg.split("|")
+       text, color, stroke = arg.split("|")
        text = text.strip()
        color = color.strip()
+       stroke = stroke.strip()
     else:
        text = arg
        color = (255, 255, 0)
+    if stroke == None:
+      stroke = 'yellow'
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 8:
-       font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 400)
+       font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 450)
     else:
        font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 300)
     image_widthz, image_heightz = img.size
@@ -36,7 +39,7 @@ async def lg(event):
     x = (image_widthz - w) / 2
     y = (image_heightz - h) / 2
     draw.text(
-        (x, y), text, font=font, fill="red", stroke_width=8, stroke_fill="yellow"
+        (x, y), text, font=font, fill=color, stroke_width=8, stroke_fill=stroke
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
