@@ -909,6 +909,8 @@ async def fd(event):
       return await event.reply("There is no federation with this FedID.")
  name = info["fname"]
  user_id = event.sender_id
+ if is_user_fed_owner(fed_id, int(user_id)) is True:
+  return await event.reply("You can't demote yourself from your own fed - who would be the owner?")
  if sql.search_user_in_fed(fed_id, user_id) is False:
     return await event.reply(f"You aren't an admin in '{name}' - how would I demote you?")
  sql.user_demote_fed(fed_id, user_id)
