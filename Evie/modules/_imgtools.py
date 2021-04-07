@@ -20,15 +20,21 @@ async def lg(event):
          color = op[0]
          stroke = op[1]
          width = int(op[2])
+       elif len(op) == 2:
+         color = op[0]
+         stroke = op[1]
+         width = 10
+       elif len(op) == 1:
+         color = op[0]
+         stroke = 'yellow'
+         width = 10
+       else:
+        return await event.reply("Invalid Args⛔")
     else:
        text = arg
        color = (255, 255, 0)
        stroke = 'yellow'
        width = 8
-    if stroke == None:
-      stroke = 'yellow'
-    if width == None:
-      width = 8
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 8:
