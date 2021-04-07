@@ -893,7 +893,7 @@ async def ft(event):
 #soon
 
 
-@register(pattern=^/fdemoteme ?(.*)")
+@register(pattern="^/feddemoteme ?(.*)")
 async def fd(event):
  if not event.is_private:
   return await event.reply("This command is made to be used in PM.")
