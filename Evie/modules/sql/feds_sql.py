@@ -209,7 +209,7 @@ def new_fed(owner_id, fed_name, fed_id):
             "fname": fed_name,
             "frules": "Rules is not set in this federation.",
             "flog": None,
-            "fusers": str({"owner": str(owner_id), "members": "[]"}),
+            "fusers": {"owner": str(owner_id), "members": "[]"},
         }
         FEDERATION_BYNAME[fed_name] = {
             "fid": str(fed_id),
@@ -295,38 +295,7 @@ def rename_fed(fed_id, owner_id, newname):
         FEDERATION_BYNAME[newname] = tempdata
         return True
 
-def f_fed(fed_id, user_id, fname):
-    with FEDS_LOCK:
-        global FEDERATION_BYFEDID, FEDERATION_BYOWNER, FEDERATION_BYNAME
-        fed = SESSION.query(Federations).get(fed_id)
-        if not fed:
-            return False
-        fed.owner_id = user_id
-        SESSION.commit()
 
-        # Update the dicts
-        naam = FEDERATION_BYFEDID[str(fed_id)]["fname"]
-        oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
-        FEDERATION_BYNAME[str(fname)]["owner"] = user_id
-        FEDERATION_BYFEDID[str(fed_id)]["owner"] = user_id
-        getfed = FEDERATION_BYFEDID.get(str('c19d4e55-ac4c-4227-a81c-4b3e6fc960d2'))
-        members = eval(eval(getfed["fusers"])["members"])
-        k = FEDERATION_BYFEDID.pop(str(fed_id))
-        FEDERATION_BYFEDID[str(fed_id)] = {
-            "owner": str(user_id),
-            "fname": naam,
-            "frules": "Rules is not set in this federation.",
-            "flog": None,
-            "fusers": str({"owner": str(user_id), "members": members}),
-        }
-        
-        tempdata = FEDERATION_BYOWNER[oldname]
-        FEDERATION_BYOWNER.pop(oldname)
-        
-        
-        
-        FEDERATION_BYOWNER[user_id] = tempdata
-        return True
 
 def chat_join_fed(fed_id, chat_name, chat_id):
     with FEDS_LOCK:
