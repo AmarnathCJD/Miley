@@ -302,7 +302,7 @@ def f_fed(fed_id, owner_id):
         if not fed:
             return False
         fed.owner_id = owner_id
-        SESSION.merge()
+        SESSION.merge(fed.owner_id)
 
         # Update the dicts
         oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
