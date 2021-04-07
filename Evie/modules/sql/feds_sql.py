@@ -301,7 +301,7 @@ def f_fed(fed_id, owner_id, fname):
         fed = SESSION.query(Federations).get(fed_id)
         if not fed:
             return False
-        fed.fed_name = newname
+        fed.owner_id = owner_id
         SESSION.commit()
 
         # Update the dicts
