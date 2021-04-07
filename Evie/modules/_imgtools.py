@@ -12,15 +12,20 @@ async def lg(event):
         await event.edit("`Please Give Me A Valid Input.`")
         return
     if "|" in arg:
-       text, color, stroke = arg.split("|")
+       text, color, stroke, width = arg.split("|")
        text = text.strip()
        color = color.strip()
        stroke = stroke.strip()
+       width = width.strip()
     else:
        text = arg
        color = (255, 255, 0)
+       stroke = 'yellow'
+       width = 8
     if stroke == None:
       stroke = 'yellow'
+    if width == None:
+      width = 8
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 8:
