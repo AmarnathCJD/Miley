@@ -40,7 +40,7 @@ async def lg(event):
         await tbot.send_file(
             event.chat_id,
             file=file_name,
-            caption="MissEvie_Robot"
+            caption="MissEvie_Robot",
             force_document=True,
             reply_to=event.message.id
         )
