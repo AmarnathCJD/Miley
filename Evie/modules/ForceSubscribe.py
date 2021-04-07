@@ -53,7 +53,7 @@ async def fs(event):
     await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
   else:
     try:
-      ch_full = await client(GetFullChannelRequest(channel=channel))
+      ch_full = await tbot(GetFullChannelRequest(channel=channel))
     except Exception as e:
       await event.reply(f"{e}")
       return await event.reply("❗**Invalid Channel Username.**")
