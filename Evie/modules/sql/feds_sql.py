@@ -305,7 +305,7 @@ def f_fed(fed_id, owner_id, fname):
         SESSION.commit()
 
         # Update the dicts
-        old = FEDERATION_BYFEDID[str(fed_id)]["owner"]
+        old = FEDERATION_BYFEDID[fed_id]["owner"]
         tempdata = FEDERATION_BYOWNER[old]
         FEDERATION_BYOWNER.pop(old)
         
