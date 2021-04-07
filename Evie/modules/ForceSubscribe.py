@@ -51,7 +51,7 @@ async def fs(event):
   elif args in ("off", "no", "disable"):
     sql.disapprove(event.chat_id)
     await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
-  elif args == None:
+  elif channel == '':
     chat_db = sql.fs_settings(chat_id)
     if chat_db:
       return await event.reply(f"Currently Forsubscribe is ✅Enabled\nSubscribed to @{chat_db.channel}")
