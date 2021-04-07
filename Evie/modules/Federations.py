@@ -867,13 +867,13 @@ async def fex(event):
                 backups += json.dumps(json_parser)
                 backups += "\n"
             with BytesIO(str.encode(backups)) as output:
-                output.name = "fbanned_users.json"
+                output.name = "fbanned_users.csv"
                 await tbot.send_file(
                     event.chat_id,
                     file=output,
-                    filename="fbanned_users.json",
-                    caption="Total {} users are blocked by the Federation {}.".format(
-                        len(getfban), info["fname"]
+                    filename="fbanned_users.csv",
+                    caption="Fbanned users in \n** {}**.".format(
+                        info["fname"]
                     ),
                 )
  except Exception as e:
@@ -889,8 +889,46 @@ async def ft(event):
         return await event.reply("It doesn't look like you have a federation yet!")
  for f in fedowner:
           fed_id = f["fed_id"]
- 
+ await event.reply("Soon!")
+#soon
 
+
+@register(pattern=^/fdemoteme ?(.*)")
+async def fd(event):
+ if not event.is_private:
+  return await event.reply("This command is made to be used in PM.")
+ input = event.pattern_match.group(1)
+ if not input:
+   return await event.reply("You need to specify which federation you're asking about by giving me a FedID!")
+ if len(input) < 8:
+   return await event.reply("This isn't a valid FedID format!")
+ if input:
+   fed_id = input
+   info = sql.get_fed_info(fed_id)
+ if not info:
+      return await event.reply("There is no federation with this FedID.")
+ name = info["fname"]
+ user_id = event.sender_id
+ if sql.search_user_in_fed(fed_id, user_id) is False:
+    return await event.reply(f"You aren't an admin in '{name}' - how would I demote you?")
+ sql.user_demote_fed(fed_id, user_id)
+ await event.reply(f"You are no longer a fed admin in '{name}'")
+
+@register(pattern="^/myfeds")
+async def sk(event):
+ if not event.is_private:
+  return await event.reply("This command is made to be used in PM.")
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if fedowner:
+   for f in fedowner:
+          name = f["fed"]["fname"]
+          fed_id = f
+   text = f"You are the **owner** of the following federation:\n`{fed_id}`:\n {name}"
+   if len(f) > 10:
+      text =+ f"Looks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
+   await event.reply(text)
+
+ 
 
 
 
@@ -911,7 +949,7 @@ You can even appoint federation admins, so that your trustworthiest admins can b
 Commands:
 - /newfed <fedname>: Creates a new federation with the given name. Only one federation per user. Max 64 chars name allowed.
 - /delfed: Deletes your federation, and any information related to it. Will not unban any banned users.
-- /fedtransfer <reply/username/mention/userid>: Transfer your federation to another user.
+- /fedtransfer <reply/username/mention/userid>: Transfer your federation to another user. **Soon**.
 - /renamefed <newname>: Rename your federation.
 - /fedinfo <FedID>: Information about a federation.
 - /fedadmins <FedID>: List the admins in a federation.
