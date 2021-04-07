@@ -160,3 +160,4 @@ async def _(event):
            await event.reply(finale)
     except CFError as e:
            await event.reply(lodu)
+  await event.reply(lodu)
