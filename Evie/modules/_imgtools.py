@@ -16,7 +16,7 @@ async def lg(event):
        text = text.strip()
        color = color.strip()
        stroke = stroke.strip()
-       width = width.strip()
+       width = int(width.strip())
     else:
        text = arg
        color = (255, 255, 0)
