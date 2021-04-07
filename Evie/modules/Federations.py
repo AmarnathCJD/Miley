@@ -928,11 +928,11 @@ async def sk(event):
           fed_id = f["fed_id"]
    text = f"You are the **owner** of the following federation:\n`{fed_id}`: {name}"
    o = sql.get_user_admin_fed_full(event.sender_id)
-   list = "You are **admin** in the following federations:\n"
+   list = "You are **admin** in the following federations:"
    for q in o:
         fname = q["fed"]["fname"]
         fid = q["fed_id"]
-        list += f"\n`{fid}`:{fname}"
+        list += f"\n-`{fid}`:{fname}"
    if len(q) < 10:
       txt = f"{text}\n{list}"
       await event.reply(txt)
