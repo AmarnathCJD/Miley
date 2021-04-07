@@ -4,7 +4,7 @@ from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 
 
 class Federations(BASE):
-    __tablename__ = "feds_"
+    __tablename__ = "feda"
     owner_id = Column(String(14))
     fed_name = Column(UnicodeText)
     fed_id = Column(UnicodeText, primary_key=True)
@@ -143,7 +143,7 @@ def get_user_fban(fed_id, user_id):
 def get_user_admin_fed_name(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) in FEDERATION_BYFEDID[f]["owner"]:
+        if int(user_id) in int(eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]):
             user_feds.append(FEDERATION_BYFEDID[f]["fname"])
     return user_feds
 
@@ -167,7 +167,7 @@ def get_user_admin_fed_full(user_id):
 def get_user_owner_fed_full(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) == FEDERATION_BYFEDID[f]["owner"]:
+        if int(user_id) == int(eval(FEDERATION_BYFEDID[f]["fusers"])["owner"]):
             user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
     return user_feds
 
@@ -294,27 +294,6 @@ def rename_fed(fed_id, owner_id, newname):
         FEDERATION_BYFEDID[str(fed_id)]["fname"] = newname
         FEDERATION_BYNAME[newname] = tempdata
         return True
-
-def f_fed(fed_id, owner_id, fname):
-    with FEDS_LOCK:
-        global FEDERATION_BYFEDID, FEDERATION_BYOWNER, FEDERATION_BYNAME
-        fed = SESSION.query(Federations).get(fed_id)
-        if not fed:
-            return False
-        fed.owner_id = owner_id
-        SESSION.commit()
-
-        # Update the dicts
-        oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
-        tempdata = FEDERATION_BYOWNER[oldname]
-        FEDERATION_BYOWNER.pop(oldname)
-        
-
-        FEDERATION_BYNAME[str(fname)]["owner"] = owner_id
-        FEDERATION_BYFEDID[str(fed_id)]["owner"] = owner_id
-        FEDERATION_BYOWNER[owner_id] = tempdata
-        return True
-
 
 
 
