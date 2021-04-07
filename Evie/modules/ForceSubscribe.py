@@ -46,12 +46,14 @@ async def fs(event):
    return await event.reply("I'm not an admin Mind Promoting Me?!")
   args = event.pattern_match.group(2)
   channel = args.replace("@", "")
+  if args == "on" or args == "On":
+     return await event.reply("❗Please Specify the Channel Username")
   if args in ("off", "no", "disable"):
     sql.disapprove(event.chat_id)
     await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
   else:
     try:
-      k = functions.channels.GetChannelsRequest(id=['channel'])
+      smexy = functions.channels.GetChannelsRequest(channel)
     except ChannelInvalidError:
       return await event.reply("❗**Invalid Channel Username.**")
     rip = await check_him(channel, BOT_ID)
