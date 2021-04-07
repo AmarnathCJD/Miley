@@ -209,7 +209,7 @@ def new_fed(owner_id, fed_name, fed_id):
             "fname": fed_name,
             "frules": "Rules is not set in this federation.",
             "flog": None,
-            "fusers": {"owner": str(owner_id), "members": "[]"},
+            "fusers": {"owner": owner_id, "members": "[]"},
         }
         FEDERATION_BYNAME[fed_name] = {
             "fid": str(fed_id),
