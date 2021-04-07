@@ -51,11 +51,16 @@ async def fs(event):
   if args in ("off", "no", "disable"):
     sql.disapprove(event.chat_id)
     await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
+  if args == None:
+    chat_db = sql.fs_settings(chat_id)
+    if chat_db:
+      return await event.reply(f"Currently Forsubscribe is ✅Enabled\nSubscribed to @{chat_db.channel}")
+    else:
+      return await event.reply("Forcesubscribe is currently ❌Disabled")
   else:
     try:
       ch_full = await tbot(GetFullChannelRequest(channel=channel))
-    except Exception as e:
-      await event.reply(f"{e}")
+    except:
       return await event.reply("❗**Invalid Channel Username.**")
     rip = await check_him(channel, BOT_ID)
     if rip is False:
