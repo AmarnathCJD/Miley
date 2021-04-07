@@ -927,10 +927,20 @@ async def sk(event):
           name = f["fed"]["fname"]
           fed_id = f["fed_id"]
    text = f"You are the **owner** of the following federation:\n`{fed_id}`: {name}"
-   if len(f) < 10:
+   o = get_user_admin_fed_full(event.sender_id)
+   list = "You are **admin** in the following federations:\n"
+   for q in o:
+        fname = q["fed"]["fname"]
+        fid = q["fed_id"]
+        list += f"\n`{fid}`:{fname}"
+   if len(q) > 10:
+      txt = f"{text}\n{list}"
+      await event.reply(txt)
+   if len(q) < 10:
       text += f"\n\nLooks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
       buttons = [Button.inline("Make the fedadmin file", data="fadmin")]
       await event.reply(text, buttons=buttons)
+   
   except Exception as e:
    await event.reply(f"{e}")
 
