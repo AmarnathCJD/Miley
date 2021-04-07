@@ -25,7 +25,7 @@ async def lg(event):
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
-    async with tbot.action(chat, 'photo'):
+    async with tbot.action(event.chat_id, 'photo'):
       if event.reply_to_msg_id:
         await tbot.send_file(
             event.chat_id,
