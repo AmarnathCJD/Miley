@@ -5,6 +5,7 @@ import os
 
 @register(pattern="^/logo ?(.*)")
 async def lg(event):
+ try:
     fk = await event.reply("Processing.....")
     text = event.pattern_match.group(1)
     if not text:
@@ -37,3 +38,5 @@ async def lg(event):
         )
     if os.path.exists(file_name):
         os.remove(file_name)
+ except Exception as e:
+   await event.reply(f"{e}")
