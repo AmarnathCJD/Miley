@@ -311,8 +311,8 @@ def f_fed(fed_id, owner_id, fname):
         
 
         FEDERATION_BYNAME[str(fname)]["owner"] = owner_id
-        FEDERATION_BYFEDID[str(fed_id)]["fusers"]["owner"] = str(owner_id)
-        FEDERATION_BYFEDID[str(fed_id)]["owner"] = str(owner_id)
+        FEDERATION_BYFEDID[str(fed_id)]["fusers"]["owner"] = owner_id
+        FEDERATION_BYFEDID[str(fed_id)]["owner"] = owner_id
         FEDERATION_BYOWNER[str(owner_id)] = tempdata
         return True
 
