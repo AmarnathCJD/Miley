@@ -46,17 +46,17 @@ async def fs(event):
    return await event.reply("I'm not an admin Mind Promoting Me?!")
   args = event.pattern_match.group(2)
   channel = args.replace("@", "")
+  if not args:
+    chat_db = sql.fs_settings(event.chat_id)
+    if chat_db:
+      return await event.reply(f"Currently Forsubscribe is ✅Enabled\nSubscribed to @{chat_db.channel}")
+    else:
+      return await event.reply("Forcesubscribe is currently ❌Disabled")
   if args == "on" or args == "On":
      return await event.reply("❗Please Specify the Channel Username")
   elif args in ("off", "no", "disable"):
     sql.disapprove(event.chat_id)
     await event.reply("❌ **Force Subscribe is Disabled Successfully.**")
-  elif channel == '':
-    chat_db = sql.fs_settings(chat_id)
-    if chat_db:
-      return await event.reply(f"Currently Forsubscribe is ✅Enabled\nSubscribed to @{chat_db.channel}")
-    else:
-      return await event.reply("Forcesubscribe is currently ❌Disabled")
   else:
     try:
       ch_full = await tbot(GetFullChannelRequest(channel=channel))
