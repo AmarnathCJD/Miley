@@ -33,6 +33,11 @@ async def lg(event):
         font=font,
         fill=color,
     )
+    x = (image_widthz - w) / 2
+    y = (image_heightz - h) / 2
+    draw.text(
+        (x, y), text, font=font, fill="white", stroke_width=12, stroke_fill="yellow"
+    )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
     async with tbot.action(event.chat_id, 'photo'):
