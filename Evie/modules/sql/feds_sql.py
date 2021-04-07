@@ -311,7 +311,7 @@ def f_fed(fed_id, user_id, fname):
         FEDERATION_BYFEDID[str(fed_id)]["owner"] = user_id
         getfed = FEDERATION_BYFEDID.get(str('c19d4e55-ac4c-4227-a81c-4b3e6fc960d2'))
         members = eval(eval(getfed["fusers"])["members"])
-        k = FEDERATION_BYFED_ID.pop(str(fed_id))
+        k = FEDERATION_BYFEDID.pop(str(fed_id))
         FEDERATION_BYFEDID[str(fed_id)] = {
             "owner": str(user_id),
             "fname": naam,
