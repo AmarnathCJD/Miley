@@ -7,10 +7,17 @@ import os
 async def lg(event):
  try:
     fk = await event.reply("Processing.....")
-    text = event.pattern_match.group(1)
-    if not text:
+    arg = event.pattern_match.group(1)
+    if not arg:
         await event.edit("`Please Give Me A Valid Input.`")
         return
+    if "|" in arg:
+       text, color = arg.split("|")
+       text = text.strip()
+       color = color.strip()
+    else:
+       text = arg
+       color = (255, 255, 0)
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 320)
@@ -21,7 +28,7 @@ async def lg(event):
         ((image_widthz - w) / 2, (image_heightz - h) / 2),
         text,
         font=font,
-        fill=(255, 255, 0),
+        fill=color,
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
