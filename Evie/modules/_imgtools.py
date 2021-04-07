@@ -1,6 +1,6 @@
 from Evie import tbot
 from Evie.events import register
-
+from PIL import Image, ImageDraw, ImageFont
 
 
 @register(pattern="^/logo ?(.*)")
@@ -12,7 +12,7 @@ async def lg(event):
         return
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("./bot_utils_files/Fonts/Streamster.ttf", 220)
+    font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 220)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
