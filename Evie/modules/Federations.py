@@ -924,9 +924,9 @@ async def sk(event):
  if fedowner:
    for f in fedowner:
           name = f["fed"]["fname"]
-          fed_id = f
+          fed_id = f["fed_id"]
    text = f"You are the **owner** of the following federation:\n`{fed_id}`:\n {name}"
-   if len(f) > 10:
+   if len(f) < 10:
       text =+ f"Looks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
    await event.reply(text)
 
