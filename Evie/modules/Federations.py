@@ -881,6 +881,14 @@ async def fex(event):
      
 #yeah fuckoof
 #in halt need to find a way to send CSV file
+
+@register(pattern="^/(ftransfer|fedtransfer) ?(.*)")
+async def ft(event):
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+        return await event.reply("It doesn't look like you have a federation yet!")
+ for f in fedowner:
+          fed_id = f["fed_id"]
  
 
 
