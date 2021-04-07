@@ -889,7 +889,7 @@ async def ft(event):
         return await event.reply("It doesn't look like you have a federation yet!")
  for f in fedowner:
           fed_id = f["fed_id"]
- await event.reply("Soon!")
+ await event.answer("Soon!")
 #soon
 
 
@@ -928,7 +928,7 @@ async def sk(event):
           fed_id = f["fed_id"]
    text = f"You are the **owner** of the following federation:\n`{fed_id}`: {name}"
    o = sql.get_user_admin_fed_full(event.sender_id)
-   list = "You are **admin** in the following federations:"
+   list = "\nYou are **admin** in the following federations:"
    for q in o:
         fname = q["fed"]["fname"]
         fid = q["fed_id"]
@@ -944,7 +944,7 @@ async def sk(event):
   except Exception as e:
    await event.reply(f"{e}")
 
- 
+#balance soon
 
 
 
