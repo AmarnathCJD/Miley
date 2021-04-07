@@ -926,10 +926,11 @@ async def sk(event):
    for f in fedowner:
           name = f["fed"]["fname"]
           fed_id = f["fed_id"]
-   text = f"You are the **owner** of the following federation:\n`{fed_id}`:\n {name}"
+   text = f"You are the **owner** of the following federation:\n`{fed_id}`: {name}"
    if len(f) < 10:
       text += f"\n\nLooks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
-   await event.reply(text)
+      buttons = [Button.inline("Make the fedadmin file", data="fadmin")]
+      await event.reply(text, buttons=buttons)
   except Exception as e:
    await event.reply(f"{e}")
 
