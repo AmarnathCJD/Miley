@@ -12,11 +12,25 @@ async def lg(event):
         await event.edit("`Please Give Me A Valid Input.`")
         return
     if "|" in arg:
-       text, color, stroke, width = arg.split(" ")
+      try:
+       text, color, stroke, width = arg.split("|")
        text = text.strip()
        color = color.strip()
        stroke = stroke.strip()
-       width = int(width.strip())
+       width = int(width.strip()
+      except:
+       try:
+        text, color, stroke = arg.split("|")
+        text = text.strip()
+        color = color.strip()
+        stroke = stroke.strip()
+       except:
+         try:
+           text, color = arg.split("|")
+           text = text.strip()
+           color = color.strip()
+         except:
+          return await event.reply("Invalid Args")
     else:
        text = arg
        color = (255, 255, 0)
