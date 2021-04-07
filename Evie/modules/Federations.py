@@ -889,7 +889,7 @@ async def ft(event):
         return await event.reply("It doesn't look like you have a federation yet!")
  for f in fedowner:
           fed_id = f["fed_id"]
- await event.answer("Soon!")
+ await event.reply("Soon!")
 #soon
 
 
