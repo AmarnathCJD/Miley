@@ -13,7 +13,7 @@ async def lg(event):
         return
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 220)
+    font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 320)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
@@ -25,14 +25,15 @@ async def lg(event):
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
-    if event.reply_to_msg_id:
+    async with client.action(chat, 'photo'):
+      if event.reply_to_msg_id:
         await tbot.send_file(
             event.chat_id,
             file=file_name,
             caption="By_MissEvie_Robot",
             reply_to=event.message.id
         )
-    else:
+      else:
         await tbot.send_file(
             event.chat_id, file=file_name, caption="By_MissEvie_Robot"
         )
