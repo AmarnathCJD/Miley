@@ -54,7 +54,8 @@ async def fs(event):
   else:
     try:
       ch_full = await client(GetFullChannelRequest(channel=channel))
-    except:
+    except Exception as e:
+      await event.reply(f"{e}")
       return await event.reply("❗**Invalid Channel Username.**")
     rip = await check_him(channel, BOT_ID)
     if rip is False:
