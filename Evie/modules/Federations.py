@@ -927,7 +927,7 @@ async def sk(event):
           name = f["fed"]["fname"]
           fed_id = f["fed_id"]
    text = f"You are the **owner** of the following federation:\n`{fed_id}`: {name}"
-   o = get_user_admin_fed_full(event.sender_id)
+   o = sql.get_user_admin_fed_full(event.sender_id)
    list = "You are **admin** in the following federations:\n"
    for q in o:
         fname = q["fed"]["fname"]
