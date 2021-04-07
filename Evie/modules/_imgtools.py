@@ -1,7 +1,7 @@
 from Evie import tbot
 from Evie.events import register
 from PIL import Image, ImageDraw, ImageFont
-
+import os
 
 @register(pattern="^/logo ?(.*)")
 async def lg(event):
@@ -22,21 +22,18 @@ async def lg(event):
         font=font,
         fill=(255, 255, 0),
     )
-    file_name = "LogoBy@MeisNub.png"
-    await client.send_chat_action(message.chat.id, "upload_photo")
+    file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
-    if message.reply_to_message:
-        await client.send_photo(
-            message.chat.id,
-            photo=file_name,
-            caption="Made Using FridayUserBot",
-            reply_to_message_id=message.reply_to_message.message_id,
+    if event.reply_to_msg_id:
+        await tbot.send_file(
+            event.chat_id,
+            file=file_name,
+            caption="By_MissEvie_Robot",
+            reply_to=event.message.id
         )
     else:
-        await client.send_photo(
-            message.chat.id, photo=file_name, caption="Made Using FridayUserBot"
+        await tbot.send_file(
+            event.chat_id, file=file_name, caption="By_MissEvie_Robot"
         )
-    await client.send_chat_action(message.chat.id, "cancel")
-    await event.delete()
     if os.path.exists(file_name):
         os.remove(file_name)
