@@ -159,7 +159,7 @@ def get_user_owner_fed_name(user_id):
 def get_user_admin_fed_full(user_id):
     user_feds = []
     for f in FEDERATION_BYFEDID:
-        if int(user_id) in eval(eval(FEDERATION_BYFEDID[f]["fusers"])["members"]):
+        if int(user_id) in eval(eval(FEDERATION_BYFEDID[f]["fusers"]["members"]):
             user_feds.append({"fed_id": f, "fed": FEDERATION_BYFEDID[f]})
     return user_feds
 
@@ -288,6 +288,7 @@ def rename_fed(fed_id, owner_id, newname):
         oldname = FEDERATION_BYFEDID[str(fed_id)]["fname"]
         tempdata = FEDERATION_BYNAME[oldname]
         FEDERATION_BYNAME.pop(oldname)
+        
 
         FEDERATION_BYOWNER[str(owner_id)]["fname"] = newname
         FEDERATION_BYFEDID[str(fed_id)]["fname"] = newname
@@ -304,12 +305,26 @@ def f_fed(fed_id, user_id, fname):
         SESSION.commit()
 
         # Update the dicts
+        naam = FEDERATION_BYFEDID[str(fed_id)]["fname"]
         oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
+        FEDERATION_BYNAME[str(fname)]["owner"] = user_id
+        FEDERATION_BYFEDID[str(fed_id)]["owner"] = user_id
+        getfed = FEDERATION_BYFEDID.get(str('c19d4e55-ac4c-4227-a81c-4b3e6fc960d2'))
+        members = eval(eval(getfed["fusers"])["members"])
+        k = FEDERATION_BYFED_ID.pop(str(fed_id))
+        FEDERATION_BYFEDID[str(fed_id)] = {
+            "owner": str(user_id),
+            "fname": naam,
+            "frules": "Rules is not set in this federation.",
+            "flog": None,
+            "fusers": str({"owner": str(user_id), "members": members}),
+        }
+        
         tempdata = FEDERATION_BYOWNER[oldname]
         FEDERATION_BYOWNER.pop(oldname)
         
-        FEDERATION_BYNAME[str(fname)]["owner"] = user_id
-        FEDERATION_BYFEDID[str(fed_id)]["owner"] = user_id
+        
+        
         FEDERATION_BYOWNER[user_id] = tempdata
         return True
 
