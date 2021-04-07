@@ -928,7 +928,7 @@ async def sk(event):
           fed_id = f["fed"]
    text = f"You are the **owner** of the following federation:\n`{fed_id}`:\n {name}"
    if len(f) < 10:
-      text =+ f"Looks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
+      text += f"Looks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
    await event.reply(text)
   except Exception as e:
    await event.reply(f"{e}")
