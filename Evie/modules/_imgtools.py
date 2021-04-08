@@ -33,8 +33,8 @@ async def lg(event):
     else:
        text = arg
        color = (255, 255, 0)
-       stroke = 'yellow'
-       width = 8
+       stroke = 'black'
+       width = 7
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 8:
@@ -54,9 +54,6 @@ async def lg(event):
     y = (image_heightz - h) / 2
     draw.text(
         (x, y), text, font=font, fill=color, stroke_width=width, stroke_fill=stroke
-    )
-    draw.multiline_text(
-        ((512 - image_widthz) / 2, (512 - image_heightz) / 2), text, font=font, fill=stroke
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
