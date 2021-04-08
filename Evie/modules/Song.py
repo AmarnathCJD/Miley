@@ -71,7 +71,7 @@ async def yt(event):
         allow_cache=False,
         attributes=[
                 DocumentAttributeAudio(
-                    duration=intint(ytdl_data["duration"]),
+                    duration=int(ytdl_data["duration"]),
                     title=str(ytdl_data["title"]),
                     performer=(ytdl_data["uploader"]),
                 )
