@@ -1,7 +1,7 @@
 from Evie import tbot
 from Evie.events import register
 from PIL import Image, ImageDraw, ImageFont
-import os
+import os, wget, random
 
 @register(pattern="^/logo ?(.*)")
 async def lg(event):
@@ -55,6 +55,9 @@ async def lg(event):
     draw.text(
         (x, y), text, font=font, fill=color, stroke_width=width, stroke_fill=stroke
     )
+    draw.multiline_text(
+        ((512 - image_widthz) / 2, (512 - image_heightz) / 2), text, font=font, fill=stroke
+    )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
     async with tbot.action(event.chat_id, 'photo'):
@@ -75,3 +78,5 @@ async def lg(event):
         os.remove(file_name)
  except Exception as e:
    await event.reply(f"{e}")
+
+
