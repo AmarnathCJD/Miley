@@ -6,6 +6,7 @@ from youtube_dl import YoutubeDL
 
 @register(pattern="^/song ?(.*)")
 async def yt(event):
+ try:
     input_str = event.pattern_match.group(1)
     pablo = await event.reply(f"Getting {input_str} From Youtube Servers. Please Wait.")
     if not input_str:
@@ -69,3 +70,5 @@ async def yt(event):
     for files in (downloaded_thumb, file_stark):
         if files and os.path.exists(files):
             os.remove(files)
+ except Exception as e:
+  await event.reply(f"{e}")
