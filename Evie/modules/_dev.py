@@ -192,7 +192,7 @@ async def echo(event):
           else:
             await tbot.send_message(event.chat_id, ok)
 
-  eilf event.reply_to_msg_id:
+   elif event.reply_to_msg_id:
           previous_message = await event.get_reply_message()
           try:
             await event.delete()
@@ -202,7 +202,10 @@ async def echo(event):
           k = await tbot.send_message(
                 event.chat_id,
                 previous_message
-             )        
+             )
+   else:
+     await tbot.send_message(event.chat_id, f"{event.sender.first_name} Chithiya. Echo krnekeliye kuch ni deta🤨")
+       
           
 
 @register(pattern="^/exec (.*)")
