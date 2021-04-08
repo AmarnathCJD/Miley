@@ -1,6 +1,6 @@
 from telethon.tl import functions
 from telethon.tl import types
-import time, subprocess, shlex, os, asyinco, math
+import time, subprocess, shlex, os, asyncio, math
 from Evie import tbot
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
