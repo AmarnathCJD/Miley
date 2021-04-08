@@ -184,13 +184,13 @@ async def echo(event):
   ok = event.pattern_match.group(1)
   if ok:
           if event.reply_to_msg_id:
+            previous_message = await event.get_reply_message()
+            if previous_message.sender_id == OWNER_ID:
+                return await event.reply("Fuck you too!")
             try:
               await event.delete()
             except:
               pass
-            previous_message = await event.get_reply_message()
-            if previous_message.sender_id == OWNER_ID:
-                return await event.reply("Fuck you too!")
             await tbot.send_message(event.chat_id, ok, reply_to=previous_message.id)
           else:
             try:
