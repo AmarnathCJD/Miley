@@ -198,7 +198,7 @@ async def echo(event):
             await event.delete()
           except Exception:
             pass
-          if event.reply_to_msg_id
+          if event.reply_to_msg_id:
             await tbot.send_message(event.chat_id, ok, reply_to=event.message.id)
           else:
             await tbot.send_message(event.chat_id, ok)
