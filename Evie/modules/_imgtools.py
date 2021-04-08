@@ -29,12 +29,13 @@ async def lg(event):
          stroke = 'black'
          width = 10
        else:
-        return await event.reply("Invalid Args⛔")
+        return await fk.edit("Invalid Args!")
     else:
        text = arg
        color = (255, 255, 0)
        stroke = 'black'
        width = 7
+    await fk.delete()
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 8:
@@ -70,7 +71,6 @@ async def lg(event):
         await tbot.send_file(
             event.chat_id, file=file_name, caption="MissEvie_Robot", force_document=True
         )
-    await fk.delete()
     if os.path.exists(file_name):
         os.remove(file_name)
  except Exception as e:
