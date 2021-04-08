@@ -187,17 +187,21 @@ async def echo(event):
             await event.delete()
           except Exception:
             pass
+          
           k = await tbot.send_message(
                 event.chat_id,
                 previous_message
-             )
+             )        
   else:
           ok = event.pattern_match.group(1)
           try:
             await event.delete()
           except Exception:
             pass
-          await tbot.send_message(event.chat_id, ok)
+          if event.reply_to_msg_id
+            await tbot.send_message(event.chat_id, ok, reply_to=event.message.id)
+          else:
+            await tbot.send_message(event.chat_id, ok)
 
 
 @register(pattern="^/exec (.*)")
