@@ -1,18 +1,15 @@
-import os
-import asyncio
 import io
+import os
 import sys
 import traceback
-from Evie import tbot
-from Evie import CMD_HELP, VIRUS_API_KEY
+
+import cloudmersive_virus_api_client
 from telethon import events
-from telethon.tl import functions
-from telethon.tl import types
-from telethon.tl.types import MessageMediaDocument, DocumentAttributeFilename
+from telethon.tl.types import DocumentAttributeFilename, MessageMediaDocument
+
+from Evie import CMD_HELP, VIRUS_API_KEY, tbot
 from Evie.events import register
 from Evie.function import is_register_admin
-import cloudmersive_virus_api_client
-
 
 configuration = cloudmersive_virus_api_client.Configuration()
 configuration.api_key["Apikey"] = VIRUS_API_KEY
@@ -80,9 +77,12 @@ async def virusscan(event):
         os.remove(virus)
         await gg.edit("Some error occurred..")
         return
-#Eval
-from Evie import ubot, OWNER_ID
+
+
 from telethon import events
+
+# Eval
+from Evie import OWNER_ID, ubot
 
 
 @ubot.on(events.NewMessage(pattern="!eval ?(.*)"))
@@ -94,7 +94,7 @@ async def ubot(event):
     cmd = "".join(event.message.message.split(maxsplit=1)[1:])
     if not cmd:
         return await edit("None")
-    catevent= await event.edit("Running ...")
+    catevent = await event.edit("Running ...")
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = io.StringIO()
@@ -119,6 +119,7 @@ async def ubot(event):
         evaluation = "Success"
     final_output = f"**•  Eval : **\n`{cmd}` \n\n**•  Result : **\n`{evaluation}` \n"
     await catevent.edit(final_output)
+
 
 async def aexec(code, smessatatus):
     message = event = smessatatus

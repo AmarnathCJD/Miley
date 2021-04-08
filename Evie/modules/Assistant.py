@@ -1,24 +1,16 @@
-from Evie import tbot, CMD_HELP
 import os
 import subprocess
 
-
-import Evie.modules.sql.chatbot_sql as ly
 import requests
-from gtts import gTTS
-from gtts import gTTSError
+from gtts import gTTS, gTTSError
 from requests import get
-import requests
 from telethon import *
-from telethon.tl import functions
-from telethon.tl import types
-from telethon import events
-import random
 from telethon.tl.types import *
 
 from Evie import *
-
+from Evie import CMD_HELP, tbot
 from Evie.events import register
+
 
 @register(pattern=r"^/evie(?: |$)([\s\S]*)")
 async def _(event):
@@ -59,7 +51,6 @@ async def _(event):
                 # process the json to appropriate string format
                 results = r["results"]
                 transcript_response = ""
-                transcript_confidence = ""
                 for alternative in results:
                     alternatives = alternative["alternatives"][0]
                     transcript_response += " " + str(alternatives["transcript"])
@@ -89,9 +80,7 @@ async def _(event):
                         )
                     os.remove("results.mp3")
                     os.remove(required_file_name)
-                if (
-                    answer == "Wolfram Alpha did not understand your input"
-                ):
+                if answer == "Wolfram Alpha did not understand your input":
                     try:
                         answer = "Sorry I can't understand"
                         tts = gTTS(answer, tld="com", lang="en")
@@ -128,36 +117,36 @@ async def howdoi(event):
     await event.reply(pit)
 
 
-
 @register(pattern="^/quote")
 async def qt(event):
- url = "https://andruxnet-random-famous-quotes.p.rapidapi.com/"
+    url = "https://andruxnet-random-famous-quotes.p.rapidapi.com/"
 
- querystring = {"cat":"famous","count":"1"}
+    querystring = {"cat": "famous", "count": "1"}
 
- headers = {
-    'x-rapidapi-key': "cf9e67ea99mshecc7e1ddb8e93d1p1b9e04jsn3f1bb9103c3f",
-    'x-rapidapi-host': "andruxnet-random-famous-quotes.p.rapidapi.com"
+    headers = {
+        "x-rapidapi-key": "cf9e67ea99mshecc7e1ddb8e93d1p1b9e04jsn3f1bb9103c3f",
+        "x-rapidapi-host": "andruxnet-random-famous-quotes.p.rapidapi.com",
     }
 
- response = requests.request("GET", url, headers=headers, params=querystring)
- k = response.text
- j = k.replace(',', '')
- q = j.replace("{", "")
- l = q.replace("}", "")
- n = l.replace('"author"', ' ')
- o = n.replace('"quote":', '')
- z = o.replace(":", "-")
- y = z.replace('."', '')
- X = y.replace('"', '')
- m = X.replace('category-Famous', '')
- Com = m.replace(']', '')
- text = Com.replace('[', '')
- try:
-      async with tbot.action(event.chat_id, 'typing'):
-           await event.reply(text)
- except CFError as e:
-           await event.reply('Error Report @Eviesupport')
+    response = requests.request("GET", url, headers=headers, params=querystring)
+    k = response.text
+    j = k.replace(",", "")
+    q = j.replace("{", "")
+    l = q.replace("}", "")
+    n = l.replace('"author"', " ")
+    o = n.replace('"quote":', "")
+    z = o.replace(":", "-")
+    y = z.replace('."', "")
+    X = y.replace('"', "")
+    m = X.replace("category-Famous", "")
+    Com = m.replace("]", "")
+    text = Com.replace("[", "")
+    try:
+        async with tbot.action(event.chat_id, "typing"):
+            await event.reply(text)
+    except CFError:
+        await event.reply("Error Report @Eviesupport")
+
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")

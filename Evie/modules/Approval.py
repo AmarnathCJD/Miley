@@ -1,17 +1,16 @@
-from Evie import CMD_HELP, BOT_ID, tbot
 import os
+
 from pymongo import MongoClient
-from Evie import MONGO_DB_URI
+
+from Evie import BOT_ID, CMD_HELP, MONGO_DB_URI, tbot
 from Evie.events import register
-from telethon import types
-from telethon.tl import functions
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 approved_users = db.approve
 
-from Evie.function import is_register_admin, can_approve_users
+from Evie.function import can_approve_users, is_register_admin
 
 
 async def get_user_from_event(event):
@@ -49,14 +48,16 @@ async def get_user_from_event(event):
 async def approve(event):
     if event.fwd_from:
         return
-    chat_id = event.chat.id
-    sender = event.sender_id
-    reply_msg = await event.get_reply_message()
-    approved_userss = approved_users.find({})
+    event.chat.id
+    event.sender_id
+    await event.get_reply_message()
+    approved_users.find({})
 
     if event.is_group:
         if not await can_approve_users(message=event):
-            await event.reply("You are missing the following rights to use this command:CanChangeInfo")
+            await event.reply(
+                "You are missing the following rights to use this command:CanChangeInfo"
+            )
             return
     else:
         return
@@ -68,12 +69,11 @@ async def approve(event):
         return
     iid = userr.id
 
-
     if await is_register_admin(event.input_chat, iid):
-        await event.reply("User is already admin - locks, blocklists, and antiflood already don't apply to them.")
+        await event.reply(
+            "User is already admin - locks, blocklists, and antiflood already don't apply to them."
+        )
         return
-
-    
 
     if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
         await event.reply("There's not much point in approving myself.")
@@ -82,23 +82,29 @@ async def approve(event):
     chats = approved_users.find({})
     for c in chats:
         if event.chat_id == c["id"] and iid == c["user"]:
-            await event.reply(f"[{userr.first_name}](tg://user?id={iid}) has been approved in {event.chat.title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood.")
+            await event.reply(
+                f"[{userr.first_name}](tg://user?id={iid}) has been approved in {event.chat.title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood."
+            )
             return
 
     approved_users.insert_one({"id": event.chat_id, "user": iid})
-    await event.reply(f"[{userr.first_name}](tg://user?id={iid}) has been approved in {event.chat.title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood.")
+    await event.reply(
+        f"[{userr.first_name}](tg://user?id={iid}) has been approved in {event.chat.title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood."
+    )
 
 
 @register(pattern="^/disapprove(?: |$)(.*)")
 async def disapprove(event):
     if event.fwd_from:
         return
-    chat_id = event.chat.id
-    sender = event.sender_id
-    reply_msg = await event.get_reply_message()
+    event.chat.id
+    event.sender_id
+    await event.get_reply_message()
     if event.is_group:
         if not await can_approve_users(message=event):
-            await event.reply("You are missing the following rights to use this command:CanChangeInfo")
+            await event.reply(
+                "You are missing the following rights to use this command:CanChangeInfo"
+            )
             return
     else:
         return
@@ -118,7 +124,9 @@ async def disapprove(event):
     for c in chats:
         if event.chat_id == c["id"] and iid == c["user"]:
             approved_users.delete_one({"id": event.chat_id, "user": iid})
-            await event.reply(f"{userr.first_name} is no longer approved in {event.chat.title}.")
+            await event.reply(
+                f"{userr.first_name} is no longer approved in {event.chat.title}."
+            )
             return
     await event.reply(f"{userr.first_name} isn't approved yet!")
 
@@ -129,10 +137,10 @@ async def checkst(event):
         return
     if MONGO_DB_URI is None:
         return
-    chat_id = event.chat.id
-    sender = event.sender_id
-    reply_msg = await event.get_reply_message()
-    approved_userss = approved_users.find({})
+    event.chat.id
+    event.sender_id
+    await event.get_reply_message()
+    approved_users.find({})
 
     if event.is_group:
         if not await can_approve_users(message=event):
@@ -170,9 +178,9 @@ async def apprlst(event):
         return
     if MONGO_DB_URI is None:
         return
-    chat_id = event.chat.id
-    sender = event.sender_id
-    reply_msg = await event.get_reply_message()
+    event.chat.id
+    event.sender_id
+    await event.get_reply_message()
 
     if event.is_group:
         if not await can_approve_users(message=event):
@@ -206,9 +214,9 @@ async def disapprlst(event):
         return
     if MONGO_DB_URI is None:
         return
-    chat_id = event.chat.id
-    sender = event.sender_id
-    reply_msg = await event.get_reply_message()
+    event.chat.id
+    event.sender_id
+    await event.get_reply_message()
 
     if event.is_group:
         if not await can_approve_users(message=event):

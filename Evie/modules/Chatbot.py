@@ -1,17 +1,15 @@
-from Evie import CMD_HELP, BOT_ID, tbot, LYDIA_API_KEY, OWNER_ID
 import os
 from time import time
-import asyncio
-import Evie.modules.sql.chatbot_sql as sql
-import Evie.modules.sql.ai_sql as ly
 
 from coffeehouse.api import API
-from coffeehouse.exception import CoffeeHouseError as CFError
 from coffeehouse.lydia import LydiaAI
-from telethon import types
+from telethon import events, types
 from telethon.tl import functions
+
+import Evie.modules.sql.ai_sql as ly
+import Evie.modules.sql.chatbot_sql as sql
+from Evie import BOT_ID, CMD_HELP, LYDIA_API_KEY, tbot
 from Evie.events import register
-from telethon import events
 
 CoffeeHouseAPI = API(LYDIA_API_KEY)
 api_client = LydiaAI(CoffeeHouseAPI)
@@ -44,7 +42,7 @@ async def _(event):
     global api_client
     chat = event.chat
     send = await event.get_sender()
-    user = await tbot.get_entity(send)
+    await tbot.get_entity(send)
     is_chat = sql.is_chat(chat.id)
     k = ly.is_chat(chat.id)
     if k:
@@ -69,7 +67,7 @@ async def _(event):
         return
     chat = event.chat
     send = await event.get_sender()
-    user = await tbot.get_entity(send)
+    await tbot.get_entity(send)
     is_chat = sql.is_chat(chat.id)
     if not is_chat:
         await event.reply("AI isn't enabled here in the first place!")
@@ -125,9 +123,9 @@ async def _(event):
             rep = api_client.think_thought(sesh, query)
         except Exception:
             pass
-        async with tbot.action(event.chat_id, 'typing'):           
-              await event.reply(rep)
-        
+        async with tbot.action(event.chat_id, "typing"):
+            await event.reply(rep)
+
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")

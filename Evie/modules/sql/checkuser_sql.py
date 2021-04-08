@@ -1,12 +1,6 @@
-from sqlalchemy import (
-    Column,
-    String,
-    Integer
-)
-from Evie.modules.sql import (
-    SESSION,
-    BASE
-)
+from sqlalchemy import Column, String
+
+from Evie.modules.sql import BASE, SESSION
 
 
 class Moidata(BASE):
@@ -19,15 +13,18 @@ class Moidata(BASE):
 
 Moidata.__table__.create(checkfirst=True)
 
+
 def add_usersid_in_db(chat_id: int):
     id_user = Moidata(str(chat_id))
     SESSION.add(id_user)
     SESSION.commit()
 
+
 def get_all_users():
     stark = SESSION.query(Moidata).all()
     SESSION.close()
     return stark
+
 
 def already_added(chat_id):
     try:

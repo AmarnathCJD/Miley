@@ -1,4 +1,5 @@
-from sqlalchemy import Column, UnicodeText, String
+from sqlalchemy import Column, String, UnicodeText
+
 from Evie.modules.sql import BASE, SESSION
 
 

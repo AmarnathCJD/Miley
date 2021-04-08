@@ -1,4 +1,5 @@
 from sqlalchemy import BigInteger, Boolean, Column, String, UnicodeText
+
 from Evie.modules.sql import BASE, SESSION
 
 

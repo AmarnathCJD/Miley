@@ -1,8 +1,6 @@
 from sys import argv, exit
-from Evie import tbot
-from Evie import TOKEN
 
-import Evie.events
+from Evie import TOKEN, tbot
 
 try:
     tbot.start(bot_token=TOKEN)
@@ -14,4 +12,3 @@ if len(argv) not in (1, 3, 4):
     tbot.disconnect()
 else:
     tbot.run_until_disconnected()
-
