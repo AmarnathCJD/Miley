@@ -37,8 +37,10 @@ async def lg(event):
     draw = ImageDraw.Draw(img)
     if len(text) < 7:
        font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 450)
-    else:
+    elif len(text) < 9:
        font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 300)
+    else:
+       font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 220)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
