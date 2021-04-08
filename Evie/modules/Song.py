@@ -3,7 +3,7 @@ from Evie.events import register
 import asyncio, wget, time, requests, os
 from youtube_dl import YoutubeDL
 from youtubesearchpython import SearchVideos
-
+from telethon.tl.types import DocumentAttributeAudio
 
 @register(pattern="^/song ?(.*)")
 async def yt(event):
