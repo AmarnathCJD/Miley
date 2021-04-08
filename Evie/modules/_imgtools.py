@@ -35,10 +35,10 @@ async def lg(event):
        width = 7
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
-    if len(text) < 8:
+    if len(text) < 7:
        font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 450)
     else:
-       font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 300)
+       font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 600)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
