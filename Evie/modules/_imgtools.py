@@ -33,7 +33,6 @@ async def lg(event):
        color = (255, 255, 0)
        stroke = 'black'
        width = 7
-    await fk.delete()
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 8:
@@ -56,6 +55,7 @@ async def lg(event):
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
+    await fk.delete()
     async with tbot.action(event.chat_id, 'photo'):
       if event.reply_to_msg_id:
         await tbot.send_file(
