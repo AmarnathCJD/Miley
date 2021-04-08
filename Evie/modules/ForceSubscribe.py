@@ -1,4 +1,5 @@
-from Evie import tbot, BOT_ID
+from Evie import tbot, BOT_ID, CMD_HELP
+import os
 from Evie.events import register
 from Evie.function import is_admin
 import Evie.modules.sql.fsub_sql as sql
