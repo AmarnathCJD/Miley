@@ -189,7 +189,7 @@ async def echo(event):
             except:
               pass
             previous_message = await event.get_reply_message()
-            await tbot.send_message(event.chat_id, ok, reply_to=previous_message.message.id)
+            await tbot.send_message(event.chat_id, ok, reply_to=previous_message.id)
           else:
             try:
               await event.delete()
