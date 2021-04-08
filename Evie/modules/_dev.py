@@ -181,7 +181,18 @@ async def echo(event):
         pass
   else:
         return
-  if event.reply_to_msg_id:
+  ok = event.pattern_match.group(1)
+  if ok:
+          try:
+            await event.delete()
+          except:
+            pass
+          if event.reply_to_msg_id:
+            await tbot.send_message(event.chat_id, ok, reply_to=event.message.id)
+          else:
+            await tbot.send_message(event.chat_id, ok)
+
+  eilf event.reply_to_msg_id:
           previous_message = await event.get_reply_message()
           try:
             await event.delete()
@@ -192,17 +203,7 @@ async def echo(event):
                 event.chat_id,
                 previous_message
              )        
-  else:
-          ok = event.pattern_match.group(1)
-          try:
-            await event.delete()
-          except Exception:
-            pass
-          if event.reply_to_msg_id:
-            await tbot.send_message(event.chat_id, ok, reply_to=event.message.id)
-          else:
-            await tbot.send_message(event.chat_id, ok)
-
+          
 
 @register(pattern="^/exec (.*)")
 async def msg(event):
