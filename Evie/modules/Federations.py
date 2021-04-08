@@ -173,8 +173,8 @@ async def cf(event):
  
 @register(pattern="^/joinfed ?(.*)")
 async def jf(event):
- if not event.is_group:
-   return
+ if event.is_private:
+   return await event.reply("Only supergroups can join feds.")
  if not await is_admin(event, event.sender_id):
    await event.reply("You need to be an admin to do this.")
    return
