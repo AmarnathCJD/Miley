@@ -2,6 +2,7 @@ from Evie import tbot
 from Evie.events import register
 import asyncio, wget, time, requests, os
 from youtube_dl import YoutubeDL
+from youtubesearchpython import SearchVideos
 
 
 @register(pattern="^/song ?(.*)")
