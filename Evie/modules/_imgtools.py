@@ -1,7 +1,7 @@
 from Evie import tbot
 from Evie.events import register
 from PIL import Image, ImageDraw, ImageFont
-import os, wget, random
+import os, random
 
 @register(pattern="^/logo ?(.*)")
 async def lg(event):
