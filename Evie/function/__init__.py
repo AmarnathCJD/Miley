@@ -2,6 +2,7 @@ from telethon.tl import functions
 from telethon.tl import types
 import time, subprocess, shlex, os, asyncio, math
 from Evie import tbot
+from typing import Tuple
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
