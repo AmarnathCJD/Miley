@@ -9,7 +9,7 @@ async def lg(event):
  try:
     arg = event.pattern_match.group(1)
     if not arg:
-        await event.edit("`Please Give Me A Valid Input.`")
+        await fk.edit("`Please Give Me A Valid Input.`")
         return
     if "|" in arg:
        text, cust= arg.split("|")
