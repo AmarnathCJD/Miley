@@ -26,7 +26,7 @@ async def lg(event):
          width = 10
        elif len(op) == 1:
          color = op[0]
-         stroke = 'yellow'
+         stroke = 'black'
          width = 10
        else:
         return await event.reply("Invalid Args⛔")
