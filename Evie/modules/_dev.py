@@ -183,13 +183,18 @@ async def echo(event):
         return
   ok = event.pattern_match.group(1)
   if ok:
-          try:
-            await event.delete()
-          except:
-            pass
           if event.reply_to_msg_id:
-            await tbot.send_message(event.chat_id, ok, reply_to=event.message.id)
+            try:
+              await event.delete()
+            except:
+              pass
+            previous_message = await event.get_reply_message()
+            await tbot.send_message(event.chat_id, ok, reply_to=previous_message.message.id)
           else:
+            try:
+              await event.delete()
+            except:
+              pass
             await tbot.send_message(event.chat_id, ok)
 
   elif event.reply_to_msg_id:
