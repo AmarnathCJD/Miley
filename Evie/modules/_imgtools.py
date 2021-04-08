@@ -72,8 +72,6 @@ async def lg(event):
     if os.path.exists(file_name):
         os.remove(file_name)
  except Exception as e:
-   if not 'color' in e:
-     return await fk.edit("Invalid Args!\n**Ex:** `/logo Text|blue yellow 15`")
    await fk.edit(f"{e}")
 
 
