@@ -28,4 +28,3 @@ Deploy Miley to Heroku:
 
 **And Last Of All thanks to [@lonami](http://t.me/lonami) for creating [Telethon](https://github.com/LonamiWebs/Telethon) !**
 
-**A Team Legend Project.**
