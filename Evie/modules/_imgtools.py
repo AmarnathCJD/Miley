@@ -5,8 +5,8 @@ import os, random
 
 @register(pattern="^/logo ?(.*)")
 async def lg(event):
+ fk = await event.reply("Processing.....")
  try:
-    fk = await event.reply("Processing.....")
     arg = event.pattern_match.group(1)
     if not arg:
         await event.edit("`Please Give Me A Valid Input.`")
@@ -28,8 +28,6 @@ async def lg(event):
          color = op[0]
          stroke = 'black'
          width = 10
-       else:
-        return await fk.edit("Invalid Args!")
     else:
        text = arg
        color = (255, 255, 0)
@@ -74,6 +72,6 @@ async def lg(event):
     if os.path.exists(file_name):
         os.remove(file_name)
  except Exception as e:
-   await event.reply(f"{e}")
+   await fk.edit("Invalid Args!")
 
 
