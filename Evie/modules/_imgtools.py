@@ -38,7 +38,7 @@ async def lg(event):
     if len(text) < 7:
        font = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 450)
     else:
-       font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 600)
+       font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 300)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
