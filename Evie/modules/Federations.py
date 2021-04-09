@@ -964,6 +964,7 @@ async def smex_fed(event):
   if res:
     text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
     await event.edit(text, buttons=None)
+  #not finished
 
 @tbot.on(events.CallbackQuery(pattern=r"smewxy(\_(.*))"))
 async def smex(event):
