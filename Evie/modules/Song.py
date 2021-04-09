@@ -91,7 +91,7 @@ async def yt(event):
  except Exception as e:
   await event.reply(f"{e}")
 
-@register(pattern="^/dsong ?(.*)")
+@register(pattern="^/video ?(.*)")
 async def deezr(event):
     input_str = event.pattern_match.group(1)
     pablo = await event.reply(f"Processing...")
