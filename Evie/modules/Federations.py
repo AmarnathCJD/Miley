@@ -951,7 +951,8 @@ async def smex_fed(event):
   dname = tr.user.first_name
   info = sql.get_fed_info(fed_id)
   name = info["fname"]
-  res = sql.tr_fed(f'{fed_id}', int(user))
+  print(fed_id)
+  res = sql.tr_fed(str(fed_id)), int(user))
   if res:
     text = f"Congratulations! Federation {name} (`{fed_id}`) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
     await event.edit(text, buttons=None)
