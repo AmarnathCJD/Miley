@@ -955,7 +955,7 @@ async def smex_fed(event):
   if not fedowner:
         return await event.reply("Some error occurred during fed transfer process!")
   for f in fedowner:
-          fed_id = f'f["fed_id"]'
+          fed_id = f["fed_id"]
           name = f["fed"]["fname"]
   dname = tr.user.first_name
   his = 1221693726
