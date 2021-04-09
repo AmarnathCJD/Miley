@@ -233,7 +233,6 @@ async def p(event):
  fban, fbanreason, fbantime = sql.get_fban_user(fed_id, int(args.id))
  replied_user = await tbot(GetFullUserRequest(user_id))
  fname = replied_user.user.first_name
- print(69)
  if fban:
   if fbanreason != '':
    return await event.reply(f"User {fname} is fbanned in {name}. You should unfban them before promoting.\n\nReason:\n{fbanreason}")
@@ -242,7 +241,6 @@ async def p(event):
  getuser = sql.search_user_in_fed(fed_id, user_id)
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
- print(4)
  try:
   mk = f"{user_id}|{name[:5]}|{fed_id}"
   km = f"{user_id}|{event.sender_id}"
@@ -928,13 +926,35 @@ async def smex_fed(event):
   if not event.sender_id == int(user):
     return await event.answer("This action is not intended for you!.")
   text = f"[{dname}](tg://user?id={cname}), please confirm that you wish to send fed {name} (`{fed_id}`) to [{fname}](tg://user?id={user}). This cannot be undone."
-  bc = f"{cname}"
+  bc = f"{cname}{fed_id}|{user}"
   cb = f"{cname}|{user}"
   buttons = [Button.inline('Confirm', data="pekxd_{}".format(bc)),Button.inline('Cancel', data="dkxd_{}".format(cb))]
   await event.edit(text, buttons=buttons)
 """
 Fully Written by RoseLoverX
 """
+
+@tbot.on(events.CallbackQuery(pattern=r"pekxd(\_(.*))"))
+async def smex_fed(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user, fed, owner= input.split("|")
+  user = user.strip()
+  fed_id = fed.strip()
+  owner = owner.strip()
+  if not event.sender_id == int(user):
+   return await event.answer("This action is not intended for you!.")
+  rt = await tbot(GetFullUserRequest(int(user)))
+  tr = await tbot(GetFullUserRequest(int(owner)))
+  fname = rt.user.first_name
+  dname = tr.user.first_name
+  info = sql.get_fed_info(fed_id)
+  name = info["fname"]
+  res = sql.tr_fed(fed_id, user)
+  if res:
+    text = f"Congratulations! Federation {name} (`{fed_id}`) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
+    await event.edit(text, buttons=None)
 @tbot.on(events.CallbackQuery(pattern=r"smewxy(\_(.*))"))
 async def smex(event):
   tata = event.pattern_match.group(1)
