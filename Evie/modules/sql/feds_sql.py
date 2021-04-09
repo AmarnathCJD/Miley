@@ -312,22 +312,19 @@ def tr_fed(fed_id, user_id):
             return False
         try:
             members = eval(eval(getfed["fusers"])["members"])
-        except ValueError:
-            return False
-        try:
-         owner -= int(owner_id)
-         owner += int(user_id)
-         fed.owner_id = user_id
+        except:
+         pass
+        owner -= int(owner_id)
+        owner += int(user_id)
+        fed.owner_id = user_id
         # Set user
-         smex = owner_id
-         oldowner = f'{smex}'
-         tempdata = FEDERATION_BYOWNER[oldowner]
-         FEDERATION_BYOWNER.pop(oldowner)
-         FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
-         FEDERATION_BYFEDID[fed_id]["owner"]= user_id
-         FEDERATION_BYOWNER[str(user_id)] = tempdata
-        except Exception as e:
-          print(e)
+        smex = owner_id
+        oldowner = f'{smex}'
+        tempdata = FEDERATION_BYOWNER[oldowner]
+        FEDERATION_BYOWNER.pop(oldowner)
+        FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
+        FEDERATION_BYFEDID[fed_id]["owner"]= user_id
+        FEDERATION_BYOWNER[str(user_id)] = tempdata
         FEDERATION_BYOWNER[str(user_id)]["fusers"] = str(
             {"owner": str(user_id), "members": str(members)}
           )
