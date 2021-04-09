@@ -93,6 +93,7 @@ async def yt(event):
 
 @register(pattern="^/video ?(.*)")
 async def deezr(event):
+ try:
     input_str = event.pattern_match.group(1)
     pablo = await event.reply(f"Processing...")
     if not input_str:
@@ -149,3 +150,5 @@ async def deezr(event):
     for files in (downloaded_thumb, file_stark):
         if files and os.path.exists(files):
             os.remove(files)
+ except Exception as e:
+   print(e)
