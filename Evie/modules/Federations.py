@@ -948,11 +948,11 @@ async def smex_fed(event):
   rt = await tbot(GetFullUserRequest(int(user)))
   tr = await tbot(GetFullUserRequest(int(owner)))
   fname = rt.user.first_name
+  fedowner = sql.get_user_owner_fed_full(int(user))
+  for f in fedowner:
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
   dname = tr.user.first_name
-  info = sql.get_fed_info(fed_id)
-  name = info["fname"]
-  print(fed_id)
-  fed_id = f'{fed_id}'
   res = sql.tr_fed(fed_id, int(user))
   if res:
     text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
