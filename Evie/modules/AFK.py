@@ -76,19 +76,18 @@ async def ubot(event):
         return
     if event.fwd_from:
         return
-    if event.text.startswith("/afk"):
-     cmd = event.text[len("/afk ") :]
-     if cmd is not None:
-        reason = cmd
-     else:
-        reason = ""
-     fname = event.sender.first_name   
-     start_time = fname
-     sql.set_afk(event.sender_id, reason, start_time)
-     await event.edit(
+    cmd = None
+    if cmd is not None:
+       reason = cmd
+    else:
+       reason = ""
+    fname = event.sender.first_name   
+    start_time = fname
+    sql.set_afk(event.sender_id, reason, start_time)
+    await event.edit(
            "{} is now AFK!".format(fname),
            parse_mode="markdown")
-     return
+    return
 
 @tbot.on(events.NewMessage(pattern=None))
 async def _(event):
