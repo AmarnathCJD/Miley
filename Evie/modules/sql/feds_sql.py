@@ -314,29 +314,29 @@ def tr_fed(fed_id, user_id):
             members = eval(eval(getfed["fusers"])["members"])
         except ValueError:
             return False
-        owner -= int(owner_id)
-        owner += int(user_id)
-        fed.owner_id = user_id
-        # Set user
-        smex = owner_id
-        oldowner = f'{smex}'
-        tempdata = FEDERATION_BYOWNER[oldowner]
-        FEDERATION_BYOWNER.pop(oldowner)
-        FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
-        FEDERATION_BYFEDID[fed_id]["owner"]= user_id
-        FEDERATION_BYOWNER[str(user_id)] = tempdata
         try:
-          FEDERATION_BYOWNER[str(user_id)]["fusers"] = str(
-            {"owner": str(user_id), "members": str(members)}
-          )
-          FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
-            {"owner": str(user_id), "members": str(members)}
-          )
-          FEDERATION_BYNAME[fed_name]["fusers"] = str(
-            {"owner": str(user_id), "members": str(members)}
-          )
+         owner -= int(owner_id)
+         owner += int(user_id)
+         fed.owner_id = user_id
+        # Set user
+         smex = owner_id
+         oldowner = f'{smex}'
+         tempdata = FEDERATION_BYOWNER[oldowner]
+         FEDERATION_BYOWNER.pop(oldowner)
+         FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
+         FEDERATION_BYFEDID[fed_id]["owner"]= user_id
+         FEDERATION_BYOWNER[str(user_id)] = tempdata
         except Exception as e:
-           print(e)
+          print(e)
+        FEDERATION_BYOWNER[str(user_id)]["fusers"] = str(
+            {"owner": str(user_id), "members": str(members)}
+          )
+        FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
+            {"owner": str(user_id), "members": str(members)}
+          )
+        FEDERATION_BYNAME[fed_name]["fusers"] = str(
+            {"owner": str(user_id), "members": str(members)}
+          )
         # Set on database
         fed = Federations(
             str(user_id),
