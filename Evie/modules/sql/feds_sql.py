@@ -360,7 +360,7 @@ def tr_fed(fed_id, user_id):
         SESSION.close()
         return result
      except Exception as e:
-       await event.reply(f"{e}")
+        print (e)
 
 
 
