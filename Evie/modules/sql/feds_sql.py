@@ -318,11 +318,11 @@ def tr_fed(fed_id, user_id):
         print(owner)
         fed.owner_id = user_id
         # Set user
-        oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
+        oldname = FEDERATION_BYFEDID[str(fed_id)]["owner_id"]
         tempdata = FEDERATION_BYOWNER[oldname]
         FEDERATION_BYOWNER.pop(oldname)
-        FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
-        FEDERATION_BYFEDID[str(fed_id)]["owner"] = user_id
+        FEDERATION_BYNAME[str(fed_name)]["owner_id"] = user_id
+        FEDERATION_BYFEDID[str(fed_id)]["owner_id"]= user_id
         FEDERATION_BYOWNER[str(user_id)] = tempdata
         FEDERATION_BYOWNER[str(user_id)]["fusers"] = str(
             {"owner": str(user_id), "members": str(members)}
