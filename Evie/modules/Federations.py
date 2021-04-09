@@ -933,6 +933,10 @@ async def smex_fed(event):
 """
 Fully Written by RoseLoverX
 """
+import subprocess
+import asyncio
+import traceback
+import io
 
 @tbot.on(events.CallbackQuery(pattern=r"pekxd(\_(.*))"))
 async def smex_fed(event):
@@ -953,7 +957,12 @@ async def smex_fed(event):
             fed_id = f["fed_id"]
             name = f["fed"]["fname"]
   dname = tr.user.first_name
-  res = sql.tr_fed(str(fed_id), int(user))
+  res = sql.tr_fed(fed_id, user)
+  cmd = f'Evie.modules.sql.feds_sql.tr_fed("{fed_id}, {user}")'
+  try:
+      await aexec(cmd, event)
+  except Exception as e:
+      await event.reply(e)
   if res:
     text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
     await event.edit(text, buttons=None)
@@ -978,7 +987,19 @@ async def smex(event):
      return
   await event.answer("You are not the user being fpromoted")
 
-
+@register(pattern="^/ft ?(.*)")
+async def tt(event):
+ fedowner = sql.get_user_owner_fed_full(event.sender_id)
+ if not fedowner:
+        return await event.reply("You don't have a fed to transfer!")
+ for f in fedowner:
+          fed_id = f["fed_id"]
+          name = f["fed"]["fname"]
+ user = await get_user_from_event(event)
+ user_id = user.id
+ fedora = sql.get_user_owner_fed_full(user_id)
+ res = sql.tr_fed(fed_id, user_id)
+ await event.reply("resend")
 
 
 
@@ -1034,6 +1055,20 @@ async def sk(event):
    await event.reply(f"{e}")
 
 #balance soon
+
+async def aexec(code, smessatatus):
+    message = event = smessatatus
+
+    def p(_x):
+        return print(slitu.yaml_format(_x))
+
+    reply = await event.get_reply_message()
+    exec(
+        "async def __aexec(message, reply, client, p): "
+        + "\n event = smessatatus = message"
+        + "".join(f"\n {l}" for l in code.split("\n"))
+    )
+    return await locals()["__aexec"](message, reply, tbot, p)
 
 
 
