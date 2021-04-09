@@ -321,6 +321,7 @@ def tr_fed(fed_id, user_id):
         # Set user
         smex = owner_id
         oldowner = f'{smex}'
+        fed_id = f'{fed_id}'
         tempdata = FEDERATION_BYOWNER[oldowner]
         FEDERATION_BYOWNER.pop(oldowner)
         FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
