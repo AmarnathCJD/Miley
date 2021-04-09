@@ -123,8 +123,7 @@ async def deezr(event):
         f.write(doc.content)
     c_time = time.time()
     audio=open(sname, "rb"),
-    async with tbot.action(event.chat_id, 'audio'):
-     await tbot.send_file(
+    await tbot.send_file(
         event.chat_id,
         audio,
         thumb=thum_f,
