@@ -952,6 +952,7 @@ async def smex_fed(event):
   info = sql.get_fed_info(fed_id)
   name = info["fname"]
   print(fed_id)
+  fed_id = f'{fed_id}'
   await event.reply(fed_id)
 
 @tbot.on(events.CallbackQuery(pattern=r"smewxy(\_(.*))"))
