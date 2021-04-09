@@ -48,7 +48,6 @@ async def upstream(ups):
     if int(check) != int(OWNER_ID):
         return
     lol = await ups.reply("`Checking for updates, please wait....`")
-    await event.delete()
     conf = ups.pattern_match.group(1)
     off_repo = UPSTREAM_REPO_URL
     force_update = False
@@ -175,7 +174,6 @@ async def upstream(ups):
             repo.git.reset("--hard", "FETCH_HEAD")
         reqs_upgrade = await updateme_requirements()
         await lol.edit("`Successfully Updated!\n" "restarting......`")
-        await lol.delete()
         args = [sys.executable, "-m", "Evie"]
         execle(sys.executable, *args, environ)
         return
