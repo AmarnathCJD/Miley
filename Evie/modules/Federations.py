@@ -918,7 +918,7 @@ async def smex_fed(event):
   user, owner= input.split("|")
   user = user.strip()
   cname = owner.strip()
-  fedowner = sql.get_user_owner_fed_full(int(cname)
+  fedowner = sql.get_user_owner_fed_full(int(cname))
   for f in fedowner:
           fed_id = f["fed_id"]
           name = f["fed"]["fname"]
