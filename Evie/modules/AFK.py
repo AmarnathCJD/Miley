@@ -1,5 +1,5 @@
 import os
-from Evie import tbot, CMD_HELP
+from Evie import tbot, CMD_HELP, ubot
 from Evie.modules.sql import afk_sql as sql
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon import types
@@ -70,6 +70,25 @@ async def _(event):
           loda = nub.format(firstname)
           await event.reply(loda, parse_mode="markdown")
 
+@ubot.on(events.NewMessage(pattern="!afk ?(.*)"))
+async def ubot(event):
+    if not event.sender_id == OWNER_ID:
+        return
+    if event.fwd_from:
+        return
+    if event.text.startswith("/afk"):
+     cmd = event.text[len("/afk ") :]
+     if cmd is not None:
+        reason = cmd
+     else:
+        reason = ""
+     fname = event.sender.first_name   
+     start_time = fname
+     sql.set_afk(event.sender_id, reason, start_time)
+     await event.edit(
+           "{} is now AFK!".format(fname),
+           parse_mode="markdown")
+     return
 
 @tbot.on(events.NewMessage(pattern=None))
 async def _(event):
