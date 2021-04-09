@@ -1,6 +1,7 @@
 from Evie import tbot, CMD_HELP
 import os
 from telethon import types
+from Evie.events import register
 
 @register(pattern="^/pinned")
 async def pn(event):
