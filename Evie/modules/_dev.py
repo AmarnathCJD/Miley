@@ -6,6 +6,7 @@ from Evie.function import is_admin
 from telethon import events
 import subprocess
 import asyncio
+from Evie.modules.sql import afk_sql as sql
 import traceback
 import io
 import os
@@ -255,6 +256,8 @@ async def _(event):
     if event.sender_id == OWNER_ID:
         pass
     elif event.sender_id in DEV_USERS or event.sender_id in SUDO_USERS:
+        if sql.is_afk(OWNER_ID):
+          return await event.reply("Sorry you cannot perform eval function when my master is afk. Try again later.!")
         if "os.environ.get" in cmd:
           await event.reply("Can't access env variables.")
           return
