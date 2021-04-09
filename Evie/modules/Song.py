@@ -90,3 +90,53 @@ async def yt(event):
             os.remove(files)
  except Exception as e:
   await event.reply(f"{e}")
+
+@register(pattern="^/dsong ?(.*)")
+async def deezr(event):
+    pablo = await event.reply("Searching For Song.....")
+    sgname = event.pattern_match.group(1)
+    if not sgname:
+        await pablo.edit(
+            "Please Give Me A Valid Input."
+        )
+        return
+    link = f"https://api.deezer.com/search?q={sgname}&limit=1"
+    dato = requests.get(url=link).json()
+    match = dato.get("data")
+    try:
+        urlhp = match[0]
+    except IndexError:
+        await pablo.edit("Song Not Found. Try Searching Some Other Song")
+        return
+    urlp = urlhp.get("link")
+    thumbs = urlhp["album"]["cover_big"]
+    thum_f = wget.download(thumbs)
+    polu = urlhp.get("artist")
+    replo = urlp[29:]
+    urlp = f"https://starkapis.herokuapp.com/deezer/{replo}"
+    datto = requests.get(url=urlp).json()
+    mus = datto.get("url")
+    sname = f"{urlhp.get('title')}.mp3"
+    doc = requests.get(mus)
+    await pablo.edit("Downloading Song From Deezer!")
+    with open(sname, "wb") as f:
+        f.write(doc.content)
+    c_time = time.time()
+    audio=open(sname, "rb"),
+    async with tbot.action(event.chat_id, 'audio'):
+     await tbot.send_file(
+        event.chat_id,
+        audio,
+        thumb=thum_f,
+        supports_streaming=True,
+        force_document=False,
+        attributes=[
+                DocumentAttributeAudio(
+                    duration=int(urlhp.get("duration")),
+                    title=str(urlhp.get("title")),
+                    performer=str(polu.get("name")),
+                    waveform='256',
+                )
+    await pablo.delete()
+
+
