@@ -2,6 +2,7 @@ from Evie import tbot
 from Evie.events import register
 import asyncio, wget, time, requests, os
 from youtube_dl import YoutubeDL
+from PIL import Image
 from youtubesearchpython import SearchVideos
 from telethon.tl.types import DocumentAttributeAudio
 
@@ -32,6 +33,10 @@ async def yt(event):
     thumb_url = f"https://img.youtube.com/vi/{yt_id}/hqdefault.jpg"
     await asyncio.sleep(0.2)
     downloaded_thumb = wget.download(thumb_url)
+    image = downloaded_thumb
+    new_image = Image.resize((230, 230))
+    new_image.save('image69.jpg')
+    thumb = './image69.jpg'
     opts = {
         "format": "bestaudio",
         "addmetadata": True,
@@ -65,7 +70,7 @@ async def yt(event):
        await tbot.send_file(
         event.chat_id,
         file,
-        thumb=downloaded_thumb,
+        thumb=thumb,
         supports_streaming=True,
         force_document=False,
         attributes=[
