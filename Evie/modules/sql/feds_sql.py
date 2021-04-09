@@ -319,7 +319,8 @@ def tr_fed(fed_id, user_id):
         fed.owner_id = user_id
         # Set user
         oldowner = owner_id
-        tempdata = FEDERATION_BYOWNER[oldowner]
+        joke = f"'{oldowner}'"
+        tempdata = FEDERATION_BYOWNER[joke]
         FEDERATION_BYOWNER.pop(oldowner)
         FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
         FEDERATION_BYFEDID[str(fed_id)]["owner"]= user_id
