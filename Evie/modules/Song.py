@@ -66,7 +66,7 @@ async def yt(event):
         event.chat_id,
         file,
         thumb=downloaded_thumb,
-        supports_streaming=False,
+        supports_streaming=True,
         force_document=False,
         attributes=[
                 DocumentAttributeAudio(
