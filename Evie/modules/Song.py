@@ -136,7 +136,9 @@ async def deezr(event):
                     title=str(urlhp.get("title")),
                     performer=str(polu.get("name")),
                     waveform='256',
-                )
+                )],
+         )
+    
     await pablo.delete()
 
 
