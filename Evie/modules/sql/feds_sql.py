@@ -309,26 +309,37 @@ def tr_fed(fed_id, user_id):
             owner = eval(eval(getfed["fusers"])["owner"])
         except ValueError:
             return False
+        try:
+            members = eval(eval(getfed["fusers"])["members"])
+        except ValueError:
+            return False
         owner.remove(owner_id)
+        fed.owner_id = user_id
         owner.add(user_id)
         # Set user
-        FEDERATION_BYOWNER[str(owner_id)]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+        oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
+        tempdata = FEDERATION_BYOWNER[oldname]
+        FEDERATION_BYOWNER.pop(oldname)
+        FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
+        FEDERATION_BYFEDID[str(fed_id)]["owner"] = user_id
+        FEDERATION_BYOWNER[str(user_id)] = tempdata
+        FEDERATION_BYOWNER[str(user_id)]["fusers"] = str(
+            {"owner": str(user_id), "members": str(members)}
         )
         FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(user_id), "members": str(members)}
         )
         FEDERATION_BYNAME[fed_name]["fusers"] = str(
-            {"owner": str(owner_id), "members": str(members)}
+            {"owner": str(user_id), "members": str(members)}
         )
         # Set on database
         fed = Federations(
-            str(owner_id),
+            str(user_id),
             fed_name,
             str(fed_id),
             fed_rules,
             fed_log,
-            str({"owner": str(owner_id), "members": str(members)}),
+            str({"owner": str(user_id), "members": str(members)}),
         )
         SESSION.merge(fed)
         SESSION.commit()
