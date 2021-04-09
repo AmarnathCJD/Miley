@@ -76,7 +76,7 @@ async def ubot(event):
         return
     if event.fwd_from:
         return
-    cmd = None
+    cmd = event.text.replace('!afk', '')
     if cmd is not None:
        reason = cmd
     else:
