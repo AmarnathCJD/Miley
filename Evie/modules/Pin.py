@@ -11,6 +11,6 @@ async def pn(event):
    pro = f'{chat}'
    omk = pro.replace('-100', '')
    if event.chat.username:
-     await event.reply(f"The pinned message in {event.chat.title} is [here](http://t.me/{event.chat.username}/{id})")
+     await event.reply(f"The pinned message in {event.chat.title} is [here](http://t.me/{event.chat.username}/{id})", link_preview=False)
    else:
-     await event.reply(f"The pinned message in {event.chat.title} is [here](http://t.me/{omk}/{id})")
+     await event.reply(f"The pinned message in {event.chat.title} is [here](http://t.me/{omk}/{id})", link_preview=False)
