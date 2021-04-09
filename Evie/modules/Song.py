@@ -66,7 +66,8 @@ async def yt(event):
     capy = f"**Song Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
     file_stark = f"{ytdl_data['id']}.mp3"
     file=open(file_stark, "rb")
-    await pablo.edit(f"Preparing to upload song:\n**{vid_title}**\nby **{ytdl_data["uploader"]}**")
+    author = ytdl_data["uploader"]
+    await pablo.edit(f"Preparing to upload song:\n**{vid_title}**\nby **{author}**")
     async with tbot.action(event.chat_id, 'audio'):
        await tbot.send_file(
         event.chat_id,
