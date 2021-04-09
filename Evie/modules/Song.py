@@ -30,7 +30,7 @@ async def yt(event):
     yt_id = result_s[0]["id"]
     uploade_r = result_s[0]["channel"]
     thumb_url = f"https://img.youtube.com/vi/{yt_id}/hqdefault.jpg"
-    await asyncio.sleep(0.6)
+    await asyncio.sleep(0.2)
     downloaded_thumb = wget.download(thumb_url)
     opts = {
         "format": "bestaudio",
@@ -65,16 +65,6 @@ async def yt(event):
        await tbot.send_file(
         event.chat_id,
         file,
-        thumb=downloaded_thumb,
-        supports_streaming=False,
-        force_document=False,
-        attributes=[
-                DocumentAttributeAudio(
-                    duration=int(ytdl_data["duration"]),
-                    title=str(ytdl_data["title"]),
-                    performer=(ytdl_data["uploader"]),
-                )
-            ],
     )
     await pablo.delete()
     for files in (downloaded_thumb, file_stark):
