@@ -297,6 +297,7 @@ def rename_fed(fed_id, owner_id, newname):
 
 def tr_fed(fed_id, user_id):
     with FEDS_LOCK:
+     try:
         global FEDERATION_BYOWNER, FEDERATION_BYFEDID, FEDERATION_BYNAME
         # Variables
         fed = SESSION.query(Federations).get(fed_id)
@@ -358,6 +359,8 @@ def tr_fed(fed_id, user_id):
 
         SESSION.close()
         return result
+     except Exception as e:
+       await event.reply(f"{e}")
 
 
 
