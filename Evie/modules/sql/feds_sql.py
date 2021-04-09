@@ -4,8 +4,8 @@ from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 
 
 class Federations(BASE):
-    __tablename__ = "feda"
-    owner_id = Column(String(14))
+    __tablename__ = "fedp"
+    owner_id = Column(UnicodeText)
     fed_name = Column(UnicodeText)
     fed_id = Column(UnicodeText, primary_key=True)
     fed_rules = Column(UnicodeText)
@@ -295,23 +295,28 @@ def rename_fed(fed_id, owner_id, newname):
         FEDERATION_BYNAME[newname] = tempdata
         return True
 
-def f_fed(fed_id, owner_id):
+def f_t(fed_id, owner_id):
     with FEDS_LOCK:
         global FEDERATION_BYFEDID, FEDERATION_BYOWNER, FEDERATION_BYNAME
         fed = SESSION.query(Federations).get(fed_id)
         if not fed:
             return False
         fed.owner_id = owner_id
-        SESSION.merge(fed.owner_id)
+        SESSION.commit()
 
         # Update the dicts
-        oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
-        tempdata = FEDERATION_BYOWNER[oldname]
+        oldname = FEDERATION_BYFEDID[str(fed_id)]["fname"]
+        oldowner = eval(eval(FEDERATION_BYFEDID[str(fed_id)]["fusers"])["owner"]
+        tempdata = FEDERATION_BYOWNER[oldowner]
         FEDERATION_BYOWNER.pop(oldname)
         
-        FEDERATION_BYFEDID[str(fed_id)]["owner"] = owner_id
-        FEDERATION_BYOWNER[newname] = tempdata
+
+        FEDERATION_BYNAME[str(oldname)]["owner"] = oldowner
+        FEDERATION_BYFEDID[str(fed_id)]["fname"]["owner"] = oldowner
+        FEDERATION_BYOWNER[owner_id] = tempdata
         return True
+
+
 
 
 
