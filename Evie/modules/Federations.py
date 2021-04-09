@@ -904,7 +904,7 @@ async def ft(event):
  if not getuser:
   return await event.reply(f"[{fname}](tg://user?id={user_id}) isn't an admin in {name} -you can only give your fed to other admins.")
  text = f"[{fname}](tg://user?id={user_id}), please confirm you would like to receive fed {name} (`{fed_id}`) from [{event.sender.first_name}](tg://user?id={event.sender_id})"
- buttons = [[Button.inline('Accept', data='acc')],[Button.inline('Decline', data='den')],]
+ buttons = [Button.inline('Accept', data='acc'),[Button.inline('Decline', data='den')]
  await tbot.send_message(event.chat_id, text, buttons=buttons)
 
 
