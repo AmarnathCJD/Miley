@@ -73,7 +73,7 @@ async def yt(event):
                     duration=int(ytdl_data["duration"]),
                     title=str(ytdl_data["title"]),
                     performer=(ytdl_data["uploader"]),
-                    waveform='256'
+                    waveform='256',
                 )
             ],
     )
