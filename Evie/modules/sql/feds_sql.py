@@ -313,9 +313,8 @@ def tr_fed(fed_id, user_id):
             members = eval(eval(getfed["fusers"])["members"])
         except ValueError:
             return False
-        owner.remove(owner_id)
+        owner.append(int(user_id))
         fed.owner_id = user_id
-        owner.add(user_id)
         # Set user
         oldname = FEDERATION_BYFEDID[str(fed_id)]["owner"]
         tempdata = FEDERATION_BYOWNER[oldname]
