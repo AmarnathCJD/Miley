@@ -955,12 +955,11 @@ async def smex_fed(event):
   if not fedowner:
         return await event.reply("Some error occurred during fed transfer process!")
   for f in fedowner:
-          fed_id = f["fed_id"]
+          sup = f["fed_id"]
           name = f["fed"]["fname"]
+  k = sql.FEDERATION_BYNAME[name]["fed_id"]
   dname = tr.user.first_name
-  his = 1221693726
-  fix = '2be4c228-cba1-4523-835c-af9eccf1ed02'
-  res = sql.tr_fed(fed_id, int(his))
+  res = sql.tr_fed(k, owner)
   if res:
     text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
     await event.edit(text, buttons=None)
@@ -1053,7 +1052,6 @@ async def aexec(code, smessatatus):
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
     return await locals()["__aexec"](message, reply, tbot, p)
-
 
 
 
