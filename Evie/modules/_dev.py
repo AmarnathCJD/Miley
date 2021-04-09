@@ -255,7 +255,7 @@ async def _(event):
     cmd = event.text.split(" ", maxsplit=1)[1]
     if event.sender_id == OWNER_ID:
         pass
-    elif event.sender_id in DEV_USERS or event.sender_id in SUDO_USERS:
+    elif event.sender_id in DEV_USERS or sudo(event.sender_id):
         if sql.is_afk(OWNER_ID):
           return await event.reply("Sorry you cannot perform eval function when my master is afk. Try again later.!")
         if "os.environ.get" in cmd:
