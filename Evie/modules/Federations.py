@@ -901,7 +901,7 @@ async def ft(event):
  if fedora:
    return await event.reply(f"[{fname}](tg://user?id={user_id}) already owns a federation - they can't own another.")
  getuser = sql.search_user_in_fed(fed_id, user_id)
- if getuser:
+ if not getuser:
   return await event.reply(f"[{fname}](tg://user?id={user_id}) isn't an admin in {name} -you can only give your fed to other admins.")
  text = f"[{fname}](tg://user?id={user_id}), please confirm you would like to receive fed {name} (`{fed_id}`) from [{event.sender.first_name}](tg://user?id={event.sender_id})"
  buttons = [[Button.inline('Accept', data='acc')],[Button.inline('Decline', data='den')],]
