@@ -4,7 +4,7 @@ from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 
 
 class Federations(BASE):
-    __tablename__ = "fp"
+    __tablename__ = "kp"
     owner_id = Column(String(14))
     fed_name = Column(UnicodeText)
     fed_id = Column(UnicodeText, primary_key=True)
