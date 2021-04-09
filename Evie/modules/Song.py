@@ -68,7 +68,6 @@ async def yt(event):
         thumb=downloaded_thumb,
         supports_streaming=False,
         force_document=False,
-        allow_cache=False,
         attributes=[
                 DocumentAttributeAudio(
                     duration=int(ytdl_data["duration"]),
