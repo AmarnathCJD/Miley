@@ -882,13 +882,30 @@ async def fex(event):
 
 @register(pattern="^/(ftransfer|fedtransfer) ?(.*)")
 async def ft(event):
+ if event.is_private:
+   return await event.reply("This command is made to be used in group chats, not in pm!")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
  if not fedowner:
-        return await event.reply("It doesn't look like you have a federation yet!")
+        return await event.reply("You don't have a fed to transfer!")
  for f in fedowner:
           fed_id = f["fed_id"]
- await event.reply("Soon!")
-#soon
+          name = f["fed"]["fname"]
+ user = await get_user_from_event(event)
+ user_id = user.id
+ fedora = sql.get_user_owner_fed_full(user_id)
+ try:
+  replied_user = await tbot(GetFullUserRequest(user))
+  fname = replied_user.user.first_name
+ except:
+  fname = "User"
+ if fedora:
+   return await event.reply(f"[{fname}](tg://user?id={user_id}) already owns a federation - they can't own another.")
+ getuser = sql.search_user_in_fed(fed_id, user_id)
+ if getuser:
+  return await event.reply(f"[{fname}](tg://user?id={user_id}) isn't an admin in {name} -you can only give your fed to other admins.")
+ text = f"[{fname}](tg://user?id={user_id}), please confirm you would like to receive fed {name} (`{fed_id}`) from {event.sender.first_name}"
+ buttons = [[Button.inline('Accept', data='acc')],[Button.inline('Decline', data='den')],]
+ await tbot.send_message(event.chat_id, text, buttons=buttons)
 
 
 @register(pattern="^/feddemoteme ?(.*)")
