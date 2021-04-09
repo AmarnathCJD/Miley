@@ -297,7 +297,6 @@ def rename_fed(fed_id, owner_id, newname):
 
 def tr_fed(fed_id, user_id):
     with FEDS_LOCK:
-     try:
         global FEDERATION_BYOWNER, FEDERATION_BYFEDID, FEDERATION_BYNAME
         # Variables
         fed = SESSION.query(Federations).get(fed_id)
@@ -321,21 +320,23 @@ def tr_fed(fed_id, user_id):
         # Set user
         smex = owner_id
         oldowner = f'{smex}'
-        fed_id = f'{fed_id}'
         tempdata = FEDERATION_BYOWNER[oldowner]
         FEDERATION_BYOWNER.pop(oldowner)
         FEDERATION_BYNAME[str(fed_name)]["owner"] = user_id
-        FEDERATION_BYFEDID[str(fed_id)]["owner"]= user_id
+        FEDERATION_BYFEDID[fed_id]["owner"]= user_id
         FEDERATION_BYOWNER[str(user_id)] = tempdata
-        FEDERATION_BYOWNER[str(user_id)]["fusers"] = str(
+        try:
+          FEDERATION_BYOWNER[str(user_id)]["fusers"] = str(
             {"owner": str(user_id), "members": str(members)}
           )
-        FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
+          FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
             {"owner": str(user_id), "members": str(members)}
           )
-        FEDERATION_BYNAME[fed_name]["fusers"] = str(
+          FEDERATION_BYNAME[fed_name]["fusers"] = str(
             {"owner": str(user_id), "members": str(members)}
           )
+        except Exception as e:
+           print(e)
         # Set on database
         fed = Federations(
             str(user_id),
@@ -360,8 +361,6 @@ def tr_fed(fed_id, user_id):
 
         SESSION.close()
         return result
-     except Exception as e:
-        print (e)
 
 
 
