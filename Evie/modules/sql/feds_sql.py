@@ -307,7 +307,7 @@ def f_t(fed_id, owner_id):
         # Update the dicts
         oldname = FEDERATION_BYFEDID[str(fed_id)]["fname"]
         oldowner = eval(eval(FEDERATION_BYFEDID[str(fed_id)]["fusers"])["owner"])
-        tempdata = FEDERATION_BYOWNER[oldowner]
+        tempdata = FEDERATION_BYOWNER['oldowner']
         FEDERATION_BYOWNER.pop(oldname)
         
 
