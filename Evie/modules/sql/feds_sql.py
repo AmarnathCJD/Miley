@@ -295,26 +295,57 @@ def rename_fed(fed_id, owner_id, newname):
         FEDERATION_BYNAME[newname] = tempdata
         return True
 
-def f_t(fed_id, owner_id):
+def tr_fed(fed_id, user_id):
     with FEDS_LOCK:
-        global FEDERATION_BYFEDID, FEDERATION_BYOWNER, FEDERATION_BYNAME
-        fed = SESSION.query(Federations).get(fed_id)
-        if not fed:
+        global FEDERATION_BYOWNER, FEDERATION_BYFEDID, FEDERATION_BYNAME
+        # Variables
+        getfed = FEDERATION_BYFEDID.get(str(fed_id))
+        owner_id = getfed["owner"]
+        fed_name = getfed["fname"]
+        fed_rules = getfed["frules"]
+        fed_log = getfed["flog"]
+        # Temp set
+        try:
+            owner = eval(eval(getfed["fusers"])["owner"])
+        except ValueError:
             return False
-        fed.owner_id = owner_id
+        owner.remove(owner_id)
+        owner.add(user_id)
+        # Set user
+        FEDERATION_BYOWNER[str(owner_id)]["fusers"] = str(
+            {"owner": str(owner_id), "members": str(members)}
+        )
+        FEDERATION_BYFEDID[str(fed_id)]["fusers"] = str(
+            {"owner": str(owner_id), "members": str(members)}
+        )
+        FEDERATION_BYNAME[fed_name]["fusers"] = str(
+            {"owner": str(owner_id), "members": str(members)}
+        )
+        # Set on database
+        fed = Federations(
+            str(owner_id),
+            fed_name,
+            str(fed_id),
+            fed_rules,
+            fed_log,
+            str({"owner": str(owner_id), "members": str(members)}),
+        )
+        SESSION.merge(fed)
         SESSION.commit()
-
-        # Update the dicts
-        oldname = FEDERATION_BYFEDID[str(fed_id)]["fname"]
-        oldowner = int(eval(FEDERATION_BYFEDID[(str(fed_id))]["fusers"])["owner"])
-        tempdata = FEDERATION_BYOWNER[oldowner]
-        FEDERATION_BYOWNER.pop(oldname)
-        
-
-        FEDERATION_BYNAME[str(oldname)]["owner"] = oldowner
-        FEDERATION_BYFEDID[str(fed_id)]["fname"]["owner"] = oldowner
-        FEDERATION_BYOWNER[owner_id] = tempdata
         return True
+
+        curr = SESSION.query(UserF).all()
+        result = False
+        for r in curr:
+            if int(r.user_id) == int(user_id):
+                if r.fed_id == fed_id:
+                    SESSION.delete(r)
+                    SESSION.commit()
+                    result = True
+
+        SESSION.close()
+        return result
+
 
 
 
