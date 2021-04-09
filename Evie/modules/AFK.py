@@ -1,5 +1,5 @@
 import os
-from Evie import tbot, CMD_HELP, ubot
+from Evie import tbot, CMD_HELP, ubot, OWNER_ID
 from Evie.modules.sql import afk_sql as sql
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon import types
