@@ -929,6 +929,7 @@ async def smex_fed(event):
     return await event.answer("This action is not intended for you!.")
   text = f"[{dname}](tg://user?id={cname}), please confirm that you wish to send fed {name} (`{fed_id}`) to [{fname}](tg://user?id={user}). This cannot be undone."
   bc = f"{cname}"
+  cb = f"{cname}|{user}"
   buttons = [Button.inline('Confirm', data="pekxd_{}".format(bc)),Button.inline('Cancel', data="dkxd_{}".format(cb))]
   await event.edit(text, buttons=buttons)
 """
