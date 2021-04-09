@@ -132,7 +132,7 @@ async def deezr(event):
         return
     c_time = time.time()
     file_stark = f"{ytdl_data['id']}.mp4"
-    capy = f"**Video Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
+    await pablo.edit(f"Preparing to upload Video:\n**{vid_title}**\nby **{uploade_r}**")
     async with tbot.action(event.chat_id, 'video'):
        await tbot.send_file(
         event.chat_id,
