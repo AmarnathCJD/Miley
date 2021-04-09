@@ -44,7 +44,7 @@ async def yt(event):
             {
                 "key": "FFmpegExtractAudio",
                 "preferredcodec": "mp3",
-                "preferredquality": "720",
+                "preferredquality": "480",
             }
         ],
         "outtmpl": "%(id)s.mp3",
@@ -61,10 +61,22 @@ async def yt(event):
     capy = f"**Song Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
     file_stark = f"{ytdl_data['id']}.mp3"
     file=open(file_stark, "rb")
+    await event.reply(ytdl_data)
     async with tbot.action(event.chat_id, 'audio'):
        await tbot.send_file(
         event.chat_id,
         file,
+        thumb=downloaded_thumb,
+        supports_streaming=False,
+        force_document=False,
+        attributes=[
+                DocumentAttributeAudio(
+                    duration=int(ytdl_data["duration"]),
+                    title=str(ytdl_data["title"]),
+                    performer=(ytdl_data["uploader"]),
+                    waveform='28'
+                )
+            ],
     )
     await pablo.delete()
     for files in (downloaded_thumb, file_stark):
