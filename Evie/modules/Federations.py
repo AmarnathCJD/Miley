@@ -983,21 +983,6 @@ async def smex(event):
      return
   await event.answer("You are not the user being fpromoted")
 
-@register(pattern="^/ft ?(.*)")
-async def tt(event):
- fedowner = sql.get_user_owner_fed_full(event.sender_id)
- if not fedowner:
-        return await event.reply("You don't have a fed to transfer!")
- for f in fedowner:
-          fed_id = f["fed_id"]
-          name = f["fed"]["fname"]
- user = await get_user_from_event(event)
- user_id = user.id
- fedora = sql.get_user_owner_fed_full(user_id)
- res = sql.tr_fed(fed_id, user_id)
- await event.reply("resend")
-
-
 
 @register(pattern="^/feddemoteme ?(.*)")
 async def fd(event):
