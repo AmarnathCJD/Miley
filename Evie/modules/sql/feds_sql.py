@@ -316,8 +316,6 @@ def tr_fed(fed_id, user_id):
             return False
         owner -= int(owner_id)
         owner += int(user_id)
-        
-        print(owner)
         fed.owner_id = user_id
         # Set user
         oldowner = owner_id
