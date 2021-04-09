@@ -882,6 +882,7 @@ async def fex(event):
 
 @register(pattern="^/(ftransfer|fedtransfer) ?(.*)")
 async def ft(event):
+ time = time.time()
  if event.is_private:
    return await event.reply("This command is made to be used in group chats, not in pm!")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
@@ -903,9 +904,59 @@ async def ft(event):
  getuser = sql.search_user_in_fed(fed_id, user_id)
  if not getuser:
   return await event.reply(f"[{fname}](tg://user?id={user_id}) isn't an admin in {name} -you can only give your fed to other admins.")
+ mk = f"{user_id}|{event.sender_id}"
+ km = f"{user_id}|{event.sender_id}"
  text = f"[{fname}](tg://user?id={user_id}), please confirm you would like to receive fed {name} (`{fed_id}`) from [{event.sender.first_name}](tg://user?id={event.sender_id})"
- buttons = [Button.inline('Accept', data='acc'),Button.inline('Decline', data='den')]
+ buttons = [Button.inline('Accept', data="fkxd_{}".format(mk)),Button.inline('Decline', data="smewxy_{}".format(km))]
  await tbot.send_message(event.chat_id, text, buttons=buttons)
+
+@tbot.on(events.CallbackQuery(pattern=r"fkxd(\_(.*))"))
+async def smex_fed(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user, owner= input.split("|")
+  user = user.strip()
+  cname = owner.strip()
+  fedowner = sql.get_user_owner_fed_full(int(cname)
+  for f in fedowner:
+          fed_id = f["fed_id"]
+          name = f["fed"]["fname"]
+  rt = await tbot(GetFullUserRequest(int(user)))
+  tr = await tbot(GetFullUserRequest(int(cname)))
+  fname = rt.user.first_name
+  dname = tr.user.first_name
+  if not event.sender_id == int(user):
+    return await event.answer("This action is not intended for you!.")
+  text = f"[{dname}](tg://user?id={cname}), please confirm that you wish to send fed {name} (`{fed_id}`) to [{fname}](tg://user?id={user}). This cannot be undone."
+  bc = f"{cname}"
+  buttons = [Button.inline('Confirm', data="pekxd_{}".format(bc)),Button.inline('Cancel', dkxd_{}".format(cb))]
+  await event.edit(text, buttons=buttons)
+"""
+Fully Written by RoseLoverX
+"""
+@tbot.on(events.CallbackQuery(pattern=r"smewxy(\_(.*))"))
+async def smex(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user, owner= input.split("|")
+  user = user.strip()
+  owner = owner.strip()
+  if event.sender_id == int(owner):
+     rt = await tbot(GetFullUserRequest(int(owner)))
+     fname = rt.user.first_name
+     await event.edit(f"Fedadmin promotion cancelled by [{fname}](tg://user?id={owner})")
+     return
+  if event.sender_id == int(user):
+     rt = await tbot(GetFullUserRequest(int(user)))
+     fname = rt.user.first_name
+     await event.edit(f"Fedadmin promotion has been refused by [{fname}](tg://user?id={user}).")
+     return
+  await event.answer("You are not the user being fpromoted")
+
+
+
 
 
 @register(pattern="^/feddemoteme ?(.*)")
