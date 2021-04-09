@@ -5,7 +5,7 @@ from sqlalchemy import Boolean, Column, Integer, String, UnicodeText
 
 class Federations(BASE):
     __tablename__ = "fedp"
-    owner_id = Column(UnicodeText)
+    owner_id = Column(String(14))
     fed_name = Column(UnicodeText)
     fed_id = Column(UnicodeText, primary_key=True)
     fed_rules = Column(UnicodeText)
@@ -306,8 +306,8 @@ def f_t(fed_id, owner_id):
 
         # Update the dicts
         oldname = FEDERATION_BYFEDID[str(fed_id)]["fname"]
-        oldowner = eval(eval(FEDERATION_BYFEDID[str(fed_id)]["fusers"])["owner"])
-        tempdata = FEDERATION_BYOWNER['oldowner']
+        oldowner = int(eval(FEDERATION_BYFEDID[f]["fusers"])["owner"])
+        tempdata = FEDERATION_BYOWNER[oldowner]
         FEDERATION_BYOWNER.pop(oldname)
         
 
