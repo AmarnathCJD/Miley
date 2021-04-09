@@ -882,7 +882,6 @@ async def fex(event):
 
 @register(pattern="^/(ftransfer|fedtransfer) ?(.*)")
 async def ft(event):
- time = time.time()
  if event.is_private:
    return await event.reply("This command is made to be used in group chats, not in pm!")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
