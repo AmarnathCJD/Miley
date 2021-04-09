@@ -33,8 +33,8 @@ async def yt(event):
     thumb_url = f"https://img.youtube.com/vi/{yt_id}/hqdefault.jpg"
     await asyncio.sleep(0.2)
     downloaded_thumb = wget.download(thumb_url)
-    image = downloaded_thumb
-    new_image = Image.resize((230, 230))
+    image = Image.open(downloaded_thumb)
+    new_image = image.resize((230, 230))
     new_image.save('image69.jpg')
     thumb = './image69.jpg'
     opts = {
