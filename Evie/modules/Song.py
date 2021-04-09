@@ -4,7 +4,7 @@ import asyncio, wget, time, requests, os
 from youtube_dl import YoutubeDL
 from PIL import Image
 from youtubesearchpython import SearchVideos
-from telethon.tl.types import DocumentAttributeAudio
+from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeAudio
 
 @register(pattern="^/song ?(.*)")
 async def yt(event):
@@ -93,51 +93,59 @@ async def yt(event):
 
 @register(pattern="^/dsong ?(.*)")
 async def deezr(event):
-    pablo = await event.reply("Searching For Song.....")
-    sgname = event.pattern_match.group(1)
-    if not sgname:
+    input_str = event.pattern_match.group(1)
+    pablo = await event.reply(f"Processing...")
+    if not input_str:
         await pablo.edit(
             "Please Give Me A Valid Input."
         )
         return
-    link = f"https://api.deezer.com/search?q={sgname}&limit=1"
-    dato = requests.get(url=link).json()
-    match = dato.get("data")
+    await pablo.edit(f"Getting {input_str} From Youtube Servers. Please Wait.")
+    search = SearchVideos(str(input_str), offset=1, mode="dict", max_results=1)
+    rt = search.result()
+    result_s = rt["search_result"]
+    url = result_s[0]["link"]
+    vid_title = result_s[0]["title"]
+    yt_id = result_s[0]["id"]
+    uploade_r = result_s[0]["channel"]
+    thumb_url = f"https://img.youtube.com/vi/{yt_id}/hqdefault.jpg"
+    await asyncio.sleep(0.4)
+    downloaded_thumb = wget.download(thumb_url)
+    opts = {
+        "format": "best",
+        "addmetadata": True,
+        "key": "FFmpegMetadata",
+        "prefer_ffmpeg": True,
+        "geo_bypass": True,
+        "nocheckcertificate": True,
+        "postprocessors": [{"key": "FFmpegVideoConvertor", "preferedformat": "mp4"}],
+        "outtmpl": "%(id)s.mp4",
+        "logtostderr": False,
+        "quiet": True,
+    }
     try:
-        urlhp = match[0]
-    except IndexError:
-        await pablo.edit("Song Not Found. Try Searching Some Other Song")
+        with YoutubeDL(opts) as ytdl:
+            ytdl_data = ytdl.extract_info(url, download=True)
+    except Exception as e:
+        await pablo.edit(f"**Failed To Download** \n**Error :** `{str(e)}`")
         return
-    urlp = urlhp.get("link")
-    thumbs = urlhp["album"]["cover_big"]
-    thum_f = wget.download(thumbs)
-    polu = urlhp.get("artist")
-    replo = urlp[29:]
-    urlp = f"https://starkapis.herokuapp.com/deezer/{replo}"
-    datto = requests.get(url=urlp).json()
-    mus = datto.get("url")
-    sname = f"{urlhp.get('title')}.mp3"
-    doc = requests.get(mus)
-    await pablo.edit("Downloading Song From Deezer!")
-    with open(sname, "wb") as f:
-        f.write(doc.content)
     c_time = time.time()
-    audio=open(sname, "rb"),
-    await tbot.send_file(
+    file_stark = f"{ytdl_data['id']}.mp4"
+    capy = f"**Video Name ➠** `{vid_title}` \n**Requested For ➠** `{input_str}` \n**Channel ➠** `{uploade_r}` \n**Link ➠** `{url}`"
+    async with tbot.action(event.chat_id, 'video'):
+       await tbot.send_file(
         event.chat_id,
-        audio,
-        thumb=thum_f,
+        open(file_stark, "rb"),
+        thumb=downloaded_thumb,
         supports_streaming=True,
         force_document=False,
         attributes=[
-                DocumentAttributeAudio(
-                    duration=int(urlhp.get("duration")),
-                    title=str(urlhp.get("title")),
-                    performer=str(polu.get("name")),
-                    waveform='256',
-                )],
-         )
-    
+                DocumentAttributeVideo(
+                    duration=int(ytdl_data["duration"]),
+                )
+            ],
+    )
     await pablo.delete()
-
-
+    for files in (downloaded_thumb, file_stark):
+        if files and os.path.exists(files):
+            os.remove(files)
