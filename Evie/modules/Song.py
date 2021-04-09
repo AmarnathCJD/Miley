@@ -34,7 +34,7 @@ async def yt(event):
     await asyncio.sleep(0.2)
     downloaded_thumb = wget.download(thumb_url)
     image = Image.open(downloaded_thumb)
-    new_image = image.resize((100, 100))
+    new_image = image.resize((20, 25))
     new_image.save('image69.jpg')
     thumb = './image69.jpg'
     opts = {
@@ -85,7 +85,7 @@ async def yt(event):
             ],
     )
     await pablo.delete()
-    for files in (downloaded_thumb, file_stark):
+    for files in (downloaded_thumb, file_stark, thumb):
         if files and os.path.exists(files):
             os.remove(files)
  except Exception as e:
