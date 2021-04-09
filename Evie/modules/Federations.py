@@ -953,6 +953,10 @@ async def smex_fed(event):
   name = info["fname"]
   print(fed_id)
   fed_id = f'{fed_id}'
+  res = sql.tr_fed(fed_id, int(user))
+  if res:
+    text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
+    await event.edit(text, buttons=None)
   await event.reply(fed_id)
 
 @tbot.on(events.CallbackQuery(pattern=r"smewxy(\_(.*))"))
