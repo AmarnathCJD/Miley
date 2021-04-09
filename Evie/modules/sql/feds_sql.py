@@ -299,6 +299,7 @@ def tr_fed(fed_id, user_id):
     with FEDS_LOCK:
         global FEDERATION_BYOWNER, FEDERATION_BYFEDID, FEDERATION_BYNAME
         # Variables
+        fed = SESSION.query(Federations).get(fed_id)
         getfed = FEDERATION_BYFEDID.get(str(fed_id))
         owner_id = getfed["owner"]
         fed_name = getfed["fname"]
