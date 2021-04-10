@@ -16,23 +16,32 @@ async def lg(event):
        text = text.strip()
        cust = cust.strip()
        op = cust.split(" ", 2)
+       if len(op) == 4:
+         color = op[0]
+         stroke = op[1]
+         width = int(op[2])
+         tt = op[3]
        if len(op) == 3:
          color = op[0]
          stroke = op[1]
          width = int(op[2])
+         tt = None
        elif len(op) == 2:
          color = op[0]
          stroke = op[1]
          width = 10
+         tt = None
        elif len(op) == 1:
          color = op[0]
          stroke = 'black'
          width = 10
+         tt = None
     else:
        text = arg
        color = (255, 255, 0)
        stroke = 'black'
        width = 7
+       tt = None
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 7:
@@ -41,6 +50,7 @@ async def lg(event):
        font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 300)
     else:
        font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 220)
+    fnt = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 450)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
@@ -54,6 +64,9 @@ async def lg(event):
     y = (image_heightz - h) / 2
     draw.text(
         (x, y), text, font=font, fill=color, stroke_width=width, stroke_fill=stroke
+    )
+    draw.text(
+        (x -400,  y - 300), tt, font=fnt, fill=color, stroke_width=width, stroke_fill=stroke
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
