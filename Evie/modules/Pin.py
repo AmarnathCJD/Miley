@@ -81,13 +81,14 @@ async def pin(msg):
         await msg.reply("You need to reply to a message to pin it!")
         return
     options = msg.pattern_match.group(1)
-
+    chat = f'{event.chat_id}'
+    lik = chat.replace("-100", "")
     is_silent = True
     if options.lower() == "loud":
         is_silent = False
     try:
         await tbot(UpdatePinnedMessageRequest(msg.to_id, to_pin, is_silent))
-        await msg.reply("I have pinned this [message](http://t.me/{msg.to_id}/{to_pin.id}).")
+        await msg.reply("I have pinned this [message](http://t.me/{lik}/{to_pin.id}).")
     except Exception:
         await msg.reply("Failed to pin.")
         return
