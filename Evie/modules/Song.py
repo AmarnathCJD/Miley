@@ -174,7 +174,7 @@ async def deezr(v_url):
     c_time = time.time()
     if video:
         await rkp.edit(f"Sending the video song ...")
-        async with tbot.action(v_url.chat_id, 'audio'):
+        async with tbot.action(v_url.chat_id, 'video'):
          y = await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
@@ -182,8 +182,8 @@ async def deezr(v_url):
             attributes=[
                 DocumentAttributeVideo(
                     duration=int(rip_data["duration"]),
-                    w=None,
-                    h=None,
+                    w=720,
+                    h=1080,
              )
              ],
             caption=rip_data["title"],
