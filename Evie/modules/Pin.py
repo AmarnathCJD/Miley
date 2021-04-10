@@ -63,15 +63,31 @@ async def start_again(event):
         await event.edit("All pinned messages have been unpinned.", buttons=None)
         
 
-@register(pattern="^/upin ?(.*)")
-async def on(event):
- args = event.pattern_match.group(1)
- if event.reply_to_msg_id:
-    k = await event.get_reply_message()
-    id = k.id
- elif not args == None:
+@register(pattern="^/pin(?: |$)(.*)")
+async def pin(msg):
+    if msg.is_group:
+      if not msg.sender_id == OWNER_ID:
+        if not await is_register_admin(msg.input_chat, msg.sender_id):
+           await msg.reply("Only admins can execute this command!")
+           return
+        
+    else:
+        return
+    if not await can_pin_msg(message=msg):
+            await msg.reply("You are missing the following rights to use this command:CanPinMessages")
+            return
+    to_pin = msg.reply_to_msg_id
+    if not to_pin:
+        await msg.reply("You need to reply to a message to pin it!")
+        return
+    options = msg.pattern_match.group(1)
+
+    is_silent = True
+    if options.lower() == "loud":
+        is_silent = False
     try:
-       id = int(args)
-    except:
-       return await event.reply("You need to reply to a message to pin it!")
- await tbot.pin_message(event.chat_id,message=id)
+        await tbot(UpdatePinnedMessageRequest(msg.to_id, to_pin, is_silent))
+        await msg.reply("I have pinned this [message](http://t.me/{msg.to_id}/{to_pin.id}).")
+    except Exception:
+        await msg.reply("Failed to pin.")
+        return
