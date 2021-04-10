@@ -6,9 +6,15 @@ from telethon import events
 
 @tbot.on(events.NewMessage(pattern="^[!/]dban$"))
 async def dban(event): 
+  x = (await event.get_reply_message()).sender_id
   if not event.sender_id == OWNER_ID:
     if not await user_is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
+    if x:
+      if x == BOT_ID or x == OWNER_ID:
+        return await event.reply("Ask the chat creator to do it!")
+      if await is_admin(event, x):
+        return await event.reply("Yeah lets start kicking admins!")
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
@@ -16,8 +22,38 @@ async def dban(event):
   if not reply_msg:      
      await event.reply("Reply to someone to delete the message and ban the user!")
      return
-  x = (await event.get_reply_message()).sender_id
   zx = (await event.get_reply_message())
   await zx.delete()
-  await tbot(EditBannedRequest(event.chat_id, x, ChatBannedRights(until_date=None, view_messages=True)))
+  try:
+    await tbot(EditBannedRequest(event.chat_id, x, ChatBannedRights(until_date=None, view_messages=True)))
+  except:
+    return await event.reply("Failed to ban, not enough rights!")
   await event.reply("Successfully Banned!")
+
+@tbot.on(events.NewMessage(pattern="^[!/]dkick$"))
+async def dban(event): 
+  x = (await event.get_reply_message()).sender_id
+  if not event.sender_id == OWNER_ID:
+    if not await user_is_admin(event, event.sender_id):
+       return await event.reply("Only Admins can execute this command!")
+    if x:
+      if x == BOT_ID or x == OWNER_ID:
+        return await event.reply("Ask the chat creator to do it!")
+      if await is_admin(event, x):
+        return await event.reply("Yeah lets start kicking admins!")
+    if not await can_ban_users(message=event):
+        await event.reply("You don't have enough rights to do that!")
+        return
+  reply_msg = await event.get_reply_message()
+  if not reply_msg:      
+     await event.reply("Reply to someone to delete the message and kick the user!")
+     return
+  zx = (await event.get_reply_message())
+  await zx.delete()
+  try:
+    await tbot.kick_participant(event.chat_id, x)
+  except:
+    return await event.deply("Failed to kick, Not enough rights!")
+  await event.reply("Successfully Kicked!")
+
+
