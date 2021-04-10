@@ -65,6 +65,7 @@ async def start_again(event):
 
 @register(pattern="^/pin(?: |$)(.*)")
 async def pin(msg):
+ try:
     if msg.is_group:
       if not msg.sender_id == OWNER_ID:
         if not await is_register_admin(msg.input_chat, msg.sender_id):
@@ -92,3 +93,5 @@ async def pin(msg):
     except Exception:
         await msg.reply("Failed to pin.")
         return
+ except Exception as e:
+   await event.reply(f'{e}')
