@@ -267,14 +267,13 @@ async def p(event):
  if getuser:
    return await event.reply(f"[{fname}](tg://user?id={args.id}) is already an admin in {name}!")
  try:
-  mk = f"{user_id}|{name[:5]}|{fed_id}"
-  km = f"{user_id}|{event.sender_id}"
+  cdata = f"{user_id}|{event.sender_id}"
   await tbot.send_message(
             event.chat_id,
             f"Please get [{fname}](tg://user?id={args.id}) to confirm that they would like to be fed admin for {name}",
             buttons=[
-                Button.inline("Confirm", data="fkfed_{}".format(mk)),
-                Button.inline("Cancel", data="smex_{}".format(km)),
+                Button.inline("Confirm", data="fkfed_{}".format(cdata)),
+                Button.inline("Cancel", data="smex_{}".format(cdata)),
             ],
         )
  except Exception as e:
@@ -289,17 +288,20 @@ async def smex_fed(event):
   tata = event.pattern_match.group(1)
   data = tata.decode()
   input = data.split("_", 1)[1]
-  user, owner, fed_id= input.split("|")
+  user, owner= input.split("|")
   user = user.strip()
-  name = owner.strip()
-  fed_id = fed_id.strip()
+  owner = owner.strip()
+  fedowner = sql.get_user_owner_fed_full(int(owner))
+  for f in fedowner:
+            fed_id = f["fed_id"]
+            name = f["fed"]["fname"]
   rt = await tbot(GetFullUserRequest(int(user)))
   fname = rt.user.first_name
   if not event.sender_id == int(user):
     return await event.answer("You are not the user being fpromoted")
   res = sql.user_join_fed(fed_id, int(user))
   if res:
-     return await event.edit(f"User [{fname}](tg://user?id={user}) is now an admin of {name} [{fed_id}]")
+     return await event.edit(f"User [{fname}](tg://user?id={user}) is now an admin of {name} [`{fed_id}`]")
 
 """
 Fully Written by RoseLoverX
