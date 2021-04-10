@@ -82,7 +82,7 @@ async def pin(msg):
         await msg.reply("You need to reply to a message to pin it!")
         return
     options = msg.pattern_match.group(1)
-    chat = f'{event.chat_id}'
+    chat = f'{msg.chat_id}'
     lik = chat.replace("-100", "")
     is_silent = True
     if options.lower() == "loud":
@@ -94,7 +94,7 @@ async def pin(msg):
         await msg.reply("Failed to pin.")
         return
  except Exception as e:
-   await event.reply(f'{e}')
+   await msg.reply(f'{e}')
 
 
 #Making AntiChannelPin
@@ -102,4 +102,4 @@ async def pin(msg):
 @tbot.on(events.ChatAction)
 async def hm(event):
   if event.new_pin:
-     await tbot.send_message(event.chat_id, 'newpin')
+     print(event.sender_id)
