@@ -2,7 +2,7 @@ from Evie import tbot, CMD_HELP, OWNER_ID
 import os
 from telethon import types, functions, Button, events
 from Evie.events import register
-from Evie.function import is_admin
+from Evie.function import is_admin, is_register_admin
 
 
 async def can_pin_msg(message):
