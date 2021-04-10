@@ -50,7 +50,7 @@ async def lg(event):
        font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 300)
     else:
        font = ImageFont.truetype("./Evie/function/Fonts/vermin_vibes.ttf", 220)
-    fnt = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 450)
+    fnt = ImageFont.truetype("./Evie/function/Fonts/Streamster.ttf", 80)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
@@ -66,7 +66,7 @@ async def lg(event):
         (x, y), text, font=font, fill=color, stroke_width=width, stroke_fill=stroke
     )
     draw.text(
-        (x -400,  y - 300), tt, font=fnt, fill=color, stroke_width=width, stroke_fill=stroke
+        (x +400,  y + 300), tt, font=fnt, fill=color, stroke_width=width, stroke_fill=stroke
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
