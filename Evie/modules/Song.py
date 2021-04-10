@@ -1,10 +1,23 @@
 from Evie import tbot
 from Evie.events import register
-import asyncio, wget, time, requests, os
+import asyncio, wget, time, requests, os, json
 from youtube_dl import YoutubeDL
 from PIL import Image
 from youtubesearchpython import SearchVideos
 from telethon.tl.types import DocumentAttributeAudio, DocumentAttributeVideo
+from youtube_dl.utils import (
+    DownloadError,
+    ContentTooShortError,
+    ExtractorError,
+    GeoRestrictedError,
+    MaxDownloadsReached,
+    PostProcessingError,
+    UnavailableVideoError,
+    XAttrMetadataError,
+)
+
+
+
 
 @register(pattern="^/song ?(.*)")
 async def yt(event):
