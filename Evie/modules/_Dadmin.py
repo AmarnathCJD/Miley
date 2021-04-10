@@ -1,5 +1,5 @@
 from Evie import tbot, OWNER_ID
-from Evie.function import is_admin, can_ban_users
+from Evie.function import is_admin, can_ban_users, bot_ban
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 from telethon import events
@@ -18,6 +18,8 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
+  if not await bot_ban(message=event):
+    return await event.reply("I don't have enough rights to do this!")
   reply_msg = await event.get_reply_message()
   if not reply_msg:      
      await event.reply("Reply to someone to delete the message and ban the user!")
