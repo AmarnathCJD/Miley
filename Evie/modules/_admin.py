@@ -2,6 +2,7 @@ from Evie import tbot, OWNER_ID
 from Evie.function import is_admin, can_ban_users
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
+from telethon import events
 
 @tbot.on(events.NewMessage(pattern="^[!/]dban$"))
 async def dban(event): 
