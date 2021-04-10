@@ -36,7 +36,7 @@ async def upinall(event):
   if not await can_pin_msg(event):
     return await event.reply("You are missing the following rights to use this command:CanPinMessages")
   text = "Are you sure you want to unpin all messages?"
-  buttons = [Button.inline('Yes', data='upin_{}'.format(mc)),Button.inline('No', data='cpin_{}'.format(bc))]
+  buttons = [Button.inline('Yes', data='upin'),Button.inline('No', data='cpin')]
   await tbot.send_message(
                 event.chat_id,
                 text,
