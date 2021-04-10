@@ -389,50 +389,7 @@ async def ban(bon):
         await bon.reply("I haven't got the rights to do this.")
         return
 
-@register(pattern="^/dban ?(.*)")
-async def ban(bon):
-    if not bon.is_group:
-        return
-    if bon.is_group:
-      if not bon.sender_id == OWNER_ID:
-       if not await is_register_admin(bon.input_chat, bon.sender_id):
-           await bon.reply("Only admins can execute this command!")
-           return
-       if not await can_ban_users(message=bon):
-            await bon.reply("You are missing the following rights to use this command:CanRestrictMembers")
-            return
-    user = await get_user_from_event(bon)
-    try:
-      prev = await bon.get_reply_message()
-      await prev.delete()
-    except Exception:
-      pass
-    if user.id == BOT_ID:
-      await bon.reply("You know what I'm not going to do? Ban myself.")
-      return
-    elif sudo(user.id):
-      await bon.reply("I'm not banning one of my sudo users.")
-      return
-    if user:
-        pass
-    else:
-        return
 
-    if bon.is_group:
-        if await is_register_admin(bon.input_chat, user.id):
-            await bon.reply("Why would I ban an admin? That sounds like a pretty dumb idea.")
-            return
-        pass
-    else:
-        return
-
-    try:
-        await tbot(EditBannedRequest(bon.chat_id, user.id, BANNED_RIGHTS))
-        await bon.reply(f"Another one bites the dust...!Banned [User](tg://user?id={user.id}).")
-
-    except Exception:
-        await bon.reply("I haven't got the rights to do this.")
-        return
 
 @register(pattern="^/unban ?(.*)")
 async def unban(bon):
