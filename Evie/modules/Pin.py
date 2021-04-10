@@ -3,7 +3,7 @@ import os
 from telethon import types, functions, Button, events
 from Evie.events import register
 from Evie.function import is_admin, is_register_admin
-
+from telethon.tl.functions.messages import UpdatePinnedMessageRequest
 
 async def can_pin_msg(message):
     result = await tbot(
@@ -92,7 +92,7 @@ async def pin(msg):
     except Exception:
         await msg.reply("Failed to pin.")
         return
-    await msg.reply("I have pinned this [message](http://t.me/{lik}/{to_pin.id}).")
+    await msg.reply("I have pinned [this message](http://t.me/{lik}/{to_pin.id}).")
  except Exception as e:
     await msg.reply(f'{e}')
 
