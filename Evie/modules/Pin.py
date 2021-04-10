@@ -59,10 +59,6 @@ async def start_again(event):
           return await event.answer("You need to be an admin to do this!")
         if not await can_pin_msg(event):
           return await event.answer("No enough permission for you!")
-        all_notes = get_all_notes(event.chat_id)
-        for i in all_notes:
-           name = i.keyword
-           remove_note(event.chat_id, name)
         await tbot.unpin_message(event.chat_id)
         await event.edit("All pinned messages have been unpinned.", buttons=None)
         
