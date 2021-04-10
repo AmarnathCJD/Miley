@@ -1,5 +1,7 @@
 from Evie import tbot, OWNER_ID
 from Evie.function import is_admin, can_ban_users
+from telethon.tl.functions.channels import EditBannedRequest
+from telethon.tl.types import ChatBannedRights
 
 @tbot.on(events.NewMessage(pattern="^[!/]dban$"))
 async def dban(event): 
@@ -9,12 +11,12 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
-    reply_msg = await event.get_reply_message()
-    if not reply_msg:
-        await event.reply("Reply to someone to delete the message and ban the user!")
-        return
-    x = (await event.get_reply_message()).sender_id
-    zx = (await event.get_reply_message())
-    await zx.delete()
-    await tbot(EditBannedRequest(event.chat_id, x, ChatBannedRights(until_date=None, view_messages=True)))
-    await event.reply("Successfully Banned!")
+  reply_msg = await event.get_reply_message()
+  if not reply_msg:      
+     await event.reply("Reply to someone to delete the message and ban the user!")
+     return
+  x = (await event.get_reply_message()).sender_id
+  zx = (await event.get_reply_message())
+  await zx.delete()
+  await tbot(EditBannedRequest(event.chat_id, x, ChatBannedRights(until_date=None, view_messages=True)))
+  await event.reply("Successfully Banned!")
