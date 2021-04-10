@@ -63,6 +63,31 @@ async def get_user_from_event(event):
 
     return user_obj
 
+
+async def suck(event):
+    """ Get the user from argument or replied message. """
+    if event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
+        user_obj = await tbot.get_entity(previous_message.sender_id)
+        fname = previous_message.sender.first_name
+    else:
+        user = event.pattern_match.group(2)
+
+        if user.isnumeric():
+            user = int(user)
+
+        if not user:
+            return
+
+        try:
+            user_obj = await tbot.get_entity(user)
+        except (TypeError, ValueError) as err:
+            await event.reply(str(err))
+            return None
+
+    return user_obj
+
+
 def is_user_fed_admin(fed_id, user_id):
     fed_admins = sql.all_fed_users(fed_id)
     if fed_admins is False:
@@ -888,7 +913,7 @@ async def ft(event):
  for f in fedowner:
           fed_id = f["fed_id"]
           name = f["fed"]["fname"]
- user = await get_user_from_event(event)
+ user = await suck(event)
  user_id = user.id
  fedora = sql.get_user_owner_fed_full(user_id)
  try:
@@ -1031,21 +1056,6 @@ async def sk(event):
    await event.reply(f"{e}")
 
 #balance soon
-
-async def aexec(code, smessatatus):
-    message = event = smessatatus
-
-    def p(_x):
-        return print(slitu.yaml_format(_x))
-
-    reply = await event.get_reply_message()
-    exec(
-        "async def __aexec(message, reply, client, p): "
-        + "\n event = smessatatus = message"
-        + "".join(f"\n {l}" for l in code.split("\n"))
-    )
-    return await locals()["__aexec"](message, reply, tbot, p)
-
 
 
 
