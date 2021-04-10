@@ -909,6 +909,7 @@ async def ft(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"fkxd(\_(.*))"))
 async def smex_fed(event):
+  chat = event.chat_id
   tata = event.pattern_match.group(1)
   data = tata.decode()
   input = data.split("_", 1)[1]
@@ -926,11 +927,32 @@ async def smex_fed(event):
   if not event.sender_id == int(user):
     return await event.answer("This action is not intended for you!.")
   res = sql.tr_fed(fed_id, int(user))
+  if not res:
+    return await event.edit("Fed transfer failed!")
   if res:
     ses = sql.user_join_fed(fed_id, int(cname))
     sql.user_demote_fed(fed_id, int(user))
     text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{dname}](tg://user?id={cname}) to [{fname}](tg://user?id={user})"
     await event.edit(text, buttons=None)
+  sxa = "**Fed Transfer**\n"
+  sxa += f"**Fed:** {name}\n"
+  sxa += f"**New Fed Owner:** [{fname}](tg://user?id={user}) - `{user}`\n"
+  sxa += f"**Old Fed Owner:** [{dname}](tg://user?id={cname}) - `{cname}`\n"
+  sxa += f"\n[{fname}](tg://user?id={user}) is now the fed owner. They can promote/demote admins as they like."
+  getfednotif = sql.user_feds_report(info["owner"])
+  await tbot.send_message(event.chat_id, sax)
+  if getfednotif:
+     if int(info["owner"]) != int(chat):
+          await tbot.send_message(
+                int(info["owner"]),
+                sxa)
+  get_fedlog = sql.get_fed_log(fed_id)
+  if get_fedlog:
+     if int(get_fedlog) != int(chat):
+           await tbot.send_message(
+                int(get_fedlog),
+                sxa)
+     
 
 """
 Fully Written by RoseLoverX
