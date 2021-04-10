@@ -1,7 +1,7 @@
 from telethon.tl import functions
 from telethon.tl import types
 import time, subprocess, shlex, os, asyncio, math
-from Evie import tbot
+from Evie import tbot, BOT_ID
 from typing import Tuple
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
@@ -18,6 +18,18 @@ async def is_admin(event, user):
     except:
         is_mod = False
     return is_mod
+
+async def bot_ban(message):
+ result = await tbot(
+        functions.channels.GetParticipantRequest(
+            channel=message.chat_id,
+            user_id=BOT_ID,
+        )
+    )
+    p = result.participant
+    return isinstance(p, types.ChannelParticipantCreator) or (
+        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
+    )
 
 async def is_register_admin(chat, user):
     if isinstance(chat, (types.InputPeerChannel, types.InputChannel)):
