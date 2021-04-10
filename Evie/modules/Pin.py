@@ -95,3 +95,11 @@ async def pin(msg):
         return
  except Exception as e:
    await event.reply(f'{e}')
+
+
+#Making AntiChannelPin
+
+@tbot.on(events.ChatAction)
+async def hm(event):
+  if event.new_pin:
+     await tbot.send_message(event.chat_id, 'newpin')
