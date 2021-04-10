@@ -38,7 +38,10 @@ async def lg(event):
          tt = event.sender.username
     else:
        text = arg
-       color = (255, 255, 0)
+       r = random.randint(0, 255)
+       g = random.randint(0, 255)
+       b = random.randint(0, 255)
+       color = (r, g, b)
        stroke = 'black'
        width = 7
        tt = event.sender.username
@@ -66,7 +69,7 @@ async def lg(event):
         (x, y), text, font=font, fill=color, stroke_width=width, stroke_fill=stroke
     )
     draw.text(
-        (x +230,  y + 430), tt, font=fnt, fill=color, stroke_width=width, stroke_fill=stroke
+        (image_widthz - w -300,  image_heightz - h -232), tt, font=fnt, fill=color, stroke_width=width, stroke_fill=stroke
     )
     file_name = "LogoBy@Evie.png"
     img.save(file_name, "png")
