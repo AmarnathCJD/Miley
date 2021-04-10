@@ -93,6 +93,7 @@ async def yt(event):
 
 @register(pattern="^/video ?(.*)")
 async def deezr(v_url):
+ try:
     url = v_url.pattern_match.group(1)
     rkp = await v_url.reply("Processing ...")
     if not url:
@@ -160,8 +161,8 @@ async def deezr(v_url):
     c_time = time.time()
     if video:
         await rkp.edit(f"Sending the video song ...")
-
-        y = await v_url.client.send_file(
+        async with tbot.action(event.chat_id, 'audio'):
+         y = await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
             supports_streaming=True,
@@ -178,3 +179,5 @@ async def deezr(v_url):
             os.system("rm -rf *.jpg")
         except:
            pass
+ except Exception as e:
+    await v_url.reply(f'{e}')
