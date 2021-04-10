@@ -925,11 +925,11 @@ async def smex_fed(event):
   dname = tr.user.first_name
   if not event.sender_id == int(user):
     return await event.answer("This action is not intended for you!.")
-  text = f"[{dname}](tg://user?id={cname}), please confirm that you wish to send fed {name} (`{fed_id}`) to [{fname}](tg://user?id={user}). This cannot be undone."
-  bc = f"{cname}|{user}"
-  cb = f"{cname}|{user}"
-  buttons = [Button.inline('Confirm', data="pekxd_{}".format(bc)),Button.inline('Cancel', data="dkxd_{}".format(cb))]
-  await event.edit(text, buttons=buttons)
+  res = sql.tr_fed(fed_id, int(user))
+  if res:
+    text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
+    await event.edit(text, buttons=None)
+  #not finished
 """
 Fully Written by RoseLoverX
 """
@@ -937,33 +937,6 @@ import subprocess
 import asyncio
 import traceback
 import io
-
-@tbot.on(events.CallbackQuery(pattern=r"pekxd(\_(.*))"))
-async def smex_fed(event):
-  tata = event.pattern_match.group(1)
-  data = tata.decode()
-  input = data.split("_", 1)[1]
-  user, owner= input.split("|")
-  user = user.strip()
-  owner = owner.strip()
-  if not event.sender_id == int(user):
-   return await event.answer("This action is not intended for you!.")
-  rt = await tbot(GetFullUserRequest(int(user)))
-  tr = await tbot(GetFullUserRequest(int(owner)))
-  fname = rt.user.first_name
-  fedowner = sql.get_user_owner_fed_full(event.sender_id)
-  if not fedowner:
-        return await event.reply("Some error occurred during fed transfer process!")
-  for f in fedowner:
-          sup = f["fed_id"]
-          name = f["fed"]["fname"]
-  k = sql.FEDERATION_BYNAME[name]["fed_id"]
-  dname = tr.user.first_name
-  res = sql.tr_fed(k, owner)
-  if res:
-    text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
-    await event.edit(text, buttons=None)
-  #not finished
 
 @tbot.on(events.CallbackQuery(pattern=r"smewxy(\_(.*))"))
 async def smex(event):
