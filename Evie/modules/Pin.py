@@ -89,10 +89,10 @@ async def pin(msg):
         is_silent = False
     try:
         await tbot(UpdatePinnedMessageRequest(msg.to_id, to_pin, is_silent))
-        await msg.reply("I have pinned this [message](http://t.me/{lik}/{to_pin.id}).")
     except Exception:
         await msg.reply("Failed to pin.")
         return
+    await msg.reply("I have pinned this [message](http://t.me/{lik}/{to_pin.id}).")
  except Exception as e:
     await msg.reply(f'{e}')
 
