@@ -1,4 +1,4 @@
-from Evie import tbot, CMD_HELP
+from Evie import tbot, CMD_HELP, OWNER_ID
 import os
 from telethon import types, functions, Button, events
 from Evie.events import register
