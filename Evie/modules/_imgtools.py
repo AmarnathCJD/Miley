@@ -19,8 +19,8 @@ async def lg(event):
        if len(op) == 4:
          color = op[0]
          stroke = op[1]
-         width = int(op[2])
-         tt = op[3]
+         width = int(op[3])
+         tt = op[2]
        if len(op) == 3:
          color = op[0]
          stroke = op[1]
@@ -30,18 +30,18 @@ async def lg(event):
          color = op[0]
          stroke = op[1]
          width = 10
-         tt = None
+         tt = event.sender.username
        elif len(op) == 1:
          color = op[0]
          stroke = 'black'
          width = 10
-         tt = None
+         tt = event.sender.username
     else:
        text = arg
        color = (255, 255, 0)
        stroke = 'black'
        width = 7
-       tt = None
+       tt = event.sender.username
     img = Image.open("./Evie/function/black_blank_image.jpg")
     draw = ImageDraw.Draw(img)
     if len(text) < 7:
