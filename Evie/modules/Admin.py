@@ -771,33 +771,6 @@ async def _(event):
     required_string = "Successfully unmuted **{}** users"
     await event.reply(required_string.format(p))
 
-
-@register(pattern="^/pin(?: |$)(.*)")
-async def pin(msg):
-    promt = msg
-    if promt.is_group:
-      if not promt.sender_id == OWNER_ID:
-        if not await is_register_admin(promt.input_chat, promt.sender_id):
-           await promt.reply("Only admins can execute this command!")
-           return
-        
-    else:
-        return
-    if not await can_pin_msg(message=promt):
-            await promt.reply("You are missing the following rights to use this command:CanPinMessages")
-            return
-    to_pin = msg.reply_to_msg_id
-    if not to_pin:
-        await msg.reply("Reply to a message which you want to pin.")
-        return
-    is_silent = True
-    try:
-        await tbot(UpdatePinnedMessageRequest(msg.to_id, to_pin, is_silent))
-        await msg.reply("Pinned Successfully!")
-    except Exception:
-        await msg.reply("Failed to pin.")
-        return
-
 @register(pattern="^/permapin(?: |$)(.*)")
 async def pin(msg):
     if msg.is_group:
