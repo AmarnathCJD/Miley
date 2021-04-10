@@ -61,8 +61,6 @@ def register(**args):
                 return
             if check.is_group or check.is_private:
                 pass
-            else:
-                print("i don't work in channels")
             if check.is_group:
                if check.chat.megagroup:
                   pass
