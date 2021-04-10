@@ -92,7 +92,7 @@ async def pin(msg):
     except Exception:
         await msg.reply("Failed to pin.")
         return
-    await msg.reply("I have pinned [this message](http://t.me/{lik}/{to_pin.id}).")
+    await msg.reply(f"I have pinned [this message](http://t.me/{lik}/{to_pin.id}).")
  except Exception as e:
     await msg.reply(f'{e}')
 
