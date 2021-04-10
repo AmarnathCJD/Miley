@@ -1,6 +1,5 @@
 from Evie import tbot
 from Evie.events import register
-from telethon import events
 import asyncio, wget, time, requests, os, json
 from youtube_dl import YoutubeDL
 from PIL import Image
@@ -175,7 +174,7 @@ async def deezr(v_url):
     c_time = time.time()
     if video:
         await rkp.edit(f"Sending the video song ...")
-        async with tbot.action(event.chat_id, 'audio'):
+        async with tbot.action(v_url.chat_id, 'audio'):
          y = await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
