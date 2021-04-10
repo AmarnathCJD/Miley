@@ -926,17 +926,14 @@ async def smex_fed(event):
   if not event.sender_id == int(user):
     return await event.answer("This action is not intended for you!.")
   res = sql.tr_fed(fed_id, int(user))
+  ses = sql.user_join_fed(fed_id, int(cname))
   if res:
-    text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{fname}](tg://user?id={user}) to [{dname}](tg://user?id={owner})"
+    text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{dname}](tg://user?id={cname}) to [{fname}](tg://user?id={user})"
     await event.edit(text, buttons=None)
-  #not finished
+
 """
 Fully Written by RoseLoverX
 """
-import subprocess
-import asyncio
-import traceback
-import io
 
 @tbot.on(events.CallbackQuery(pattern=r"smewxy(\_(.*))"))
 async def smex(event):
@@ -949,14 +946,14 @@ async def smex(event):
   if event.sender_id == int(owner):
      rt = await tbot(GetFullUserRequest(int(owner)))
      fname = rt.user.first_name
-     await event.edit(f"Fedadmin promotion cancelled by [{fname}](tg://user?id={owner})")
+     await event.edit(f"[{fname}](tg://user?id={owner}) has cancelled the fed transfer.")
      return
   if event.sender_id == int(user):
      rt = await tbot(GetFullUserRequest(int(user)))
      fname = rt.user.first_name
-     await event.edit(f"Fedadmin promotion has been refused by [{fname}](tg://user?id={user}).")
+     await event.edit(f"[{fname}](tg://user?id={user}) has declined the fed transfer..")
      return
-  await event.answer("You are not the user being fpromoted")
+  await event.answer("You are not in the ftransfer process!")
 
 
 @register(pattern="^/feddemoteme ?(.*)")
