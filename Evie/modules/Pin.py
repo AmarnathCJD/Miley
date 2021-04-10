@@ -62,3 +62,16 @@ async def start_again(event):
         await tbot.unpin_message(event.chat_id)
         await event.edit("All pinned messages have been unpinned.", buttons=None)
         
+
+@register(pattern="^/upin ?(.*)")
+async def on(event):
+ args = event.pattern_match.group(1)
+ if event.reply_to_msg_id:
+    k = await event.get_reply_message()
+    id = k.id
+ elif not args == None:
+    try:
+       id = int(args)
+    except:
+       return await event.reply("You need to reply to a message to pin it!")
+ await tbot.pin_message(event.chat_id,message=id)
