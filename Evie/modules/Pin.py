@@ -100,6 +100,6 @@ async def pin(msg):
 #Making AntiChannelPin
 
 @tbot.on(events.ChatAction)
-async def hm(event):
+async def handler(event):
   if event.new_pin:
      print(event.sender_id)
