@@ -927,6 +927,7 @@ async def smex_fed(event):
     return await event.answer("This action is not intended for you!.")
   res = sql.tr_fed(fed_id, int(user))
   ses = sql.user_join_fed(fed_id, int(cname))
+   sql.user_demote_fed(fed_id, int(user))
   if res:
     text = f"Congratulations! Federation {name} ({fed_id}) has successfully been transferred from [{dname}](tg://user?id={cname}) to [{fname}](tg://user?id={user})"
     await event.edit(text, buttons=None)
