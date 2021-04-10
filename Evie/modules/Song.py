@@ -1,5 +1,6 @@
 from Evie import tbot
 from Evie.events import register
+from telethon import events
 import asyncio, wget, time, requests, os, json
 from youtube_dl import YoutubeDL
 from PIL import Image
