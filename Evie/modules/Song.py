@@ -182,8 +182,8 @@ async def deezr(v_url):
             attributes=[
                 DocumentAttributeVideo(
                     duration=int(rip_data["duration"]),
-                    w=720,
-                    h=1080,
+                    w=800,
+                    h=540,
              )
              ],
             caption=rip_data["title"],
