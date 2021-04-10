@@ -939,7 +939,7 @@ async def smex_fed(event):
   sxa += f"**New Fed Owner:** [{fname}](tg://user?id={user}) - `{user}`\n"
   sxa += f"**Old Fed Owner:** [{dname}](tg://user?id={cname}) - `{cname}`\n"
   sxa += f"\n[{fname}](tg://user?id={user}) is now the fed owner. They can promote/demote admins as they like."
-  getfednotif = sql.user_feds_report(info["owner"])
+  getfednotif = sql.user_feds_report(int(user))
   await tbot.send_message(event.chat_id, sxa)
   if getfednotif:
      if int(info["owner"]) != int(chat):
