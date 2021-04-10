@@ -31,10 +31,12 @@ async def pn(event):
 
 @register(pattern="^/unpinall")
 async def upinall(event):
-  if not await is_admin(event, event.sender_id):
-    return await event.reply("You need to be an admin to do this!")
-  if not await can_pin_msg(event):
-    return await event.reply("You are missing the following rights to use this command:CanPinMessages")
+  permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
+  if not permissions.is_creator:
+     if not await is_admin(event, event.sender_id):
+       return await event.reply("You need to be an admin to do this!")
+     if not await can_pin_msg(event):
+       return await event.reply("You are missing the following rights to use this command:CanPinMessages")
   text = "Are you sure you want to unpin all messages?"
   buttons = [Button.inline('Yes', data='upin'),Button.inline('No', data='cpin')]
   await tbot.send_message(
