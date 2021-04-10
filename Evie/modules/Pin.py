@@ -81,6 +81,7 @@ async def pin(msg):
     if not to_pin:
         await msg.reply("You need to reply to a message to pin it!")
         return
+    k = await msg.get_reply_message()
     options = msg.pattern_match.group(1)
     chat = f'{msg.chat_id}'
     lik = chat.replace("-100", "")
@@ -92,7 +93,7 @@ async def pin(msg):
     except Exception:
         await msg.reply("Failed to pin.")
         return
-    await msg.reply(f"I have pinned [this message](http://t.me/{lik}/{to_pin.id}).")
+    await msg.reply(f"I have pinned [this message](http://t.me/{lik}/{k.id}).")
  except Exception as e:
     await msg.reply(f'{e}')
 
