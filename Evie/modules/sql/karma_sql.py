@@ -6,6 +6,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 karmadb = db.karma
+coupledb = db.couple
 
 async def get_karmas_count() -> dict:
     chats = karmadb.find({"chat_id": {"$lt": 0}})
@@ -113,3 +114,35 @@ def is_chat(chat_id: str):
             return str(s__.chat_id)
     finally:
         SESSION.close()
+
+
+
+async def _get_lovers(chat_id: int):
+    lovers = await coupledb.find_one({"chat_id": chat_id})
+    if lovers:
+        lovers = lovers["couple"]
+    else:
+        lovers = {}
+    return lovers
+
+
+async def get_couple(chat_id: int, date: str):
+    lovers = await _get_lovers(chat_id)
+    if date in lovers:
+        return lovers[date]
+    else:
+        return False
+
+
+async def save_couple(chat_id: int, date: str, couple: dict):
+    lovers = await _get_lovers(chat_id)
+    lovers[date] = couple
+    await coupledb.update_one(
+        {"chat_id": chat_id},
+        {
+            "$set": {
+                "couple": lovers
+            }
+        },
+        upsert=True
+    )
