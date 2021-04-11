@@ -11,6 +11,7 @@ import urllib
 from math import ceil
 
 import requests
+import screenshotapi
 
 from telethon import Button, custom, events, functions
 from Evie.events import register
@@ -20,7 +21,7 @@ from Evie.modules.sql.karma_sql import get_couple, save_couple
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
-from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID
+from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID, SCREENSHOT_API
 import datetime, time
 from Evie.function import is_admin, bio
 
@@ -393,22 +394,21 @@ async def kk(event):
  args = event.pattern_match.group(1)
  if not args:
    return await event.reply("Give A Url To Fetch Screenshot.")
- url = args
- m = await event.reply("**Taking Screenshot**")
- screenshot = await fetch(f"https://patheticprogrammers.cf/ss?site={url}")
- try:
-  async with tbot.action(event.chat_id, 'photo'):
+ screenshotapi.get_screenshot(
+                apikey=SCREENSHOT_API,
+                capture_request = {
+                    'url': args,
+                    'viewport': '1440x900',
+                    'fullpage': False,
+                    'webdriver': 'firefox',
+                    'javascript': True,
+                    'fresh': False
+                },
+                save_path = './'
+            )
+ async with tbot.action(event.chat_id, 'photo'):
    await m.edit("**Uploading**")
-   with io.BytesIO(screenshot['url']) as screenshot_image:
-            screenshot_image.name = "Anie.png"
-            try:
-              await tbot.send_file(event.chat_id, screenshot_image)
-            except Exception as g:
-               print(g)
- except Exception as e:
-   print(e)
- 
-
+     
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
