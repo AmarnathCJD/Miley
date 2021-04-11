@@ -97,7 +97,7 @@ async def dban(event):
   await tbot(EditBannedRequest(event.chat_id, int(mk), ChatBannedRights(until_date=None, send_messages=True)))
   await event.reply(f"Successfully Muted!{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]skick$"))
+@tbot.on(events.NewMessage(pattern="^[!/]skick ?(.*)"))
 async def dban(event): 
   user, reason = await get_user(event)
   if not event.sender_id == OWNER_ID:
