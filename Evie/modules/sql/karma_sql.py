@@ -43,7 +43,7 @@ async def update_karma(chat_id: int, name: str, karma: dict):
     name = name.lower().strip()
     karmas = await get_karmas(chat_id)
     karmas[name] = karma
-    await karmadb.update_one(
+    karmadb.update_one(
         {"chat_id": chat_id},
         {
             "$set": {
