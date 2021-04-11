@@ -1043,15 +1043,14 @@ async def sk(event):
    o = sql.get_user_admin_fed_full(event.sender_id)
    if not len(o) == 0:
       list = "\nYou are **admin** in the following federations:"
+   else:
+      list = ""
    for q in o:
         fname = q["fed"]["fname"]
         fid = q["fed_id"]
         list += f"\n-`{fid}`:{fname}"
    if len(o) < 10:
-    if list:
       txt = f"{text}\n{list}"
-    else:
-      txt = f"{text}"
     await event.reply(txt)
    if len(o) > 10:
       text += f"\n\nLooks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
