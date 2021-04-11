@@ -390,11 +390,11 @@ def get_screenshot(params):
         if (r.status_code == requests.codes.ok):
             return r.json()
         elif (r.status_code == 404):
-             m.edit("Screenshot hasn't been generated. The error: " + r.json().error)
+             print("Screenshot hasn't been generated. The error: " + r.json().error)
         elif (r.status_code == 401):
-             m.edit("Invalid authentication token")
+             print("Invalid authentication token")
         elif (r.status_code == 403):
-             m.edit("Active subscription hasn't been found")
+             print("Active subscription hasn't been found")
 
     except requests.exceptions.RequestException as e:
         print('Screenshot generation has failed, the error: ' + str(e))
