@@ -1051,7 +1051,7 @@ async def sk(event):
         list += f"\n-`{fid}`:{fname}"
    if len(o) < 10:
       txt = f"{text}\n{list}"
-    await event.reply(txt)
+      await event.reply(txt)
    if len(o) > 10:
       text += f"\n\nLooks like {event.sender.first_name} is admin in quite a lot of federations; I'll have to make a file to list them all."
       buttons = [Button.inline("Make the fedadmin file", data="fadmin")]
