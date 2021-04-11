@@ -274,5 +274,5 @@ async def dban(event):
     reason = ""
   pro = await tbot(GetFullUserRequest(user.id))
   await tbot(EditBannedRequest(event.chat_id, user.id, MUTE_RIGHTS))
-  await event.reply(f"**{pro.first.name}** is muted in **{event.chat.title}**.{reason}")
+  await event.reply(f"**{pro.user.first.name}** is muted in **{event.chat.title}**.{reason}")
 
