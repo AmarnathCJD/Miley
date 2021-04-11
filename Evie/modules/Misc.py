@@ -5,7 +5,7 @@ import re
 from telethon import Button, custom, events
 from re import findall
 from urllib.parse import quote
-
+import datetime, time
 import requests
 import urllib
 from math import ceil
@@ -14,9 +14,9 @@ import requests
 
 from telethon import Button, custom, events, functions
 from Evie.events import register
-
+import random
 from pymongo import MongoClient
-
+from Evie.modules.sql.karma_sql import get_couple, save_couple
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
@@ -314,7 +314,68 @@ async def _(event):
  except Exception as e:
       await event.reply(e)
 
+def dt():
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M")
+    dt_list = dt_string.split(' ')
+    return dt_list
 
+
+def dt_tom():
+    a = str(int(dt()[0].split('/')[0]) + 1)+"/" + \
+        dt()[0].split('/')[1]+"/" + dt()[0].split('/')[2]
+    return a
+
+today = str(dt()[0])
+tomorrow = str(dt_tom())
+
+tbot.on(events.NewMessage(pattern="^[!/]couple$"))
+async def kk(event):
+ if event.is_private:
+  return await event.reply("This command is group specific")
+ try:
+  chat_id = event.chat_id
+  is_selected = await get_couple(chat_id, today)
+  if not is_selected:
+      list_of_users = []
+      async for i in tbot.iter_participants(chat_id):
+           list_of_users.append(i.id)
+      if len(list_of_users) < 2:
+           await event.reply("Not enough users")
+           return
+      c1_id = random.choice(list_of_users)
+      c2_id = random.choice(list_of_users)
+      while c1_id == c2_id:
+            c1_id = random.choice(list_of_users)
+      arg = await tbot.get_entity(int(c2_id))
+      c1_mention = arg.first_name
+      gra = await tbot.get_entity(int(c1_id))
+      c2_mention = gra.first_name
+      couple_selection_message = f"""**Couple of the day:**
+[{c1_mention}](tg://user?id={c2_id}) + [{c2_mention}](tg://user?id={c1_id}) = ❤️
+
+__New couple of the day may be chosen at 12AM {tomorrow}__"""
+      await tbot.send_message(event.chat_id, couple_selection_message)
+      couple = {
+                "c1_id": c1_id,
+                "c2_id": c2_id
+            }
+      await save_couple(chat_id, today, couple)
+  elif is_selected:
+            c1_id = int(is_selected['c1_id'])
+            c2_id = int(is_selected['c2_id'])
+            gra = await tbot.get_entity(int(c1_id))
+            arg = await tbot.get_entity(int(c2_id))
+            c1_name = gra.first_name
+            c2_name = arg.first_name
+            couple_selection_message = f"""Couple of the day:
+[{c1_name}](tg://user?id={c1_id}) + [{c2_name}](tg://user?id={c2_id}) = ❤️
+
+__New couple of the day may be chosen at 12AM {tomorrow}__"""
+            await tbot.send_message(
+                event.chat_id,
+                couple_selection_message
+            )
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
