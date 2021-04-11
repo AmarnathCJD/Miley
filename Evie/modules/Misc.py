@@ -5,7 +5,7 @@ import re
 from telethon import Button, custom, events
 from re import findall
 from urllib.parse import quote
-import datetime, time
+from datetime import datetime
 import requests
 import urllib
 from math import ceil
