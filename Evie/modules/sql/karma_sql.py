@@ -24,7 +24,7 @@ async def get_karmas_count() -> dict:
 
 
 async def get_karmas(chat_id: int) -> Dict[str, int]:
-    karma = await karmadb.find_one({"chat_id": chat_id})
+    karma = karmadb.find_one({"chat_id": chat_id})
     if karma:
         karma = karma['karma']
     else:
