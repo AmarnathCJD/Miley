@@ -81,5 +81,6 @@ async def dban(event):
   reply_msg = await event.get_reply_message()
   zx = (await event.get_reply_message())
   await zx.delete()
-  await tbot(EditBannedRequest(event.chat_id, x, ChatBannedRights(until_date=None, send_messages=True)))
+  mk = (await event.get_reply_message()).sender_id
+  await tbot(EditBannedRequest(event.chat_id, int(mk), ChatBannedRights(until_date=None, send_messages=True)))
   await event.reply(f"Successfully Muted!{reason}")
