@@ -101,8 +101,10 @@ async def pin(msg):
     await msg.reply(f'{e}')
 
 
-@tbot.on(events.NewMessage(from_users='777000'))
+@tbot.on(events.NewMessage(pattern=None))
 async def pk(event):
  if event.is_private:
+    return
+ if not event.sender_id == 777000:
     return
  await tbot.send_message(event.chat_id, "Channel Post aagya")
