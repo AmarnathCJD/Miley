@@ -84,7 +84,7 @@ async def kr(event):
   return
  if not event.reply_to_msg_id:
         karma = await get_karmas(chat_id)
-        msg = f"**Karma list of {message.chat.title}:- **\n"
+        msg = f"**Karma list of {event.chat.title}:- **\n"
         limit = 0
         karma_dicc = {}
         for i in karma:
