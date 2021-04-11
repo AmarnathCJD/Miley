@@ -119,16 +119,16 @@ async def dban(event):
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
-    if await is_admin(event, user.id):
-        return await event.reply("Yeah lets start kicking admins!")
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
+  if await is_admin(event, user.id):
+        return await event.reply("Yeah admins! Can't be unbanned")
   if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
   user, args = await get_user(event)
-    if user:
-      if user.id == BOT_ID or user.id == OWNER_ID:
+  if user:
+    if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
   if args:
     reason = f'\n**Reason:** {args}'
