@@ -27,7 +27,7 @@ async def kk(event):
       return
  arg = await tbot(GetFullUserRequest(user_id))
  fname = arg.user.first_name
- chat_id = event.chat_id
+ chat_id = int(event.chat_id)
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
  if current_karma:
         current_karma = current_karma['karma']
