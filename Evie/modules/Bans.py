@@ -315,7 +315,7 @@ async def dban(event):
       if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
       if await is_admin(event, user.id):
-        return await event.reply("Yeah lets start kicking admins!")
+        return await event.reply("Yeah lets start muting admins!")
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
