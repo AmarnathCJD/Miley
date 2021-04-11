@@ -11,7 +11,7 @@ regex_downvote = r"^(\-|\-\-|\-1|👎)$"
 @tbot.on(events.NewMessage(pattern=None))
 async def kk(event):
  if event.is_private:
-  return
+   return
  if event.text == None:
    return
  if event.text in regex_upvote:
@@ -23,8 +23,8 @@ async def kk(event):
  previous_message = await event.get_reply_message()
  user_id = previous_message.sender_id
  if not event.sender_id == OWNER_ID:
-   if event.sender_id == user_id or user_id = BOT_ID:
-   return
+   if event.sender_id == user_id or user_id == BOT_ID:
+      return
  arg = await tbot(GetFullUserRequest(user_id))
  fname = arg.user.first_name
  chat_id = event.chat_id
