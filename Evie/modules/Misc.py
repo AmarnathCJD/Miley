@@ -399,7 +399,10 @@ async def kk(event):
  try:
   async with tbot.action(event.chat_id, 'photo'):
    await m.edit("**Uploading**")
-   await tbot.send_file(event.chat_id, screenshot['url'])
+   with io.BytesIO(screenshot['url']) as screenshot_image:
+            screenshot_image.name = "Anie.png"
+            try:
+              await tbot.send_file(event.chat_id, screenshot_image)
  except Exception as e:
    print(e)
  
