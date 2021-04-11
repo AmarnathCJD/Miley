@@ -3,6 +3,7 @@ from telethon import events
 from telethon.tl.functions.users import GetFullUserRequest
 from Evie.modules.sql.karma_sql import (update_karma, get_karma, get_karmas,
                                    int_to_alpha, alpha_to_int)
+from Evie.modules.sql.karma_sql import add_chat, rmchat, is_chat, get_all_chat_id
 from Evie.events import register
 from Evie.function import is_admin
 
@@ -13,6 +14,8 @@ regex_downvote = r"^(\-|\-\-|\-1|👎|Na|Gey|noob)$"
 @tbot.on(events.NewMessage(pattern=None))
 async def kk(event):
  if event.is_private:
+   return
+ if not is_chat(event.chat_id):
    return
  if event.media:
    return
@@ -49,6 +52,8 @@ async def kk(event):
 async def rv(event):
  if event.is_private:
    return
+ if not is_chat(event.chat_id):
+   return
  if event.media:
    return
  if event.text == None:
@@ -79,8 +84,20 @@ async def rv(event):
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
  await tbot.send_message(event.chat_id, f"Decremented Karma Of [{fname}](tg://user?id={user_id}) By 1 \nTotal Points: {karma}")
  
-@register(pattern="^/karma")
+@register(pattern="^/karma ?(.*)")
 async def kr(event):
+ args = event.pattern_match.group(1)
+ if args:
+  if args == 'on' or args == 'enable':
+    if not is_chat(event.chat_id):
+              return add_chat(event.chat_id)
+    else:
+       return await event.reply("Karma is already enabled for this chat")
+  elif args = 'off' or args == 'disable':
+    if is_chat(event.chat_id):
+             return rmchat(event.chat_id)
+    else:
+       return await event.reply("Karma is not enabled here in the first place!")
  chat_id = event.chat_id
  if event.is_private:
   return
@@ -120,7 +137,7 @@ async def kr(event):
        karma = 0
        await event.reply(f'**Total Points**: __{karma}__')
 
-          
+
  
 
  
