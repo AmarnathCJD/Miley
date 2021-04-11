@@ -5,7 +5,7 @@ import re
 from telethon import Button, custom, events
 from re import findall
 from urllib.parse import quote
-from datetime import datetime
+from datetime import datetime as stime
 import requests
 import urllib
 from math import ceil
@@ -315,7 +315,7 @@ async def _(event):
       await event.reply(e)
 
 def dt():
-    now = datetime.now()
+    now = stime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M")
     dt_list = dt_string.split(' ')
     return dt_list
