@@ -376,6 +376,8 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
                 event.chat_id,
                 couple_selection_message
             )
+ except Exception as e:
+   await event.reply(f'{e}')
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
