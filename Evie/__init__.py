@@ -9,7 +9,11 @@ from logging import basicConfig
 from logging import DEBUG
 from logging import getLogger
 from logging import INFO
-DEVS = []
+import sentry_sdk
+sentry_sdk.init(
+    "https://495481e637624d62964e8f3a6aab587a@o569008.ingest.sentry.io/5714441",
+    traces_sample_rate=1.0
+)
 
 from telethon import TelegramClient
 from telethon.sessions import StringSession
