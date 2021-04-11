@@ -71,7 +71,7 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
-  await event.reply(event.text)
+  await event.reply(event.pattern_match.group(1))
   if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
   reply_msg = await event.get_reply_message()
