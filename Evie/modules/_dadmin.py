@@ -43,16 +43,15 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
+  if not await bot_ban(message=event):
+    return await event.reply("I don't have enough rights to do this!, Mind promoting me?!")
   reply_msg = await event.get_reply_message()
   if not reply_msg:      
      await event.reply("Reply to someone to delete the message and kick the user!")
      return
   zx = (await event.get_reply_message())
   await zx.delete()
-  try:
-    await tbot.kick_participant(event.chat_id, x)
-  except:
-    return await event.deply("Failed to kick, Not enough rights!")
+  await tbot.kick_participant(event.chat_id, x)
   await event.reply("Successfully Kicked!")
 
 
