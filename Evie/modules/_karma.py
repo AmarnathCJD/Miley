@@ -93,7 +93,7 @@ async def kr(event):
               return add_chat(event.chat_id)
     else:
        return await event.reply("Karma is already enabled for this chat")
-  elif args = 'off' or args == 'disable':
+  elif args == 'off' or args == 'disable':
     if is_chat(event.chat_id):
              return rmchat(event.chat_id)
     else:
