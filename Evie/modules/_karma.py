@@ -97,8 +97,7 @@ async def kr(event):
             if limit > 9:
                 break
             try:
-                arg = await tbot(GetFullUserRequest(user_id))
-                user_name = arg.user.username
+                user_name = user_idd
             except Exception:
                 continue
             msg += f"{user_name} : `{karma_count}`\n"
