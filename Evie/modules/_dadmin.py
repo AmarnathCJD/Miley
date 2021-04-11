@@ -276,3 +276,29 @@ async def dban(event):
   await tbot(EditBannedRequest(event.chat_id, user.id, MUTE_RIGHTS))
   await event.reply(f"**{replied_user.user.first_name}** is muted in **{event.chat.title}**.{reason}")
 
+@tbot.on(events.NewMessage(pattern="^[!/]unmute ?(.*)"))
+async def dban(event):
+  if event.is_private:
+    return await event.reply("This command is made to be used in group chats, not in pm!")
+  if not event.sender_id == OWNER_ID:
+    if not await is_admin(event, event.sender_id):
+       return await event.reply("Only Admins can execute this command!")
+    if await is_admin(event, user.id):
+        return await event.reply("Yeah lets start muting admins!")
+    if not await can_ban_users(message=event):
+        await event.reply("You don't have enough rights to do that!")
+        return
+  user, args = await get_user(event)
+  if user:
+    if user.id == BOT_ID or user.id == OWNER_ID:
+        return await event.reply("Ask the chat creator to do it!")
+  if not await bot_ban(message=event):
+    return await event.reply("I don't have enough rights to do this!")
+  if args:
+    reason = f'\nReason: `{args}`'
+  else:
+    reason = ""
+  replied_user = await tbot(GetFullUserRequest(user.id))
+  await tbot(EditBannedRequest(event.chat_id, user.id, UNMUTE_RIGHTS))
+  await event.reply(f"Yep, **{replied_user.user.first_name}** can start talking again in **{event.chat.title}**.{reason}")
+
