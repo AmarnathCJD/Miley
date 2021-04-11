@@ -1,6 +1,6 @@
 from Evie import MONGO_DB_URI
 from pymongo import MongoClient
-
+from typing import Dict, List, Union
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
