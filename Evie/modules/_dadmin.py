@@ -3,6 +3,7 @@ from Evie.function import is_admin, can_ban_users, bot_ban, get_user
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 from telethon import events
+from telethon.tl.functions.users import GetFullUserRequest
 
 BANNED_RIGHTS = ChatBannedRights(
     until_date=None,
@@ -36,9 +37,9 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
-      if await is_admin(event, user.id):
+    if await is_admin(event, user.id):
         return await event.reply("Yeah lets start banning admins!")
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
@@ -61,7 +62,7 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
     if event.is_reply:
       x = (await event.get_reply_message()).sender_id
@@ -95,9 +96,9 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
-      if await is_admin(event, user.id):
+    if await is_admin(event, user.id):
         return await event.reply("Yeah lets start banning admins!")
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
@@ -116,7 +117,7 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
     user, args = await get_user(event)
     if user:
@@ -141,9 +142,9 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
-      if await is_admin(event, user.id):
+    if await is_admin(event, user.id):
         return await event.reply("I really wish I could kick admins...")
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
@@ -167,7 +168,7 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
     if not event.is_reply:      
      await event.reply("Reply to someone to delete the message and kick the user!")
@@ -200,7 +201,7 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
     if not event.is_reply:      
      await event.reply("Reply to someone to delete the message and mute the user!")
@@ -235,7 +236,7 @@ async def dban(event):
   user, reason = await get_user(event)
   await event.delete()
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
     if user:
       if user.id == BOT_ID or user.id == OWNER_ID:
@@ -254,7 +255,7 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   if not event.sender_id == OWNER_ID:
-    if not await user_is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
       if await is_admin(event, user.id):
         return await event.reply("Yeah lets start muting admins!")
