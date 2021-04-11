@@ -403,6 +403,8 @@ async def kk(event):
             screenshot_image.name = "Anie.png"
             try:
               await tbot.send_file(event.chat_id, screenshot_image)
+            except Exception as g:
+               print(g)
  except Exception as e:
    print(e)
  
