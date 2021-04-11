@@ -109,7 +109,7 @@ async def get_user(event):
             user = int(user)
 
         if not user:
-            await event.reply("`Pass the user's username, id or reply!`")
+            await event.reply("I don't know who you're talking about, you're going to need to specify a user...!")
             return
         try:
             user_obj = await tbot.get_entity(user)
