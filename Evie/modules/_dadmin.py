@@ -36,6 +36,7 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  user, args = await get_user(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
@@ -44,7 +45,6 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
-  user, args = await get_user(event)
   if user:
     if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
@@ -95,6 +95,7 @@ async def dban(event):
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  user, args = await get_user(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
@@ -104,7 +105,6 @@ async def dban(event):
         await event.reply("You don't have enough rights to do that!")
         return
   await event.delete()
-  user, args = await get_user(event)
   if user:
     if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
@@ -122,11 +122,11 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
+  user, args = await get_user(event)
   if await is_admin(event, user.id):
         return await event.reply("Yeah admins! Can't be unbanned")
   if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
-  user, args = await get_user(event)
   if user:
     if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
@@ -141,6 +141,7 @@ async def dban(event):
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  user, args = await get_user(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
@@ -149,7 +150,6 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
-  user, args = await get_user(event)
   if user:
     if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
@@ -254,6 +254,7 @@ async def dban(event):
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  user, args = await get_user(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
@@ -262,7 +263,6 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
-  user, args = await get_user(event)
   if user:
     if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
@@ -280,6 +280,7 @@ async def dban(event):
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  user, args = await get_user(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
@@ -288,7 +289,6 @@ async def dban(event):
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
         return
-  user, args = await get_user(event)
   if user:
     if user.id == BOT_ID or user.id == OWNER_ID:
         return await event.reply("Ask the chat creator to do it!")
