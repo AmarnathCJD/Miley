@@ -119,7 +119,7 @@ async def dban(event):
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
-      if await is_admin(event, user.id):
+    if await is_admin(event, user.id):
         return await event.reply("Yeah lets start kicking admins!")
     if not await can_ban_users(message=event):
         await event.reply("You don't have enough rights to do that!")
