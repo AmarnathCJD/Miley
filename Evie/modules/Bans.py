@@ -302,3 +302,49 @@ async def dban(event):
   await tbot(EditBannedRequest(event.chat_id, user.id, UNMUTE_RIGHTS))
   await event.reply(f"Yep, **{replied_user.user.first_name}** can start talking again in **{event.chat.title}**.{reason}")
 
+@tbot.on(events.NewMessage(pattern="^[!/]smute ?(.*)"))
+async def dban(event):
+  if event.is_private:
+    return await event.reply("This command is made to be used in group chats, not in pm!")
+  user, reason = await get_user(event)
+  await event.delete()
+  if not event.sender_id == OWNER_ID:
+    if not await is_admin(event, event.sender_id):
+       return await event.reply("Only Admins can execute this command!")
+    if user:
+      if user.id == BOT_ID or user.id == OWNER_ID:
+        return await event.reply("Ask the chat creator to do it!")
+      if await is_admin(event, user.id):
+        return await event.reply("Yeah lets start kicking admins!")
+    if not await can_ban_users(message=event):
+        await event.reply("You don't have enough rights to do that!")
+        return
+  if not await bot_ban(message=event):
+    return await event.reply("I don't have enough rights to do this!")
+  await tbot(EditBannedRequest(event.chat_id, user.id, MUTE_RIGHTS))
+
+
+__help__ = """
+Some people need to be publicly banned; spammers, annoyances, or just trolls.
+
+This module allows you to do that easily, by exposing some common actions, so everyone will see!
+
+User commands:
+- /kickme: Users that use this, kick themselves.
+
+Admin commands:
+- /ban: Ban a user.
+- /dban: Ban a user by reply, and delete their message.
+- /sban: Silently ban a user, and delete your message.
+- /tban: Temporarily ban a user.
+- /unban: Unban a user.
+- /mute: Mute a user.
+- /dmute: Mute a user by reply, and delete their message.
+- /smute: Silently mute a user, and delete your message.
+- /tmute: Temporarily mute a user.
+- /unmute: Unmute a user.
+- /kick: Kick a user.
+- /dkick: Kick a user by reply, and delete their message.
+- /skick: Silently kick a user, and delete your message
+"""
+
