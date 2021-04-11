@@ -3,6 +3,7 @@ from Evie.function import is_admin, can_ban_users, bot_ban, get_user
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 from telethon import events
+import time
 from telethon.tl.functions.users import GetFullUserRequest
 
 BANNED_RIGHTS = ChatBannedRights(
@@ -31,6 +32,30 @@ UNBAN_RIGHTS = ChatBannedRights(
 MUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=True)
 UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 
+async def extract_time(message, time_val):
+    if any(time_val.endswith(unit) for unit in ("m", "h", "d")):
+        unit = time_val[-1]
+        time_num = time_val[:-1]
+        if not time_num.isdigit():
+            await message.reply(f"Invalid time type specified. Expected m,h, or d, got: {unit}")
+            return ""
+
+        if unit == "m":
+            bantime = int(time.time() + int(time_num) * 60)
+        elif unit == "h":
+            bantime = int(time.time() + int(time_num) * 60 * 60)
+        elif unit == "d":
+            bantime = int(time.time() + int(time_num) * 24 * 60 * 60)
+        else:
+            return 
+        return bantime
+    else:
+        await message.reply(
+            "Invalid time type specified. Expected m,h, or d, got: {}".format(
+                time_val[-1]
+            )
+        )
+        return
 
 @tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
 async def dban(event):
@@ -322,6 +347,45 @@ async def dban(event):
   if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
   await tbot(EditBannedRequest(event.chat_id, user.id, MUTE_RIGHTS))
+
+@tbot.on(events.NewMessage(pattern="^[!/]tmute ?(.*)"))
+async def tmute(event):
+ if event.is_private:
+    return await event.reply("This command is made to be used in group chats, not in pm!")
+ user, args = await get_user(event)
+ if not event.sender_id == OWNER_ID:
+    if not await is_admin(event, event.sender_id):
+       return await event.reply("Only Admins can execute this command!")
+    if user:
+      if user.id == BOT_ID or user.id == OWNER_ID:
+        return await event.reply("Ask the chat creator to do it!")
+      if await is_admin(event, user.id):
+        return await event.reply("Yeah lets start muting admins!")
+    if not await can_ban_users(message=event):
+        await event.reply("You don't have enough rights to do that!")
+        return
+  if not await bot_ban(message=event):
+    return await event.reply("I don't have enough rights to do this!")
+ if not args:
+  return await event.reply('You haven't specified a time to mute this user for!')
+ input = args.split(" ", 1)
+ if len(input) == 2:
+   time = input[0]
+   reason = input[1]
+ elif len(input) == 1:
+   time = input[0]
+   reason = None
+ if len(time) == 1:
+   return await event.reply(f"Invalid time type specified. Expected m,h, or d, got: {time}")
+ mutetime = await extract_time(bon, time)
+ NEW_RIGHTS = ChatBannedRights(
+                 until_date=mutetime,
+                 send_messages=True)
+ await tbot(EditBannedRequest(event.chat_id, user.id, MUTE_RIGHTS))
+ replied_user = await tbot(GetFullUserRequest(user.id))
+ await tbot.send_message(event.chat_id, f'Muted **{replied_user.user.first_name}** for 1m!')
+
+
 
 
 __help__ = """
