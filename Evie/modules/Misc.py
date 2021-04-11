@@ -329,7 +329,7 @@ def dt_tom():
 today = str(dt()[0])
 tomorrow = str(dt_tom())
 
-tbot.on(events.NewMessage(pattern="^[!/]couple$"))
+@tbot.on(events.NewMessage(pattern="^[!/]couple$"))
 async def kk(event):
  if event.is_private:
   return await event.reply("This command is group specific")
@@ -377,7 +377,7 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
                 couple_selection_message
             )
  except Exception as e:
-   await event.reply(f'{e}')
+   print(e)
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
