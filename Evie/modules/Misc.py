@@ -1,7 +1,7 @@
 import os
 import telethon
 from telethon.tl.functions.users import GetFullUserRequest
-import re
+import re, io
 from telethon import Button, custom, events
 from re import findall
 from urllib.parse import quote
