@@ -107,6 +107,8 @@ async def kr(event):
   return
  if not await is_admin(event, event.sender_id):
   return
+ if not is_chat(event.chat_id):
+  return await event.reply("Karma is disabled for this Chat!")
  if not event.reply_to_msg_id:
         karma = await get_karmas(chat_id)
         msg = f"**Karma list of {event.chat.title}:- **\n"
