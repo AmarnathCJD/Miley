@@ -1,4 +1,4 @@
-from Evie import tbot, OWNER_ID
+from Evie import tbot, OWNER_ID, BOT_ID
 from Evie.function import is_admin, can_ban_users, bot_ban
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
