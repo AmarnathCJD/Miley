@@ -20,7 +20,7 @@ async def is_admin(event, user):
     return is_mod
 
 async def bot_ban(message):
- result = await tbot(
+    result = await tbot(
         functions.channels.GetParticipantRequest(
             channel=message.chat_id,
             user_id=BOT_ID,
