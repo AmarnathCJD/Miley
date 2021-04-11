@@ -88,13 +88,17 @@ async def rv(event):
 async def kr(event):
  args = event.pattern_match.group(1)
  if args:
+  if not await is_admin(event, event.sender_id):
+     return await event.reply("You need to be an admin to do this!")
   if args == 'on' or args == 'enable':
     if not is_chat(event.chat_id):
+              await event.reply("Karma has been enabled for this Chat!")
               return add_chat(event.chat_id)
     else:
        return await event.reply("Karma is already enabled for this chat")
   elif args == 'off' or args == 'disable':
     if is_chat(event.chat_id):
+             await event.reply("Karma has been disabled for this Chat!")
              return rmchat(event.chat_id)
     else:
        return await event.reply("Karma is not enabled here in the first place!")
