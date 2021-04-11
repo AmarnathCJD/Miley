@@ -377,15 +377,28 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
                 couple_selection_message
             )
 
-import aiohttp
-async def fetch(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as resp:
-            try:
-                data = await resp.json()
-            except Exception:
-                data = await resp.text()
-    return data
+import base64
+
+def get_screenshot(params):
+    headers = {"Content-type": "application/x-www-form-urlencoded",
+               "Accept": "text/plain",
+               "userkey": "IAAIEYKBJAQVOX6IYY2ET3TU6M"}
+
+    try:
+        r = requests.post('https://api.site-shot.com/', headers=headers, data=params)
+
+        if (r.status_code == requests.codes.ok):
+            return r.json()
+        elif (r.status_code == 404):
+            await m.edit("Screenshot hasn't been generated. The error: " + r.json().error)
+        elif (r.status_code == 401):
+            await m.edit("Invalid authentication token")
+        elif (r.status_code == 403):
+            await m.edit("Active subscription hasn't been found")
+
+    except requests.exceptions.RequestException as e:
+        print('Screenshot generation has failed, the error: ' + str(e))
+
 
 @tbot.on(events.NewMessage(pattern="^[!/]webss ?(.*)"))
 async def kk(event):
@@ -394,20 +407,23 @@ async def kk(event):
  args = event.pattern_match.group(1)
  if not args:
    return await event.reply("Give A Url To Fetch Screenshot.")
- screenshotapi.get_screenshot(
-                apikey=SCREENSHOT_API,
-                capture_request = {
-                    'url': args,
-                    'viewport': '1440x900',
-                    'fullpage': False,
-                    'webdriver': 'firefox',
-                    'javascript': True,
-                    'fresh': False
-                },
-                save_path = './'
-            )
+ m = await event.reply("**Capturing Screenshot**")
+ screenshot = get_screenshot(
+        {'url': args,
+         'width': 1280,
+         'height': 1280,
+         'format': 'png',
+         'response_type': 'json',
+         'delay_time': 1000,
+         'timeout': 60000})
+ if screenshot is not None:
+        base64_image = screenshot['image'].split(',', maxsplit=1)[1]
+        image_file = open('screenshot.png', 'wb')
+        image_file.write(base64.b64decode(base64_image))
+        image_file.close()
  async with tbot.action(event.chat_id, 'photo'):
    await m.edit("**Uploading**")
+   await tbot.send_file(event.chat_id, 'screenshot.png')
      
 
 file_help = os.path.basename(__file__)
