@@ -325,5 +325,11 @@ __help__ = """
  - /music: sends the requested Music
  - /gey: get geyness
  - /shazam: gets info about the given audio
+ 
+**Help for Karma Module:**
+[UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
+[DOWNVOTE] - Use downvote keywords like "-", "-1", etc to downvote a message.
+Reply to a message with /karma to check a user's karma
+Send /karma without replying to any message to chek karma list of top 10 users
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
