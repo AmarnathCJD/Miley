@@ -54,7 +54,7 @@ async def dban(event):
   await tbot.kick_participant(event.chat_id, x)
   await event.reply("Successfully Kicked!")
 
-@tbot.on(events.NewMessage(pattern="^[!/]dmute$"))
+@tbot.on(events.NewMessage(pattern="^[!/]dmute ?(.*)"))
 async def dban(event): 
   if not event.sender_id == OWNER_ID:
     if not await user_is_admin(event, event.sender_id):
