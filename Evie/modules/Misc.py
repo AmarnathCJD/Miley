@@ -331,9 +331,8 @@ tomorrow = str(dt_tom())
 
 @tbot.on(events.NewMessage(pattern="^[!/]couple$"))
 async def kk(event):
- if event.is_private:
-  return await event.reply("This command is group specific")
- try:
+  if event.is_private:
+    return await event.reply("This command is group specific")
   chat_id = event.chat_id
   is_selected = await get_couple(chat_id, today)
   if not is_selected:
@@ -376,8 +375,35 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
                 event.chat_id,
                 couple_selection_message
             )
+
+import aiohttp
+async def fetch(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as resp:
+            try:
+                data = await resp.json()
+            except Exception:
+                data = await resp.text()
+    return data
+
+@tbot.on(events.NewMessage(pattern="^[!/]webss ?(.*)"))
+async def kk(event):
+ if not event.sender_id == OWNER_ID:
+   return
+ args = event.pattern_match.group(1)
+ if not args:
+   return await event.reply("Give A Url To Fetch Screenshot.")
+ url = args
+ m = await event.reply("**Taking Screenshot**")
+ screenshot = await fetch(f"https://patheticprogrammers.cf/ss?site={url}")
+ try:
+  async with tbot.action(event.chat_id, 'photo'):
+   await m.edit("**Uploading**")
+   await tbot.send_file(event.chat_id, screenshot['url'])
  except Exception as e:
    print(e)
+ 
+
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
