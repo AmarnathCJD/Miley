@@ -367,7 +367,7 @@ async def tmute(event):
  if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
  if not args:
-  return await event.reply('You haven't specified a time to mute this user for!')
+   return await event.reply("You haven't specified a time to mute this user for!")
  input = args.split(" ", 1)
  if len(input) == 2:
    time = input[0]
