@@ -14,7 +14,9 @@ regex_downvote = r"^(\-|\-\-|\-1|👎|Na|Gey|noob)$"
 async def kk(event):
  if event.is_private:
    return
- if event.text == None:
+ if event.media:
+   return
+ if not event.text:
    return
  if event.text in regex_upvote:
    pass
@@ -46,6 +48,8 @@ async def kk(event):
 @tbot.on(events.NewMessage(pattern=None))
 async def rv(event):
  if event.is_private:
+   return
+ if event.media:
    return
  if event.text == None:
    return
@@ -97,8 +101,10 @@ async def kr(event):
             if limit > 9:
                 break
             try:
-                user_name = user_idd
+                arg = await tbot.get_entity(int(user_idd))
+                user_name = arg.username
             except Exception:
+                user_name = user_idd
                 continue
             msg += f"{user_name} : `{karma_count}`\n"
             limit += 1
@@ -116,7 +122,6 @@ async def kr(event):
 
           
  
- 
- 
+
  
  
