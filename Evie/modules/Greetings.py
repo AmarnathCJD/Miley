@@ -37,6 +37,9 @@ UNMUTE_RIGHTS = ChatBannedRights(until_date=None, send_messages=False)
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
     cws = get_current_welcome_settings(event.chat_id)
+    if not cws:
+      if event.user_joined:
+        await event.reply(f"Hey {event.sender.first_name}, Welcome to {event.chat.title}! How are you?")
     if cws:
         if event.user_joined:
             
