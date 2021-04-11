@@ -364,10 +364,16 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
   elif is_selected:
             c1_id = int(is_selected['c1_id'])
             c2_id = int(is_selected['c2_id'])
-            gra = await tbot.get_entity(int(c1_id))
-            arg = await tbot.get_entity(int(c2_id))
-            c1_name = gra.first_name
-            c2_name = arg.first_name
+            try:
+              gra = await tbot.get_entity(int(c1_id))
+              c1_name = gra.first_name
+            except:
+              c1_name = c1_id
+            try:
+              arg = await tbot.get_entity(int(c2_id))
+              c2_name = arg.first_name
+            except:
+              c2_name = c2_id
             couple_selection_message = f"""Couple of the day:
 [{c1_name}](tg://user?id={c1_id}) + [{c2_name}](tg://user?id={c2_id}) = ❤️
 
@@ -376,55 +382,6 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
                 event.chat_id,
                 couple_selection_message
             )
-
-import base64
-
-def get_screenshot(params):
-    headers = {"Content-type": "application/x-www-form-urlencoded",
-               "Accept": "text/plain",
-               "userkey": "IAAIEYKBJAQVOX6IYY2ET3TU6M"}
-
-    try:
-        r = requests.post('https://api.site-shot.com/', headers=headers, data=params)
-
-        if (r.status_code == requests.codes.ok):
-            return r.json()
-        elif (r.status_code == 404):
-             print("Screenshot hasn't been generated. The error: " + r.json().error)
-        elif (r.status_code == 401):
-             print("Invalid authentication token")
-        elif (r.status_code == 403):
-             print("Active subscription hasn't been found")
-
-    except requests.exceptions.RequestException as e:
-        print('Screenshot generation has failed, the error: ' + str(e))
-
-
-@tbot.on(events.NewMessage(pattern="^[!/]webss ?(.*)"))
-async def kk(event):
- if not event.sender_id == OWNER_ID:
-   return
- args = event.pattern_match.group(1)
- if not args:
-   return await event.reply("Give A Url To Fetch Screenshot.")
- m = await event.reply("**Capturing Screenshot**")
- screenshot = get_screenshot(
-        {'url': args,
-         'width': 1280,
-         'height': 1280,
-         'format': 'png',
-         'response_type': 'json',
-         'delay_time': 1000,
-         'timeout': 60000})
- if screenshot is not None:
-        base64_image = screenshot['image'].split(',', maxsplit=1)[1]
-        image_file = open('screenshot.png', 'wb')
-        image_file.write(base64.b64decode(base64_image))
-        image_file.close()
- async with tbot.action(event.chat_id, 'photo'):
-   await m.edit("**Uploading**")
-   await tbot.send_file(event.chat_id, 'screenshot.png')
-     
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
