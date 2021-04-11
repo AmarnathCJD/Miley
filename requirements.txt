@@ -19,3 +19,4 @@ youtube_search
 youtube_dl
 Pillow==8.1.1
 wget
+sentry-sdk
