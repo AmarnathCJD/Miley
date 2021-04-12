@@ -32,10 +32,29 @@ def get_all_chat_id():
     return stark
 
 
-def is_chat(chat_id: str):
+def is_pin(chat_id: str):
     try:
         s__ = SESSION.query(Nightmode).get(str(chat_id))
         if s__:
             return str(s__.chat_id)
     finally:
         SESSION.close()
+
+def add_pin(chat_id: str):
+    nightmoddy = Nightmode(str(chat_id))
+    SESSION.add(nightmoddy)
+    SESSION.commit()
+
+
+def rmpin(chat_id: str):
+    rmnightmoddy = SESSION.query(Nightmode).get(str(chat_id))
+    if rmnightmoddy:
+        SESSION.delete(rmnightmoddy)
+        SESSION.commit()
+
+
+def get_all_id():
+    stark = SESSION.query(Nightmode).all()
+    SESSION.close()
+    return stark
+
