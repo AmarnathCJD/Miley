@@ -84,6 +84,34 @@ async def rv(event):
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
  await tbot.send_message(event.chat_id, f"Decremented Karma Of [{fname}](tg://user?id={user_id}) By 1 \nTotal Points: {karma}")
  
+
+@register(pattern=^/setkarma ?(.*)")
+async def st(event):
+ if not event.sender_id == OWNER_ID:
+    return
+ args = int(event.pattern_match.group(1))
+ if not args:
+   return await event.reply("Invalid args")
+ previous_message = await event.get_reply_message()
+ if previous_message:
+   user_id = previous_message.sender_id
+ else:
+   user_id = event.sender_id
+ arg = await tbot(GetFullUserRequest(user_id))
+ fname = arg.user.first_name
+ current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
+ if current_karma:
+        current_karma = current_karma['karma']
+        karma = current_karma + args
+        new_karma = {"karma": karma}
+        await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
+ else:
+        karma = args
+        new_karma = {"karma": karma}
+        await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
+ await tbot.send_message(event.chat_id, f"Changed Karma Of [{fname}](tg://user?id={user_id}) By {args} \nTotal Points: {karma}")
+
+
 @register(pattern="^/karma ?(.*)")
 async def kr(event):
  args = event.pattern_match.group(1)
