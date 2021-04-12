@@ -1,5 +1,6 @@
 from Evie import tbot, CMD_HELP, OWNER_ID
 import os, asyncio
+from Evie.modules.sql.antipin_sql import add_chat, rmchat, is_chat, get_all_chat_id
 from telethon import types, functions, Button, events
 from Evie.events import register
 from Evie.function import is_admin, is_register_admin
@@ -100,10 +101,36 @@ async def pin(msg):
  except Exception as e:
     await msg.reply(f'{e}')
 
+@register(pattern="^/antichannelpin ?(.*)")
+async def kr(event):
+ args = event.pattern_match.group(1)
+ if args:
+  if not await is_admin(event, event.sender_id):
+     return await event.reply("You need to be an admin to do this!")
+  if args == 'on' or args == 'enable':
+    if not is_chat(event.chat_id):
+              await event.reply("**Enabled** anti channel pins. Automatic pins from a channel will now be replaced with the previous pin.")
+              return add_chat(event.chat_id)
+    else:
+       return await event.reply("**Enabled** anti channel pins. Automatic pins from a channel will now be replaced with the previous pin.")
+  elif args == 'off' or args == 'disable':
+    if is_chat(event.chat_id):
+             await event.reply("**Disabled** anti channel pins. Automatic pins from a channel will not be removed.")
+             return rmchat(event.chat_id)
+    else:
+       return await event.reply("**Disabled** anti channel pins. Automatic pins from a channel will not be removed.")
+ else:
+    if is_chat(event.chat_id):
+      return await event.reply(f"Anti channel pins are currently **enabled** in {event.chat.title}.")
+    else:
+      return await event.reply(f"Anti channel pins are currently **disabled** in {event.chat.title}.")
+
 
 @tbot.on(events.NewMessage(pattern=None))
 async def pk(event):
  if event.is_private:
+   return
+ if not is_chat(event.chat_id):
    return
  if not event.fwd_from:
   return
