@@ -132,19 +132,19 @@ async def kr(event):
   if not await is_admin(event, event.sender_id):
      return await event.reply("You need to be an admin to do this!")
   if args == 'on' or args == 'enable':
-    if not is_chat(event.chat_id):
+    if not is_pin(event.chat_id):
               await event.reply(f"**Enabled** linked channel post deletion in {event.chat.title}. Messages sent from the linked channel will be deleted.")
-              return add_chat(event.chat_id)
+              return add_pin(event.chat_id)
     else:
        return await event.reply(f"**Enabled** linked channel post deletion in {event.chat.title}. Messages sent from the linked channel will be deleted.")
   elif args == 'off' or args == 'disable':
     if is_pin(event.chat_id):
              await event.reply(f"**Disabled** linked channel post deletion in {event.chat.title}.")
-             return rmchat(event.chat_id)
+             return rmpin(event.chat_id)
     else:
        return await event.reply(f"**Disabled** linked channel post deletion in {event.chat.title}.")
  else:
-    if is_chat(event.chat_id):
+    if is_pin(event.chat_id):
       return await event.reply(f"Linked channel post deletion is currently **enabled** in {event.chat.title}. Messages sent from the linked channel will be deleted.")
     else:
       return await event.reply(f"Linked channel post deletion is currently **disabled** in {event.chat.title}.")
