@@ -539,7 +539,7 @@ async def _(event):
                 reason,
                 int(rec),
             )
-       if len(reason) >= 1024:
+       if len(input) >= 1024:
          shrunk = "\nNote: The fban reason was over 1024 characters, so has been truncated."
        else:
          shrunk = ''
