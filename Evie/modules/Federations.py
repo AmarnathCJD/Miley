@@ -203,6 +203,8 @@ async def jf(event):
  if not await is_admin(event, event.sender_id):
    await event.reply("You need to be an admin to do this.")
    return
+ if not await is_admin(event, BOT_ID):
+    return await event.reply("I need to be admin with permission to restrict users to join a fed!")
  permissions = await tbot.get_permissions(event.chat_id, event.sender_id)
  if not permissions.is_creator:
           return await event.reply(f"You need to be the chat owner of {event.chat.title} to do this.")
@@ -461,22 +463,31 @@ async def _(event):
     name = info["fname"]
     if is_user_fed_admin(fed_id, user.id) is False:
       return await event.reply(f"You aren't a federation admin for {name}!")
-    input = event.pattern_match.group(1)
+    pop = event.pattern_match.group(1)
     if not event.reply_to_msg_id:
-     if input:
-      arg = input.split(" ", 1)
+      if not pop:
+        return await event.reply("I don't know who you're talking about, you're going to need to specify a user...!")
+    if not event.reply_to_msg_id:
+     art = event.pattern_match.group(1)
+     if art:
+      arg = art.split(" ", 1)
      if len(arg) == 2:
         iid = arg[0]
         reason = arg[1]
      else:
         iid = arg[0]
         reason = None
+     input = reason
+     if reason and len(input) > 1024:
+         reason = reason[:1024]
+     else:
+         reason = reason
      if not iid.isnumeric():
         entity = await tbot.get_input_entity(iid)
         try:
           r_sender_id = entity.user_id
         except Exception:
-           await event.reply("Couldn't fetch that user.")
+           await event.reply("I don't know who you're talking about, you're going to need to specify a user...!")
            return
      else:
         r_sender_id = int(iid)
@@ -486,10 +497,11 @@ async def _(event):
         username = replied_user.user.username
         lname = replied_user.user.last_name
      except Exception:
-        fname = "User"
+        fname = f"user(`{r_sender_id}`)"
         username = None
         lname = None
     else:
+        input = event.pattern_match.group(1)
         reply_message = await event.get_reply_message()
         iid = reply_message.sender_id
         fname = reply_message.sender.first_name
@@ -507,7 +519,7 @@ async def _(event):
         return await event.reply("Oh you're a funny one aren't you! I am _not_ going to fedban myself.")
     name = info["fname"]
     if is_user_fed_owner(fed_id, int(r_sender_id)) is True:
-           return await event.reply(f"I'm not banning a fed admin from their own fed! [{name}]")
+           return await event.reply(f"I'm not banning the fed owner from their own fed! [{name}]")
     if is_user_fed_admin(fed_id, int(r_sender_id)) is True:
            return await event.reply(f"I'm not banning a fed admin from their own fed! [{name}]")
     fban_user_id = int(r_sender_id)
@@ -539,8 +551,8 @@ async def _(event):
                 reason,
                 int(rec),
             )
-       if len(input) >= 1024:
-         shrunk = "\nNote: The fban reason was over 1024 characters, so has been truncated."
+       if input and len(input) >= 1024:
+         shrunk = "\n\nNote: The fban reason was over 1024 characters, so has been truncated."
        else:
          shrunk = ''
        sax = "**New FedBan**\n"
@@ -551,7 +563,7 @@ async def _(event):
        sax += f"**Reason:** {reason}{shrunk}"
     else:
             if input and len(input) >= 1024:
-               shrunk = "\nNote: The fban reason was over 1024 characters, so has been truncated."
+               shrunk = "\n\nNote: The fban reason was over 1024 characters, so has been truncated."
             else:
                shrunk = ''
             current_datetime = datetime.now(pytz.timezone("Asia/Kolkata"))
