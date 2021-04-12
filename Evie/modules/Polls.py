@@ -16,7 +16,7 @@ poll_id = dbb.pollid
 
 @register(pattern="^/poll (.*)")
 async def _(event):
-    if not is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
       return
     try:
         quew = event.pattern_match.group(1)
@@ -279,7 +279,7 @@ async def _(event):
 @register(pattern="^/stoppoll(?: |$)(.*)")
 async def stop(event):
     secret = event.pattern_match.group(1)
-    if not is_admin(event, event.sender_id):
+    if not await is_admin(event, event.sender_id):
        return
     if not event.reply_to_msg_id:
         await event.reply("Please reply to a poll to stop it")
@@ -327,7 +327,7 @@ async def stop(event):
 
 @register(pattern="^/forgotpollid$")
 async def stop(event):
-    if not is_admin(event, event.chat_id):
+    if not await is_admin(event, event.chat_id):
        return
     allpoll = poll_id.find({})
     for c in allpoll:
