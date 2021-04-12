@@ -645,7 +645,7 @@ async def _(event):
 """
 Fully Written by RoseLoverX
 """
-@tbot.on(events.NewMessage(pattern="^[!/]funban ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/](funban|unfban) ?(.*)"))
 async def unfban(event):
     user = event.sender
     chat = event.chat_id
@@ -663,7 +663,7 @@ async def unfban(event):
     name = info["fname"]
     if is_user_fed_admin(fed_id, user.id) is False:
       return await event.reply(f"You aren't a federation admin for {name}!")
-    input = event.pattern_match.group(1)
+    input = event.pattern_match.group(2)
     if input:
       arg = input.split(" ", 1)
     if not event.reply_to_msg_id:
