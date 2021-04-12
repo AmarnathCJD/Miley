@@ -119,7 +119,6 @@ async def pk(event):
   uid = f'-100{id}'
   chat_id = int(uid)
   cid = event.fwd_from.from_id.channel_id
-  fid = f'-100{cid}'
-  channel_id = int(fid)
- await tbot.send_message(event.chat_id, f"{channel_id} {chat_id}")
+  if cid == uid:
+   await tbot.send_message(event.chat_id, "New Pin Comin")
  
