@@ -329,7 +329,6 @@ def dt_tom():
 
 @tbot.on(events.NewMessage(pattern="^[!/]couple$"))
 async def kk(event):
-  chus = random.choice('Gey', 'Gey Af', 'lesbo', 'lesbo af', 'straight', 'purnlobers', 'smexy', 'smexy Af')
   if event.is_private:
     return await event.reply("This command is group specific")
   today = str(dt()[0])
@@ -377,11 +376,13 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
             couple_selection_message = f"""Couple of the day:
 [{c1_name}](tg://user?id={c1_id}) + [{c2_name}](tg://user?id={c2_id}) = ❤️
 
-**My Gay Detector Says:** `{chus}`
+
 __New couple of the day may be chosen at 12AM {tomorrow}__"""
+            buttons= [Button.inline('Gey🌈', data='pro'), Button.inline('Lesbo👩‍❤️‍💋‍👩', data='leb')]
             await tbot.send_message(
                 event.chat_id,
-                couple_selection_message
+                couple_selection_message,
+                buttons=buttons
             )
 
 file_help = os.path.basename(__file__)
