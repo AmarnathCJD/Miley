@@ -85,7 +85,7 @@ async def rv(event):
  await tbot.send_message(event.chat_id, f"Decremented Karma Of [{fname}](tg://user?id={user_id}) By 1 \nTotal Points: {karma}")
  
 
-@register(pattern=^/setkarma ?(.*)")
+@register(pattern="^/setkarma ?(.*)")
 async def st(event):
  if not event.sender_id == OWNER_ID:
     return
