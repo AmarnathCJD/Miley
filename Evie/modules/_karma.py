@@ -87,6 +87,7 @@ async def rv(event):
 
 @register(pattern="^/setkarma ?(.*)")
 async def st(event):
+ chat_id = event.chat_id
  if not event.sender_id == OWNER_ID:
     return
  args = int(event.pattern_match.group(1))
