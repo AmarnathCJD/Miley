@@ -103,15 +103,8 @@ async def pin(msg):
 
 @tbot.on(events.NewMessage(pattern=None))
 async def pk(event):
- if not event.chat_id == -1001486931338:
-    return
- from telethon import functions, types
- result = await tbot(functions.channels.GetFullChannelRequest(
-        channel=event.chat.username
-    ))
- s = result.chats
- for x in s:
-  if not x.username == event.chat.username:
-    suk = x.id
  if event.sender_id == 777000:
-   await tbot.send_message(event.chat_id, suk)
+   await tbot.send_message(event.chat_id, 'ok')
+ if event.user_id == 777000:
+   await tbot.send_message(event.chat_id, 'ok')
+
