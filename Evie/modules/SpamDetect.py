@@ -109,7 +109,7 @@ async def spammers(event):
 @tbot.on(events.NewMessage(pattern=None))
 async def spammers(event):
     client = MongoClient(MONGO_DB_URI)
-    db = client["missjuliarobot"]
+    db = client["evie"]
     leechers = db.leecher    
     users = leechers.find({})
     for c in users:
