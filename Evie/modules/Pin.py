@@ -190,8 +190,6 @@ async def pk(event):
    if not x.username == event.chat.username:
      id = x.id
  if not id == None:
-  uid = f'-100{id}'
-  chat_id = int(uid)
   cid = event.fwd_from.from_id.channel_id
   if cid == id:
    await tbot.unpin_message(event.chat_id, event.message.id)
