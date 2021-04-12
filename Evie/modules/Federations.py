@@ -555,6 +555,8 @@ async def _(event):
          shrunk = "\n\nNote: The fban reason was over 1024 characters, so has been truncated."
        else:
          shrunk = ''
+       if reason == None:
+          reason = 'None given.'
        sax = "**New FedBan**\n"
        sax += f"**Fed:** {name}\n"
        sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n"
@@ -584,6 +586,8 @@ async def _(event):
                 reason,
                 int(rec),
             )
+            if reason == None:
+                reason = 'None given.'
             sax = "**FedBan Reason Update**\n"
             sax += f"**Fed:** {name}\n"
             sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n"
@@ -619,6 +623,15 @@ async def _(event):
     subscriber = list(sql.get_subscriber(fed_id))
     if len(subscriber) != 0:
            for fedsid in subscriber:
+                 x = sql.fban_user(
+                fedsid,
+                fban_user_id,
+                fban_user_name,
+                fban_user_lname,
+                fban_user_uname,
+                reason,
+                int(rec),
+                  )
                  all_fedschat = sql.all_fed_chats(fedsid)
                  for fedschat in all_fedschat:
                      try:
