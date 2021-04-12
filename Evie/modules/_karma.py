@@ -35,7 +35,7 @@ async def kk(event):
  try:
   arg = await tbot.get_entity(int(user_id))
   fname = arg.first_name
- else:
+ except:
   fname = 'GeyUser'
  chat_id = int(event.chat_id)
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
@@ -75,7 +75,7 @@ async def rv(event):
  try:
   arg = await tbot.get_entity(int(user_id))
   fname = arg.first_name
- else:
+ except:
   fname = 'GeyUser'
  chat_id = int(event.chat_id)
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
