@@ -442,9 +442,9 @@ async def smex_fed(event):
 """
 Fully Written by RoseLoverX
 """
-@register(pattern="^/fban ?(.*)")
+
+@tbot.on(events.NewMessage(pattern="^[!/]fban ?(.*)"))
 async def _(event):
-    
     user = event.sender
     chat = event.chat_id
     if event.is_group:
@@ -616,7 +616,7 @@ async def _(event):
 """
 Fully Written by RoseLoverX
 """
-@register(pattern="^/unfban ?(.*)")
+@tbot.on(events.NewMessage(pattern="^[!/]funban ?(.*)"))
 async def unfban(event):
     user = event.sender
     chat = event.chat_id
