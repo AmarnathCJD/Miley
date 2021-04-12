@@ -113,7 +113,7 @@ async def pk(event):
     ))
  s = result.chats
  for x in s:
-   if not x.username == event.chat.username
+   if not x.username == event.chat.username:
      id = x.id
  if not id == None:
   uid = f'-100{id}'
