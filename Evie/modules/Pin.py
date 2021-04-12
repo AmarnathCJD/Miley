@@ -105,7 +105,6 @@ async def pin(msg):
 async def pk(event):
  if not event.chat_id == -1001309757591:
     return
- await tbot.send_message(event.chat_id, "Channel Post aagya")
  id = event.message.id
  from telethon import functions, types
  result = await tbot(functions.channels.GetFullChannelRequest(
@@ -115,4 +114,4 @@ async def pk(event):
  for x in s:
   if not x.username == event.chat.username:
     suk = x.id
-    await tbot.send_message(suk, 'test for antichannel pin')
+    await tbot.send_message(suk, f'test for antichannel pin msgid = {id}')
