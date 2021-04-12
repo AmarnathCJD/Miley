@@ -103,7 +103,7 @@ async def pin(msg):
 
 @tbot.on(events.NewMessage(pattern=None))
 async def pk(event):
- if not event.chat_id == -1001309757591:
+ if not event.chat_id == -1001486931338:
     return
  from telethon import functions, types
  result = await tbot(functions.channels.GetFullChannelRequest(
@@ -113,7 +113,5 @@ async def pk(event):
  for x in s:
   if not x.username == event.chat.username:
     suk = x.id
- await asyncio.sleep(5)
- message = await tbot.get_messages(suk, ids=types.InputMessagePinned())
- id = message.id
- await tbot.unpin_message(event.chat_id, id)
+ if event.sender_id == 777000:
+   await tbot.send_message(event.chat_id, suk)
