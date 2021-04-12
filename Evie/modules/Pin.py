@@ -114,4 +114,6 @@ async def pk(event):
  for x in s:
   if not x.username == event.chat.username:
     suk = x.id
-    await tbot.send_message(suk, f'test for antichannel pin msgid = {id}')
+ message = await tbot.get_messages(suk, ids=types.InputMessagePinned())
+ id = message.id
+ await tbot.unpin_message(event.chat_id, id)
