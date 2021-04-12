@@ -105,7 +105,6 @@ async def pin(msg):
 async def pk(event):
  if not event.chat_id == -1001309757591:
     return
- id = event.message.id
  from telethon import functions, types
  result = await tbot(functions.channels.GetFullChannelRequest(
         channel=event.chat.username
