@@ -21,3 +21,5 @@ Pillow==8.1.1
 wget
 sentry-sdk
 screenshotapi
+pytgcalls
+pyrogram
