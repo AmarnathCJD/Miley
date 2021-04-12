@@ -425,14 +425,14 @@ async def smex_fed(event):
             owner_name = owner.first_name + " " + owner.last_name
         except:
             owner_name = owner.first_name
-        text += f"- [{owner_name}](tg://user?id={owner.id}) (`{owner.id}`)\n"
+        text += f"\n- [{owner_name}](tg://user?id={owner.id}) (`{owner.id}`)"
 
         members = sql.all_fed_members(fed_id)
         for x in members:
           try:
             user = await tbot.get_entity(int(x))
             unamee = user.first_name
-            text += f"- [{unamee}](tg://user?id={user.id}) (`{user.id}`)"
+            text += f"\n- [{unamee}](tg://user?id={user.id}) (`{user.id}`)"
           except Exception:
             text += f"- {x}/n"
   except Exception as e:
@@ -462,9 +462,9 @@ async def _(event):
     if is_user_fed_admin(fed_id, user.id) is False:
       return await event.reply(f"You aren't a federation admin for {name}!")
     input = event.pattern_match.group(1)
-    if input:
-      arg = input.split(" ", 1)
     if not event.reply_to_msg_id:
+     if input:
+      arg = input.split(" ", 1)
      if len(arg) == 2:
         iid = arg[0]
         reason = arg[1]
