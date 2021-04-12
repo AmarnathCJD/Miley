@@ -6,7 +6,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 karmadb = db.karma
-coupledb = db.couple
+coupledb = db.cp
 
 async def get_karmas_count() -> dict:
     chats = karmadb.find({"chat_id": {"$lt": 0}})
