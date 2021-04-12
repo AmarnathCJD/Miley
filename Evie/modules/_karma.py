@@ -45,7 +45,7 @@ async def kk(event):
         karma = 1
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
- await tbot.send_message(event.chat_id, f"Incremented Karma of [{fname}](tg://user?id={user_id}) By 1 \nTotal Points: {karma}")
+ await tbot.send_message(event.chat_id, f"Incremented Karma of {fname} By 1 \nTotal Points: {karma}")
  
 
 @tbot.on(events.NewMessage(pattern=None))
@@ -82,7 +82,7 @@ async def rv(event):
         karma = 1
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
- await tbot.send_message(event.chat_id, f"Decremented Karma Of [{fname}](tg://user?id={user_id}) By 1 \nTotal Points: {karma}")
+ await tbot.send_message(event.chat_id, f"Decremented Karma Of {fname} By 1 \nTotal Points: {karma}")
  
 
 @register(pattern="^/setkarma ?(.*)")
@@ -98,8 +98,8 @@ async def st(event):
    user_id = previous_message.sender_id
  else:
    user_id = event.sender_id
- arg = await tbot(GetFullUserRequest(user_id))
- fname = arg.user.first_name
+ arg = await tbot.get_entity(int(user_idd))
+ fname = arg.first_name
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
  if current_karma:
         current_karma = current_karma['karma']
@@ -113,7 +113,7 @@ async def st(event):
         karma = args
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
- await tbot.send_message(event.chat_id, f"Changed Karma Of [{fname}](tg://user?id={user_id}) By {args} \nTotal Points: {karma}")
+ await tbot.send_message(event.chat_id, f"Changed Karma Of {fname} By {args} \nTotal Points: {karma}")
 
 
 @register(pattern="^/karma ?(.*)")
