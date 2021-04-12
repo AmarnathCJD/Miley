@@ -270,3 +270,5 @@ async def welcome_verify(event):
     if not input == "on" and not input == "off":
         await event.reply("I only understand by on or off")
         return
+
+#captcha soon
