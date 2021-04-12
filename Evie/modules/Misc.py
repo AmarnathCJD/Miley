@@ -327,13 +327,12 @@ def dt_tom():
         dt()[0].split('/')[1]+"/" + dt()[0].split('/')[2]
     return a
 
-today = str(dt()[0])
-tomorrow = str(dt_tom())
-
 @tbot.on(events.NewMessage(pattern="^[!/]couple$"))
 async def kk(event):
   if event.is_private:
     return await event.reply("This command is group specific")
+  today = str(dt()[0])
+  tomorrow = str(dt_tom())
   chat_id = event.chat_id
   is_selected = await get_couple(chat_id, today)
   if not is_selected:
