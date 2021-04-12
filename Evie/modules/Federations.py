@@ -550,6 +550,10 @@ async def _(event):
        sax += f"**User ID:** `{r_sender_id}`\n"
        sax += f"**Reason:** {reason}{shrunk}"
     else:
+            if input and len(input) >= 1024:
+               shrunk = "\nNote: The fban reason was over 1024 characters, so has been truncated."
+            else:
+               shrunk = ''
             current_datetime = datetime.now(pytz.timezone("Asia/Kolkata"))
             kuk =  f"{current_datetime}"
             mal = kuk[:10]
@@ -575,7 +579,7 @@ async def _(event):
             sax += f"**User ID:** `{r_sender_id}`\n"
             if not fbanreason == '':
               sax += f"**Previous Reason:** {fbanreason}\n"
-            sax += f"**New Reason:** {reason}"
+            sax += f"**New Reason:** {reason}{shrunk}"
     await tbot.send_message(
                 event.chat_id,
                 sax)
