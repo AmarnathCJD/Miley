@@ -103,7 +103,10 @@ async def st(event):
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
  if current_karma:
         current_karma = current_karma['karma']
-        karma = current_karma + args
+        if not args == 0:
+          karma = current_karma + args
+        else:
+          karma = 0
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
  else:
