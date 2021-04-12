@@ -32,8 +32,11 @@ async def kk(event):
  if not event.sender_id == OWNER_ID:
    if event.sender_id == user_id or user_id == BOT_ID:
       return
- arg = await tbot(GetFullUserRequest(user_id))
- fname = arg.user.first_name
+ try:
+  arg = await tbot.get_entity(int(user_id))
+  fname = arg.first_name
+ else:
+  fname = 'GeyUser'
  chat_id = int(event.chat_id)
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
  if current_karma:
@@ -69,8 +72,11 @@ async def rv(event):
  if not event.sender_id == OWNER_ID:
    if event.sender_id == user_id or user_id == BOT_ID:
       return
- arg = await tbot(GetFullUserRequest(user_id))
- fname = arg.user.first_name
+ try:
+  arg = await tbot.get_entity(int(user_id))
+  fname = arg.first_name
+ else:
+  fname = 'GeyUser'
  chat_id = int(event.chat_id)
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
  if current_karma:
@@ -91,14 +97,14 @@ async def st(event):
  if not event.sender_id == OWNER_ID:
     return
  args = int(event.pattern_match.group(1))
- if not args:
+ if not args and not args == 0:
    return await event.reply("Invalid args")
  previous_message = await event.get_reply_message()
  if previous_message:
    user_id = previous_message.sender_id
  else:
    user_id = event.sender_id
- arg = await tbot.get_entity(int(user_idd))
+ arg = await tbot.get_entity(int(user_id))
  fname = arg.first_name
  current_karma = await get_karma(chat_id, await int_to_alpha(user_id))
  if current_karma:
