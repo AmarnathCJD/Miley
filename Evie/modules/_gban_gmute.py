@@ -369,7 +369,7 @@ async def ugban(event):
 @tbot.on(events.ChatAction)
 async def joinban(event):
     if event.user_joined:
-      if is_admin(event, BOT_ID):
+      if await is_admin(event, BOT_ID):
         chats = gbanned.find({})
         for c in chats:
           if event.user_id == c["user"]:
