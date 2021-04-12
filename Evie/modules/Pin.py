@@ -1,5 +1,5 @@
 from Evie import tbot, CMD_HELP, OWNER_ID
-import os
+import os, asyncio
 from telethon import types, functions, Button, events
 from Evie.events import register
 from Evie.function import is_admin, is_register_admin
@@ -114,6 +114,7 @@ async def pk(event):
  for x in s:
   if not x.username == event.chat.username:
     suk = x.id
+ await asyncio.sleep(5)
  message = await tbot.get_messages(suk, ids=types.InputMessagePinned())
  id = message.id
  await tbot.unpin_message(event.chat_id, id)
