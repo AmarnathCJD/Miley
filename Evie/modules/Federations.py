@@ -496,7 +496,10 @@ async def _(event):
         lname = reply_message.sender.last_name
         username = reply_message.sender.username
         if input:
-          reason = input
+           if len(input) > 1024:
+               reason = input[:1024]
+           else:
+               reason = input
         else:
           reason = None
         r_sender_id = iid
@@ -536,12 +539,16 @@ async def _(event):
                 reason,
                 int(rec),
             )
+       if len(reason) >= 1024:
+         shrunk = "\nNote: The fban reason was over 1024 characters, so has been truncated."
+       else:
+         shrunk = ''
        sax = "**New FedBan**\n"
        sax += f"**Fed:** {name}\n"
        sax += f"**FedAdmin:** [{event.sender.first_name}](tg://user?id={event.sender_id})\n"
        sax += f"**User:** [{fname}](tg://user?id={r_sender_id})\n"
        sax += f"**User ID:** `{r_sender_id}`\n"
-       sax += f"**Reason:** {reason}"
+       sax += f"**Reason:** {reason}{shrunk}"
     else:
             current_datetime = datetime.now(pytz.timezone("Asia/Kolkata"))
             kuk =  f"{current_datetime}"
