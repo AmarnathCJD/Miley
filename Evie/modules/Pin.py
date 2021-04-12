@@ -109,7 +109,7 @@ async def pk(event):
   return
  from telethon import functions, types
  result = await tbot(functions.channels.GetFullChannelRequest(
-        channel=event.channel.username
+        channel=event.chat.username
     ))
  s = result.chats
  for x in s:
