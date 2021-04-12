@@ -1,6 +1,6 @@
 from Evie import tbot, CMD_HELP, OWNER_ID
 import os, asyncio
-from Evie.modules.sql.antipin_sql import add_chat, rmchat, is_chat, get_all_chat_id
+from Evie.modules.sql.antipin_sql import add_chat, rmchat, is_chat, get_all_chat_id, is_pin, rmpin, add_pin
 from telethon import types, functions, Button, events
 from Evie.events import register
 from Evie.function import is_admin, is_register_admin
@@ -124,6 +124,53 @@ async def kr(event):
       return await event.reply(f"Anti channel pins are currently **enabled** in {event.chat.title}.")
     else:
       return await event.reply(f"Anti channel pins are currently **disabled** in {event.chat.title}.")
+
+@register(pattern="^/cleanlinked ?(.*)")
+async def kr(event):
+ args = event.pattern_match.group(1)
+ if args:
+  if not await is_admin(event, event.sender_id):
+     return await event.reply("You need to be an admin to do this!")
+  if args == 'on' or args == 'enable':
+    if not is_chat(event.chat_id):
+              await event.reply(f"**Enabled** linked channel post deletion in {event.chat.title}. Messages sent from the linked channel will be deleted.")
+              return add_chat(event.chat_id)
+    else:
+       return await event.reply(f"**Enabled** linked channel post deletion in {event.chat.title}. Messages sent from the linked channel will be deleted.")
+  elif args == 'off' or args == 'disable':
+    if is_pin(event.chat_id):
+             await event.reply(f"**Disabled** linked channel post deletion in {event.chat.title}.")
+             return rmchat(event.chat_id)
+    else:
+       return await event.reply(f"**Disabled** linked channel post deletion in {event.chat.title}.")
+ else:
+    if is_chat(event.chat_id):
+      return await event.reply(f"Linked channel post deletion is currently **enabled** in {event.chat.title}. Messages sent from the linked channel will be deleted.")
+    else:
+      return await event.reply(f"Linked channel post deletion is currently **disabled** in {event.chat.title}.")
+
+@tbot.on(events.NewMessage(pattern=None))
+async def pk(event):
+ if event.is_private:
+   return
+ if not is_pin(event.chat_id):
+   return
+ if not event.fwd_from:
+  return
+ from telethon import functions, types
+ result = await tbot(functions.channels.GetFullChannelRequest(
+        channel=event.chat.username
+    ))
+ s = result.chats
+ for x in s:
+   if not x.username == event.chat.username:
+     id = x.id
+ if not id == None:
+  uid = f'-100{id}'
+  chat_id = int(uid)
+  cid = event.fwd_from.from_id.channel_id
+  if cid == id:
+   await event.delete()
 
 
 @tbot.on(events.NewMessage(pattern=None))
