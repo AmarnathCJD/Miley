@@ -1,10 +1,12 @@
-from Evie import tbot, OWNER_ID, BOT_ID
+from Evie import tbot, OWNER_ID, BOT_ID, CMD_HELP
 from Evie.function import is_admin, can_ban_users, bot_ban, get_user
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 from telethon import events
 import time
 from telethon.tl.functions.users import GetFullUserRequest
+import telethon
+from telethon import Button
 
 BANNED_RIGHTS = ChatBannedRights(
     until_date=None,
@@ -57,13 +59,49 @@ async def extract_time(message, time_val):
         )
         return
 
+async def anonymous(event, userid):
+  if not event.from_id == None:
+    return False
+  else:
+   buttons = Button.inline("Click to prove admin", data="adata_{}".format(userid))
+   text = "It looks like you're anonymous. Tap this button to confirm your identity."
+   await event.reply(text, buttons=buttons)
+   return True
+  
+@tbot.on(events.CallbackQuery(pattern=r"adata(\_(.*))"))
+async def deedi(event):
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  user = int(input)
+  sender_id = event.sender_id
+  if not sender_id == BOT_ID:
+    if not await is_admin(event, sender_id):
+       return await event.reply("Only Admins can execute this command!")
+    if await is_admin(event, user):
+        return await event.reply("Yeah lets start banning admins!")
+    if not await can_ban_users(message=event):
+        await event.reply("You don't have enough rights to do that!")
+        return
+  if user:
+    if user == BOT_ID or user == OWNER_ID:
+        return await event.reply("Ask the chat creator to do it!")
+  if not await bot_ban(message=event):
+    return await event.reply("I don't have enough rights to do this!")
+  await event.delete()
+  await tbot(EditBannedRequest(event.chat_id, user, BANNED_RIGHTS))
+  await tbot.send_message(event.chat_id, "**Banned User!**")
+
 @tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
 async def dban(event):
-  if event.is_private:
-    return await event.reply("This command is made to be used in group chats, not in pm!")
-  user, args = await get_user(event)
-  if not event.sender_id == OWNER_ID:
-    if not await is_admin(event, event.sender_id):
+ if event.is_private:
+   return await event.reply("This command is made to be used in group chats, not in pm!")
+ user, args = await get_user(event)
+ userid = user.id
+ h = await anonymous(event, userid)
+ if not h:
+  if not sender_id == OWNER_ID:
+    if not await is_admin(event, sender_id):
        return await event.reply("Only Admins can execute this command!")
     if await is_admin(event, user.id):
         return await event.reply("Yeah lets start banning admins!")
@@ -386,7 +424,9 @@ async def tmute(event):
  await tbot.send_message(event.chat_id, f'Muted **{replied_user.user.first_name}** for 1m!')
 
 
-
+file_help = os.path.basename(__file__)
+file_help = file_help.replace(".py", "")
+file_helpo = file_help.replace("_", " ")
 
 __help__ = """
 Some people need to be publicly banned; spammers, annoyances, or just trolls.
@@ -410,5 +450,7 @@ Admin commands:
 - /kick: Kick a user.
 - /dkick: Kick a user by reply, and delete their message.
 - /skick: Silently kick a user, and delete your message
+**Now Supports Anonymous Admins Also**
 """
 
+CMD_HELP.update({file_helpo: [file_helpo, __help__]})
