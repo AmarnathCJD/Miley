@@ -52,7 +52,7 @@ async def _(event):
             ),
             Button.inline(
                 f"{emoji.ROBOT}",
-                dataf'yu-{a_user.id}'
+                data=f'yu-{a_user.id}'
             )
         ]
   shuffle(keyboard)
