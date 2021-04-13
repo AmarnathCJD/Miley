@@ -20,24 +20,7 @@ async def kick_restricted_after_delay(delay, event, user_id):
     await _ban_restricted_user_until_date(group_chat, user_id, duration=delay).
 """
 
-keyboard = [
-            Button.inline(
-                f"{emoji.BRAIN}",
-                data="fk"
-            ),
-            Button.inline(
-                f"{emoji.CHECK_MARK_BUTTON}",
-                data='pro'
-            ),
-            Button.inline(
-                f"{emoji.CROSS_MARK}",
-                data=f"fk-{a_user.id}"
-            ),
-            Button.inline(
-                f"{emoji.ROBOT}",
-                data='yu'
-            )
-        ]
+
 
 @tbot.on(events.ChatAction())  # pylint:disable=E0602
 async def _(event):
@@ -88,6 +71,24 @@ async def cbot(event):
         await event.answer("You aren't the person whom should be verified.")
         return
     await event.answer("Ee Wrong Try Again!")
+    keyboard = [
+            Button.inline(
+                f"{emoji.BRAIN}",
+                data="fk"
+            ),
+            Button.inline(
+                f"{emoji.CHECK_MARK_BUTTON}",
+                data='pro'
+            ),
+            Button.inline(
+                f"{emoji.CROSS_MARK}",
+                data=f"fk-{user_id}"
+            ),
+            Button.inline(
+                f"{emoji.ROBOT}",
+                data='yu'
+            )
+        ]
     shuffle(keyboard)
     await event.edit(buttons=keyboard)
     
