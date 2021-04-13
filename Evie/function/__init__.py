@@ -2,6 +2,7 @@ from telethon.tl import functions
 from telethon.tl import types
 import time, subprocess, shlex, os, asyncio, math
 from Evie import tbot, BOT_ID
+import requests, time
 from typing import Tuple
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
@@ -208,3 +209,24 @@ async def fetch_audio(tbot, event):
     await sz.edit("Almost Done!")
     return final_warner
 
+
+async def is_nsfw(event):
+    lmao = event
+    if not lmao.photo:
+        return False
+    if lmao.photo or lmao.sticker:
+        try:
+            starkstark = await tbot.download_media(lmao.media)
+        except:
+            return False
+    img = starkstark
+    f = {"file": (img, open(img, "rb"))}
+    
+    r = requests.post("https://starkapi.herokuapp.com/nsfw/", files = f).json()
+    if r.get("success") is False:
+      is_nsfw = False
+    elif r.get("is_nsfw") is True:
+      is_nsfw = True
+    elif r.get("is_nsfw") is False:
+      is_nsfw = False
+    return is_nsfw
