@@ -1,4 +1,5 @@
 #Soon!
+from telethon import events
 from Evie import tbot
 from Evie.function import is_nsfw
 @tbot.on(events.NewMessage())        
