@@ -45,7 +45,7 @@ async def _(event):
             ),
             Button.inline(
                 f"{emoji.CROSS_MARK}",
-                data="fk"
+                data="fk-{a_user.id}"
             ),
             Button.inline(
                 f"{emoji.ROBOT}",
@@ -57,6 +57,36 @@ async def _(event):
             text,
             buttons=keyboard
         )
+  
+@tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("Ee Wrong Try Again!")
+    keyboard = [
+            Button.inline(
+                f"{emoji.BRAIN}",
+                data="fk"
+            ),
+            Button.inline(
+                f"{emoji.CHECK_MARK_BUTTON}",
+                data='pro'
+            ),
+            Button.inline(
+                f"{emoji.CROSS_MARK}",
+                data="fk-{a_user.id}"
+            ),
+            Button.inline(
+                f"{emoji.ROBOT}",
+                data='yu'
+            )
+        ]
+  shuffle(keyboard)
+  await event.edit(buttons=keyboard)
+    
   
   
   
