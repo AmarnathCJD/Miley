@@ -3,9 +3,7 @@ import os, asyncio
 
 """
 async def kick_restricted_after_delay(delay, event, user_id):
-    """If the new member is still restricted after the delay, delete
-    button message and join message and then kick him
-    """
+    
     await asyncio.sleep(delay)
     join_message = event.get_reply_message()
     group_chat = event.chat_id
