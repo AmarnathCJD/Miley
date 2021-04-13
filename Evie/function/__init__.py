@@ -210,23 +210,20 @@ async def fetch_audio(tbot, event):
     return final_warner
 
 
-async def is_nsfw(event):
-    lmao = event
-    if not lmao.photo:
-        return False
-    if lmao.photo or lmao.sticker:
-        try:
-            starkstark = await tbot.download_media(lmao.media)
-        except:
-            return False
-    img = starkstark
-    f = {"file": (img, open(img, "rb"))}
-    
-    r = requests.post("https://starkapi.herokuapp.com/nsfw/", files = f).json()
-    if r.get("success") is False:
-      is_nsfw = False
-    elif r.get("is_nsfw") is True:
-      is_nsfw = True
-    elif r.get("is_nsfw") is False:
-      is_nsfw = False
-    return is_nsfw
+from captcha.image import ImageCaptcha
+import random
+
+number_list = ['0','1','2','3','4','5','6','7','8','9']
+alphabet_lowercase = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+alphabet_uppercase = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+
+def gen_captcha(captcha_string_size=10):
+    captcha_string_list = []
+    base_char = alphabet_lowercase + alphabet_uppercase + number_list
+    for i in range(captcha_string_size):
+        char = random.choice(base_char)
+        captcha_string_list.append(char)
+    captcha_string = '' 
+    for item in captcha_string_list:
+        captcha_string += str(item)
+    return captcha_string
