@@ -150,14 +150,14 @@ async def cbot(event):
     shuffle(keyboard)
     await event.edit(buttons=keyboard)
   
-@tbot.on(events.CallbackQuery(pattern=r"yu-(\d+)"))
+@tbot.on(events.CallbackQuery(pattern=r"pro-(\d+)"))
 async def cbot(event):
     user_id = int(event.pattern_match.group(1))
     chat_id = event.chat_id
     if not event.sender_id == user_id:
         await event.answer("You aren't the person whom should be verified.")
         return
-    await event.answer("Verified Successfully")
+    await event.answer("Verified Successfully ✅")
     await event.edit(buttons=None)
   
   
