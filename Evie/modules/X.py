@@ -27,11 +27,11 @@ class XPlayer(GroupCall):
             out += "`[ Empty ]`"
         else:
             current = self.playlist[0]
-            out += f"▶️  **Now Playing :  🎵 [{escape_markdown(current['title'])}]({(BASE_YT_URL + current['id']) if current['yt_url'] else current['msg'].link})**\n"
+            out += f"▶️  **Now Playing :  🎵 [{escape_markdown(current['title'])}]({('BASE_YT_URL' + current['id']) if current['yt_url'] else current['msg'].link})**\n"
             if len(self.playlist) > 1:
                 out += "\n".join(
                     [
-                        f"• **{x}.** [{escape_markdown(y['title'])}]({(BASE_YT_URL + y['id']) if y['yt_url'] else y['msg'].link})"
+                        f"• **{x}.** [{escape_markdown(y['title'])}]({('BASE_YT_URL' + y['id']) if y['yt_url'] else y['msg'].link})"
                         for x, y in enumerate(self.playlist[1:], start=1)
                     ]
                 )
