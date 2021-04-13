@@ -70,7 +70,7 @@ async def cbot(event):
     if not event.sender_id == user_id:
         await event.answer("You aren't the person whom should be verified.")
         return
-    await event.answer("Ee Wrong Try Again!")
+    await event.answer("❌ Wrong Try Again!")
     keyboard = [
             Button.inline(
                 f"{emoji.BRAIN}",
