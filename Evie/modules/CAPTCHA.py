@@ -31,7 +31,7 @@ keyboard = [
             ),
             Button.inline(
                 f"{emoji.CROSS_MARK}",
-                data="fk-{a_user.id}"
+                data=f"fk-{a_user.id}"
             ),
             Button.inline(
                 f"{emoji.ROBOT}",
