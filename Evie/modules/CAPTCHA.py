@@ -40,11 +40,11 @@ async def _(event):
   keyboard = [
             Button.inline(
                 f"{emoji.BRAIN}",
-                data="fk"
+                data=f'pep-{a_user.id}'
             ),
             Button.inline(
                 f"{emoji.CHECK_MARK_BUTTON}",
-                data='pro'
+                data=f'pro-{a_user.id}'
             ),
             Button.inline(
                 f"{emoji.CROSS_MARK}",
@@ -52,7 +52,7 @@ async def _(event):
             ),
             Button.inline(
                 f"{emoji.ROBOT}",
-                data='yu'
+                dataf'yu-{a_user.id}'
             )
         ]
   shuffle(keyboard)
@@ -74,11 +74,11 @@ async def cbot(event):
     keyboard = [
             Button.inline(
                 f"{emoji.BRAIN}",
-                data="fk"
+                data=f"pep-{user_id}"
             ),
             Button.inline(
                 f"{emoji.CHECK_MARK_BUTTON}",
-                data='pro'
+                data=f'pro-{user_id}'
             ),
             Button.inline(
                 f"{emoji.CROSS_MARK}",
@@ -86,13 +86,79 @@ async def cbot(event):
             ),
             Button.inline(
                 f"{emoji.ROBOT}",
-                data='yu'
+                data=f'yu-{user_id}'
+            )
+        ]
+    shuffle(keyboard)
+    await event.edit(buttons=keyboard)
+
+@tbot.on(events.CallbackQuery(pattern=r"pep-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("❌ Wrong Try Again!")
+    keyboard = [
+            Button.inline(
+                f"{emoji.BRAIN}",
+                data=f"pep-{user_id}"
+            ),
+            Button.inline(
+                f"{emoji.CHECK_MARK_BUTTON}",
+                data=f'pro-{user_id}'
+            ),
+            Button.inline(
+                f"{emoji.CROSS_MARK}",
+                data=f"fk-{user_id}"
+            ),
+            Button.inline(
+                f"{emoji.ROBOT}",
+                data=f'yu-{user_id}'
             )
         ]
     shuffle(keyboard)
     await event.edit(buttons=keyboard)
     
+@tbot.on(events.CallbackQuery(pattern=r"yu-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("❌ Wrong Try Again!")
+    keyboard = [
+            Button.inline(
+                f"{emoji.BRAIN}",
+                data=f"pep-{user_id}"
+            ),
+            Button.inline(
+                f"{emoji.CHECK_MARK_BUTTON}",
+                data=f'pro-{user_id}'
+            ),
+            Button.inline(
+                f"{emoji.CROSS_MARK}",
+                data=f"fk-{user_id}"
+            ),
+            Button.inline(
+                f"{emoji.ROBOT}",
+                data=f'yu-{user_id}'
+            )
+        ]
+    shuffle(keyboard)
+    await event.edit(buttons=keyboard)
   
+@tbot.on(events.CallbackQuery(pattern=r"yu-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("Verified Successfully")
+    await event.edit(buttons=None)
   
   
     
