@@ -59,6 +59,7 @@ if ENV:
     TEMP_MAIL_KEY = os.environ.get("TEMP_MAIL_KEY", None)
     VIRUS_API_KEY = os.environ.get("VIRUS_API_KEY", None)
     STRING_SESSION = os.environ.get("STRING_SESSION", None)
+    HU_STRING = os.environ.get("HU_STRING", None)
     MONGO_DB_URI = os.environ.get("MONGO_DB_URI", None)
     TEMPORARY_DATA = os.environ.get("TEMPORARY_DATA", None)
     UPSTREAM_REPO_URL = os.environ.get("UPSTREAM_REPO_URL", None)
