@@ -52,10 +52,10 @@ async def _(event):
                 data='yu'
             )
         ]
-  m = shuffle(keyboard)
+  shuffle(keyboard)
   button_message = await event.reply(
             text,
-            buttons=m
+            buttons=keyboard
         )
   
   
