@@ -959,6 +959,8 @@ async def ft(event):
   fname = replied_user.user.first_name
  except:
   fname = "User"
+ if user_id == event.sender_id:
+    return await event.reply("You can only transfer your fed to others!")
  if fedora:
    return await event.reply(f"[{fname}](tg://user?id={user_id}) already owns a federation - they can't own another.")
  getuser = sql.search_user_in_fed(fed_id, user_id)
