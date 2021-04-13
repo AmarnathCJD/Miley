@@ -84,8 +84,8 @@ async def cbot(event):
                 data='yu'
             )
         ]
-  shuffle(keyboard)
-  await event.edit(buttons=keyboard)
+    shuffle(keyboard)
+    await event.edit(buttons=keyboard)
     
   
   
