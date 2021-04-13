@@ -1,4 +1,5 @@
 from Evie import ubot
+from pytgcalls import GroupCall, GroupCallAction
 
 
 class XPlayer(GroupCall):
