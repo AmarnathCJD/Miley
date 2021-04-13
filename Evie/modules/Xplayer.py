@@ -4,7 +4,7 @@ from pytgcalls import PyTgCalls
 from asyncio import Queue, QueueEmpty as Empty
 from typing import Dict, Union
 import time
-from Evie import register
+from Evie.events import register
 
 
 queues: Dict[int, Queue] = {}
