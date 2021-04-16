@@ -10,10 +10,6 @@ import requests
 from telethon import events
 from Evie.events import register
 
-string = (
-  "I belong To RoseLoverX!",
-  "Im Fairly Yound And Was Made by RoseLover!",
-)
 from Evie.function import can_change_info
 
 @register(pattern="^/addchat$")
