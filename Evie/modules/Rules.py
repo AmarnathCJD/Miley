@@ -177,7 +177,17 @@ async def pp(event):
 
 @register(pattern="^/resetrules")
 async def ll(event):
- 
+ if not event.is_group:
+   return
+ if event.is_group:
+   if not is_admin(event, event.sender_id):
+     return await event.reply("You need to be an admin to do this!")
+   if not await can_change_info(message=event):
+     return await event.reply("You are missing CanChangeInfo right to do this!")
+ chat_id = event.chat_id
+ sql.set_rules(chat_id, "")
+ await event.reply(f"Rules for {event.chat.tite} were successfully cleared!")
+
  
 
 
