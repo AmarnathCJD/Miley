@@ -373,12 +373,21 @@ async def joinban(event):
         chats = gbanned.find({})
         for c in chats:
           if event.user_id == c["user"]:
+              reason = c["reason"]
+              bannerid = c["bannerid"]
               try:
                chat = event.chat_id
                await tbot(
                     EditBannedRequest(chat, event.user_id, BANNED_RIGHTS)
                  )
-               await tbot.send_message(event.chat_id, f"Gbanned User Joined\n**ID:** `{event.user_id}`\n\n**Quick Action:** Banned")
+               text = f"""
+**Alert:** this user is globally banned.
+`*bans them from here*`.
+**Appeal chat:** @EvieSupport
+**User ID:** `{event.sender_id}`
+**Ban Reason:** `{reason}` // `GBanned by {bannerid}`
+"""
+               await tbot.send_message(event.chat_id, text)
               except Exception:
                    pass
               
