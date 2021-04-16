@@ -104,7 +104,7 @@ async def rb(event):
  try:
   if not await is_admin(event, event.sender_id):
     return await event.reply("Only admins can execute this command!")
-  rules = sql.get_rules(chat_id)
+  rules = sql.get_rules(event.chat_id)
   if not rules:
     return await event.reply("You haven't set any rules yet; how about you do that first?")
   args = event.pattern_match.group(1)
