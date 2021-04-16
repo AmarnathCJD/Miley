@@ -323,8 +323,15 @@ def dt_tom():
         dt()[0].split('/')[1]+"/" + dt()[0].split('/')[2]
     return a
 
+guy = 0
+lad = 0
+
 @tbot.on(events.NewMessage(pattern="^[!/]couple$"))
 async def kk(event):
+  global guy
+  global lad
+  guy = 0
+  lad = 0
   if event.is_private:
     return await event.reply("This command is group specific")
   today = str(dt()[0])
@@ -380,16 +387,14 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
                 couple_selection_message,
                 buttons=buttons
             )
-guy = 0
-lad = 0
+
 @tbot.on(events.CallbackQuery(pattern=r"ghei"))
 async def bak(event):
  global guy
  guy += 1
  buttons = buttons= [Button.inline('Gey {}'.format(guy), data='ghei'), Button.inline('Lesbo', data='leb')]
  await event.edit(buttons=buttons)
- if guy = 10:
-    guy - 10
+
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
