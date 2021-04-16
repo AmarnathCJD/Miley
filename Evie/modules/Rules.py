@@ -105,21 +105,19 @@ async def no_arg(event):
 
 @register(pattern="^/setrulesbutton ?(.*)")
 async def rb(event):
- try:
   if not await is_admin(event, event.sender_id):
     return await event.reply("Only admins can execute this command!")
   rules = sql.get_rules(event.chat_id)
   if not rules:
     return await event.reply("You haven't set any rules yet; how about you do that first?")
   args = event.pattern_match.group(1)
-  if len(args) > 20:
-    return await event.reply("Only upto length of 20 Charectors Supported")
   if not args:
     return await no_ara(event)
+  if len(args) > 20:
+    return await event.reply("Only upto length of 20 Charectors Supported")
   chats = rrules.find({})
   for c in chats:
     if event.chat_id == c["id"]:
-      mode = c["mode"]
       to_check = get_chat(id=event.chat_id)
       rrules.update_one(
                    {
@@ -133,8 +131,7 @@ async def rb(event):
   rrules.insert_one(
         {"id": event.chat_id, "mode": args}
     )
- except Exception as e:
-   print(e)
+  await event.reply("Updated the rules button name!")
 
 async def no_ara(event):
  chats = rrules.find({})
