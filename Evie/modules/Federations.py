@@ -233,7 +233,6 @@ async def channel_fed(event):
  if len(args) < 8:
    return await event.reply("This isn't a valid FedID format!")
  getfed = sql.search_fed_by_id(args)
- name = getfed["fname"]
  if not getfed:
   return await event.reply("This FedID does not refer to an existing federation.")
  text = "Only channel creators can join a fed; please ask the creator to press this."
@@ -249,6 +248,11 @@ async def dcfd_fed(event):
  permissions = await tbot.get_permissions(event.chat_id, user_id)
  if not permissions.is_creator:
       return await event.answer(f"You need to be the chat owner of {event.chat.title} to do this.")
+ getfed = sql.search_fed_by_id(args)
+ name = getfed["fname"]
+ fed_id = sql.get_fed_id(event.chat_id)
+ if fed_id:
+    sql.chat_leave_fed(event.chat_id)
  x = sql.chat_join_fed(args, event.chat.title, event.chat_id)
  return await event.reply(f'Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.')
 
