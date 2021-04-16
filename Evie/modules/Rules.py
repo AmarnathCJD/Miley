@@ -156,11 +156,28 @@ async def rrb(event):
 
 @register(pattern="^/setrules ?(.*)")
 async def pp(event):
+ if not event.is_group:
+   return
+ if event.is_group:
+   if not is_admin(event, event.sender_id):
+     return await event.reply("You need to be an admin to do this!")
+   if not await can_change_info(message=event):
+     return await event.reply("You are missing CanChangeInfo right to do this!")
  input = event.pattern_match.group(1)
+ if not event.reply_to_msg_id:
+   if not input:
+     return await event.reply("You need to give me rules to set!")
  if not event.reply_to_msg_id:
   rules = input
  else:
   rules = (await event.get_reply_message()).message
+ chat_id = event.chat_id
+ sql.set_rules(chat_id, rules)
+ await event.reply(f"New rules for {event.chat.title} set successfully!")
+
+@register(pattern="^/resetrules")
+async def ll(event):
+ 
  
 
 
