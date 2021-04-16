@@ -117,17 +117,8 @@ async def rb(event):
     return await event.reply("Only upto length of 20 Charectors Supported")
   chats = rrules.find({})
   for c in chats:
-    if event.chat_id == c["id"]:
-      to_check = get_chat(id=event.chat_id)
-      rrules.update_one(
-                   {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "mode": to_check["mode"],
-                },
-                {"$set": {"mode": args}},
-            )
-      return await event.reply("Updated the rules button name!")
+   if event.chat_id == c["id"]:
+    rrules.delete_one({"id": event.chat_id})
   rrules.insert_one(
         {"id": event.chat_id, "mode": args}
     )
