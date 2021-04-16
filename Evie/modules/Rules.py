@@ -159,7 +159,7 @@ async def pp(event):
  if not event.is_group:
    return
  if event.is_group:
-   if not is_admin(event, event.sender_id):
+   if not await is_admin(event, event.sender_id):
      return await event.reply("You need to be an admin to do this!")
    if not await can_change_info(message=event):
      return await event.reply("You are missing CanChangeInfo right to do this!")
@@ -180,7 +180,7 @@ async def ll(event):
  if not event.is_group:
    return
  if event.is_group:
-   if not is_admin(event, event.sender_id):
+   if not await is_admin(event, event.sender_id):
      return await event.reply("You need to be an admin to do this!")
    if not await can_change_info(message=event):
      return await event.reply("You are missing CanChangeInfo right to do this!")
