@@ -48,8 +48,8 @@ async def rr(event):
  if not event.is_private:
    return
  chat_id = int(event.pattern_match.group(1))
- rules = sql.get_rules(event.chat_id)
- text = f"**The rules for** `{event.chat.title}` **are:**\n\n{rules}"
+ rules = sql.get_rules(chat_id)
+ text = f"**The rules are:**\n\n{rules}"
  await event.reply(text)
 
 @register(pattern="^/privaterules ?(.*)")
