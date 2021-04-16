@@ -20,6 +20,5 @@ youtube_dl
 Pillow==8.1.1
 wget
 sentry-sdk
-screenshotapi
-py-tgcalls
+captcha
 pyrogram
