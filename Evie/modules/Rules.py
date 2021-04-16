@@ -36,7 +36,7 @@ async def rules(event):
    if event.chat_id == c["id"]:
      mode = c["mode"]
  if mode == "on" or mode == None:
-   buttons = Button.url("{}".format(butto), "t.me/MissEvie_Robot?start=rules_{}".format(event.chat_id))
+   buttons = Button.url("{}".format(butto), "t.me/MissEvie_Robot?start=rules_{}".format(event))
    text = "Click on the button to see the chat rules!"
    await event.reply(text, buttons=buttons)
  elif mode == "off":
@@ -45,12 +45,15 @@ async def rules(event):
 
 @register(pattern="^/start rules_(.*)")
 async def rr(event):
- if not event.is_private:
-   return
- chat_id = int(event.pattern_match.group(1))
- rules = sql.get_rules(chat_id)
- text = f"**The rules are:**\n\n{rules}"
- await event.reply(text)
+ try:
+  if not event.is_private:
+    return
+  pk = int(event.pattern_match.group(1))
+  rules = sql.get_rules(pk.chat_id)
+  text = f"**The rules for** {pk.chat.title} are:**\n\n{rules}"
+  await event.reply(text)
+ except Exception as e:
+   print(e)
 
 @register(pattern="^/privaterules ?(.*)")
 async def pr(event):
