@@ -36,7 +36,7 @@ async def rules(event):
    if event.chat_id == c["id"]:
      mode = c["mode"]
  if mode == "on" or mode == None:
-   buttons = Button.url("{}".format(butto), "t.me/MissEvie_Robot?start=rules_{}".format(event))
+   buttons = Button.url("{}".format(butto), "t.me/MissEvie_Robot?start=rules_{}".format(event.chat_id))
    text = "Click on the button to see the chat rules!"
    await event.reply(text, buttons=buttons)
  elif mode == "off":
@@ -49,8 +49,8 @@ async def rr(event):
   if not event.is_private:
     return
   pk = int(event.pattern_match.group(1))
-  rules = sql.get_rules(pk.chat_id)
-  text = f"**The rules for** {pk.chat.title} are:**\n\n{rules}"
+  rules = sql.get_rules(pk)
+  text = f"**The rules are:**\n\n{rules}"
   await event.reply(text)
  except Exception as e:
    print(e)
@@ -65,7 +65,7 @@ async def pr(event):
  arg = event.pattern_match.group(1)
  if not arg:
     return await no_arg(event)
- if not arg == "on" or not arg == "yes" or not arg == "no" or not arg == "off":
+ if not arg == "on" and not arg == "yes" and not arg == "no" and not arg == "off":
    return await event.reply("I only understand the following: yes/no/on/off")
  chats = prules.find({})
  if arg == "on" or arg == "yes":
