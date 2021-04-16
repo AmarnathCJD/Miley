@@ -142,7 +142,7 @@ async def no_ara(event):
  if mode == None:
    await event.reply("The rules button will be called:\n`Rules`\nTo change the button name, try this command again followed by the new name")
  else:
-   await event.reply("The rules button will be called:\n`{mode}`\nTo change the button name, try this command again followed by the new name")
+   await event.reply(f"The rules button will be called:\n`{mode}`\nTo change the button name, try this command again followed by the new name")
 
 @register(pattern="^/resetrulesbutton")
 async def rrb(event):
