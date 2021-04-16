@@ -129,14 +129,14 @@ file_helpo = file_help.replace("_", " ")
 __help__ = """
 Evie can mute members who are not subscribed your channel until they subscribe
 When enabled I will mute unsubscribed members and show them a unmute button. When they pressed the button I will unmute them
-*Setup*
+**Setup**
 1) First of all add me in the group as admin with ban users permission and in the channel as admin.
 Note: Only creator of the group can setup me and i will not allow force subscribe again if not done so.
  
-*Commmands*
- - /fsub - To get the current settings.
- - /fsub no/off/disable - To turn of ForceSubscribe.
- - /fsub {channel username} - To turn on and setup the channel.
+**Admin Commands:**
+- /fsub - To get the current settings.
+- /fsub no/off/disable - To turn of ForceSubscribe.
+- /fsub {channel username} - To turn on and setup the channel.
 """
 
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
