@@ -6,12 +6,7 @@ from telethon import Button, custom, events
 from re import findall
 from urllib.parse import quote
 from datetime import datetime as stime
-import requests
 import urllib
-from math import ceil
-
-import requests
-import screenshotapi
 
 from telethon import Button, custom, events, functions
 from Evie.events import register
@@ -23,16 +18,13 @@ from Evie.modules.sql.setbio_sql import set_bio, rm_bio
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID, SCREENSHOT_API
 import datetime, time
-from Evie.function import is_admin, bio
+from Evie.function import is_admin, bio, sudo
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 gbanned = db.gban
 blacklist = db.black
-
-
-
 
 
 async def get_user(event):
@@ -90,6 +82,10 @@ async def detail(replied_user, event):
     for i in chats:
          if user_id == i["user"]:
            caption += "\n\n<b>Globally Banned:</b> Yes"
+    if sudo(user_id):
+        caption += "This is one of my **Sudo Users**"
+    if user_id == OWNER_ID:
+        caption += "This is my **Owner** They have total power over me")
     return caption
  except Exception:
         print("lel")
@@ -382,7 +378,6 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
             await tbot.send_message(
                 event.chat_id,
                 couple_selection_message,
-                buttons=buttons
             )
 
 file_help = os.path.basename(__file__)
@@ -394,11 +389,7 @@ __help__ = """
  - /music: sends the requested Music
  - /gey: get geyness
  - /shazam: gets info about the given audio
+ - /info: gets info of a user
  
-**Help for Karma Module:**
-[UPVOTE] - Use upvote keywords like "+", "+1", "thanks" etc to upvote a message.
-[DOWNVOTE] - Use downvote keywords like "-", "-1", etc to downvote a message.
-Reply to a message with /karma to check a user's karma
-Send /karma without replying to any message to chek karma list of top 10 users
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
