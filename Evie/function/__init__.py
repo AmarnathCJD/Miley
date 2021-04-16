@@ -2,12 +2,12 @@ from telethon.tl import functions
 from telethon.tl import types
 import time, subprocess, shlex, os, asyncio, math
 from Evie import tbot, BOT_ID
-import requests, time
+import requests, time, random
 from typing import Tuple
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
-
+from captcha.image import ImageCaptcha
 
 async def is_admin(event, user):
     try:
@@ -66,6 +66,18 @@ async def can_change_info(message):
     return isinstance(p, types.ChannelParticipantCreator) or (
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.change_info
     )
+
+async def can_del(message):
+    result = await tbot(
+        functions.channels.GetParticipantRequest(
+            channel=message.chat_id,
+            user_id=message.sender_id,
+        )
+    )
+    p = result.participant
+    return isinstance(p, types.ChannelParticipantCreator) or (isinstance(
+        p, types.ChannelParticipantAdmin) and p.admin_rights.delete_messages)
+
 
 async def can_ban_users(message):
     result = await tbot(
@@ -180,38 +192,6 @@ async def cb_progress(current, total, cb, start, type_of_ps, file_name=None):
         tmp = progress_str + "{0} of {1}\nETA: {2}".format(
             humanbytes(current), humanbytes(total), time_formatter(estimated_total_time)
         )
-
-
-async def fetch_audio(tbot, event):
-    c_time = time.time()
-    if not message.reply_to_message:
-        await sz.edit("`Reply To A Video / Audio.`")
-        return
-    warner_stark = message.reply_to_message
-    if warner_stark.audio is None and warner_stark.video is None:
-        await sz.edit("Format Not Supported.")
-        return
-    if warner_stark.video:
-        await sz.edit("Video Detected, Converting To Audio !")
-        warner_bros = await tbot.download_media(
-                warner_stark.video,
-            progress=progress, progress_args=(message, c_time, f"Downloading Audio!")
-        )
-        stark_cmd = f"ffmpeg -i {warner_bros} -map 0:a evie.mp3"
-        await runcmd(stark_cmd)
-        final_warner = "evie.mp3"
-    elif warner_stark.audio:
-        await sz.edit("Download Started !")
-        final_warner = await tbot.download_media(
-                warner_stark.video,
-            progress=progress, progress_args=(message, c_time, f"Downloading Video!")
-        )
-    await sz.edit("Almost Done!")
-    return final_warner
-
-
-from captcha.image import ImageCaptcha
-import random
 
 number_list = ['0','1','2','3','4','5','6','7','8','9']
 alphabet_lowercase = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
