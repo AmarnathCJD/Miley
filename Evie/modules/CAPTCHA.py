@@ -917,7 +917,7 @@ __help__ = """
 Some chats get a lot of users joining just to spam. This could be because they're trolls, or part of a spam network.
 To slow them down, you could try enabling CAPTCHAs. New users joining your chat will be required to complete a test to confirm that they're real people.'
 
-Admin commands:
+**Admin commands:**
 - /captcha <yes/no/on/off>: All users that join will need to solve a CAPTCHA. This proves they aren't a bot!
 - /captchamode <button/multibutton/math/text>: Choose which CAPTCHA type to use for your chat.
 - /captcharules <yes/no/on/off>: Require new users accept the rules before being able to speak in the chat.
@@ -927,7 +927,7 @@ Admin commands:
 - /setcaptchatext <text>: Customise the CAPTCHA button.
 - /resetcaptchatext: Reset the CAPTCHA button to the default text.
 
-Examples:
+**Examples:**
 - Enable CAPTCHAs
 ->` /captcha on`
 - Change the CAPTCHA mode to text.
