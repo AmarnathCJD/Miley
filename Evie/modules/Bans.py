@@ -1,9 +1,10 @@
 from Evie import tbot, OWNER_ID, BOT_ID, CMD_HELP
+from Evie.events import register
 from Evie.function import is_admin, can_ban_users, bot_ban, get_user
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
 from telethon import events
-import time
+import time, os
 from telethon.tl.functions.users import GetFullUserRequest
 import telethon
 from telethon import Button
@@ -99,6 +100,7 @@ async def dban(event):
  user, args = await get_user(event)
  userid = user.id
  h = await anonymous(event, userid)
+ sender_id = event.sender_id
  if not h:
   if not sender_id == OWNER_ID:
     if not await is_admin(event, sender_id):
@@ -205,6 +207,8 @@ async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
   user, args = await get_user(event)
+  if args == "me":
+    retuen
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
@@ -423,20 +427,33 @@ async def tmute(event):
  replied_user = await tbot(GetFullUserRequest(user.id))
  await tbot.send_message(event.chat_id, f'Muted **{replied_user.user.first_name}** for 1m!')
 
+@register(pattern="^/kickme$")
+async def pk(event):
+ if event.is_private:
+   return
+ if await is_admin(event, event.sender_id):
+   return await event.reply("Ha, I'm not kicking you, you're an admin! You're stuck with everyone here.")
+ try:
+    await tbot.kick_participant(event.chat_id, event.sender_id)
+    await event.reply("Ok kicked!")
+ except:
+    await event.reply("Failed to kick!")
+ 
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
+
 
 __help__ = """
 Some people need to be publicly banned; spammers, annoyances, or just trolls.
 
 This module allows you to do that easily, by exposing some common actions, so everyone will see!
 
-User commands:
+**User commands:**
 - /kickme: Users that use this, kick themselves.
 
-Admin commands:
+**Admin commands:**
 - /ban: Ban a user.
 - /dban: Ban a user by reply, and delete their message.
 - /sban: Silently ban a user, and delete your message.
@@ -450,7 +467,12 @@ Admin commands:
 - /kick: Kick a user.
 - /dkick: Kick a user by reply, and delete their message.
 - /skick: Silently kick a user, and delete your message
-**Now Supports Anonymous Admins Also**
+**Now Supports Anonymous Admins Also -Soon**
 """
+CMD_HELP.update({
+    file_helpo: [
+        file_helpo,
+        __help__
+    ]
+})
 
-CMD_HELP.update({file_helpo: [file_helpo, __help__]})
