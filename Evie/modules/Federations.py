@@ -195,7 +195,8 @@ async def cf(event):
   return await event.reply("This chat isn't part of any feds yet!")
  info = sql.get_fed_info(fed_id)
  name = info["fname"]
- await event.reply(f"Chat {event.chat.title} is part of the following federation: {name} [ID: `{fed_id}`]")
+ text = f"Chat {event.chat.title} is part of the following federation: {name} (ID: `{fed_id}`)"
+ await event.reply(text)
  
 @register(pattern="^/joinfed ?(.*)")
 async def jf(event):
