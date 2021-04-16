@@ -48,7 +48,7 @@ async def rr(event):
  if not event.is_private:
    return
  chat_id = int(event.pattern_match.group(1))
- rules = sql.get_rules(chat_id)
+ rules = sql.get_rules(event.chat_id)
  text = f"**The rules for** `{event.chat.title}` **are:**\n\n{rules}"
  await event.reply(text)
 
@@ -56,7 +56,7 @@ async def rr(event):
 async def pr(event):
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
- rules = sql.get_rules(chat_id)
+ rules = sql.get_rules(event.chat_id)
  if not rules:
    return await event.reply("You haven't set any rules yet; how about you do that first?")
  arg = event.pattern_match.group(1)
@@ -147,7 +147,7 @@ async def no_ara(event):
 async def rrb(event):
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
- rules = sql.get_rules(chat_id)
+ rules = sql.get_rules(event.chat_id)
  if not rules:
    return await event.reply("You haven't set any rules yet; how about you do that first?")
  chats = rrules.find({})
@@ -179,8 +179,11 @@ async def pp(event):
  sql.set_rules(chat_id, rules)
  await event.reply(f"New rules for {event.chat.title} set successfully!")
 
-@register(pattern="^/resetrules")
+@register(pattern="^/resetrules ?(.*)")
 async def ll(event):
+ args = event.pattern_match.group(1)
+ if args.startswith("button"):
+   return
  if not event.is_group:
    return
  if event.is_group:
