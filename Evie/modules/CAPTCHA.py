@@ -914,8 +914,6 @@ file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
 
 __help__ = """
-CAPTCHA
-
 Some chats get a lot of users joining just to spam. This could be because they're trolls, or part of a spam network.
 To slow them down, you could try enabling CAPTCHAs. New users joining your chat will be required to complete a test to confirm that they're real people.'
 
