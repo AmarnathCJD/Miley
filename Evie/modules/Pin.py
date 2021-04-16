@@ -191,3 +191,31 @@ async def pk(event):
   cid = event.fwd_from.from_id.channel_id
   if cid == id:
    await tbot.unpin_message(event.chat_id, event.message.id)
+
+__help__ = """
+All the pin related commands can be found here; keep your chat up to date on the latest news with a simple pinned message!
+
+**User commands:**
+- /pinned: Get the current pinned message.
+
+**Admin commands:**
+- /pin: Pin the message you replied to. Add 'loud' or 'notify' to send a notification to group members.
+- /permapin <text>: Pin a custom message through the bot. This message can contain markdown, buttons, and all the other cool features.
+- /unpin: Unpin the current pinned message. If used as a reply, unpins the replied to message.
+- /unpinall: Unpins all pinned messages.
+- /antichannelpin: Auto unpins all messages from linked channel if enabled.
+- /cleanlinked: deletes all posts forwarded from linked channel if enabled.
+"""
+
+file_help = os.path.basename(__file__)
+file_help = file_help.replace(".py", "")
+file_helpo = file_help.replace("_", " ")
+
+CMD_HELP.update({
+    file_helpo: [
+        file_helpo,
+        __help__
+    ]
+})
+
+
