@@ -83,9 +83,9 @@ async def detail(replied_user, event):
          if user_id == i["user"]:
            caption += "\n\n<b>Globally Banned:</b> Yes"
     if sudo(user_id):
-        caption += "This is one of my **Sudo Users**"
+        caption += "This is one of my <b>Sudo Users</b>"
     if user_id == OWNER_ID:
-        caption += "This is my **Owner** They have total power over me")
+        caption += "This is my <b>Owner</b> They have total power over me"
     return caption
  except Exception:
         print("lel")
