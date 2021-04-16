@@ -254,8 +254,16 @@ async def dcfd_fed(event):
  if fed_id:
     sql.chat_leave_fed(event.chat_id)
  x = sql.chat_join_fed(args, event.chat.title, event.chat_id)
- return await event.reply(f'Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.')
+ return await event.edit(f'Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.', buttons=None)
 
+@tbot.on(events.CallbackQuery(pattern=r"cfd"))
+async def dcfd_fed(event):
+  user_id = event.sender_id
+ permissions = await tbot.get_permissions(event.chat_id, user_id)
+ if not permissions.is_creator:
+      return await event.answer(f"You need to be the chat owner of {event.chat.title} to do this.")
+ await event.edit("Cancelled the joining of fed by chat creator!", buttons=None)
+ 
 @register(pattern="^/leavefed")
 async def lf(event):
  if not event.is_group:
