@@ -78,7 +78,6 @@ async def pr(event):
    await event.reply("All /rules commands will send the rules to Miley Test.")
  for c in chats:
    if event.chat_id == c["id"]:
-     mode = c["mode"]
      to_check = get_chat(id=event.chat_id)
      prules.update_one(
                 {
