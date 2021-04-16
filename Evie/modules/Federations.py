@@ -198,6 +198,8 @@ async def cf(event):
  
 @register(pattern="^/joinfed ?(.*)")
 async def jf(event):
+ if not event.is_private and not event.is_group:
+   return await channel_fed(event)
  if event.is_private:
    return await event.reply("Only supergroups can join feds.")
  if not await is_admin(event, event.sender_id):
@@ -223,6 +225,30 @@ async def jf(event):
  x = sql.chat_join_fed(args, event.chat.title, event.chat_id)
  return await event.reply(f'Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.')
  
+
+async def channel_fed(event):
+ args = event.pattern_match.group(1)
+ if not args:
+   return await event.reply("You need to specify which federation you're asking about by giving me a FedID!")
+ if len(args) < 8:
+   return await event.reply("This isn't a valid FedID format!")
+ getfed = sql.search_fed_by_id(args)
+ name = getfed["fname"]
+ if not getfed:
+  return await event.reply("This FedID does not refer to an existing federation.")
+ text = "Only channel creators can join a fed; please ask the creator to press this."
+ buttons = Button.inline("Join fed", data="jfd"), Button.inline("Cancel", data="cfd")
+ await event.reply(text, buttons=buttons)
+
+@tbot.on(events.CallbackQuery(pattern=r"jfd"))
+async def dcfd_fed(event):
+ user_id = event.sender_id
+ permissions = await tbot.get_permissions(event.chat_id, user_id)
+ if not permissions.is_creator:
+      return await event.answer(f"You need to be the chat owner of {event.chat.title} to do this.")
+ x = sql.chat_join_fed(args, event.chat.title, event.chat_id)
+ return await event.reply(f'Successfully joined the "{name}" federation! All new federation bans will now also remove the members from this chat.')
+
 @register(pattern="^/leavefed")
 async def lf(event):
  if not event.is_group:
