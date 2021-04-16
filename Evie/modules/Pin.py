@@ -20,15 +20,19 @@ async def can_pin_msg(message):
 
 @register(pattern="^/pinned")
 async def pn(event):
+   x = await event.reply("`Getting the pinned message..`")
    message = await tbot.get_messages(event.chat_id, ids=types.InputMessagePinned())
    id = message.id
    chat = event.chat_id
    pro = f'{chat}'
    omk = pro.replace('-100', '')
-   if event.chat.username:
-     await event.reply(f"The pinned message in {event.chat.title} is [here](http://t.me/{event.chat.username}/{id}).", link_preview=False)
-   else:
-     await event.reply(f"The pinned message in {event.chat.title} is [here](http://t.me/{omk}/{id}).", link_preview=False)
+   try:
+    if event.chat.username:
+      await x.edit(f"The pinned message in {event.chat.title} is [here](http://t.me/{event.chat.username}/{id}).", link_preview=False)
+    else:
+      await x.edit(f"The pinned message in {event.chat.title} is [here](http://t.me/{omk}/{id}).", link_preview=False)
+   except:
+      await x.edit("Failed to find the pinned message.")
 
 @register(pattern="^/unpinall")
 async def upinall(event):
