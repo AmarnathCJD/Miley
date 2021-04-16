@@ -187,8 +187,9 @@ async def cf(event):
  chat = event.chat_id
  if event.is_private:
    return
- if not await is_admin(event, event.sender_id):
-   return await event.reply("You need to be an admin to do this.")
+ if event.is_group:
+   if not await is_admin(event, event.sender_id):
+     return await event.reply("You need to be an admin to do this.")
  fed_id = sql.get_fed_id(chat)
  if not fed_id:
   return await event.reply("This chat isn't part of any feds yet!")
@@ -258,7 +259,7 @@ async def dcfd_fed(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"cfd"))
 async def dcfd_fed(event):
-  user_id = event.sender_id
+ user_id = event.sender_id
  permissions = await tbot.get_permissions(event.chat_id, user_id)
  if not permissions.is_creator:
       return await event.answer(f"You need to be the chat owner of {event.chat.title} to do this.")
@@ -266,7 +267,9 @@ async def dcfd_fed(event):
  
 @register(pattern="^/leavefed")
 async def lf(event):
- if not event.is_group:
+ if not event.is_private and not event.is_group:
+   return await leab_fed(event)
+ if event.is_private:
    return
  if not await is_admin(event, event.sender_id):
    await event.reply("You need to be an admin to do this.")
@@ -283,10 +286,42 @@ async def lf(event):
  sql.chat_leave_fed(chat)
  return await event.reply(f'Chat {event.chat.title} has left the " {name} " federation.')
 
+async def leab_fed(event):
+ fed_id = sql.get_fed_id(chat)
+ if not fed_id:
+   return await event.reply("This chat isn't currently in any federations!")
+ text = "Only channel creators can leave fed; please ask the creator to press this."
+ buttons = Button.inline("Leave fed", data="lfd_{}".format(fed_id)), Button.inline("Cancel", data="cub")
+ await event.reply(text, buttons=buttons)
+
+@tbot.on(events.CallbackQuery(pattern=r"lfd(\_(.*))"))
+async def dcfd_fed(event):
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ args = data.split("_", 1)[1]
+ user_id = event.sender_id
+ permissions = await tbot.get_permissions(event.chat_id, user_id)
+ if not permissions.is_creator:
+      return await event.answer(f"You need to be the channel owner to do this.")
+ fed_info = sql.get_fed_info(args)
+ name = fed_info["fname"]
+ sql.chat_leave_fed(event.chat_id)
+ await event.reply(f'Channel {event.chat.title} has left the " {name} " federation.')
+
+@tbot.on(events.CallbackQuery(pattern=r"cub"))
+async def dcfd_fed(event):
+ user_id = event.sender_id
+ permissions = await tbot.get_permissions(event.chat_id, user_id)
+ if not permissions.is_creator:
+      return await event.answer(f"You need to be the chat owner of {event.chat.title} to do this.")
+ await event.edit("Cancelled the leaving of fed by chat creator!", buttons=None)
+
 @register(pattern="^/fpromote ?(.*)")
 async def p(event):
+ if not event.is_private and not event.is_group:
+   return await event.reply("Channel support for fed is in development!")
  if event.is_private:
-  return await event.reply("This command is made to be run in a group where the person you would like to promote is present.")
+  return await event.reply("This command is made to be run in a group/channel where the person you would like to promote is present.")
  fedowner = sql.get_user_owner_fed_full(event.sender_id)
  if not fedowner:
    return await event.reply("Only federation creators can promote people, and you don't seem to have a federation to promote to!")
