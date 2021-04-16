@@ -85,7 +85,7 @@ async def pr(event):
                 {"$set": {"mode": mode}},
             )
      return
-  prules.insert_one(
+ prules.insert_one(
         {"id": event.chat_id, "mode": mode}
     )
 
