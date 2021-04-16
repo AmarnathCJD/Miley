@@ -101,22 +101,23 @@ async def no_arg(event):
 
 @register(pattern="^/setrulesbutton ?(.*)")
 async def rb(event):
- if not await is_admin(event, event.sender_id):
-   return await event.reply("Only admins can execute this command!")
- rules = sql.get_rules(chat_id)
- if not rules:
-   return await event.reply("You haven't set any rules yet; how about you do that first?")
- args = event.pattern_match.group(1)
- if len(args) > 20:
-   return await event.reply("Only upto length of 20 Charectors Supported")
- if not args:
-   return await no_ara(event)
- chats = rrules.find({})
- for c in chats:
-   if event.chat_id == c["id"]:
-     mode = c["mode"]
-     to_check = get_chat(id=event.chat_id)
-     rrules.update_one(
+ try:
+  if not await is_admin(event, event.sender_id):
+    return await event.reply("Only admins can execute this command!")
+  rules = sql.get_rules(chat_id)
+  if not rules:
+    return await event.reply("You haven't set any rules yet; how about you do that first?")
+  args = event.pattern_match.group(1)
+  if len(args) > 20:
+    return await event.reply("Only upto length of 20 Charectors Supported")
+  if not args:
+    return await no_ara(event)
+  chats = rrules.find({})
+  for c in chats:
+    if event.chat_id == c["id"]:
+      mode = c["mode"]
+      to_check = get_chat(id=event.chat_id)
+      rrules.update_one(
                    {
                     "_id": to_check["_id"],
                     "id": to_check["id"],
@@ -124,10 +125,12 @@ async def rb(event):
                 },
                 {"$set": {"mode": args}},
             )
-     return await event.reply("Updated the rules button name!")
- rrules.insert_one(
+      return await event.reply("Updated the rules button name!")
+  rrules.insert_one(
         {"id": event.chat_id, "mode": args}
     )
+ except Exception as e:
+   print(e)
 
 async def no_ara(event):
  chats = rrules.find({})
@@ -163,6 +166,8 @@ async def pp(event):
    if not await can_change_info(message=event):
      return await event.reply("You are missing CanChangeInfo right to do this!")
  input = event.pattern_match.group(1)
+ if input.startswith("button"):
+    return
  if not event.reply_to_msg_id:
    if not input:
      return await event.reply("You need to give me rules to set!")
