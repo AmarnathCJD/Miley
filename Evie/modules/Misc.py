@@ -374,12 +374,20 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
 
 
 __New couple of the day may be chosen at 12AM {tomorrow}__"""
-            buttons= [Button.inline('Gey🌈', data='pro'), Button.inline('Lesbo👩‍❤️‍💋‍👩', data='leb')]
+            buttons= [Button.inline('Gey', data='ghei'), Button.inline('Lesbo👩‍❤️‍💋‍👩', data='leb')]
             await tbot.send_message(
                 event.chat_id,
                 couple_selection_message,
             )
-
+guy = 0
+lad = 0
+@tbot.on(events.CallbackQuery(pattern=r"ghei"))
+async def bak(event):
+ global guy
+ guy += 1
+ buttons = buttons= [Button.inline('Gey {}'.format(guy), data='ghei'), Button.inline('Lesbo', data='leb')]
+ if guy = 10:
+    guy - 10
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
