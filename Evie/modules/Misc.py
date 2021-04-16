@@ -378,6 +378,7 @@ __New couple of the day may be chosen at 12AM {tomorrow}__"""
             await tbot.send_message(
                 event.chat_id,
                 couple_selection_message,
+                buttons=buttons
             )
 guy = 0
 lad = 0
@@ -386,6 +387,7 @@ async def bak(event):
  global guy
  guy += 1
  buttons = buttons= [Button.inline('Gey {}'.format(guy), data='ghei'), Button.inline('Lesbo', data='leb')]
+ await event.edit(buttons=buttons)
  if guy = 10:
     guy - 10
 file_help = os.path.basename(__file__)
