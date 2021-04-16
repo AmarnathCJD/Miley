@@ -237,11 +237,14 @@ async def channel_fed(event):
  if not getfed:
   return await event.reply("This FedID does not refer to an existing federation.")
  text = "Only channel creators can join a fed; please ask the creator to press this."
- buttons = Button.inline("Join fed", data="jfd"), Button.inline("Cancel", data="cfd")
+ buttons = Button.inline("Join fed", data="jfd_{}".format(args)), Button.inline("Cancel", data="cfd")
  await event.reply(text, buttons=buttons)
 
-@tbot.on(events.CallbackQuery(pattern=r"jfd"))
+@tbot.on(events.CallbackQuery(pattern=r"jfd(\_(.*))"))
 async def dcfd_fed(event):
+ tata = event.pattern_match.group(1)
+ data = tata.decode()
+ args = data.split("_", 1)[1]
  user_id = event.sender_id
  permissions = await tbot.get_permissions(event.chat_id, user_id)
  if not permissions.is_creator:
