@@ -1,7 +1,7 @@
 """
 Fully Written by RoseLoverX
 """
-from Evie import tbot, CMD_HELP, OWNER_ID
+from Evie import tbot, CMD_HELP, OWNER_ID, BOT_ID
 import os, re, csv, json, time, uuid, pytz
 from datetime import datetime
 from Evie.function import is_admin
@@ -836,7 +836,7 @@ async def fstat(event):
      return await event.reply("You need to be an admin to do this!")
  args = event.pattern_match.group(2)
  if args:
-  if len(args) > 12:
+  if len(args) >= 16:
     info = sql.get_fed_info(args)
     if not info:
       return await event.reply("There is no federation with this FedID.")
@@ -860,7 +860,7 @@ async def fstat(event):
     if not fbanreason == '':
        text = f"{fname} is currently banned in {name},for the following **reason**:\n{fbanreason}\n\n**Date of Ban:** {rs}"
     return await event.reply(text)
-  elif len(args) < 12:
+  elif len(args) < 16:
    person = await get_user_from_event(event)
    user_id = person.id
    replied_user = await tbot(GetFullUserRequest(user_id))
@@ -953,14 +953,16 @@ async def ft(event):
           name = f["fed"]["fname"]
  user = await suck(event)
  user_id = user.id
+ if user_id == BOT_ID:
+   return await event.reply("Yeah I don't use Feds!")
+ if user.bot:
+  return await event.reply("Bots can't own federations.")
  fedora = sql.get_user_owner_fed_full(user_id)
  try:
   replied_user = await tbot(GetFullUserRequest(user))
   fname = replied_user.user.first_name
  except:
   fname = "User"
- if user_id == event.sender_id:
-    return await event.reply("You can only transfer your fed to others!")
  if fedora:
    return await event.reply(f"[{fname}](tg://user?id={user_id}) already owns a federation - they can't own another.")
  getuser = sql.search_user_in_fed(fed_id, user_id)
