@@ -3,7 +3,6 @@ from Evie.events import register
 import os
 from Evie.function import can_change_info, is_admin
 
-
 from pymongo import MongoClient
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
@@ -189,12 +188,26 @@ async def ll(event):
  await event.reply(f"Rules for {event.chat.tite} were successfully cleared!")
 
  
+__help__ = """
+Every chat works with different rules; this module will help make those rules clearer!
 
+**User commands:**
+- /rules: Check the current chat rules.
 
-  
- 
-  
-   
-  
- 
- 
+**Admin commands:**
+- /setrules <text>: Set the rules for this chat. Supports markdown, buttons, fillings, etc.
+- /privaterules <yes/no/on/off>: Enable/disable whether the rules should be sent in private.
+- /resetrules: Reset the chat rules to default.
+- /setrulesbutton: Set the rules button name when using {rules}.
+- /resetrulesbutton: Reset the rules button name from {rules} to default.
+"""
+file_help = os.path.basename(__file__)
+file_help = file_help.replace(".py", "")
+file_helpo = file_help.replace("_", " ")
+
+CMD_HELP.update({
+    file_helpo: [
+        file_helpo,
+        __help__
+    ]
+})
