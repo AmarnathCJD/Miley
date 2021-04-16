@@ -287,7 +287,7 @@ async def lf(event):
  return await event.reply(f'Chat {event.chat.title} has left the " {name} " federation.')
 
 async def leab_fed(event):
- fed_id = sql.get_fed_id(chat)
+ fed_id = sql.get_fed_id(event.chat_id)
  if not fed_id:
    return await event.reply("This chat isn't currently in any federations!")
  text = "Only channel creators can leave fed; please ask the creator to press this."
