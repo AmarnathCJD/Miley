@@ -16,9 +16,6 @@ from youtube_dl.utils import (
     XAttrMetadataError,
 )
 
-
-
-
 @register(pattern="^/ytmusic ?(.*)")
 async def yt(event):
  try:
