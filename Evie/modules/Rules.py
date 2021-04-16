@@ -68,10 +68,10 @@ async def pr(event):
  if not arg == "on" and not arg == "yes" and not arg == "no" and not arg == "off":
    return await event.reply("I only understand the following: yes/no/on/off")
  chats = prules.find({})
- if arg == "on" and arg == "yes":
+ if arg == "on":
    mode = "on"
    await event.reply("Use of /rules will send the rules to the user's PM.")
- elif arg == "off" and arg == "no":
+ elif arg == "off":
    mode = "off"
    await event.reply("All /rules commands will send the rules to Miley Test.")
  for c in chats:
