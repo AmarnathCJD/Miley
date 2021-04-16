@@ -63,6 +63,8 @@ async def pr(event):
  if not rules:
    return await event.reply("You haven't set any rules yet; how about you do that first?")
  arg = event.pattern_match.group(1)
+ arg.replace("yes", "on")
+ arg.replace("no", "off")
  if not arg:
     return await no_arg(event)
  if not arg == "on" and not arg == "yes" and not arg == "no" and not arg == "off":
