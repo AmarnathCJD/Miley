@@ -434,13 +434,7 @@ async def msg(event):
             out_file.name = "Evie_sshot.png"
             im = Image.open(out_file)
             cropped = im.crop((1,2,300,300))
-            await tbot.send_file(
-                event.chat_id,
-                cropped,
-                force_document=True,
-                allow_cache=False,
-                silent=True,
-            )
+            cropped.save('loda.png')
             await tbot.send_file(
                 event.chat_id,
                 out_file,
