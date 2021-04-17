@@ -419,7 +419,6 @@ async def _(event):
                 await tbot.send_file(
                     event.chat_id,
                     screenshot_image,
-                    force_document=True,
                 )
                 await k.delete()
                 await event.delete()
