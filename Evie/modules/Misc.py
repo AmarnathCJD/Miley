@@ -440,8 +440,7 @@ async def msg(event):
             )
         await k.delete()
     except Exception as e:
-        await event.reply("Invalid **URL** Provided!")
-        print(e)
+        await event.reply("Invalid **URL** Provided!" + traceback.format_exc())
 
 
 file_help = os.path.basename(__file__)
