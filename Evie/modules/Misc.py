@@ -395,13 +395,14 @@ async def bak(event):
  buttons = buttons= [Button.inline('Gey {}'.format(guy), data='ghei'), Button.inline('Lesbo', data='leb')]
  await event.edit(buttons=buttons)
 
-SCREEN_SHOT_LAYER_ACCESS_KEY = "e89b59f45a22590b9bac3de1c8eb50a4"
+api = ("c72713a0aede807fc5dd95b445c2e216", "e89b59f45a22590b9bac3de1c8eb50a4")
 
 @register(pattern="^/webss (.*)")
 async def _(event):
+    SCREEN_SHOT_LAYER_ACCESS_KEY = random.choice(api)
     if event.fwd_from:
         return
-    k = await event.reply("Painting Web_page...")
+    k = await event.reply("**Capturing Screenshot...**")
     sample_url = "https://api.screenshotlayer.com/api/capture?access_key={}&url={}&fullpage={}&viewport={}&format={}&force={}"
     input_str = event.pattern_match.group(1)
     response_api = requests.get(
@@ -409,24 +410,23 @@ async def _(event):
             SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "1", "2220x1080", "JPG", "1"
         )
     )
-    # https://stackoverflow.com/a/23718458/4723940
     contentType = response_api.headers["content-type"]
     if "image" in contentType:
         with io.BytesIO(response_api.content) as screenshot_image:
             screenshot_image.name = "Evie_sshot.jpg"
+            await k.edit("**Uploading Screenshot...**")
             try:
-                await borg.send_file(
+                await tbot.send_file(
                     event.chat_id,
                     screenshot_image,
                     force_document=True,
-                    reply_to=event.message.reply_to_msg_id,
                 )
                 await k.delete()
                 await event.delete()
             except Exception as e:
-                await event.reply(str(e))
+                await k.edit(str(e))
     else:
-        await event.reply(response_api.text)
+        await k.edit(response_api.text)
 
 
 file_help = os.path.basename(__file__)
