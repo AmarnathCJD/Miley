@@ -399,6 +399,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium import webdriver
 GOOGLE_CHROME_BIN = "/app/.apt/usr/bin/google-chrome"
+from PIL import Image
 
 @register(pattern="^/webss ?(.*)")
 async def msg(event):
@@ -431,6 +432,15 @@ async def msg(event):
         await k.edit("**Uploading Screenshot...**")
         with io.BytesIO(im_png) as out_file:
             out_file.name = "Evie_sshot.png"
+            im = Image.open(out_file)
+            cropped = im.crop((1,2,300,300))
+            await tbot.send_file(
+                event.chat_id,
+                cropped,
+                force_document=True,
+                allow_cache=False,
+                silent=True,
+            )
             await tbot.send_file(
                 event.chat_id,
                 out_file,
