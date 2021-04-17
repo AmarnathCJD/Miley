@@ -67,12 +67,29 @@ async def rm_warn(event):
  try:
     pro = await tbot.get_entity(int(user_id))
     fname = pro.first_name
-  except:
+ except:
     fname = "User"
  text = f"Admin [{event.sender.first_name}](tg://user?id={event.sender_id}) has removed [{fname}](tg://user?id={user_id})'s warning."
  sql.remove_warn(user_id, event.chat_id)
  await event.edit(text)
-   
+
+async def warn_ban(user_id, event):
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I haven't got the rights to restrict members here.")
+ try:
+  await tbot(EditBannedRequest(event.chat_id, int(user_id), ChatBannedRights(until_date=None, view_messages=True)))
+ except:
+  pass
+ try:
+    pro = await tbot.get_entity(int(user_id))
+    fname = pro.first_name
+ except:
+    fname = "User"
+ text = f"""
+That's {num_warns}/{limit} warnings; [{fname}](tg://user?id={user_id}) is banned!
+**Reasons:**
+1: fyckoff
+"""
   
  
  
