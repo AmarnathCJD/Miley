@@ -407,24 +407,21 @@ async def _(event):
     input_str = event.pattern_match.group(1)
     response_api = requests.get(
         sample_url.format(
-            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "0", "2880x1800", "PNG", "1", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0"
+            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "0", "2560x1440", "PNG", "1", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
         )
     )
     contentType = response_api.headers["content-type"]
-    if "image" in contentType:
+    try:
         with io.BytesIO(response_api.content) as screenshot_image:
             screenshot_image.name = "Evie_sshot.png"
             await k.edit("**Uploading Screenshot...**")
-            try:
-                await tbot.send_file(
+            await tbot.send_file(
                     event.chat_id,
                     screenshot_image,
                     caption=f"`{input_str}`",
                 )
-                await k.delete()
-            except Exception as e:
-                await k.edit(str(e))
-    else:
+            await k.delete()
+    except:
         if "invalid" in response.text:
            return await k.edit("You have specified an invalid URL.")
         await k.edit(response_api.text)
