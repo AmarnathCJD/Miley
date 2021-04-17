@@ -418,13 +418,14 @@ async def _(event):
     if "image" in contentType:
         with io.BytesIO(response_api.content) as screenshot_image:
             screenshot_image.name = "Evie_sshot.png"
-            await k.edit("**Uploading Screenshot...**")
-            await tbot.send_file(
+            try:
+             await k.edit("**Uploading Screenshot...**")
+             await tbot.send_file(
                     event.chat_id,
                     screenshot_image,
                     caption=f"**URL:** {input_str}",
                 )
-            await k.delete()
+             await k.delete()
     else:
         if "invalid" in response_api.text:
            return await k.edit("You have specified an invalid URL.")
