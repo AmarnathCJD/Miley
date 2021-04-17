@@ -405,6 +405,10 @@ async def _(event):
     k = await event.reply("**Capturing Screenshot...**")
     sample_url = "https://api.screenshotlayer.com/api/capture?access_key={}&url={}&fullpage={}&viewport={}&format={}&force={}&user_agent={}"
     input_str = event.pattern_match.group(1)
+    if not input_str:
+       return await event.reply("Please provide a URL to get its screenshot!")
+    if not input_str.startswith("https://"):
+       input_str = f"https://{input_str}"
     response_api = requests.get(
         sample_url.format(
             SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "0", "2560x1440", "PNG", "1", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36"
