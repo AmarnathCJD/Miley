@@ -57,7 +57,7 @@ def warn_user(user_id, chat_id, reason=None):
         warned_user.num_warns += 1
         if reason:
             warned_user.reasons = (
-                warned_user.reasons + "\r\n\r\n" + reason
+                warned_user.reasons + "\n" + reason
             )  # TODO:: double check this wizardry
 
         reasons = warned_user.reasons
