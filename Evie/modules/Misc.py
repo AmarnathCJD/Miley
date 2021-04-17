@@ -422,10 +422,11 @@ async def _(event):
                     caption=f"`{input_str}`",
                 )
                 await k.delete()
-                await event.delete()
             except Exception as e:
                 await k.edit(str(e))
     else:
+        if "invalid" in response.text:
+           return await k.edit("You have specified an invalid URL.")
         await k.edit(response_api.text)
 
 
@@ -439,6 +440,6 @@ __help__ = """
  - /gey: get geyness
  - /shazam: gets info about the given audio
  - /info: gets info of a user
- 
+ - /webss: gets screenshot of a website
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
