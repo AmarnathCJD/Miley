@@ -22,10 +22,9 @@ async def wn(event):
    return await warns(event)
  await warn_user(event)
  
-
 async def warn_user(event):
  user, args = await get_user(event)
- if is_admin(event, user.id):
+ if await is_admin(event, user.id):
    return await event.reply("Oya lets start warning admins!")
  user_id = user.id
  if user_id == BOT_ID or user_id == OWNER_ID:
