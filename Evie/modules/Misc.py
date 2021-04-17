@@ -415,7 +415,7 @@ async def _(event):
         )
     )
     contentType = response_api.headers["content-type"]
-    try:
+    if "image" in contentType:
         with io.BytesIO(response_api.content) as screenshot_image:
             screenshot_image.name = "Evie_sshot.png"
             await k.edit("**Uploading Screenshot...**")
@@ -425,8 +425,8 @@ async def _(event):
                     caption=f"**URL:** {input_str}",
                 )
             await k.delete()
-    except:
-        if "invalid" in response.text:
+    else:
+        if "invalid" in response_api.text:
            return await k.edit("You have specified an invalid URL.")
         await k.edit(response_api.text)
 
