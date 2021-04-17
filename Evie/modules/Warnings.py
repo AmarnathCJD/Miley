@@ -58,6 +58,20 @@ async def warn_user(event):
   text = f"User [{fname}](tg://user?id={user_id}) has {num_warns}/{limit} warnings;\nbe careful!{reason}"
   buttons= Button.inline("Remove warn (admin only)", data=f"rm_warn-{user_id}")
   await tbot.send_message(event.chat_id, text, buttons=buttons)
+
+@tbot.on(events.CallbackQuery(pattern=r"rm_warn-(\d+)"))
+async def rm_warn(event):
+ user_id = int(event.pattern_match.group(1))
+ if not await is_admin(event, event.sender_id):
+   return await event.answer("You need to be an admin!")
+ try:
+    pro = await tbot.get_entity(int(user_id))
+    fname = pro.first_name
+  except:
+    fname = "User"
+ text = f"Admin [{event.sender.first_name}](tg://user?id={event.sender_id}) has removed [{fname}](tg://user?id={user_id})'s warning."
+ sql.remove_warn(user_id, event.chat_id)
+ await event.edit(text)
    
   
  
