@@ -7,5 +7,7 @@ import os
 
 @tbot.on(events.NewMessage(pattern="^[!/]warn ?(.*)"))
 async def wn(event):
- await event.reply(event.text)
+ falt = event.text
+ if "warns" in falt:
+   await event.reply("falt")
 
