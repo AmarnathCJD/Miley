@@ -22,4 +22,3 @@ wget
 sentry-sdk
 captcha
 pyrogram
-selenium
