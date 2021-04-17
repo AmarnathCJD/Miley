@@ -86,16 +86,16 @@ async def warn_ban(user_id, event):
  except:
     fname = "User"
  limit, soft_warn = sql.get_warn_setting(event.chat_id)
- result = sql.get_warns(reply_message.sender_id, event.chat_id)
+ result = sql.get_warns(user_id, event.chat_id)
  if result and result[0] != 0:
       num_warns, reasons = result
  if not reasons:
    reasons = None
  text = f"""
 That's {limit}/{limit} warnings; [{fname}](tg://user?id={user_id}) is banned!
-**Reasons:**
 """
  if reasons:
+  text += "**Reasons:**\n"
   text += "\r\n"
   text += reasons
  await tbot.send_message(event.chat_id, text)
