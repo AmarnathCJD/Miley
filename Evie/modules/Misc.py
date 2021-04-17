@@ -407,7 +407,7 @@ async def _(event):
     input_str = event.pattern_match.group(1)
     response_api = requests.get(
         sample_url.format(
-            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "1", "1080x720", "PNG", "1", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0"
+            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "0", "1440x900", "PNG", "1", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0"
         )
     )
     contentType = response_api.headers["content-type"]
