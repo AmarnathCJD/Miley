@@ -407,13 +407,13 @@ async def _(event):
     input_str = event.pattern_match.group(1)
     response_api = requests.get(
         sample_url.format(
-            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "1", "2220x1080", "JPG", "1"
+            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "1", "1080x720", "PNG", "1"
         )
     )
     contentType = response_api.headers["content-type"]
     if "image" in contentType:
         with io.BytesIO(response_api.content) as screenshot_image:
-            screenshot_image.name = "Evie_sshot.jpg"
+            screenshot_image.name = "Evie_sshot.png"
             await k.edit("**Uploading Screenshot...**")
             try:
                 await tbot.send_file(
