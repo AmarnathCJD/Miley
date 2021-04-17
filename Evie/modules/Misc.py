@@ -403,11 +403,11 @@ async def _(event):
     if event.fwd_from:
         return
     k = await event.reply("**Capturing Screenshot...**")
-    sample_url = "https://api.screenshotlayer.com/api/capture?access_key={}&url={}&fullpage={}&viewport={}&format={}&force={}"
+    sample_url = "https://api.screenshotlayer.com/api/capture?access_key={}&url={}&fullpage={}&viewport={}&format={}&force={}&user_agent={}"
     input_str = event.pattern_match.group(1)
     response_api = requests.get(
         sample_url.format(
-            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "1", "1080x720", "PNG", "1"
+            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "1", "1080x720", "PNG", "1", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:37.0) Gecko/20100101 Firefox/37.0"
         )
     )
     contentType = response_api.headers["content-type"]
