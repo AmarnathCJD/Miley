@@ -422,6 +422,7 @@ async def _(event):
             await tbot.send_file(
                     event.chat_id,
                     screenshot_image,
+                    caption=f"**URL:** {input_str}",
                 )
             await k.delete()
     except:
