@@ -1,7 +1,7 @@
 import os
 import telethon
 from telethon.tl.functions.users import GetFullUserRequest
-import re, io, traceback
+import re, io, requests
 from telethon import Button, custom, events
 from re import findall
 from urllib.parse import quote
@@ -395,56 +395,38 @@ async def bak(event):
  buttons = buttons= [Button.inline('Gey {}'.format(guy), data='ghei'), Button.inline('Lesbo', data='leb')]
  await event.edit(buttons=buttons)
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium import webdriver
-GOOGLE_CHROME_BIN = "/app/.apt/usr/bin/google-chrome"
-from PIL import Image
+SCREEN_SHOT_LAYER_ACCESS_KEY = "e89b59f45a22590b9bac3de1c8eb50a4"
 
-@register(pattern="^/webss ?(.*)")
-async def msg(event):
+@register(pattern="^/webss (.*)")
+async def _(event):
+    if event.fwd_from:
+        return
+    k = await event.reply("Painting Web_page...")
+    sample_url = "https://api.screenshotlayer.com/api/capture?access_key={}&url={}&fullpage={}&viewport={}&format={}&force={}"
     input_str = event.pattern_match.group(1)
-    if not input_str:
-      return await event.reply("Please give me a URL to capture it's Screenshot!")
-    try:
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument("--ignore-certificate-errors")
-        chrome_options.add_argument("--test-type")
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-dev-shm-usage")
-        chrome_options.binary_location=GOOGLE_CHROME_BIN
-        driver = webdriver.Chrome(chrome_options=chrome_options)
-        driver.get(input_str)
-        k = await event.reply("**Capturing Screenshot..**")
-        height = driver.execute_script(
-            "return Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);"
+    response_api = requests.get(
+        sample_url.format(
+            SCREEN_SHOT_LAYER_ACCESS_KEY, input_str, "1", "2220x1080", "JPG", "1"
         )
-        width = driver.execute_script(
-            "return Math.max(document.body.scrollWidth, document.body.offsetWidth, document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth);"
-        )
-        driver.set_window_size(width + 100, height + 100)
-        im_png = driver.get_screenshot_as_png()
-        driver.close()
-        message_id = event.message.id
-        if event.reply_to_msg_id:
-            message_id = event.reply_to_msg_id
-        await k.edit("**Uploading Screenshot...**")
-        with io.BytesIO(im_png) as out_file:
-            out_file.name = "Evie_sshot.png"
-            im = Image.open(out_file)
-            cropped = im.crop((1,2,300,300))
-            cropped.save('loda.png')
-            await tbot.send_file(
-                event.chat_id,
-                out_file,
-                force_document=True,
-                allow_cache=False,
-                silent=True,
-            )
-        await k.delete()
-    except Exception as e:
-        await event.reply("Invalid **URL** Provided!" + traceback.format_exc())
+    )
+    # https://stackoverflow.com/a/23718458/4723940
+    contentType = response_api.headers["content-type"]
+    if "image" in contentType:
+        with io.BytesIO(response_api.content) as screenshot_image:
+            screenshot_image.name = "Evie_sshot.jpg"
+            try:
+                await borg.send_file(
+                    event.chat_id,
+                    screenshot_image,
+                    force_document=True,
+                    reply_to=event.message.reply_to_msg_id,
+                )
+                await k.delete()
+                await event.delete()
+            except Exception as e:
+                await event.reply(str(e))
+    else:
+        await event.reply(response_api.text)
 
 
 file_help = os.path.basename(__file__)
