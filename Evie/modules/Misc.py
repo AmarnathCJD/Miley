@@ -434,14 +434,14 @@ async def msg(event):
             await tbot.send_file(
                 event.chat_id,
                 out_file,
-                force_document=False,
-                reply_to=message_id,
+                force_document=True,
                 allow_cache=False,
                 silent=True,
             )
         await k.delete()
-    except Exception:
+    except Exception as e:
         await event.reply("Invalid **URL** Provided!")
+        print(e)
 
 
 file_help = os.path.basename(__file__)
