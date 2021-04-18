@@ -824,6 +824,7 @@ async def t(event):
    for c in chats:
       if event.chat_id == c["id"]:
          type = c["type"]
+         time = c["time"]
    if type:
      return await event.reply(f"Current captcha mode is **{type}**")
    else:
@@ -842,7 +843,7 @@ async def t(event):
                     "time": to_check["time"],
                     "mode": to_check["mode"],
                 },
-                {"$set": {"type": arg, "mode": "on"}},
+                {"$set": {"type": arg, "mode": "on", "time": time}},
             )
           await event.reply(f"Successfully updated captchamode to **{type}**")
           return
