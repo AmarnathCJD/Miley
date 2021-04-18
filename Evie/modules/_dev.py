@@ -261,19 +261,19 @@ async def _(event):
     cmd = event.text.split(" ", maxsplit=1)[1]
     if event.sender_id == OWNER_ID:
         pass
-    elif event.sender_id in DEV_USERS or sudo(event.sender_id):
+    elif sudo(event.sender_id):
         if sql.is_afk(OWNER_ID):
           return await event.reply("Sorry you cannot perform eval function when my master is afk. Try again later.!")
         if "os.environ.get" in cmd:
           await event.reply("Can't access env variables.")
           return
         if "sys.exit" in cmd:
-          await event.reply("You have no permission to shutdown Me.")
+          await event.reply("You have no permission to shut me down.")
           return
-        if "from Luna import abot" in cmd or "from Luna import STRING_SESSION" in cmd:
+        if "from Evie import STRING_SESSION" in cmd or "from Evie import TOKEN" in cmd:
           await event.reply("Can't Acess Master Account.")
           return
-        if "await tbot.send_message" in cmd or "from Luna import STRING_SESSION" in cmd:
+        if "await ubot.send_message" in cmd or "from Evie import API_HASH" in cmd:
           await event.reply("Ni Hoskta!")
           return
         pass
