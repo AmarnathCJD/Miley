@@ -235,18 +235,13 @@ async def cbot(event):
     await event.edit(buttons=None)
 
 """Math captcha"""
-async def math(event):
+async def math(event, time):
   user_id = event.user_id
   mode = "Click here to prove you're human"
   chats = cbutton.find({})
   for c in chats:
     if event.chat_id == c["id"]:
        mode = c["mode"]
-  chats = captcha.find({})
-  for c in chats:
-       if event.chat_id == c["id"]:
-          type = c["type"]
-          time = c["time"]
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
@@ -832,8 +827,11 @@ async def t(event):
      return await event.reply("Captcha is currently off for this Chat")
  if not arg in level:
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
- try:
-  for c in chats:
+ for c in chats:
+      if event.chat_id == c["id"]:
+         type = c["type"]
+         time = c["time"]
+ for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
           captcha.update_one(
@@ -848,12 +846,10 @@ async def t(event):
             )
           await event.reply(f"Successfully updated captchamode to **{arg}**")
           return
-  captcha.insert_one(
+ captcha.insert_one(
         {"id": event.chat_id, "type": type, "time": 0}
     )
-  await event.reply(f"Successfully set captchamode to **{arg}**.")
- except Exception as e:
-  await event.reply(f"{e}")
+ await event.reply(f"Successfully set captchamode to **{arg}**.")
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
