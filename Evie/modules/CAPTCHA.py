@@ -831,8 +831,7 @@ async def t(event):
      return await event.reply("Captcha is currently off for this Chat")
  if not arg in level:
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
- if type:
-  for c in chats:
+ for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
           captcha.update_one(
