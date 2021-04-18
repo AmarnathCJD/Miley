@@ -46,7 +46,8 @@ async def _(event):
           return
   user_id = event.user_id
   chats = captcha.find({})
-  type = mode = time = None
+  type = mode = None
+  time = 0
   for c in chats:
        if event.chat_id == c["id"]:
           type = c["type"]
@@ -285,7 +286,7 @@ async def math(event, time):
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
  except Exception as e:
-   print(e)
+   await event.reply(f"{e}")
 
 @register(pattern="^/start math_(.*)")
 async def h(event):
