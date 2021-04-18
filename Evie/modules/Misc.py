@@ -397,7 +397,7 @@ async def bak(event):
 
 api = ("c72713a0aede807fc5dd95b445c2e216", "e89b59f45a22590b9bac3de1c8eb50a4")
 
-@register(pattern="^/webss (.*)")
+@register(pattern="^/webss ?(.*)")
 async def _(event):
     SCREEN_SHOT_LAYER_ACCESS_KEY = random.choice(api)
     if event.fwd_from:
@@ -433,6 +433,41 @@ async def _(event):
            return await k.edit("You have specified an invalid URL.")
         await k.edit(response_api.text)
 
+@register(pattern="^/iplookup ?(.*)")
+async def _(event):
+ input_str = event.pattern_match.group(1)
+ if not input_str:
+     return await event.reply("Please provide an ipaddress to get its info!")
+ url = f"http://ip-api.com/json/{input_str}?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query"
+ response = requests.get(url)
+ info = response.json()
+ valid = {info['status']}
+ if not "success" in valid:
+    return await event.reply("Invalid IPAddress!")
+ output = f"""
+**IP Address:** {info['query']}
+**Country:** {info['country']}
+**Country Code:** {info['countryCode']}
+**Region:** {info['region']}
+**Region Name:** {info['regionName']}
+**City:** {info['city']}
+**District:** {info['district']}
+**Zip:** {info['zip']}
+**Latitude:** {info['lat']}
+**Longitude:** {info['lon']}
+**Time Zone:** {info['timezone']}
+**Offset:** {info['offset']}
+**Currency:** {info['currency']}
+**ISP:** {info['isp']}
+**Org:** {info['org']}
+**As:** {info['as']}
+**Asname:** {info['asname']}
+**Reverse:** {info['reverse']}
+**User is on Mobile:** {info['mobile']}
+**Proxy:** {info['proxy']}
+**Hosting:** {info['hosting']}
+"""
+ await event.reply(output)
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
@@ -445,5 +480,6 @@ __help__ = """
  - /shazam: gets info about the given audio
  - /info: gets info of a user
  - /webss: gets screenshot of a website
+ - /iplookup: gets info about an ipaddress
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
