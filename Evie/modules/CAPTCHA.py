@@ -7,7 +7,6 @@ from captcha.image import ImageCaptcha
 image_captcha = ImageCaptcha(width = 400, height = 270)
 from random import shuffle
 import random
-from pyrogram import emoji
 from pymongo import MongoClient
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
@@ -68,7 +67,7 @@ async def _(event):
   else:
     return
 
-
+"""Multi button captcha"""
 async def multibutton(event):
   user_id = event.user_id
   chats = captcha.find({})
@@ -108,7 +107,7 @@ async def multibutton(event):
      text += "\n\n**Captcha Verification**"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  text += f"\n\nClick on the button which include this emoji {emoji.CHECK_MARK_BUTTON}."
+  text += f"\n\nClick on the button which include this emoji {tick}."
   keyboard = [
             Button.inline(
                 f"{random.choice(brain)}",
@@ -143,7 +142,105 @@ async def multibutton(event):
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
 
+@tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("❌ Wrong Try Again!")
+    keyboard = [
+            Button.inline(
+                f"{random.choice(brain)}",
+                data=f'pep-{user_id}'
+            ),
+            Button.inline(
+                f"{tick}",
+                data=f'pro-{auser_id}'
+            ),
+            Button.inline(
+                f"{random.choice(wrong)}",
+                data=f"fk-{user_id}"
+            ),
+            Button.inline(
+                f"{robot}",
+                data=f'yu-{user_id}'
+            )
+        ]
+    shuffle(keyboard)
+    await event.edit(buttons=keyboard)
 
+@tbot.on(events.CallbackQuery(pattern=r"pep-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("❌ Wrong Try Again!")
+    keyboard = [
+            Button.inline(
+                f"{random.choice(brain)}",
+                data=f'pep-{user_id}'
+            ),
+            Button.inline(
+                f"{tick}",
+                data=f'pro-{user_id}'
+            ),
+            Button.inline(
+                f"{random.choice(wrong)}",
+                data=f"fk-{user_id}"
+            ),
+            Button.inline(
+                f"{robot}",
+                data=f'yu-{user_id}'
+            )
+        ]
+    shuffle(keyboard)
+    await event.edit(buttons=keyboard)
+    
+@tbot.on(events.CallbackQuery(pattern=r"yu-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("❌ Wrong Try Again!")
+    keyboard = [
+            Button.inline(
+                f"{random.choice(brain)}",
+                data=f'pep-{user_id}'
+            ),
+            Button.inline(
+                f"{tick}",
+                data=f'pro-{user_id}'
+            ),
+            Button.inline(
+                f"{random.choice(wrong)}",
+                data=f"fk-{user_id}"
+            ),
+            Button.inline(
+                f"{robot}",
+                data=f'yu-{user_id}'
+            )
+        ]
+    shuffle(keyboard)
+    await event.edit(buttons=keyboard)
+  
+@tbot.on(events.CallbackQuery(pattern=r"pro-(\d+)"))
+async def cbot(event):
+    user_id = int(event.pattern_match.group(1))
+    chat_id = event.chat_id
+    if not event.sender_id == user_id:
+        await event.answer("You aren't the person whom should be verified.")
+        return
+    await event.answer("Verified Successfully ✅")
+    await tbot(EditBannedRequest(event.chat_id, user_id, UNMUTE_RIGHTS))
+    await event.edit(buttons=None)
+
+"""Math captcha"""
 async def math(event):
   user_id = event.user_id
   chats = captcha.find({})
@@ -357,7 +454,7 @@ async def bak(event):
   await asyncio.sleep(0.5)
   await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
-
+"""Text Captcha"""
 async def text(event):
   user_id = event.user_id
   chats = captcha.find({})
@@ -574,134 +671,7 @@ async def bak(event):
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
-
-@tbot.on(events.CallbackQuery(pattern=r"fk-(\d+)"))
-async def cbot(event):
-    user_id = int(event.pattern_match.group(1))
-    chat_id = event.chat_id
-    if not event.sender_id == user_id:
-        await event.answer("You aren't the person whom should be verified.")
-        return
-    await event.answer("❌ Wrong Try Again!")
-    keyboard = [
-            Button.inline(
-                f"{emoji.BRAIN}",
-                data=f"pep-{user_id}"
-            ),
-            Button.inline(
-                f"{emoji.CHECK_MARK_BUTTON}",
-                data=f'pro-{user_id}'
-            ),
-            Button.inline(
-                f"{emoji.CROSS_MARK}",
-                data=f"fk-{user_id}"
-            ),
-            Button.inline(
-                f"{emoji.ROBOT}",
-                data=f'yu-{user_id}'
-            )
-        ]
-    shuffle(keyboard)
-    await event.edit(buttons=keyboard)
-
-@tbot.on(events.CallbackQuery(pattern=r"pep-(\d+)"))
-async def cbot(event):
-    user_id = int(event.pattern_match.group(1))
-    chat_id = event.chat_id
-    if not event.sender_id == user_id:
-        await event.answer("You aren't the person whom should be verified.")
-        return
-    await event.answer("❌ Wrong Try Again!")
-    keyboard = [
-            Button.inline(
-                f"{emoji.BRAIN}",
-                data=f"pep-{user_id}"
-            ),
-            Button.inline(
-                f"{emoji.CHECK_MARK_BUTTON}",
-                data=f'pro-{user_id}'
-            ),
-            Button.inline(
-                f"{emoji.CROSS_MARK}",
-                data=f"fk-{user_id}"
-            ),
-            Button.inline(
-                f"{emoji.ROBOT}",
-                data=f'yu-{user_id}'
-            )
-        ]
-    shuffle(keyboard)
-    await event.edit(buttons=keyboard)
-    
-@tbot.on(events.CallbackQuery(pattern=r"yu-(\d+)"))
-async def cbot(event):
-    user_id = int(event.pattern_match.group(1))
-    chat_id = event.chat_id
-    if not event.sender_id == user_id:
-        await event.answer("You aren't the person whom should be verified.")
-        return
-    await event.answer("❌ Wrong Try Again!")
-    keyboard = [
-            Button.inline(
-                f"{emoji.BRAIN}",
-                data=f"pep-{user_id}"
-            ),
-            Button.inline(
-                f"{emoji.CHECK_MARK_BUTTON}",
-                data=f'pro-{user_id}'
-            ),
-            Button.inline(
-                f"{emoji.CROSS_MARK}",
-                data=f"fk-{user_id}"
-            ),
-            Button.inline(
-                f"{emoji.ROBOT}",
-                data=f'yu-{user_id}'
-            )
-        ]
-    shuffle(keyboard)
-    await event.edit(buttons=keyboard)
-  
-@tbot.on(events.CallbackQuery(pattern=r"pro-(\d+)"))
-async def cbot(event):
-    user_id = int(event.pattern_match.group(1))
-    chat_id = event.chat_id
-    if not event.sender_id == user_id:
-        await event.answer("You aren't the person whom should be verified.")
-        return
-    await event.answer("Verified Successfully ✅")
-    await tbot(EditBannedRequest(event.chat_id, user_id, UNMUTE_RIGHTS))
-    await event.edit(buttons=None)
-
-@register(pattern="^/captchakicktime ?(.*)")
-async def t(event):
- try:
-  time = int(event.pattern_match.group(1))
- except:
-  return await event.reply("Please Specify in Seconds **For Now**")
- chats = captcha.find({})
- try:
-  for c in chats:
-      if event.chat_id == c["id"]:
-          to_check = get_chat(id=event.chat_id)
-          captcha.update_one(
-                {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "type": to_check["type"],
-                    "time": to_check["time"],
-                    "mode": to_check["mode"],
-                },
-                {"$set": {"time": time}},
-            )
-          return await event.reply(f"Updated captcha kick time to **{time}s**")
-  captcha.insert_one(
-        {"id": event.chat_id, "type": 'text', "time": time, "mode": "on"}
-    )
-  await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
- except Exception as e:
-  print(e)
-
+"""Button Captcha"""
 async def button(event):
   user_id = event.user_id
   chats = captcha.find({})
@@ -763,6 +733,38 @@ async def cbot(event):
          pass
       await event.answer("Yep you are verified as a human being")
       await event.edit(buttons=None)
+
+
+"""Commands Section"""
+@register(pattern="^/captchakicktime ?(.*)")
+async def t(event):
+ try:
+  time = int(event.pattern_match.group(1))
+ except:
+  return await event.reply("Please Specify in Seconds **For Now**")
+ chats = captcha.find({})
+ try:
+  for c in chats:
+      if event.chat_id == c["id"]:
+          to_check = get_chat(id=event.chat_id)
+          captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                    "mode": to_check["mode"],
+                },
+                {"$set": {"time": time}},
+            )
+          return await event.reply(f"Updated captcha kick time to **{time}s**")
+  captcha.insert_one(
+        {"id": event.chat_id, "type": 'text', "time": time, "mode": "on"}
+    )
+  await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
+ except Exception as e:
+  print(e)
+
 
 @register(pattern="^/captchamode ?(.*)")
 async def t(event):
