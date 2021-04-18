@@ -85,7 +85,7 @@ async def gban(event):
      reason = "None"
    r_sender_id = iid
  if r_sender_id == OWNER_ID:
-        await event.reply(f"Char Chavanni godhe pe\ngey Mere Lode Pe!.")
+        await event.reply(f"Vro Chakka He kya?.🤨")
         return
  elif r_sender_id in DEV_USERS:
         await event.reply("This Person is a Dev, Sorry!")
@@ -94,7 +94,7 @@ async def gban(event):
         await event.reply("Another one bits the dust! banned a betichod!")
         return
  elif sudo(r_sender_id):
-        await event.reply("Yeah Nibba that's a Sudo User🤨")
+        await event.reply("Ja Na Nalle.!")
         return
  chats = gbanned.find({})
  for c in chats:
@@ -118,7 +118,7 @@ async def gban(event):
  gbanned.insert_one(
         {"bannerid": event.sender_id, "user": r_sender_id, "reason": reason}
     )
- k = await event.reply("⚡Snaps the BanHammer⚡")
+ k = await event.reply("⚡️ **Snaps the Banhammer** ⚡️")
  cheater = get_all_chat_id()
  done = 0
  for i in cheater:
@@ -132,7 +132,6 @@ async def gban(event):
        pass
  await tbot.send_message(GBAN_LOGS, "**Global Ban**\n#NEW\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
- await event.reply(f"GlobalBan Completed\n**Time Taken**: Soon!")
 
 @register(pattern="^/ungban ?(.*)")
 async def ugban(event):
@@ -185,7 +184,7 @@ async def ugban(event):
      reason = None
    r_sender_id = iid
  if r_sender_id == OWNER_ID:
-        await event.reply(f"Yeah FuckOff!")
+        await event.reply("Gey Away.")
         return
  elif r_sender_id in DEV_USERS:
         await event.reply("No!")
@@ -194,7 +193,7 @@ async def ugban(event):
         await event.reply("Who Dafaq Made You Sudo?!")
         return
  elif sudo(r_sender_id):
-        await event.reply("Yeah Nibba that's a Sudo User🤨")
+        await event.reply("Sudo ko kon ungban krta londe.?")
         return
  chats = gbanned.find({})
  for c in chats:
