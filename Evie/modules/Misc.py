@@ -487,7 +487,7 @@ async def sw(event):
  if response is True:
         date = a["results"]["last_updated"]
         stats = f"**◢ Intellivoid• SpamProtection Info**:\n"
-        stats += f' • **Updated on**: `{datetime.fromtimestamp(date).strftime("%Y-%m-%d %I:%M:%S %p")}`\n'
+        stats += f' • **Updated on**: `{stime.fromtimestamp(date).strftime("%Y-%m-%d %I:%M:%S %p")}`\n'
         stats += (
             f" • **Chat Info**: [Link](t.me/SpamProtectionBot/?start=00_{user_id})\n"
         )
