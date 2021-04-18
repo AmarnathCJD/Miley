@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from Evie import MONGO_DB_URI, DEV_USERS, OWNER_ID, BOT_ID, SUDO_USERS, tbot, ubot
 from Evie.events import register
 from Evie import tbot
-from Evie.function import is_admin, sudo
+from Evie.function import is_admin
 from telethon import events
 import subprocess
 import asyncio
@@ -102,7 +102,7 @@ async def approve(event):
 async def sud(event):
  if event.sender_id == OWNER_ID:
       pass
- elif sudo(event.sender_id):
+ elif await sudo(event.sender_id):
       pass
  else:
       return
@@ -134,7 +134,7 @@ async def approve(event):
      return
    elif iid in SUDO_USERS:
      return
-   elif sudo(iid):
+   elif await sudo(iid):
      return
    if event.sender_id == BOT_ID or int(iid) == int(BOT_ID):
         await event.reply("I am not gonna blacklist myself")
@@ -182,9 +182,9 @@ async def echo(event):
         return
   if event.sender_id == OWNER_ID:
         pass
-  elif sudo(event.sender_id):
+  elif await sudo(event.sender_id):
         pass
-  elif is_admin(event, event.sender_id):
+  elif await is_admin(event, event.sender_id):
         pass
   else:
         return
@@ -261,7 +261,7 @@ async def _(event):
     cmd = event.text.split(" ", maxsplit=1)[1]
     if event.sender_id == OWNER_ID:
         pass
-    elif sudo(event.sender_id):
+    elif await sudo(event.sender_id):
         if sql.is_afk(OWNER_ID):
           return await event.reply("Sorry you cannot perform eval function when my master is afk. Try again later.!")
         if "os.environ.get" in cmd:
