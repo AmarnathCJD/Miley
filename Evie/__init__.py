@@ -7,7 +7,7 @@ import urllib.parse as urlparse
 import json
 from logging import basicConfig
 from logging import getLogger
-from logging import INFO
+from logging import INFO, DEBUG
 import sentry_sdk
 sentry_sdk.init(
     "https://495481e637624d62964e8f3a6aab587a@o569008.ingest.sentry.io/5714441",
