@@ -406,7 +406,7 @@ async def _(event):
     sample_url = "https://api.screenshotlayer.com/api/capture?access_key={}&url={}&fullpage={}&viewport={}&format={}&force={}&user_agent={}"
     input_str = event.pattern_match.group(1)
     if not input_str:
-       return await event.reply("Please provide a URL to get its screenshot!")
+       return await k.edit("Please provide a URL to get its screenshot!")
     if not input_str.startswith("https://"):
        input_str = f"https://{input_str}"
     response_api = requests.get(
@@ -446,6 +446,7 @@ async def _(event):
     return await event.reply("Invalid IPAddress!")
  output = f"""
 **IP Address:** {info['query']}
+**ContinentCode:** {info['continentCode']}
 **Country:** {info['country']}
 **Country Code:** {info['countryCode']}
 **Region:** {info['region']}
