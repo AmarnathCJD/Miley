@@ -843,7 +843,14 @@ async def ba(event):
                 {"$set": {"mode": "off", "type": type, "time": time}},
             )
      return await event.reply(f"Captcha is successfully disabled")
+ elif arg == None:
+   text = """
+Users will be asked to complete a CAPTCHA before being allowed to speak in the chat.
 
+To change this setting, try this command again followed by one of yes/no/on/off
+"""
+   await event.reply(text)
+ 
 @register(pattern="^/welcome ?(.*)")
 async def q(event):
  try:
