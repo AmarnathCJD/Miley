@@ -6,7 +6,7 @@ import os
 import urllib.parse as urlparse
 import json
 from logging import basicConfig
-from logging import DEBUG, ERROR
+from logging import DEBUG, WARNING
 from logging import getLogger
 from logging import INFO
 import sentry_sdk
@@ -23,7 +23,7 @@ CMD_HELP = {}
 LOAD_PLUG = {}
 # enable logging
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.ERROR
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.WARNING
 )
 
 LOGGER = logging.getLogger(__name__)
