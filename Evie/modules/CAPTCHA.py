@@ -696,17 +696,6 @@ async def t(event):
   await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
  except Exception as e:
   print(e)
-            
-
-@tbot.on(events.NewMessage(pattern=None))
-async def babe(event):
- #inline delete
- if not event.chat.username == 'lunabotsupport':
-    return
- if await is_admin(event, event.sender_id):
-    return
- if not event.via_bot_id == None:
-   await event.delete()
 
 async def button(event):
   user_id = event.user_id
