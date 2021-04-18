@@ -278,7 +278,7 @@ async def math(event, time):
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url(mode, "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
-  await event.reply(text, buttons=keyboard)
+  await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
   if time:
    if not time == 0:
@@ -889,11 +889,16 @@ async def ba(event):
                 {"$set": {"mode": "on", "type": type, "time": time}},
             )
      return await event.reply(f"Captcha is enabled with mode **{type}**")
+    else:
+     captcha.insert_one(
+        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
+     )
+     return await event.reply(f"Successfully enabled captcha mode!")
    else:
     captcha.insert_one(
         {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
-    )
-    return await event.reply(f"Successfully enabled captcha mode!")
+     )
+     await event.reply("Captcha sucessfully enabled for this chat!")
   elif arg in bro:
    if mode:
     if mode == "off" or mode == None:
