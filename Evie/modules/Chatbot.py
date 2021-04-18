@@ -49,6 +49,9 @@ async def _(event):
 async def _(event):
   prof = str(event.text)
   if event.is_group:
+   is_chat = sql.is_chat(event.chat_id)
+   if not is_chat:
+         return
    if event.reply_to_msg_id:
      reply_msg = await event.get_reply_message()
      if not reply_msg.sender_id == BOT_ID:
@@ -63,13 +66,10 @@ async def _(event):
    pass
   msg = prof.replace("Evie", "Aco")
   msg = prof.replace("evie", "Aco")
-  is_chat = sql.is_chat(event.chat_id)
-  if not is_chat:
-         return
   if msg.startswith("/") or msg.startswith("@") or msg.startswith("."):
     return
   lan = translator.detect(msg)
-  if not "en" in lan and not lan == "" and not lan == "ru":
+  if not "en" in lan and not lan == "":
      test = translator.translate(msg, lang_tgt="en")
   else:
      test = msg
@@ -94,7 +94,7 @@ async def _(event):
   result = result.replace("Aco", "Evie")
   result = result.replace("<a href=\\", "<a href =")
   result = result.replace("<\/a>", "</a>")
-  if not "en" in lan and not lan == "" and not lan == "ru":
+  if not "en" in lan and not lan == "":
     finale = translator.translate(result, lang_tgt=lan[0])
   else:
     finale = result
