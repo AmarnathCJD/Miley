@@ -1,4 +1,4 @@
-from Evie import tbot, CMD_HELP, MONGO_DB_URI
+from Evie import tbot, CMD_HELP, MONGO_DB_URI, BOT_ID
 import os, asyncio, re
 from telethon import Button, events
 from Evie.function import gen_captcha, is_admin
@@ -13,6 +13,7 @@ client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 captcha = db.capta
 welcome = db.wlc
+cbutton = db.cbutton
 
 from Evie.modules.sql.welcome_sql import get_current_welcome_settings
 
@@ -236,6 +237,11 @@ async def cbot(event):
 """Math captcha"""
 async def math(event):
   user_id = event.user_id
+  mode = "Click here to prove you're human"
+  chats = cbutton.find({})
+  for c in chats:
+    if event.chat_id == c["id"]:
+       mode = c["mode"]
   chats = captcha.find({})
   for c in chats:
        if event.chat_id == c["id"]:
@@ -274,7 +280,7 @@ async def math(event):
      text += "\n\n**Captcha Verification:**"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
+  buttons = Button.url(mode, "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
   await event.reply(text, buttons=keyboard)
   WELCOME_DELAY_KICK_SEC = time
   if time:
@@ -450,6 +456,11 @@ async def bak(event):
 """Text Captcha"""
 async def text(event, time):
   user_id = event.user_id
+  mode = "Click here to prove you're human"
+  chats = cbutton.find({})
+  for c in chats:
+    if event.chat_id == c["id"]:
+       mode = c["mode"]
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
@@ -478,7 +489,7 @@ async def text(event, time):
      text += "\n\n**Captcha Verification**"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
-  buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=captcha_{}".format(event.chat_id))
+  buttons = Button.url(mode, "t.me/MissEvie_Robot?start=captcha_{}".format(event.chat_id))
   await event.reply(text, buttons=buttons)
   WELCOME_DELAY_KICK_SEC = time
   if time:
@@ -661,8 +672,13 @@ async def bak(event):
 
 """Button Captcha"""
 async def button(event, time):
+  mode = "Click here to prove you're human"
+  chats = cbutton.find({})
+  for c in chats:
+    if event.chat_id == c["id"]:
+       mode = c["mode"]
   user_id = event.user_id
-  buttons= Button.inline("Click Here to prove you're Human", data=f"check-bot-{user_id}")
+  buttons= Button.inline(mode, data=f"check-bot-{user_id}")
   cws = get_current_welcome_settings(event.chat_id)
   if cws:
      a_user = await event.get_user()
@@ -793,6 +809,10 @@ async def t(event):
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("You need to be an admin to do this!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  pro = ["on", "enable", "yes"]
  bro = ["off", "disable", "no"]
  arg = event.pattern_match.group(1)
@@ -847,39 +867,46 @@ async def ba(event):
    text = "Users will be asked to complete a CAPTCHA before being allowed to speak in the chat.\n\nTo change this setting, try this command again followed by one of yes/no/on/off"
    await event.reply(text)
  
-@register(pattern="^/welcome ?(.*)")
-async def q(event):
- try:
-  arg = event.pattern_match.group(1)
-  if not arg:
-   cp = captcha.find({})
-   tp = None
-   for c in cp:
+@tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
+async def ba(event):
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("You need to be an admin to do this!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
+ arg = event.pattern_match.group(1)
+ if not args:
+    mode = "Click here to prove you're human"
+    chats = cbutton.find({})
+    for c in chats:
       if event.chat_id == c["id"]:
-         tp = c["type"]
-         tym = c["time"]
-   if tp:
-    calt = "True"
-    mode = tp
-    if tym:
-     set = tym
-    else:
-     set = "None"
-   else:
-    calt = "False"
-    mode = "None"
-    set = "None"
-   chats = welcome.find({})
-   for c in chats:
-    if event.chat_id == c["id"]:
-       settings = c["type"]
-   if settings == "on":
-     wc = "True"
-   elif settings == "off":
-     wc = "False"
-   return await event.reply(f"Current welcome Stats: `{wc}`\n\nCaptcha Status: `{calt}`\nCaptcha Mode: `{mode}`\nCaptcha kicktime: `{set}`\nCaptcha rules: `disabled`")
- except Exception as e:
-  await event.reply(f"{e}")
+        mode = c["mode"]
+    text = f"Users will be welcomed with a button containing the following:\n`{mode}`\nTo change the text, try this command again followed by your new text"
+    return await event.reply(text)
+ if len(args) > 20:
+    return await event.reply("Only upto length of 20 Charectors Supported")
+ chats = cbutton.find({})
+ for c in chats:
+   if event.chat_id == c["id"]:
+     cbutton.delete_one({"id": event.chat_id})
+ cbutton.insert_one(
+        {"id": event.chat_id, "mode": args}
+    )
+ await event.reply("Updated the captcha button text!")
+
+@register(pattern="^/resetcaptchatext")
+async def rrb(event):
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
+ chats = cbutton.find({})
+ for c in chats:
+   if event.chat_id == c["id"]:
+    cbutton.delete_one({"id": event.chat_id})
+ await event.reply("Reset the rules button name to default")
+
+
+
 
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
