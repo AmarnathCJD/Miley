@@ -45,9 +45,7 @@ async def _(event):
           return
   user_id = event.user_id
   chats = captcha.find({})
-  type = None
-  mode = None
-  time = None
+  type = mode = time = None
   for c in chats:
        if event.chat_id == c["id"]:
           type = c["type"]
@@ -57,24 +55,19 @@ async def _(event):
       return
   if not type == None:
    if type == "multibutton":
-      return await multibutton(event)
+      return await multibutton(event, time)
    elif type == "math":
-      return await math(event)
+      return await math(event, time)
    elif type == "button":
-      return await button(event)
+      return await button(event, time)
    elif type == "text":
-      return await text(event)
+      return await text(event, time)
   else:
     return
 
 """Multi button captcha"""
-async def multibutton(event):
+async def multibutton(event, time):
   user_id = event.user_id
-  chats = captcha.find({})
-  for c in chats:
-       if event.chat_id == c["id"]:
-          type = c["type"]
-          time = c["time"]
   a_user = await event.get_user()
   mention = "[{}](tg://user?id={})".format(a_user.first_name, a_user.id)
   cws = get_current_welcome_settings(event.chat_id)
@@ -278,7 +271,7 @@ async def math(event):
                                 fullname=fullname,
                                 userid=userid,
                             )
-     text += "\n\n**Captcha Verification**🤖"
+     text += "\n\n**Captcha Verification:**"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   buttons = Button.url("Click here to prove you are human", "t.me/MissEvie_Robot?start=math_{}".format(event.chat_id))
@@ -455,13 +448,8 @@ async def bak(event):
   await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 """Text Captcha"""
-async def text(event):
+async def text(event, time):
   user_id = event.user_id
-  chats = captcha.find({})
-  for c in chats:
-       if event.chat_id == c["id"]:
-          type = c["type"]
-          time = c["time"]
   try:
     await tbot(EditBannedRequest(event.chat_id, user_id, MUTE_RIGHTS))
   except:
@@ -672,13 +660,8 @@ async def bak(event):
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
 """Button Captcha"""
-async def button(event):
+async def button(event, time):
   user_id = event.user_id
-  chats = captcha.find({})
-  for c in chats:
-       if event.chat_id == c["id"]:
-          type = c["type"]
-          time = c["time"]
   buttons= Button.inline("Click Here to prove you're Human", data=f"check-bot-{user_id}")
   cws = get_current_welcome_settings(event.chat_id)
   if cws:
@@ -701,7 +684,7 @@ async def button(event):
                                 fullname=fullname,
                                 userid=userid,
                             )
-     text += "\n\n**Captcha Verification**"
+     text += "\n\n**Captcha Verification**:"
   else:
    text = f"Hey {event.user.first_name} Welcome to {event.chat.title}!"
   button_message = await event.reply(
@@ -811,23 +794,17 @@ async def t(event):
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
  pro = ["on", "enable", "yes"]
+ bro = ["off", "disable", "no"]
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
- type = None
- time = None
- mode = None
+ type = mode = time = None
  for c in chats:
       if event.chat_id == c["id"]:
          mode = c["mode"]
          type = c["type"]
          time = c["time"]
-       
- if type == None:
-    type = "button"
- if not time:
-    time = 0
  if arg:
-  if arg == "on" or arg == "enable" or arg == "yes":
+  if arg in pro:
    if mode:
     if mode == "on":
      return await event.reply("Captcha is already enabled for this chat.")
@@ -849,9 +826,9 @@ async def ba(event):
         {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
     )
     return await event.reply(f"Successfully enabled captcha mode!")
-  elif arg == "off" or arg == "disable" or arg == "no":
+  elif arg in bro:
    if mode:
-    if mode == "off":
+    if mode == "off" or mode == None:
       return await event.reply("captcha is not enabled here in the first place!")
     elif mode == "on":
      to_check = get_chat(id=event.chat_id)
@@ -866,11 +843,6 @@ async def ba(event):
                 {"$set": {"mode": "off", "type": type, "time": time}},
             )
      return await event.reply(f"Captcha is successfully disabled")
-   else:
-    captcha.insert_one(
-        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
-    )
-    return await event.reply(f"Successfully disabled captcha mode!")
 
 @register(pattern="^/welcome ?(.*)")
 async def q(event):
