@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from Evie import MONGO_DB_URI, DEV_USERS, OWNER_ID, BOT_ID, SUDO_USERS, tbot, ubot
 from Evie.events import register
 from Evie import tbot
-from Evie.function import is_admin
+from Evie.function import is_admin, sudo
 from telethon import events
 import subprocess
 import asyncio
@@ -100,6 +100,12 @@ async def approve(event):
 
 @register(pattern="^/sudolist")
 async def sud(event):
+ if event.sender_id == OWNER_ID:
+      pass
+ elif sudo(event.sender_id):
+      pass
+ else:
+      return
  res = []
  k = sql.SUDO_USERS
  reply = "**SUDO_USERS:**\n\n"
