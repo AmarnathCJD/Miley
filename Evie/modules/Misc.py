@@ -426,6 +426,8 @@ async def _(event):
                     caption=f"**URL:** {input_str}",
                 )
              await k.delete()
+            except Exception as e:
+             await k.edit(f"{e}")
     else:
         if "invalid" in response_api.text:
            return await k.edit("You have specified an invalid URL.")
