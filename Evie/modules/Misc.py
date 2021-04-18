@@ -18,6 +18,7 @@ from Evie.modules.sql.setbio_sql import set_bio, rm_bio
 from Evie.modules.sql.setbio_sql import SUDO_USERS as boss
 from Evie import tbot, OWNER_ID, CMD_HELP, ubot, StartTime, MONGO_DB_URI, BOT_ID, SCREENSHOT_API
 import datetime, time
+from prsaw import RandomStuff
 from Evie.function import is_admin, bio, sudo
 
 client = MongoClient()
@@ -534,6 +535,17 @@ async def math(event):
  response = requests.request("GET", url, headers=headers, params=querystring)
  await event.reply(response.text)
 
+@register(pattern="^/joke")
+async def jk(event):
+ api_key = "QlkcYlg38zhQ"
+ rs = RandomStuff(api_key = api_key)
+ response =  rs.get_joke(_type = "any")
+ if response["setup"]:
+  text = response["setup"] + response["delivery"]
+ else:
+  text = response["joke"]
+ await event.reply(text)
+
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
@@ -548,5 +560,6 @@ __help__ = """
  - /iplookup: gets info about an ipaddress
  - /spwinfo: gets intellvoid spam ban details
  - /solve: solve mathematics problems
+ - /joke: tells a joke
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
