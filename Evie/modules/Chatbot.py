@@ -47,19 +47,20 @@ async def _(event):
 
 @tbot.on(events.NewMessage(pattern=None))
 async def _(event):
-  if event.is_private:
-     return
   prof = str(event.text)
-  if event.reply_to_msg_id:
-    reply_msg = await event.get_reply_message()
-    if not reply_msg.sender_id == BOT_ID:
-           return
-  elif "Evie" in prof:
-     pass
-  elif "evie" in prof:
-     pass
-  else:
-     return
+  if event.is_group:
+   if event.reply_to_msg_id:
+     reply_msg = await event.get_reply_message()
+     if not reply_msg.sender_id == BOT_ID:
+            return
+   elif "Evie" in prof:
+      pass
+   elif "evie" in prof:
+      pass
+   else:
+      return
+  if event.is_private:
+   pass
   msg = prof.replace("Evie", "Aco")
   msg = prof.replace("evie", "Aco")
   is_chat = sql.is_chat(event.chat_id)
