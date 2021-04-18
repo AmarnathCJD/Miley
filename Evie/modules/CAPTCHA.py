@@ -903,7 +903,7 @@ async def rrb(event):
  for c in chats:
    if event.chat_id == c["id"]:
     cbutton.delete_one({"id": event.chat_id})
- await event.reply("Reset the rules button name to default")
+ await event.reply("Reset the captcha button name to default")
 
 
 
