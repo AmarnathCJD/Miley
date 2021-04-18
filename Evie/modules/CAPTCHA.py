@@ -816,6 +816,8 @@ async def t(event):
 async def t(event):
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
+ type = None
+ level = ["button", "multibutton", "text", "math"]
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only Admins can execute this command!")
  if not arg:
@@ -826,7 +828,7 @@ async def t(event):
      return await event.reply(f"Current captcha mode is **{type}**")
    else:
      return await event.reply("Captcha is currently off for this Chat")
- if not arg == "button" and not arg == "text" and not arg == "math" and not arg == "multibutton":
+ if not arg in level:
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
  if type:
   for c in chats:
