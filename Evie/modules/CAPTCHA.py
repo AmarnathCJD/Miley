@@ -17,6 +17,11 @@ welcome = db.wlc
 
 from Evie.modules.sql.welcome_sql import get_current_welcome_settings
 
+robot = "🤖"
+tick = "✅"
+wrong = ["❌", "⛔"]
+brain = ["🧠", "🍋"]
+
 maths = 2
 from telethon.tl.types import ChatBannedRights
 from telethon.tl.functions.channels import EditBannedRequest
@@ -106,19 +111,19 @@ async def multibutton(event):
   text += f"\n\nClick on the button which include this emoji {emoji.CHECK_MARK_BUTTON}."
   keyboard = [
             Button.inline(
-                f"{emoji.BRAIN}",
+                f"{random.choice(brain)}",
                 data=f'pep-{a_user.id}'
             ),
             Button.inline(
-                f"{emoji.CHECK_MARK_BUTTON}",
+                f"{tick}",
                 data=f'pro-{a_user.id}'
             ),
             Button.inline(
-                f"{emoji.CROSS_MARK}",
+                f"{random.choice(wrong)}",
                 data=f"fk-{a_user.id}"
             ),
             Button.inline(
-                f"{emoji.ROBOT}",
+                f"{robot}",
                 data=f'yu-{a_user.id}'
             )
         ]
