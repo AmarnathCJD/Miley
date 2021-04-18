@@ -8,6 +8,7 @@ requests
 gitpython
 heroku3
 coffeehouse
+prsaw
 gtts
 cloudmersive_virus_api_client
 apscheduler
