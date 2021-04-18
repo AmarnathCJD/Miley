@@ -236,6 +236,7 @@ async def cbot(event):
 
 """Math captcha"""
 async def math(event, time):
+ try:
   user_id = event.user_id
   mode = "Click here to prove you're human"
   chats = cbutton.find({})
@@ -283,6 +284,8 @@ async def math(event, time):
     asyncio.create_task(kick_restricted_after_delay(
             WELCOME_DELAY_KICK_SEC, event, user_id))
     await asyncio.sleep(0.5)
+ except Exception as e:
+   print(e)
 
 @register(pattern="^/start math_(.*)")
 async def h(event):
