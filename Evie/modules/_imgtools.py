@@ -19,13 +19,13 @@ async def lg(event):
        if len(op) == 4:
          color = op[0]
          stroke = op[1]
-         width = int(op[3])
          tt = op[2]
+         width = int(op[3])
        if len(op) == 3:
          color = op[0]
          stroke = op[1]
          width = int(op[2])
-         tt = None
+         tt = event.sender.username
        elif len(op) == 2:
          color = op[0]
          stroke = op[1]
