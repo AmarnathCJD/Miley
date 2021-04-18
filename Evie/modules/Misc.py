@@ -520,6 +520,20 @@ async def sw(event):
  else:
     await event.reply("Cannot reach SpamProtection API!")
 
+@register(pattern="^/solve ?(.*)")
+async def math(event):
+ input_str = event.pattern_match.group(1)
+ if not input_str:
+     return await event.reply("Please provide the Mathamatical Equation.")
+ url = "https://evaluate-expression.p.rapidapi.com/"
+ querystring = {"expression":input_str}
+ headers = {
+    'x-rapidapi-key': "fef481fee3mshf99983bfc650decp104100jsnbad6ddb2c846",
+    'x-rapidapi-host': "evaluate-expression.p.rapidapi.com"
+    }
+ response = requests.request("GET", url, headers=headers, params=querystring)
+ await event.reply(response.text)
+
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
@@ -533,5 +547,6 @@ __help__ = """
  - /webss: gets screenshot of a website
  - /iplookup: gets info about an ipaddress
  - /spwinfo: gets intellvoid spam ban details
+ - /solve: solve mathematics problems
 """
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
