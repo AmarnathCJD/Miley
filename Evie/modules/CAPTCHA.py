@@ -766,12 +766,10 @@ async def t(event):
                 {"$set": {"time": time}},
             )
           return await event.reply(f"Updated captcha kick time to **{time}s**")
-  captcha.insert_one(
+ captcha.insert_one(
         {"id": event.chat_id, "type": 'text', "time": time, "mode": "on"}
     )
-  await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
- except Exception as e:
-  print(e)
+ await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
 
 
 @register(pattern="^/captchamode ?(.*)")
