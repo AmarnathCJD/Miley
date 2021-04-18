@@ -1,7 +1,7 @@
 from Evie import tbot, CMD_HELP, MONGO_DB_URI, BOT_ID
 import os, asyncio, re
 from telethon import Button, events
-from Evie.function import gen_captcha, is_admin
+from Evie.function import gen_captcha, is_admin, can_change_info
 from Evie.events import register
 from captcha.image import ImageCaptcha
 image_captcha = ImageCaptcha(width = 400, height = 270)
@@ -300,6 +300,8 @@ async def h(event):
   d = random.randint(1, 100)
   b = random.randint(1, 100)
   c = random.randint(1, 100)
+  e = random.randint(1, 100)
+  f = random.randint(1, 100)
   keyboard = [
             [Button.inline(
                 f"{a}",
@@ -315,6 +317,14 @@ async def h(event):
             ),
             Button.inline(
                 f"{d}",
+                data='nipa_{}'.format(chat)
+            )],
+            [Button.inline(
+                f"{e}",
+                data='nide_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{f}",
                 data='nipa_{}'.format(chat)
             )]
         ]
@@ -353,6 +363,8 @@ async def bak(event):
   d = random.randint(1, 100)
   b = random.randint(1, 100)
   c = random.randint(1, 100)
+  e = random.randint(1, 100)
+  f = random.randint(1, 100)
   keyboard = [
             [Button.inline(
                 f"{a}",
@@ -368,6 +380,14 @@ async def bak(event):
             ),
             Button.inline(
                 f"{d}",
+                data='nipa_{}'.format(chat)
+            )],
+            [Button.inline(
+                f"{e}",
+                data='nide_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{f}",
                 data='nipa_{}'.format(chat)
             )]
         ]
@@ -392,6 +412,8 @@ async def bak(event):
   d = random.randint(1, 100)
   b = random.randint(1, 100)
   c = random.randint(1, 100)
+  e = random.randint(1, 100)
+  f = random.randint(1, 100)
   keyboard = [
             [Button.inline(
                 f"{a}",
@@ -407,6 +429,14 @@ async def bak(event):
             ),
             Button.inline(
                 f"{d}",
+                data='nipa_{}'.format(chat)
+            )],
+            [Button.inline(
+                f"{e}",
+                data='nide_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{f}",
                 data='nipa_{}'.format(chat)
             )]
         ]
@@ -431,6 +461,8 @@ async def bak(event):
   d = random.randint(1, 100)
   b = random.randint(1, 100)
   c = random.randint(1, 100)
+  e = random.randint(1, 100)
+  f = random.randint(1, 100)
   keyboard = [
             [Button.inline(
                 f"{a}",
@@ -446,6 +478,14 @@ async def bak(event):
             ),
             Button.inline(
                 f"{d}",
+                data='nipa_{}'.format(chat)
+            )],
+            [Button.inline(
+                f"{e}",
+                data='nide_{}'.format(chat)
+            ),
+            Button.inline(
+                f"{f}",
                 data='nipa_{}'.format(chat)
             )]
         ]
