@@ -770,6 +770,7 @@ async def t(event):
  chats = captcha.find({})
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only Admins can execute this command!")
+ time = 0
  if not arg:
    for c in chats:
       if event.chat_id == c["id"]:
