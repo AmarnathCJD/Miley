@@ -1,5 +1,6 @@
 from Evie import tbot,MONGO_DB_URI
 from pymongo import MongoClient
+from telethon import events, Button
 
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
