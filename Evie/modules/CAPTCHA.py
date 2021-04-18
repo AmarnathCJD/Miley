@@ -737,13 +737,22 @@ async def cbot(event):
 """Commands Section"""
 @register(pattern="^/captchakicktime ?(.*)")
 async def t(event):
+ arg = event.pattern_match.group(1)
+ if not arg:
+   time = 0
+   for c in chats:
+      if event.chat_id == c["id"]:
+        time = c["time"]
+   if time == 0:
+     return await event.reply("Users willnot be auto kicked if not completed captcha.")
+   else:
+     return await event.reply(f"Users will be kicked after {time}'s if not completed captcha within that time.")
  try:
   time = int(event.pattern_match.group(1))
  except:
   return await event.reply("Please Specify in Seconds **For Now**")
  chats = captcha.find({})
- try:
-  for c in chats:
+ for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
           captcha.update_one(
@@ -771,21 +780,16 @@ async def t(event):
  chats = captcha.find({})
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only Admins can execute this command!")
- time = 0
  if not arg:
    for c in chats:
       if event.chat_id == c["id"]:
          type = c["type"]
-         time = c["time"]
-   if not time:
-     time = 0
    if type:
      return await event.reply(f"Current captcha mode is **{type}**")
    else:
      return await event.reply("Captcha is currently off for this Chat")
  if not arg == "button" and not arg == "text" and not arg == "math" and not arg == "multibutton":
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
- type = arg
  if type:
   for c in chats:
       if event.chat_id == c["id"]:
@@ -798,12 +802,12 @@ async def t(event):
                     "time": to_check["time"],
                     "mode": to_check["mode"],
                 },
-                {"$set": {"type": type, "mode": "on"}},
+                {"$set": {"type": arg, "mode": "on"}},
             )
           await event.reply(f"Successfully updated captchamode to **{type}**")
           return
   captcha.insert_one(
-        {"id": event.chat_id, "type": type, "time": time}
+        {"id": event.chat_id, "type": type, "time": 0}
     )
   await event.reply(f"Successfully set captchamode to **{type}**.")
 
