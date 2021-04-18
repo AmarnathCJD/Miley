@@ -865,7 +865,8 @@ async def ba(event):
  bro = ["off", "disable", "no"]
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
- type = mode = time = None
+ type = mode = None
+ time = 0
  for c in chats:
       if event.chat_id == c["id"]:
          mode = c["mode"]
@@ -873,6 +874,11 @@ async def ba(event):
          time = c["time"]
  if arg:
   if arg in pro:
+   if mode == None:
+    captcha.insert_one(
+        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
+     )
+    await event.reply("Captcha sucessfully enabled for this chat!")
    if mode:
     if mode == "on":
      return await event.reply("Captcha is already enabled for this chat.")
@@ -889,16 +895,6 @@ async def ba(event):
                 {"$set": {"mode": "on", "type": type, "time": time}},
             )
      return await event.reply(f"Captcha is enabled with mode **{type}**")
-    else:
-     captcha.insert_one(
-        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
-     )
-     return await event.reply(f"Successfully enabled captcha mode!")
-   else:
-    captcha.insert_one(
-        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
-     )
-     await event.reply("Captcha sucessfully enabled for this chat!")
   elif arg in bro:
    if mode:
     if mode == "off" or mode == None:
