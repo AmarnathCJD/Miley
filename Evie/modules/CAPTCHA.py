@@ -846,10 +846,10 @@ async def t(event):
             )
           await event.reply(f"Successfully updated captchamode to **{type}**")
           return
-  captcha.insert_one(
+ captcha.insert_one(
         {"id": event.chat_id, "type": type, "time": 0}
     )
-  await event.reply(f"Successfully set captchamode to **{type}**.")
+ await event.reply(f"Successfully set captchamode to **{type}**.")
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
