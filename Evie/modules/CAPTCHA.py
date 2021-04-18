@@ -874,7 +874,7 @@ async def ba(event):
  if not await is_admin(event, BOT_ID):
    return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  arg = event.pattern_match.group(1)
- if not args:
+ if not arg:
     mode = "Click here to prove you're human"
     chats = cbutton.find({})
     for c in chats:
@@ -882,14 +882,14 @@ async def ba(event):
         mode = c["mode"]
     text = f"Users will be welcomed with a button containing the following:\n`{mode}`\nTo change the text, try this command again followed by your new text"
     return await event.reply(text)
- if len(args) > 20:
+ if len(arg) > 20:
     return await event.reply("Only upto length of 20 Charectors Supported")
  chats = cbutton.find({})
  for c in chats:
    if event.chat_id == c["id"]:
      cbutton.delete_one({"id": event.chat_id})
  cbutton.insert_one(
-        {"id": event.chat_id, "mode": args}
+        {"id": event.chat_id, "mode": arg}
     )
  await event.reply("Updated the captcha button text!")
 
