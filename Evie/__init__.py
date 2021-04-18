@@ -6,7 +6,6 @@ import os
 import urllib.parse as urlparse
 import json
 from logging import basicConfig
-from logging import DEBUG, WARNING
 from logging import getLogger
 from logging import INFO
 import sentry_sdk
@@ -23,11 +22,12 @@ CMD_HELP = {}
 LOAD_PLUG = {}
 # enable logging
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.WARNING
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
 
 LOGGER = logging.getLogger(__name__)
 ENV = bool(os.environ.get("ENV", True))
+logging.INFO("Starting Evie Bot...")
 
 if ENV:
     TOKEN = os.environ.get("TOKEN", None)
