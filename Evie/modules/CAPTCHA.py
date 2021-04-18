@@ -738,6 +738,7 @@ async def cbot(event):
 @register(pattern="^/captchakicktime ?(.*)")
 async def t(event):
  arg = event.pattern_match.group(1)
+ chats = captcha.find({})
  if not arg:
    time = 0
    for c in chats:
@@ -751,7 +752,6 @@ async def t(event):
   time = int(event.pattern_match.group(1))
  except:
   return await event.reply("Please Specify in Seconds **For Now**")
- chats = captcha.find({})
  for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
