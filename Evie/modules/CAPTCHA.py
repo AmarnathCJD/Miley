@@ -817,6 +817,7 @@ async def t(event):
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
  type = None
+ time = 0
  level = ["button", "multibutton", "text", "math"]
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only Admins can execute this command!")
@@ -831,7 +832,8 @@ async def t(event):
      return await event.reply("Captcha is currently off for this Chat")
  if not arg in level:
    return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
- for c in chats:
+ try:
+  for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
           captcha.update_one(
@@ -846,10 +848,12 @@ async def t(event):
             )
           await event.reply(f"Successfully updated captchamode to **{type}**")
           return
- captcha.insert_one(
+  captcha.insert_one(
         {"id": event.chat_id, "type": type, "time": 0}
     )
- await event.reply(f"Successfully set captchamode to **{type}**.")
+  await event.reply(f"Successfully set captchamode to **{type}**.")
+ except Exception as e:
+  await event.reply(f"{e}")
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
