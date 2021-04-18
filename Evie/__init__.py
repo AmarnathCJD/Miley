@@ -23,7 +23,7 @@ CMD_HELP = {}
 LOAD_PLUG = {}
 # enable logging
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.DEBUG
 )
 
 LOGGER = logging.getLogger(__name__)
