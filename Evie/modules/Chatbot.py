@@ -21,11 +21,11 @@ async def _(event):
     else:
         return
     chat = event.chat
-    is_chat = sql.is_chat(chat.id)
+    is_chat = sql.is_chat(event.chat_id)
     if not is_chat:
         ses_id = 'null'
         expires = 'null'
-        sql.set_ses(chat.id, ses_id, expires)
+        sql.set_ses(event.chat_id, ses_id, expires)
         await event.reply("AI successfully enabled for this chat!")
         return
     await event.reply("AI Bot is already enabled for this chat!")
@@ -38,11 +38,11 @@ async def _(event):
     else:
         return
     chat = event.chat
-    is_chat = sql.is_chat(chat.id)
+    is_chat = sql.is_chat(event.chat_id)
     if not is_chat:
         await event.reply("AI isn't enabled here in the first place!")
         return
-    sql.rem_chat(chat.id)
+    sql.rem_chat(event.chat_id)
     await event.reply("AI Bot disabled successfully!")
 
 @tbot.on(events.NewMessage(pattern=None))
