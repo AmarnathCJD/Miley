@@ -995,19 +995,17 @@ async def fex(event):
  try:
             for users in getfban:
                 getuserinfo = sql.get_all_fban_users_target(fed_id, users)
-                json_parser = [
-                    {"user_id": users,
-                    "first_name": getuserinfo["first_name"],
-                    "user_name": getuserinfo["user_name"]}
-                ]
+                json_parser = {"user_id": users,
+                               "first_name": getuserinfo["first_name"],
+                               "user_name": getuserinfo["user_name"]}
                 backups += json.dumps(json_parser)
-                backups += "\n"
+                backups += " "
             with BytesIO(str.encode(backups)) as output:
                 output.name = "fbanned_users.csv"
                 await tbot.send_file(
                     event.chat_id,
                     file=output,
-                    filename="fbanned_users.csv",
+                    filename="fbanned_users.json",
                     caption="Fbanned users in \n** {}**.".format(
                         info["fname"]
                     ),
