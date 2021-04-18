@@ -874,8 +874,77 @@ async def cbot(event):
 
 
 """Commands Section"""
+@register(pattern="^/captchakick ?(.*)")
+async def juj(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
+ arg = event.pattern_match.group(1)
+ positive = ["on", "enable", "yes"]
+ negative = ["off", "disable", "no"]
+ chats = captcha.find({})
+ if not args:
+   time = 0
+   for c in chats:
+      if event.chat_id == c["id"]:
+         time = c["time"]
+   if time == 0:
+     text = "Users who don't complete CAPTCHAs won't be kick from the chat.\nto change this setting try the command followed by one of on/yes/off/no."
+   else:
+     text = "Users who don't complete CAPTCHAs in {time}s will get kicked from chat.\nto change this setting try the command followed by one of on/yes/off/no."
+   await event.reply(text)
+ if args in positive:
+  for c in chats:
+      if event.chat_id == c["id"]:
+          to_check = get_chat(id=event.chat_id)
+          captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                    "mode": to_check["mode"],
+                },
+                {"$set": {"time": time}},
+            )
+          return await event.reply("Sucessfully enabled captcha kick")
+  captcha.insert_one(
+        {"id": event.chat_id, "type": 'button', "time": 200, "mode": "on"}
+    )
+  await event.reply("Sucessfully enabled captcha kick")
+ elif args in negative:
+  for c in chats:
+      if event.chat_id == c["id"]:
+          to_check = get_chat(id=event.chat_id)
+          captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "type": to_check["type"],
+                    "time": to_check["time"],
+                    "mode": to_check["mode"],
+                },
+                {"$set": {"time": 0}},
+            )
+          return await event.reply("Sucessfully disabled captcha kick")
+  captcha.insert_one(
+        {"id": event.chat_id, "type": 'button', "time": 0, "mode": "on"}
+    )
+  await event.reply("Sucessfully disabled captcha kick")
+ else:
+   await event.reply(f"That isn't a boolean - expected one of yes/on/enable or no/off/disable; got: {args}")
+
 @register(pattern="^/captchakicktime ?(.*)")
 async def t(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
  if not arg:
@@ -910,16 +979,19 @@ async def t(event):
     )
  await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
 
-
 @register(pattern="^/captchamode ?(.*)")
 async def t(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
  type = None
  time = 0
  level = ["button", "multibutton", "text", "math"]
- if not await is_admin(event, event.sender_id):
-   return await event.reply("Only Admins can execute this command!")
  if not arg:
    for c in chats:
       if event.chat_id == c["id"]:
@@ -957,6 +1029,8 @@ async def t(event):
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("You need to be an admin to do this!")
  if not await is_admin(event, BOT_ID):
@@ -1018,6 +1092,8 @@ async def ba(event):
  
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("You need to be an admin to do this!")
  if not await is_admin(event, BOT_ID):
@@ -1044,6 +1120,8 @@ async def ba(event):
 
 @register(pattern="^/resetcaptchatext")
 async def rrb(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
  if not await is_admin(event, BOT_ID):
