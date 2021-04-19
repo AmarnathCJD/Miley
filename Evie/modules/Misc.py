@@ -558,7 +558,7 @@ async def str(event):
 
 @tbot.on(events.NewMessage(pattern=None))
 async def lel(event, user_id):
-   if not event.sender_id = user_id:
+   if not event.sender_id == user_id:
       return
    await event.reply("lol")
 
