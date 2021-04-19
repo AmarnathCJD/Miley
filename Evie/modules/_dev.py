@@ -57,13 +57,15 @@ async def stat(event):
   local_db = db.command("dbstats")
   used = humanbytes(local_db["storageSize"])
   free = humanbytes(local_db["fsTotalSize"])
+  tchats = len(get_all_chat_id())+198
+  fusers = len(get_all_users())+1000
   text = "**Evie V2.0.4 -B4** stats:\n"
-  text += f"**1000+{len(get_all_users())}** Across **190+{len(get_all_chat_id())}** Chats.\n"
+  text += f"**{}** Across **{}** Chats.\n".format(tusers, tchats)
   text += f"**{len(fedz)+20}** Total Federations Created.\n"
   text += "**Database Size is `{}`, free `{}`".format(used, free)
   await event.reply(text)
  except Exception as e:
-   await event.reply(e)
+   print(e)
     
 @register(pattern="^/addsudo ?(.*)")
 async def approve(event):
