@@ -266,7 +266,7 @@ async def msg(event):
 
 @register(pattern="^/eval ?(.*)")
 async def _(event):
-    cmd = event.pattern_match.group(1)
+    cmd = event.text.split(" ", maxsplit=1)[1]
     if event.sender_id == OWNER_ID:
         pass
     elif await sudo(event.sender_id):
