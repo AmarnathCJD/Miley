@@ -28,7 +28,6 @@ import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
 from Evie.modules.sql.setbio_sql import set_bio, rm_bio, check_bio_status, is_bio, get_all_bio_id
 
-
 @tbot.on(events.ChatAction)
 async def handler(event):
     if event.user_added:
@@ -43,7 +42,6 @@ async def handler(event):
     if event.user_kicked:
         if event.user_id == BOT_ID:
               rmchat(event.chat_id)
-
 
 @register(pattern="^/stats")
 async def stat(event):
@@ -231,8 +229,6 @@ async def echo(event):
              )
   else:
      await tbot.send_message(event.chat_id, f"{event.sender.first_name} Chithiya. Echo krnekeliye kuch ni deta🤨")
-       
-          
 
 @register(pattern="^/exec (.*)")
 async def msg(event):
@@ -268,14 +264,12 @@ async def msg(event):
     await event.reply(f"**QUERY:**\n__Command:__\n`{cmd}` \n__PID:__\n`{process.pid}`\n\n**stderr:** \n`{e}`\n**Output:**\n{o}"
 )
 
-@register(pattern="^/eval")
+@register(pattern="^/eval ?(.*)")
 async def _(event):
-    cmd = event.text.split(" ", maxsplit=1)[1]
+    cmd = event.pattern_match.group(1)
     if event.sender_id == OWNER_ID:
         pass
     elif await sudo(event.sender_id):
-        if sql.is_afk(OWNER_ID):
-          return await event.reply("Sorry you cannot perform eval function when my master is afk. Try again later.!")
         if "os.environ.get" in cmd:
           await event.reply("Can't access env variables.")
           return
@@ -291,7 +285,6 @@ async def _(event):
         pass
     else:
         return
-    
     reply_to_id = event.message.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
