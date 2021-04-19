@@ -2,7 +2,7 @@ from pymongo import MongoClient
 from Evie import MONGO_DB_URI, DEV_USERS, OWNER_ID, BOT_ID, SUDO_USERS, tbot, ubot
 from Evie.events import register
 from Evie import tbot
-from Evie.function import is_admin, humanbytes as convert
+from Evie.function import is_admin, humanbytes
 from telethon import events
 import subprocess
 import asyncio
