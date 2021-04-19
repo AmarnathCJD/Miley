@@ -54,10 +54,12 @@ async def stat(event):
  else:
    return
  local_db = db.command("dbstats")
+ used = humanbytes(local_db["storageSize"])
+ free = humanbytes(local_db["fsTotalSize"])
  text = "**Evie V2.0.4 -B4** stats:\n"
  text = f"**1000+{len(get_all_users())}** Across **190+{len(get_all_chat_id())}** Chats.\n"
  text = f"**{len(fedz)+20}** Total Federations Created.\n"
- text = f"**Database Size is `{humanbytes(local_db["storageSize"])}`, free `{humanbytes(local_db["fsTotalSize"])}`"
+ text = "**Database Size is `{}`, free `{}`".format(used, free)
  await event.respond(text)
     
 @register(pattern="^/addsudo ?(.*)")
