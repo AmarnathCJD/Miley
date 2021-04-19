@@ -877,7 +877,7 @@ async def cbot(event):
 @register(pattern="^/captchakick ?(.*)")
 async def juj(event):
  if event.is_private:
-  await event.reply("This command is specific to groups")
+  return await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
  if not await is_admin(event, BOT_ID):
@@ -940,7 +940,7 @@ async def juj(event):
 @register(pattern="^/captchakicktime ?(.*)")
 async def t(event):
  if event.is_private:
-  await event.reply("This command is specific to groups")
+  return await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
  if not await is_admin(event, BOT_ID):
@@ -982,7 +982,7 @@ async def t(event):
 @register(pattern="^/captchamode ?(.*)")
 async def t(event):
  if event.is_private:
-  await event.reply("This command is specific to groups")
+  return await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
  if not await is_admin(event, BOT_ID):
@@ -1030,7 +1030,7 @@ async def t(event):
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def ba(event):
  if event.is_private:
-  await event.reply("This command is specific to groups")
+  return await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("You need to be an admin to do this!")
  if not await is_admin(event, BOT_ID):
@@ -1093,7 +1093,7 @@ async def ba(event):
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
  if event.is_private:
-  await event.reply("This command is specific to groups")
+  return await event.reply("This command is specific to groups")
  if not await is_admin(event, event.sender_id):
    return await event.reply("You need to be an admin to do this!")
  if not await is_admin(event, BOT_ID):
