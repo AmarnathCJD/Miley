@@ -546,6 +546,18 @@ async def jk(event):
   text = response["joke"]
  await event.reply(text)
 
+@register(pattern="^/stringgen ?(.*)")
+async def str(event):
+ if not event.is_private:
+   return await event.reply("This command can only be used in PM")
+ input = event.pattern_match.group(1)
+ if not input:
+   await event.reply("Hi Welcome to telethon session generator\nThe given values will only be used for generating your string session, and will never be used for any other purposes\n\nSend your APP_ID to procced further")
+ user_id = event.sender_id
+ @tbot.on(events.NewMessage(from_users=user_id))
+ async def lel(event):
+   await event.reply("lol")
+
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
