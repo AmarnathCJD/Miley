@@ -2,10 +2,11 @@ from pymongo import MongoClient
 from Evie import MONGO_DB_URI, DEV_USERS, OWNER_ID, BOT_ID, SUDO_USERS, tbot, ubot
 from Evie.events import register
 from Evie import tbot
-from Evie.function import is_admin
+from Evie.function import is_admin, humanbytes as convert
 from telethon import events
 import subprocess
 import asyncio
+from Evie.modules.sql.feds_sql import FEDERATION_BYNAME as fedz
 from Evie.modules.sql import afk_sql as sql
 import traceback
 import io
@@ -46,15 +47,19 @@ async def handler(event):
 
 @register(pattern="^/stats")
 async def stat(event):
-    if event.sender_id == OWNER_ID:
-     pass
-    elif event.sender_id in DEV_USERS:
-     pass
-    else:
-     return
-    used = get_all_users()
-    await event.reply(f"<b>I have <u>{len(used)}</u> Users In My Database.</b>", parse_mode="HTML")
-
+ if event.sender_id == OWNER_ID:
+   pass
+ elif event.sender_id in DEV_USERS:
+   pass
+ else:
+   return
+ local_db = db.command("dbstats")
+ text = "**Evie V2.0.4 -B4** stats:\n"
+ text = f"**1000+{len(get_all_users())}** Across **190+{len(get_all_chat_id())}** Chats.\n"
+ text = f"**{len(fedz)+20}** Total Federations Created.\n"
+ text = f"**Database Size is `{humanbytes(local_db["storageSize"])}`, free `{humanbytes(local_db["fsTotalSize"])}`"
+ await event.respond(text)
+    
 @register(pattern="^/addsudo ?(.*)")
 async def approve(event):
    if event.sender_id == OWNER_ID:
