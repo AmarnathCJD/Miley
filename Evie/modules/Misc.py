@@ -556,6 +556,10 @@ async def str(event):
  user_id = event.sender_id
  await event.respond("Enter Your Phone Number")
 
+@tbot.on(events.NewMessage(pattern="code[0-9]+"))
+async def b(event):
+ await event.respond("Hemlo")
+
 
 
 file_help = os.path.basename(__file__)
