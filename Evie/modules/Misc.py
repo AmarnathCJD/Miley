@@ -554,8 +554,12 @@ async def str(event):
  if not input:
    await event.reply("Hi Welcome to telethon session generator\nThe given values will only be used for generating your string session, and will never be used for any other purposes\n\nSend your APP_ID to procced further")
  user_id = event.sender_id
- @tbot.on(events.NewMessage(from_users=user_id))
- async def lel(event):
+ await lel(event, user_id)
+
+@tbot.on(events.NewMessage(pattern=None))
+async def lel(event, user_id):
+   if not event.sender_id = user_id:
+      return
    await event.reply("lol")
 
 file_help = os.path.basename(__file__)
