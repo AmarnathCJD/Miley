@@ -23,6 +23,7 @@ client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 blacklist = db.black
+botusers = []
 from Evie.modules.sql.checkuser_sql import get_all_users
 import Evie.modules.sql.elevated_sql as sql
 from Evie.modules.sql.chats_sql import add_chat, rmchat, is_chat, get_all_chat_id
@@ -36,12 +37,6 @@ async def handler(event):
                 add_chat(event.chat_id)
            await tbot.send_message(-1001486931338, f"Evie Added to {event.chat.title}\n`{event.chat_id}`")
            await tbot.send_message(event.chat_id, "Heya :-D Now leave your group on my hands and let me manage it. If you need any help, head to @EvieSupport.")
-              
-@tbot.on(events.ChatAction)
-async def handler(event):
-    if event.user_kicked:
-        if event.user_id == BOT_ID:
-              rmchat(event.chat_id)
 
 @register(pattern="^/stats")
 async def stat(event):
@@ -58,7 +53,7 @@ async def stat(event):
   tchats = len(get_all_chat_id())+198
   fusers = len(get_all_users())+3600+1234
   text = "**Evie V2.0.9 -B** stats:\n\n"
-  text += "**{}** Users Across **{}** Chats.\n".format(fusers, tchats)
+  text += "**{}** Total Users Across **{}** Chats.\n".format(fusers, tchats)
   text += f"**{len(fedz)+22}** Total Federations Created.\n\n"
   text += "Mongo Database Size is `{}`, free `{}`".format(used, free)
   await event.reply(text)
