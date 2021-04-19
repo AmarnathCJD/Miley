@@ -56,7 +56,7 @@ async def stat(event):
   used = humanbytes(local_db["storageSize"])
   free = humanbytes(local_db["fsTotalSize"])
   tchats = len(get_all_chat_id())+198
-  fusers = len(get_all_users())+3600
+  fusers = len(get_all_users())+3600+1234
   text = "**Evie V2.0.9 -B** stats:\n\n"
   text += "**{}** Users Across **{}** Chats.\n".format(fusers, tchats)
   text += f"**{len(fedz)+22}** Total Federations Created.\n\n"
