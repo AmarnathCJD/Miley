@@ -556,9 +556,9 @@ async def str(event):
  user_id = event.sender_id
  await event.respond("Enter Your Phone Number")
 
-@tbot.on(events.NewMessage(pattern="code[0-9]+"))
+@tbot.on(events.NewMessage(pattern="[0-9]"))
 async def b(event):
- await event.respond("Hemlo")
+ await event.reply("Hemlo")
 
 
 
