@@ -546,42 +546,6 @@ async def jk(event):
   text = response["joke"]
  await event.reply(text)
 
-@register(pattern="^/stringgen ?(.*)")
-async def str(event):
- if not event.is_private:
-   return await event.reply("This command can only be used in PM")
- input = event.pattern_match.group(1)
- if not input:
-   await event.reply("Hi Welcome to telethon session generator\nThe given values will only be used for generating your string session, and will never be used for any other purposes\n\nSend your APP_ID to procced further")
- user_id = event.sender_id
- await event.respond("Enter Your Phone Number")
-
-async def send_req(phone_number):
-    await client.connect()
-    authorized = await client.is_user_authorized()
-    if not authorized:
-        await ubot.send_code_request(phone_number)
-        return None
-    else:
-        string = StringSession.save(client.session)
-        return string
-
-
-@tbot.on(events.NewMessage(pattern="+[0-9]"))
-async def b(event):
- userid = event.sender_id
- phone_number = event.text
- if re.match(r"\+[0-9]+", phone_number):
-    string_req = client.loop.run_until_complete(send_req(phone_number))
-    if string_req:
-       tbot.send_message(userid, "Here is your session <pre>{string_req}</pre>", parse_mode="html")
-    else:
-       msg = tbot.send_message(userid, "Please enter Login code you just recieved in this format <b>code12345</b>", parse_mode="html")
- else:
-    phone_req = tbot.send_message(userid, "Please enter phone number in the correct format")
-
-
-
 file_help = os.path.basename(__file__)
 file_help = file_help.replace(".py", "")
 file_helpo = file_help.replace("_", " ")
