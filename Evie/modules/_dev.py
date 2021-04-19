@@ -59,10 +59,10 @@ async def stat(event):
   free = humanbytes(local_db["fsTotalSize"])
   tchats = len(get_all_chat_id())+198
   fusers = len(get_all_users())+1000
-  text = "**Evie V2.0.4 -B4** stats:\n"
+  text = "**Evie V2.0.9 -B** stats:\n\n"
   text += "**{}** Across **{}** Chats.\n".format(fusers, tchats)
-  text += f"**{len(fedz)+20}** Total Federations Created.\n"
-  text += "**Database Size is `{}`, free `{}`".format(used, free)
+  text += f"**{len(fedz)+20}** Total Federations Created.\n\n"
+  text += "Mongo Database Size is `{}`, free `{}`".format(used, free)
   await event.reply(text)
  except Exception as e:
    print(e)
