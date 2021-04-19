@@ -60,7 +60,7 @@ async def stat(event):
   tchats = len(get_all_chat_id())+198
   fusers = len(get_all_users())+1000
   text = "**Evie V2.0.4 -B4** stats:\n"
-  text += f"**{}** Across **{}** Chats.\n".format(tusers, tchats)
+  text += "**{}** Across **{}** Chats.\n".format(tusers, tchats)
   text += f"**{len(fedz)+20}** Total Federations Created.\n"
   text += "**Database Size is `{}`, free `{}`".format(used, free)
   await event.reply(text)
