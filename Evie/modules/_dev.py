@@ -348,6 +348,14 @@ async def ebent(event):
         cresult = f"`{curruser}:~$` `{cmd}`\n`{result}`"
     await catevent.edit(cresult)
 
+@register(pattern="^/broadcast ?(.*)")
+async def event bc(event):
+ k = get_all_chat_id()
+ for i in k:
+  if is_admin(event, BOT_ID):
+   await tbot.send_message(int(i.chat_id)), 
+
+
 
 async def aexec(code, smessatatus):
     message = event = smessatatus
