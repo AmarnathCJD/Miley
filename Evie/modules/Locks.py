@@ -5,7 +5,7 @@ from telethon import events, Button
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-lock = db.lockie
+lock = db.lockzz
 
 def get_chat(id):
     return lock.find_one({"id": id})
@@ -18,6 +18,9 @@ async def babe(event):
    if c["phone"] == True:
     if event.text.startswith("+91"):
         await event.delete()
+   if c["email"] == True:
+    if "@gmail.com" in event.text or "@yahoo.com" in event.text:
+        await event.delete()
    if c["audio"] == True:
     if event.media:
      if event.media.document.mime_type == "audio/m4a":
@@ -29,11 +32,16 @@ async def babe(event):
     if not event.fwd_from == None:
         await event.delete()
    if c["video"] == True:
-    if event.media.document.mime_type == "video/mp4":
+    if event.media:
+     if event.media.document.mime_type == "video/mp4":
+         await event.delete()
+   if c["location"] == True:
+     if event.media:
+       if not event.media.geo == None:
          await event.delete()
 
 
-addon = ["command", "forward", "video", "audio", "phone"]
+addon = ["command", "forward", "video", "audio", "phone", "location", "email", "comment"]
 from Evie import tbot, CMD_HELP
 import os
 from Evie.function import is_admin
@@ -95,6 +103,9 @@ async def lk(event):
   audio = False
   video = False
   phone = False
+  location = False
+  email = False
+  comment = False
   if input_str == "forward":
      forward = True
   elif input_str == "command":
@@ -105,6 +116,12 @@ async def lk(event):
      audio = True
   elif input_str == "video":
      video = True
+  elif input_str == "location":
+     location = True
+  elif input_str == "email":
+     email = True
+  elif input_str == "comment":
+     comment = True
   chats = lock.find({})
   cid = None
   for c in chats:
@@ -121,12 +138,15 @@ async def lk(event):
                     "phone": to_check["phone"],
                     "video": to_check["video"],
                     "audio": to_check["audio"],
+                    "location": to_check["location"],
+                    "email": to_check["email"],
+                    "comment": to_check["comment"],
                 },
-                {"$set": {"forward": forward, "command": command, "phone": phone, "video": video, "audio": audio}},
+                {"$set": {"forward": forward, "command": command, "phone": phone, "video": video, "audio": audio, "location": location, "email": email, "comment": comment}},
             )
     return await event.reply(f"Locked `{input_str}`")
   lock.insert_one(
-        {"id": event.chat_id, "forward": forward, "command": command, "phone": phone, "video": video, "audio": audio}
+        {"id": event.chat_id, "forward": forward, "command": command, "phone": phone, "video": video, "audio": audio, "location": location, "email": email, "comment": comment}
      )
   return await event.reply(f"Locked `{input_str}`")
  elif input_str == None:
@@ -154,3 +174,4 @@ async def lk(event):
         )
  
 
+#Need to add lock comments
