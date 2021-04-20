@@ -5,7 +5,7 @@ from telethon import events, Button
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-lock = db.lockz
+lock = db.lockie
 
 def get_chat(id):
     return lock.find_one({"id": id})
