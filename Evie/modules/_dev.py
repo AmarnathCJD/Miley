@@ -357,8 +357,11 @@ async def c(event):
  if input_str:
   k = get_all_chat_id()
   for i in k:
-    await tbot.send_message(int(i.chat_id)), event.pattern_match.group(1))
-    chats += 1
+    try:
+     await tbot.send_message(int(i.chat_id), event.pattern_match.group(1))
+     chats += 1
+    except:
+      pass
   await tbot.send_message(OWNER_ID, f"{chats}")
 
 
