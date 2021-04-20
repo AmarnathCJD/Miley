@@ -97,7 +97,7 @@ async def lk(event):
   phone = False
   if input_str == "forward":
      forward = True
-  elif input_str == "command"
+  elif input_str == "command":
      command = True
   elif input_str == "phone":
      phone = True
