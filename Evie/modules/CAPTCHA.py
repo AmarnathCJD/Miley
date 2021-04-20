@@ -874,6 +874,19 @@ async def cbot(event):
 
 
 """Commands Section"""
+
+async def chat_settings(event):
+ mode = None
+ time = 0
+ type = None
+ chats = captcha.find({})
+ for c in chats:
+    if event.chat_id == c["id"]:
+        time = c["time"]
+        mode = c["mode"]
+        type = c["type"]
+ return time, mode, type
+
 @register(pattern="^/captchakick ?(.*)")
 async def juj(event):
  if event.is_private:
@@ -888,17 +901,13 @@ async def juj(event):
  positive = ["on", "enable", "yes"]
  negative = ["off", "disable", "no"]
  chats = captcha.find({})
- if not args:
-   time = 0
-   for c in chats:
-      if event.chat_id == c["id"]:
-         time = c["time"]
-   if time == 0:
-     text = "Users who don't complete CAPTCHAs won't be kick from the chat.\nto change this setting try the command followed by one of on/yes/off/no."
-   else:
-     text = "Users who don't complete CAPTCHAs in {time}s will get kicked from chat.\nto change this setting try the command followed by one of on/yes/off/no."
-   await event.reply(text)
- if args in positive:
+ time, mode, type = await chat_settings(event)
+ if not arg:
+  if time == 0:
+    return await event.reply("Users that don't complete their CAPTCHA are allowed to stay in the chat, muted, and can complete the CAPTCHA whenever.\nTo change this setting, try this command again followed by one of yes/no/on/off
+  else:
+    return await event.reply("I am currently kicking users that haven't completed the CAPTCHA after 0 second.\nTo change this setting, try this command again followed by one of yes/no/on/off")
+ if arg in positive:
   for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
@@ -912,12 +921,12 @@ async def juj(event):
                 },
                 {"$set": {"time": time}},
             )
-          return await event.reply("Sucessfully enabled captcha kick")
+          return await event.reply(f"I will now kick people that haven't solved the CAPTCHA after {time} seconds.")
   captcha.insert_one(
-        {"id": event.chat_id, "type": 'button', "time": 200, "mode": "on"}
+        {"id": event.chat_id, "type": 'button', "time": 300, "mode": "on"}
     )
-  await event.reply("Sucessfully enabled captcha kick")
- elif args in negative:
+  await event.reply("I will now kick people that haven't solved the CAPTCHA after 5 minutes.")
+ elif arg in negative:
   for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
@@ -931,11 +940,11 @@ async def juj(event):
                 },
                 {"$set": {"time": 0}},
             )
-          return await event.reply("Sucessfully disabled captcha kick")
+          return await event.reply("I will no longer kick people that haven't solved the CAPTCHA.")
   captcha.insert_one(
         {"id": event.chat_id, "type": 'button', "time": 0, "mode": "on"}
     )
-  await event.reply("Sucessfully disabled captcha kick")
+  await event.reply("I will no longer kick people that haven't solved the CAPTCHA.")
  else:
    await event.reply(f"That isn't a boolean - expected one of yes/on/enable or no/off/disable; got: {args}")
 
