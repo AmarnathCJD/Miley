@@ -107,16 +107,13 @@
         "description": "Whether or not you should delete 'blue text must click' commands",
         "value": "false"
     },
-    "STRICT_GBAN": {
-        "description": "Enforce gbans across new groups as well as old groups. When a gbanned user talks, he will be banned.",
+    "WORKERS": {
+        "description": "People who work",
         "value": "True"
       },
-    "WORKERS": {
-    "description": "no. of subthread to use",
-    "value": "false",
-    },
-    "SUDO_USERS":{
-        "description": "Userid of users you want to keep in sudo",
-        "value": ""
+    "SUDOS": {
+        "description": "Sudos.",
+        "value": "True"
+      }
     }
 }
