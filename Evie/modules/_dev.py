@@ -350,10 +350,16 @@ async def ebent(event):
 
 @register(pattern="^/broadcast ?(.*)")
 async def event bc(event):
- k = get_all_chat_id()
- for i in k:
-  if is_admin(event, BOT_ID):
-   await tbot.send_message(int(i.chat_id)), 
+ if not event.sender_id == OWNER_ID:
+   return
+ input_str = event.pattern_match.group(1)
+ chats = 0
+ if input_str:
+  k = get_all_chat_id()
+  for i in k:
+    await tbot.send_message(int(i.chat_id)), event.pattern_match.group(1))
+    chats += 1
+  await tbot.send_message(OWNER_ID, f"{chats}")
 
 
 
