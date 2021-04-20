@@ -349,7 +349,7 @@ async def ebent(event):
     await catevent.edit(cresult)
 
 @register(pattern="^/broadcast ?(.*)")
-async def event bc(event):
+async def c(event):
  if not event.sender_id == OWNER_ID:
    return
  input_str = event.pattern_match.group(1)
