@@ -157,10 +157,10 @@ async def kr(event):
 async def pk(event):
  if event.is_private:
    return
- if not is_pin(event.chat_id):
-   return
  if not event.fwd_from:
   return
+ if not is_pin(event.chat_id):
+   return
  from telethon import functions, types
  result = await tbot(functions.channels.GetFullChannelRequest(
         channel=event.chat.username
