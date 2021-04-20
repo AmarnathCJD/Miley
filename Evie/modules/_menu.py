@@ -41,7 +41,7 @@ Report Us At--> @Lunabotsupport
 
 Note: Terms and Conditions will be change anytime!
 
-Updates Channel: @EvienNews
+Updates Channel: @EvieNews
 Support Chat: @EvieSupport
 """
 pmt = """ 
