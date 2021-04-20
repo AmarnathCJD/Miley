@@ -9,16 +9,31 @@ lock = db.lockz
 
 def get_chat(id):
     return lock.find_one({"id": id})
-
+   
 @tbot.on(events.NewMessage(pattern=None))
 async def babe(event):
  chats = lock.find({})
  for c in chats:
   if event.chat_id == c["id"]:
-   if not event.fwd_from == None:
-      if c["forward"] == True:
+   if c["phone"] == True:
+    if event.text.startswith("+91"):
         await event.delete()
+   if c["audio"] == True:
+    if event.media:
+     if event.media.document.mime_type == "audio/m4a":
+        await event.delete()
+   if c["command"] == True:
+    if event.text.startswith("/"):
+        await event.delete()
+   if c["forward"] == True:
+    if not event.fwd_from == None:
+        await event.delete()
+   if c["video"] == True:
+    if event.media.document.mime_type == "video/mp4":
+         await event.delete()
 
+
+addon = ["command", "forward", "video", "audio", "phone"]
 from Evie import tbot, CMD_HELP
 import os
 from Evie.function import is_admin
@@ -74,27 +89,44 @@ async def lk(event):
     adduser = True
     cpin = True
     changeinfo = True
- elif input_str == "forward" or input_str == "forwards":
-   chats = lock.find({})
-   forward = None
-   for c in chats:
-      if event.chat_id == c["id"]:
-        forward = c["forward"]
-   if forward:
+ elif input_str in addon:
+  forward = False
+  command = False
+  audio = False
+  video = False
+  phone = False
+  if input_str == "forward":
+     forward = True
+  elif input_str == "command"
+     command = True
+  elif input_str == "phone":
+     phone = True
+  elif input_str == "audio":
+     audio = True
+  elif input_str == "video":
+     video = True
+  for c in chats:
+     if event.chat_id == c["id"]:
+        cid = c["id"]
+  if cid:
     to_check = get_chat(id=event.chat_id)
     lock.update_one(
                 {
                     "_id": to_check["_id"],
                     "id": to_check["id"],
                     "forward": to_check["forward"],
+                    "command": to_check["command"],
+                    "phone": to_check["phone"],
+                    "video": to_check["video"],
+                    "audio": to_check["audio"],
                 },
-                {"$set": {"forward": True}},
+                {"$set": {"forward": forward, "command": command, "phone": phone, "video": video, "audio": audio}},
             )
-    return await event.reply("Locked `forward`")
-   lock.insert_one(
-        {"id": event.chat_id, "forward": True}
+    return await event.reply(f"Locked `{input_str}`")
+  lock.insert_one(
+        {"id": event.chat_id, "forward": forward, "command": command, "phone": phone, "video": video, "audio": audio}
      )
-   return await event.reply("Locked `forward`")
+  return await event.reply(f"Locked `{input_str}`")
  elif input_str == None:
    return await event.reply("You haven't specified a type to lock.")
  else:
