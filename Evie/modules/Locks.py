@@ -1,4 +1,4 @@
-from Evie import tbot,MONGO_DB_URI
+from Evie import tbot,MONGO_DB_URI, BOT_ID
 from pymongo import MongoClient
 from telethon import events, Button
 
@@ -43,9 +43,9 @@ async def lk(event):
     media = True
  elif input_str == "sticker":
     sticker = True
- elif input_str == "gif":
+ elif input_str == "gif" or input_str == "gifs":
     gif = True
- elif input_str == "game":
+ elif input_str == "game" or input_str == "games":
     gamee = True
  elif input_str == "inline":
     ainline = True
