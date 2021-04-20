@@ -41,8 +41,8 @@ Report Us At--> @Lunabotsupport
 
 Note: Terms and Conditions will be change anytime!
 
-Updates Channel: @Lunabotnews
-Support Chat: @Lunabotsupport
+Updates Channel: @EvienNews
+Support Chat: @EvieSupport
 """
 pmt = """ 
 Hey! My name is Evie. I am a group management bot, here to help you get around and keep the order in your groups!
@@ -77,7 +77,7 @@ async def start(event):
             ],
         )
     else:
-        await event.reply("Heya Luna Here!,\nHow Can I Help Ya.")
+        await event.reply("Heya Evie Here!,\nHow Can I Help ;)")
 
 @tbot.on(events.CallbackQuery(pattern=r"reopen_again"))
 async def reopen_again(event):
