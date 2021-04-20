@@ -904,7 +904,7 @@ async def juj(event):
  time, mode, type = await chat_settings(event)
  if not arg:
   if time == 0:
-    return await event.reply("Users that don't complete their CAPTCHA are allowed to stay in the chat, muted, and can complete the CAPTCHA whenever.\nTo change this setting, try this command again followed by one of yes/no/on/off
+    return await event.reply("Users that don't complete their CAPTCHA are allowed to stay in the chat, muted, and can complete the CAPTCHA whenever.\nTo change this setting, try this command again followed by one of yes/no/on/off")
   else:
     return await event.reply("I am currently kicking users that haven't completed the CAPTCHA after 0 second.\nTo change this setting, try this command again followed by one of yes/no/on/off")
  if arg in positive:
