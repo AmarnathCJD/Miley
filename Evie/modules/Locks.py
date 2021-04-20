@@ -7,13 +7,16 @@ client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 lock = db.locks
 
+def get_chat(id):
+    return lock.find_one({"id": id})
+
 @tbot.on(events.NewMessage(pattern=None))
 async def babe(event):
  chats = lock.find({})
  for c in chats:
   if event.chat_id == c["id"]:
-   if not event.via_bot_id == None:
-      if c["inline"] == True:
+   if not event.fwd_from == None:
+      if c["forward"] == True:
         await event.delete()
 
 from Evie import tbot, CMD_HELP
@@ -37,7 +40,7 @@ async def lk(event):
  cpin = None
  emlink = None
  changeinfo = None
- if input_str == "msg":
+ if input_str == "message" or input_str == msg":
     msg = True
  elif input_str == "media":
     media = True
@@ -71,6 +74,27 @@ async def lk(event):
     adduser = True
     cpin = True
     changeinfo = True
+ elif input_str == "forward" or input_str == "forwards":
+   chats = lock.find({})
+   forward = None
+   for c in chats:
+      if event.chat_id == c["id"]:
+        forward = c["mode"]
+   if forward:
+    to_check = get_chat(id=event.chat_id)
+    lock.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "forward": to_check["forward"],
+                },
+                {"$set": {"forward": True}},
+            )
+    return await event.reply("Locked `forward`")
+   lock.insert_one(
+        {"id": event.chat_id, "forward": True}
+     )
+   return await event.reply("Locked `forward`")
  elif input_str == None:
    return await event.reply("You haven't specified a type to lock.")
  else:
