@@ -5,7 +5,7 @@ from telethon import events, Button
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-lock = db.locks
+lock = db.lockz
 
 def get_chat(id):
     return lock.find_one({"id": id})
@@ -79,7 +79,7 @@ async def lk(event):
    forward = None
    for c in chats:
       if event.chat_id == c["id"]:
-        forward = c["mode"]
+        forward = c["forward"]
    if forward:
     to_check = get_chat(id=event.chat_id)
     lock.update_one(
