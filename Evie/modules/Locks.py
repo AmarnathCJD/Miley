@@ -74,7 +74,7 @@ async def lk(event):
  elif input_str == None:
    return await event.reply("You haven't specified a type to lock.")
  else:
-   return await event.reply(f"Unknown lock types:\n- {inpu_str}\nCheck /locktypes!")
+   return await event.reply(f"Unknown lock types:\n- {input_str}\nCheck /locktypes!")
  lock_rights = ChatBannedRights(
         until_date=None,
         send_messages=msg,
