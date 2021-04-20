@@ -878,6 +878,8 @@ async def cbot(event):
 async def juj(event):
  if event.is_private:
   return await event.reply("This command is specific to groups")
+ if event.text.startswith("!captchakicktime") or event.text.startswith("/captchakicktime"):
+    return
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
  if not await is_admin(event, BOT_ID):
@@ -1031,6 +1033,10 @@ async def t(event):
 async def ba(event):
  if event.is_private:
   return await event.reply("This command is specific to groups")
+ if event.text.startswith("!captchakick") or event.text.startswith("/captchakick"):
+    return
+ if event.text.startswith("!captchamode") or event.text.startswith("/captchamode"):
+    return
  if not await is_admin(event, event.sender_id):
    return await event.reply("You need to be an admin to do this!")
  if not await is_admin(event, BOT_ID):
@@ -1039,7 +1045,8 @@ async def ba(event):
  bro = ["off", "disable", "no"]
  arg = event.pattern_match.group(1)
  chats = captcha.find({})
- type = mode = None
+ type = None
+ mode = None
  time = 0
  for c in chats:
       if event.chat_id == c["id"]:
