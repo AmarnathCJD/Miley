@@ -106,6 +106,7 @@ async def lk(event):
   elif input_str == "video":
      video = True
   chats = lock.find({})
+  cid = None
   for c in chats:
      if event.chat_id == c["id"]:
         cid = c["id"]
