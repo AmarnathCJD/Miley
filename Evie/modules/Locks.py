@@ -40,7 +40,7 @@ async def lk(event):
  cpin = None
  emlink = None
  changeinfo = None
- if input_str == "message" or input_str == msg":
+ if input_str == "message" or input_str == "msg":
     msg = True
  elif input_str == "media":
     media = True
