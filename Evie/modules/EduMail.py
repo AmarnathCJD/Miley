@@ -84,8 +84,9 @@ async def gen_edu(event):
   random.seed()
   letters = string.ascii_uppercase
   middleName = random.choice(letters)
+  chrome_options = webdriver.ChromeOptions()
   try:
-    driver = webdriver.Chrome(executable_path=r'./webdriver/chromedriver')
+    driver = webdriver.Chrome(chrome_options=chrome_options)
   except Exception as e:
    return await event.reply(f"{e}")
   driver.maximize_window()
