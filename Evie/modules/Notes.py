@@ -7,6 +7,14 @@ from telethon.tl import types, functions
 from Evie import *
 from Evie.modules.sql.notes_sql import add_note, get_all_notes, get_notes, remove_note
 
+from pymongo import MongoClient
+client = MongoClient()
+client = MongoClient(MONGO_DB_URI)
+db = client["evie"]
+pnotes = db.pnotes
+
+def get_chat(id):
+    return pnotes.find_one({"id": id})
 
 @tbot.on(events.NewMessage(pattern=r"\#(\S+)"))
 async def on_note(event):
@@ -16,7 +24,92 @@ async def on_note(event):
       message_id = event.sender_id
       if event.reply_to_msg_id:
         message_id = event.reply_to_msg_id
-    await event.reply(note.reply, reply_to=message_id)
+    chats = pnotes.find({})
+    mode = False
+    for c in chats:
+      if event.chat_id == c["id"]:
+        mode = c["mode"]
+    if mode == False:
+      await event.reply(note.reply, reply_to=message_id)
+    else:
+      text = f"Tap here to view '{name}' in your private chat."
+      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(name))
+
+@tbot.on(events.NewMessage(pattern=r"[!/]get (.*)"))
+async def on_note(event):
+    name = event.pattern_match.group(1)
+    if not name:
+      return await event.reply("Not enough arguments!")
+    note = get_notes(event.chat_id, name)
+    if not note is None:
+      message_id = event.sender_id
+      if event.reply_to_msg_id:
+        message_id = event.reply_to_msg_id
+    chats = pnotes.find({})
+    mode = False
+    for c in chats:
+      if event.chat_id == c["id"]:
+        mode = c["mode"]
+    if mode == False:
+      await event.reply(note.reply, reply_to=message_id)
+    else:
+      text = f"Tap here to view '{name}' in your private chat."
+      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(name))
+
+@register(pattern="^/start notes_(.*)")
+async def rr(event):
+  if not event.is_private:
+    return
+  name = int(event.pattern_match.group(1))
+  note = get_notes(event.chat_id, name)
+  await event.respond(f"**{name}:**\n\n{note.reply}"
+
+@register(pattern="^/privatenotes ?(.*)")
+async def pr(event):
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await can_change_info(message=event):
+   return await event.reply("You don't have enough rights to do this!")
+ arg = event.pattern_match.group(1)
+ arg.replace("yes", "on")
+ arg.replace("no", "off")
+ if not arg:
+    return await no_arg(event)
+ if not arg == "on" and not arg == "off":
+   return await event.reply("I only understand the following: yes/no/on/off")
+ chats = pnotes.find({})
+ if arg == "on":
+   mode = True
+   await event.reply("Evie will now send a message to your chat with a button redirecting to PM, where the user will receive the note.")
+ elif arg == "off":
+   mode = False
+   await event.reply("Evie will now send notes straight to the group.")
+ for c in chats:
+   if event.chat_id == c["id"]:
+     to_check = get_chat(id=event.chat_id)
+     pnotes.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "mode": to_check["mode"],
+                },
+                {"$set": {"mode": mode}},
+            )
+     return
+ pnotes.insert_one(
+        {"id": event.chat_id, "mode": mode}
+    )
+
+async def no_arg(event):
+ chats = pnotes.find({})
+ mode = True
+ for c in chats:
+   if event.chat_id == c["id"]:
+     mode = c["mode"]
+ if mode == True:
+   await event.reply("Your notes are currently being sent in private. Evie will send a small note with a button which redirects to a private chat.")
+ elif mode == False:
+   await event.reply("Your notes are currently being sent in the group.")
 
 @register(pattern="^/save ?(.*)")
 async def _(event):
