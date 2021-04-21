@@ -22,3 +22,6 @@ Pillow==8.1.1
 wget
 sentry-sdk
 captcha
+colorama
+faker
+
