@@ -255,6 +255,7 @@ Notes are great to save random tidbits of information; a phone number, a nice gi
 - /clear `<notename>`: Delete the associated note.
 - /notes: List all notes in the current chat.
 - /clearall: Delete **ALL** notes in a chat. This cannot be undone.
+- /privatenotes: If notes need to be sent in private.
 """
 
 CMD_HELP.update({file_helpo: [file_helpo, __help__]})
