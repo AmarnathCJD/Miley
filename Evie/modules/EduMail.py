@@ -62,10 +62,10 @@ typex = "chrome"
   
 @register(pattern="^/edutest ?(.*)")
 async def edu(event):
- await gen_edu()
+ await gen_edu(event)
   
   
-async def gen_edu():
+async def gen_edu(event):
  try:
   studentPhone = random_phone_num_generator()
   ex_split = studentAddress.split("\n")
