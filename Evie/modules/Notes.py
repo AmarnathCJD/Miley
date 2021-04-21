@@ -99,6 +99,9 @@ async def puln(event):
  pnotes.insert_one(
         {"id": event.chat_id, "mode": mode}
     )
+ return
+
+
 
 async def no_arg(event):
  chats = pnotes.find({})
