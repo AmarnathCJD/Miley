@@ -91,6 +91,8 @@ async def dban(event):
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  if not await bot_ban(message=event):
+     return
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
        return await event.reply("Only Admins can execute this command!")
@@ -117,14 +119,15 @@ async def dban(event):
   zx = (await event.get_reply_message())
   await zx.delete()
   mk = (await event.get_reply_message()).sender_id
-  await tbot(EditBannedRequest(event.chat_id, int(mk), ChatBannedRights(until_date=None, view_messages=True)))
+  await tbot.edit_permissions(event.chat_id, int(mk), view_messages=False)
   await event.reply(f"Successfully Banned!{reason}")
-
 
 @tbot.on(events.NewMessage(pattern="^[!/]sban ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
+  if not await bot_ban(message=event):
+     return
   user, args = await get_user(event)
   if not event.sender_id == OWNER_ID:
     if not await is_admin(event, event.sender_id):
@@ -140,7 +143,7 @@ async def dban(event):
         return await event.reply("Ask the chat creator to do it!")
   if not await bot_ban(message=event):
     return await event.reply("I don't have enough rights to do this!")
-  await tbot(EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS))
+  await tbot.edit_permissions(event.chat_id, user.id, view_messages=False)
 
 @tbot.on(events.NewMessage(pattern="^[!/]unban ?(.*)"))
 async def dban(event):
@@ -164,7 +167,7 @@ async def dban(event):
     reason = f'\n**Reason:** {args}'
   else:
     reason = ""
-  await tbot(EditBannedRequest(event.chat_id, user.id, UNBAN_RIGHTS))
+  await tbot.edit_permissions(event.chat_id, user.id)
   await event.reply(f"Yep, this user can join!")
 
 @tbot.on(events.NewMessage(pattern="^[!/]kick ?(.*)"))
@@ -193,7 +196,6 @@ async def dban(event):
     reason = ""
   await tbot(EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS))
   await event.reply(f"Kicked!{reason}")
-
 
 @tbot.on(events.NewMessage(pattern="^[!/]dkick ?(.*)"))
 async def dban(event): 
@@ -258,7 +260,7 @@ async def dban(event):
   zx = (await event.get_reply_message())
   await zx.delete()
   mk = (await event.get_reply_message()).sender_id
-  await tbot(EditBannedRequest(event.chat_id, int(mk), ChatBannedRights(until_date=None, send_messages=True)))
+  await tbot.edit_permissions(event.chat_id, int(mk), send_messages=False)
   await event.reply(f"Successfully Muted!{reason}")
 
 @tbot.on(events.NewMessage(pattern="^[!/]skick ?(.*)"))
@@ -305,7 +307,7 @@ async def dban(event):
   else:
     reason = ""
   replied_user = await tbot(GetFullUserRequest(user.id))
-  await tbot(EditBannedRequest(event.chat_id, user.id, MUTE_RIGHTS))
+  await tbot.edit_permissions(event.chat_id, user.id, send_messages=False)
   await event.reply(f"**{replied_user.user.first_name}** is muted in **{event.chat.title}**.{reason}")
 
 @tbot.on(events.NewMessage(pattern="^[!/]unmute ?(.*)"))
@@ -330,9 +332,9 @@ async def dban(event):
     reason = f'\nReason: `{args}`'
   else:
     reason = ""
-  replied_user = await tbot(GetFullUserRequest(user.id))
-  await tbot(EditBannedRequest(event.chat_id, user.id, UNMUTE_RIGHTS))
-  await event.reply(f"Yep, **{replied_user.user.first_name}** can start talking again in **{event.chat.title}**.{reason}")
+  replied_user = await tbot.get_entity(user.id)
+  await tbot.edit_permissions(event.chat_id, user.id, send_messages=True)
+  await event.reply(f"Yep, **{replied_user.first_name}** can start talking again in **{event.chat.title}**.{reason}")
 
 @tbot.on(events.NewMessage(pattern="^[!/]smute ?(.*)"))
 async def dban(event):
@@ -384,13 +386,10 @@ async def tmute(event):
    reason = None
  if len(time) == 1:
    return await event.reply(f"Invalid time type specified. Expected m,h, or d, got: {time}")
- mutetime = await extract_time(bon, time)
- NEW_RIGHTS = ChatBannedRights(
-                 until_date=mutetime,
-                 send_messages=True)
- await tbot(EditBannedRequest(event.chat_id, user.id, MUTE_RIGHTS))
- replied_user = await tbot(GetFullUserRequest(user.id))
- await tbot.send_message(event.chat_id, f'Muted **{replied_user.user.first_name}** for 1m!')
+ mutetime = await extract_time(event, time)
+ await tbot.edit_permissions(event.chat_id, user.id, send_messages=False, until_date=mutetime)
+ replied_user = await tbot.get_entity(user.id)
+ await tbot.send_message(event.chat_id, f'Muted **{replied_user.first_name}** for 1m!')
 
 @register(pattern="^/kickme$")
 async def pk(event):
