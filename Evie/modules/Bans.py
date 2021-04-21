@@ -389,7 +389,7 @@ async def tmute(event):
  mutetime = await extract_time(event, time)
  await tbot.edit_permissions(event.chat_id, user.id, send_messages=False, until_date=mutetime)
  replied_user = await tbot.get_entity(user.id)
- await event.respond(f'Muted **{replied_user.first_name}** for {arg}!')
+ await event.respond(f'Muted **{replied_user.first_name}** for {args}!')
 
 @register(pattern="^/kickme$")
 async def pk(event):
