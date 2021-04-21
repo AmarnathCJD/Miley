@@ -876,7 +876,17 @@ async def cbot(event):
 
 """Commands Section"""
 
-async def chat_settings(event):
+positive = ["on", "enable", "yes"]
+negative = ["off", "disable", "no"]
+
+@register(pattern="^/captchakick ?(.*)")
+async def juj(event):
+ if event.is_private:
+  return await event.reply("This command is specific to groups")
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  mode = None
  time = 0
  type = None
@@ -885,29 +895,15 @@ async def chat_settings(event):
     if event.chat_id == c["id"]:
         time = c["time"]
         mode = c["mode"]
-        type = c["type"]
- return time, mode, type
-
-@register(pattern="^/captchakick ?(.*)")
-async def juj(event):
- if event.is_private:
-  return await event.reply("This command is specific to groups")
- if event.text.startswith("!captchakicktime") or event.text.startswith("/captchakicktime"):
-    return
- if not await is_admin(event, event.sender_id):
-   return await event.reply("Only admins can execute this command!")
- if not await is_admin(event, BOT_ID):
-   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
+        style = c["type"]
  arg = event.pattern_match.group(1)
- positive = ["on", "enable", "yes"]
- negative = ["off", "disable", "no"]
- chats = captcha.find({})
- time, mode, type = await chat_settings(event)
  if not arg:
   if time == 0:
     return await event.reply("Users that don't complete their CAPTCHA are allowed to stay in the chat, muted, and can complete the CAPTCHA whenever.\nTo change this setting, try this command again followed by one of yes/no/on/off")
   else:
-    return await event.reply("I am currently kicking users that haven't completed the CAPTCHA after 0 second.\nTo change this setting, try this command again followed by one of yes/no/on/off")
+    return await event.reply(f"I am currently kicking users that haven't completed the CAPTCHA after {time} seconds.\nTo change this setting, try this command again followed by one of yes/no/on/off")
+ if arg == "time":
+   return
  if arg in positive:
   for c in chats:
       if event.chat_id == c["id"]:
