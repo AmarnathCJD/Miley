@@ -264,8 +264,7 @@ async def _(event):
     cmd = event.text.split(" ", maxsplit=1)[1]
     if event.sender_id == OWNER_ID:
        pass
-    sud = await sudo(event.sender_id)
-    elif sud:
+    elif await sudo(event.sender_id):
        pass
     else:
      return
