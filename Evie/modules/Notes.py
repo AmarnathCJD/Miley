@@ -36,7 +36,7 @@ async def on_note(event):
       buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(name))
 
 @tbot.on(events.NewMessage(pattern=r"[!/]get (.*)"))
-async def on_note(event):
+async def lebel(event):
     name = event.pattern_match.group(1)
     if not name:
       return await event.reply("Not enough arguments!")
@@ -62,10 +62,10 @@ async def rr(event):
     return
   name = int(event.pattern_match.group(1))
   note = get_notes(event.chat_id, name)
-  await event.respond(f"**{name}:**\n\n{note.reply}"
+  return await event.respond(f"**{name}:**\n\n{note.reply}"
 
 @register(pattern="^/privatenotes ?(.*)")
-async def pr(event):
+async def puln(event):
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
  if not await can_change_info(message=event):
