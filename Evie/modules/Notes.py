@@ -31,9 +31,10 @@ async def on_note(event):
         mode = c["mode"]
     if mode == False:
       await event.reply(note.reply, reply_to=message_id)
-    else:
+    elif mode == True:
       text = f"Tap here to view '{name}' in your private chat."
       buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(name))
+    await event.reply(text, buttons=buttons)
 
 @tbot.on(events.NewMessage(pattern=r"[!/]get (.*)"))
 async def lebel(event):
