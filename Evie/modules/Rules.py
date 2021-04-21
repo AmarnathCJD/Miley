@@ -75,7 +75,7 @@ async def pr(event):
    await event.reply("Use of /rules will send the rules to the user's PM.")
  elif arg == "off":
    mode = "off"
-   await event.reply("All /rules commands will send the rules to Miley Test.")
+   await event.reply(f"All /rules commands will send the rules to {event.chat.title}.")
  for c in chats:
    if event.chat_id == c["id"]:
      to_check = get_chat(id=event.chat_id)
@@ -101,7 +101,7 @@ async def no_arg(event):
  if mode == None or mode == "on":
    await event.reply("Use of /rules will send the rules to the user's PM.")
  elif mode == "off":
-   await event.reply("All /rules commands will send the rules to Miley Test.")
+   await event.reply(f"All /rules commands will send the rules to {event.chat.title}.")
 
 @register(pattern="^/setrulesbutton ?(.*)")
 async def rb(event):
