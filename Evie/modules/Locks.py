@@ -18,24 +18,24 @@ async def babe(event):
    if c["phone"] == True:
     if event.text.startswith("+91"):
         await event.delete()
-   if c["email"] == True:
+   elif c["email"] == True:
     if "@gmail.com" in event.text or "@yahoo.com" in event.text:
         await event.delete()
-   if c["audio"] == True:
+   elif c["audio"] == True:
     if event.media:
      if event.media.document.mime_type == "audio/m4a":
         await event.delete()
-   if c["command"] == True:
+   elif c["command"] == True:
     if event.text.startswith("/"):
         await event.delete()
-   if c["forward"] == True:
+   elif c["forward"] == True:
     if not event.fwd_from == None:
         await event.delete()
-   if c["video"] == True:
+   elif c["video"] == True:
     if event.media:
      if event.media.document.mime_type == "video/mp4":
          await event.delete()
-   if c["location"] == True:
+   elif c["location"] == True:
      if event.media:
        if not event.media.geo == None:
          await event.delete()
