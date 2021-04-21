@@ -162,7 +162,7 @@ async def rr(event):
     return
   chat_id = int(event.pattern_match.group(1))
   all_notes = get_all_notes(chat_id)
-  OUT_STR = "**Notes:**\n
+  OUT_STR = "**Notes:**\n"
   for a_note in all_notes:
             OUT_STR += f"- [{a_note.keyword}](t.me/MissEvie_Robot?start=notes_{a_note.keyword})\n"
   OUT_STR += "You can retrieve these notes by tapping on the notename."
