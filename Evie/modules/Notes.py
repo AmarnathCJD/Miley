@@ -13,11 +13,14 @@ client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
 pnotes = db.pnotes
 
+NAME = []
+
 def get_chat(id):
     return pnotes.find_one({"id": id})
 
 @tbot.on(events.NewMessage(pattern=r"\#(\S+)"))
 async def on_note(event):
+    global name
     name = event.pattern_match.group(1)
     note = get_notes(event.chat_id, name)
     if not note is None:
@@ -33,8 +36,8 @@ async def on_note(event):
       await event.reply(note.reply, reply_to=message_id)
     elif mode == True:
       text = f"Tap here to view '{name}' in your private chat."
-      luv = f"{name}|{event.chat_id}"
-      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(name))
+      NAME.append[name]
+      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(event.chat_id))
     await event.reply(text, buttons=buttons)
 
 @tbot.on(events.NewMessage(pattern=r"[!/]get (.*)"))
@@ -59,17 +62,20 @@ async def lebel(event):
       luv = f"{name}|{event.chat_id}"
       buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(luv))
 
-@register(pattern="^/start notes(\_(.*))")
+@register(pattern="^/start notes_(.*)")
 async def rr(event):
+  global NAME
+  sk = 0
+  for i in NAME:
+    NAME.remove(i)
+    sk += 1
+    name = i
+    if sk == 1:
+      break
   if not event.is_private:
     return
-  tata = event.pattern_match.group(1)
-  data = tata.decode()
-  input = data.split("_", 1)[1]
-  name, chat= input.split("|")
-  name = name.strip()
-  chat = chat.strip()
-  note = get_notes(int(chat), name)
+  tata = int(event.pattern_match.group(1))
+  note = get_notes(tata, name)
   return await event.reply(f"**{name}:**\n\n{note.reply}")
 
 async def no_arg(event):
