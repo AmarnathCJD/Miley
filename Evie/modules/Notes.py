@@ -206,10 +206,10 @@ async def pr(event):
  if not await can_change_info(message=event):
    return await event.reply("You don't have enough rights to do this!")
  arg = event.pattern_match.group(1)
- arg.replace("yes", "on")
- arg.replace("no", "off")
  if not arg:
     return await no_arg(event)
+ arg.replace("yes", "on")
+ arg.replace("no", "off")
  if not arg == "on" and not arg == "yes" and not arg == "no" and not arg == "off":
    return await event.reply("I only understand the following: yes/no/on/off")
  chats = pnotes.find({})
