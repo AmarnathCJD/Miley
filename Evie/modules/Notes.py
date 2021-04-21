@@ -33,6 +33,7 @@ async def on_note(event):
       await event.reply(note.reply, reply_to=message_id)
     elif mode == True:
       text = f"Tap here to view '{name}' in your private chat."
+      luv = f"{name}|{event.chat_id}"
       buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(name))
     await event.reply(text, buttons=buttons)
 
@@ -55,16 +56,21 @@ async def lebel(event):
       await event.reply(note.reply, reply_to=message_id)
     else:
       text = f"Tap here to view '{name}' in your private chat."
-      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(name))
+      luv = f"{name}|{event.chat_id}"
+      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(luv))
 
-@register(pattern="^/start notes_(.*)")
+@register(pattern="^/start notes(\_(.*))")
 async def rr(event):
   if not event.is_private:
     return
-  name = int(event.pattern_match.group(1))
-  note = get_notes(event.chat_id, name)
+  tata = event.pattern_match.group(1)
+  data = tata.decode()
+  input = data.split("_", 1)[1]
+  name, chat= input.split("|")
+  name = name.strip()
+  chat = chat.strip()
+  note = get_notes(int(chat), name)
   return await event.reply(f"**{name}:**\n\n{note.reply}")
-
 
 async def no_arg(event):
  chats = pnotes.find({})
@@ -164,7 +170,8 @@ async def rr(event):
   all_notes = get_all_notes(chat_id)
   OUT_STR = "**Notes:**\n"
   for a_note in all_notes:
-            OUT_STR += f"- [{a_note.keyword}](t.me/MissEvie_Robot?start=notes_{a_note.keyword})\n"
+            luv = f"{a_note.keyword}|{chat_id}"
+            OUT_STR += f"- [{a_note.keyword}](t.me/MissEvie_Robot?start=notes_{luv})\n"
   OUT_STR += "You can retrieve these notes by tapping on the notename."
   await event.reply(OUT_STR)
 
