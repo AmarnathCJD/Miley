@@ -6,7 +6,7 @@ try:
 except Exception:
     print("failed to start logs module")
 
-@lbot.on(events.NewMessage(pattern="[!/]logs "))
+@lbot.on(events.NewMessage(pattern="!logs"))
 async def lg(event):
  if not event.sender_id == OWNER_ID:
    return
