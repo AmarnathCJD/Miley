@@ -57,14 +57,62 @@ def random_phone_num_generator():
     while last in ['1111', '2222', '3333', '4444', '5555', '6666', '7777', '8888']:
         last = (str(random.randint(1, 9998)).zfill(4))
     return '{}-{}-{}'.format(first, second, last)
+
+typex = "chrome"
   
 @register(pattern="^/edutest ?(.*)")
 async def edu(event):
-    studentPhone = random_phone_num_generator()
-    output = f"""
- {firstName}{LastName}\n{studentAddress}\n{randomYear}/{randomDay}/{randomMonth}\n{studentPhone}
- """
-    await event.reply(output)
+ await gen_edu()
   
   
-  
+async def gen_edu():
+  studentPhone = random_phone_num_generator()
+  ex_split = studentAddress.split("\n")
+  streetAddress = ex_split[0]
+  if(re.compile(',').search(ex_split[1]) != None):
+        ex_split1 = ex_split[1].split(', ')
+        cityAddress = ex_split1[0]
+        ex_split2 = ex_split1[1].split(' ')
+        stateAddress = ex_split2[0]
+        postalCode = ex_split2[1]
+  else:
+        ex_split3 = ex_split[1].split(' ')
+        cityAddress = ex_split3[0]
+        stateAddress = ex_split3[1]
+        postalCode = ex_split3[2]
+  random.seed()
+  letters = string.ascii_uppercase
+  middleName = random.choice(letters)
+  try:
+    driver = webdriver.Chrome(executable_path=r'./webdriver/chromedriver')
+  except Exception as e:
+   return await event.reply(f"{e}")
+  driver.maximize_window()
+  driver.get(start_url)
+  driver.find_element_by_xpath('//*[@id="portletContent_u16l1n18"]/div/div[2]/div/a[2]').click()
+  WebDriverWait(driver, 60).until(
+        EC.presence_of_element_located((By.ID, "accountFormSubmit"))
+    ).click()
+  x = await event.reply("Account Progress - 1/3")
+  WebDriverWait(driver, 60).until(
+        EC.presence_of_element_located((By.ID, "inputFirstName"))
+    ).send_keys(firstName)
+
+  time.sleep(0.7)
+  WebDriverWait(driver, 60).until(
+        EC.presence_of_element_located((By.ID, "inputMiddleName"))
+    ).send_keys(middleName)
+  time.sleep(0.7)
+  WebDriverWait(driver, 60).until(
+        EC.presence_of_element_located((By.ID, "inputLastName"))
+    ).send_keys(LastName)
+  time.sleep(0.7)
+  driver.find_element_by_xpath('//*[@id="hasOtherNameNo"]').click()
+  driver.find_element_by_xpath('//*[@id="hasPreferredNameNo"]').click()
+  time.sleep(0.7)
+  WebDriverWait(driver, 60).until(
+        EC.element_to_be_clickable(
+            (By.CSS_SELECTOR, '#inputBirthDateMonth option[value="' + str(randomMonth) + '"]'))
+    ).click()
+  time.sleep(0.7)
+  await x.edit("success upto now")
