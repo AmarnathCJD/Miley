@@ -24,4 +24,4 @@ sentry-sdk
 captcha
 colorama
 faker
-
+selenium
