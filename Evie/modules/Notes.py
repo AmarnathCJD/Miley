@@ -65,7 +65,7 @@ async def rr(event):
   return await event.respond(f"**{name}:**\n\n{note.reply}"
 
 @register(pattern="^/privatenotes ?(.*)")
-async def puln(event):
+async def pr(event):
  if not await is_admin(event, event.sender_id):
    return await event.reply("Only admins can execute this command!")
  if not await can_change_info(message=event):
@@ -75,7 +75,7 @@ async def puln(event):
  arg.replace("no", "off")
  if not arg:
     return await no_arg(event)
- if not arg == "on" and not arg == "off":
+ if not arg == "on" and not arg == "yes" and not arg == "no" and not arg == "off":
    return await event.reply("I only understand the following: yes/no/on/off")
  chats = pnotes.find({})
  if arg == "on":
@@ -99,9 +99,6 @@ async def puln(event):
  pnotes.insert_one(
         {"id": event.chat_id, "mode": mode}
     )
- return
-
-
 
 async def no_arg(event):
  chats = pnotes.find({})
