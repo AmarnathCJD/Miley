@@ -440,7 +440,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  await asyncio.sleep(0.5)
+  await asyncio.sleep(0.2)
   await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 
@@ -490,7 +490,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  await asyncio.sleep(0.5)
+  await asyncio.sleep(0.2)
   await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 @tbot.on(events.CallbackQuery(pattern=r"papu(\_(.*))"))
@@ -539,7 +539,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  await asyncio.sleep(0.5)
+  await asyncio.sleep(0.2)
   await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 
@@ -589,7 +589,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  await asyncio.sleep(0.5)
+  await asyncio.sleep(0.2)
   await event.edit(f"\n**Human Verification:**\n\nWhat is the sum of **{x} + {y}?**\n\nChoose the correct option from Below to get verified.💸\n**{maths}** Chances Left!", buttons=keyboard)
 
 """Text Captcha"""
@@ -670,7 +670,7 @@ async def h(event):
             )]
         ]
   shuffle(keyboard)
-  await asyncio.sleep(0.5)
+  await asyncio.sleep(0.1)
   await tbot.send_message(event.chat_id, "Please choose the text from image", file='./captcha.png', buttons=keyboard)
 
 @tbot.on(events.CallbackQuery(pattern=r"pip(\_(.*))"))
@@ -724,7 +724,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  shuffle(keyboard)
+  await asyncio.sleep(0.2)
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
@@ -765,7 +765,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
-  shuffle(keyboard)
+  await asyncio.sleep(0.2)
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
@@ -806,6 +806,7 @@ async def bak(event):
             )]
         ]
   shuffle(keyboard)
+  await asyncio.sleep(0.2)
   text = f"Try again you have {chance} chances left"
   await event.edit(text, file="./captcha.png", buttons=keyboard)
 
