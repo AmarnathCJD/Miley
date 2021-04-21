@@ -9,10 +9,7 @@ import asyncio
 from Evie.modules.sql.feds_sql import FEDERATION_BYNAME as fedz
 from Evie.modules.sql import afk_sql as sql
 import traceback
-import io
-import os
-import sys
-import time
+import io, os, sys, time
 from telethon.tl import functions
 from telethon.tl import types
 from telethon.tl.types import *
