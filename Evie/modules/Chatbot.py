@@ -10,14 +10,16 @@ import requests
 from telethon import events
 from Evie.events import register
 
-from Evie.function import can_change_info
+from Evie.function import can_change_info, is_admin
 
 @register(pattern="^/addchat$")
 async def _(event):
     if event.is_group:
         if not event.sender_id == OWNER_ID:
+           if not await is_admin(event, event.sender_id):
+              return await event.reply("Only admins can execute this command")
            if not await can_change_info(message=event):
-              return
+              return await event.reply("You are missing CanChangeInfo right to use this command!")
     else:
         return
     chat = event.chat
@@ -34,7 +36,10 @@ async def _(event):
 async def _(event):
     if event.is_group:
         if not event.sender_id == OWNER_ID:
-          return
+           if not await is_admin(event, event.sender_id):
+              return await event.reply("Only admins can execute this command")
+           if not await can_change_info(message=event):
+              return await event.reply("You are missing CanChangeInfo right to use this command!")
     else:
         return
     chat = event.chat
@@ -47,6 +52,8 @@ async def _(event):
 
 @tbot.on(events.NewMessage(pattern=None))
 async def _(event):
+  if event.media:
+    return
   prof = str(event.text)
   if event.is_group:
    is_chat = sql.is_chat(event.chat_id)
