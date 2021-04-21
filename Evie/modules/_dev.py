@@ -263,23 +263,12 @@ async def msg(event):
 async def _(event):
     cmd = event.text.split(" ", maxsplit=1)[1]
     if event.sender_id == OWNER_ID:
-        pass
-    elif await sudo(event.sender_id):
-        if "os.environ.get" in cmd:
-          await event.reply("Can't access env variables.")
-          return
-        if "sys.exit" in cmd:
-          await event.reply("You have no permission to shut me down.")
-          return
-        if "from Evie import STRING_SESSION" in cmd or "from Evie import TOKEN" in cmd:
-          await event.reply("Can't Acess Master Account.")
-          return
-        if "await ubot.send_message" in cmd or "from Evie import API_HASH" in cmd:
-          await event.reply("Ni Hoskta!")
-          return
-        pass
+       pass
+    sud = await sudo(event.sender_id)
+    elif sud:
+       pass
     else:
-        return
+     return
     reply_to_id = event.message.id
     if event.reply_to_msg_id:
         reply_to_id = event.reply_to_msg_id
