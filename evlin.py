@@ -4,7 +4,7 @@ from telethon import events
 try:
     lbot.start(bot_token=TOKEN)
 except Exception:
-    print("failed to start logs module)
+    print("failed to start logs module")
 
 @lbot.on(events.NewMessage(pattern="[!/]logs "))
 async def lg(event):
