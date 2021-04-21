@@ -58,8 +58,8 @@ def random_phone_num_generator():
         last = (str(random.randint(1, 9998)).zfill(4))
     return '{}-{}-{}'.format(first, second, last)
   
-  @register(pattern="^/edutest ?(.*)")
-  asymc def edu(event):
+@register(pattern="^/edutest ?(.*)")
+async def edu(event):
     studentPhone = random_phone_num_generator()
     output = f"""
  {firstName}{LastName}\n{studentAddress}\n{randomYear}/{randomDay}/{randomMonth}\n{studentPhone}
