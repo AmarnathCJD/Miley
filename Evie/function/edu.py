@@ -46,7 +46,7 @@ def get_chrome_version():
         except:
             return None
     else:
-        await event.reply("System is.not lnux")
+        print("System is.not lnux")
     try:
         version = version.split(' ')[0]
     except:
@@ -80,7 +80,7 @@ def dwnld_tar_file(url, save_path):
     response = requests.get(url)
     total_length = sum(len(chunk) for chunk in response.iter_content(8196))
     if total_length is None or total_length == 0:
-        return await event.reply('Download Failed')
+         return print('Download Failed')
     with tarfile.open(fileobj=BytesIO(response.content), mode='r|gz') as my_tar_file:
         for chunk in progress.bar(response.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1):
             pass
