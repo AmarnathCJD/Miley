@@ -64,41 +64,6 @@ async def rr(event):
   note = get_notes(event.chat_id, name)
   return await event.respond(f"**{name}:**\n\n{note.reply}"
 
-@register(pattern="^/privatenotes ?(.*)")
-async def pr(event):
- if not await is_admin(event, event.sender_id):
-   return await event.reply("Only admins can execute this command!")
- if not await can_change_info(message=event):
-   return await event.reply("You don't have enough rights to do this!")
- arg = event.pattern_match.group(1)
- arg.replace("yes", "on")
- arg.replace("no", "off")
- if not arg:
-    return await no_arg(event)
- if not arg == "on" and not arg == "yes" and not arg == "no" and not arg == "off":
-   return await event.reply("I only understand the following: yes/no/on/off")
- chats = pnotes.find({})
- if arg == "on":
-   mode = True
-   await event.reply("Evie will now send a message to your chat with a button redirecting to PM, where the user will receive the note.")
- elif arg == "off":
-   mode = False
-   await event.reply("Evie will now send notes straight to the group.")
- for c in chats:
-   if event.chat_id == c["id"]:
-     to_check = get_chat(id=event.chat_id)
-     pnotes.update_one(
-                {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "mode": to_check["mode"],
-                },
-                {"$set": {"mode": mode}},
-            )
-     return
- pnotes.insert_one(
-        {"id": event.chat_id, "mode": mode}
-    )
 
 async def no_arg(event):
  chats = pnotes.find({})
@@ -232,6 +197,43 @@ async def on_note_delete(event):
     name = event.pattern_match.group(1)
     remove_note(event.chat_id, name)
     await event.reply("Note **{}** deleted!".format(name))
+
+
+@register(pattern="^/privatenotes ?(.*)")
+async def pr(event):
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await can_change_info(message=event):
+   return await event.reply("You don't have enough rights to do this!")
+ arg = event.pattern_match.group(1)
+ arg.replace("yes", "on")
+ arg.replace("no", "off")
+ if not arg:
+    return await no_arg(event)
+ if not arg == "on" and not arg == "yes" and not arg == "no" and not arg == "off":
+   return await event.reply("I only understand the following: yes/no/on/off")
+ chats = pnotes.find({})
+ if arg == "on":
+   mode = True
+   await event.reply("Evie will now send a message to your chat with a button redirecting to PM, where the user will receive the note.")
+ elif arg == "off":
+   mode = False
+   await event.reply("Evie will now send notes straight to the group.")
+ for c in chats:
+   if event.chat_id == c["id"]:
+     to_check = get_chat(id=event.chat_id)
+     pnotes.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["id"],
+                    "mode": to_check["mode"],
+                },
+                {"$set": {"mode": mode}},
+            )
+     return
+ pnotes.insert_one(
+        {"id": event.chat_id, "mode": mode}
+    )
 
 
 file_help = os.path.basename(__file__)
