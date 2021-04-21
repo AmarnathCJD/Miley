@@ -121,6 +121,7 @@ async def gban(event):
  k = await event.reply("⚡️ **Snaps the Banhammer** ⚡️")
  cheater = get_all_chat_id()
  done = 0
+ ti = time.time()
  for i in cheater:
    try:
        chat = int(i.chat_id)
@@ -131,7 +132,10 @@ async def gban(event):
    except Exception:
        pass
  await tbot.send_message(GBAN_LOGS, "**Global Ban**\n#NEW\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
-                                   group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))       
+                                   group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))
+ tf = time.time
+ timetaken = tf - ti
+ await event.reply(f"Global Ban Completed!\n**Time Taken:** {timetaken}")      
 
 @register(pattern="^/ungban ?(.*)")
 async def ugban(event):
@@ -216,7 +220,7 @@ async def gban(event):
   pass
  elif event.sender_id in DEV_USERS:
   pass
- elif sudo(id):
+ elif sudo(event.sender_id):
   pass
  else:
   return
