@@ -91,7 +91,6 @@ async def gen_edu(event):
    return await event.reply(f"{e}")
   driver.maximize_window()
   driver.get(start_url)
-  driver.find_element_by_xpath('//*[@id="portletContent_u16l1n18"]/div/div[2]/div/a[2]').click()
   WebDriverWait(driver, 60).until(
         EC.presence_of_element_located((By.ID, "accountFormSubmit"))
     ).click()
