@@ -18,7 +18,7 @@ from random import randint
 
 from Evie import tbot, CMD_HELP
 from Evie.events import register
-From Evie.function import is_admin
+from Evie.function import is_admin
 
 """Variables"""
 start_url = 'https://www.opencccapply.net/gateway/apply?cccMisCode='
