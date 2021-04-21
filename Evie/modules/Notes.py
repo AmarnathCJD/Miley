@@ -63,7 +63,7 @@ async def rr(event):
     return
   name = int(event.pattern_match.group(1))
   note = get_notes(event.chat_id, name)
-  return await event.respond(f"**{name}:**\n\n{note.reply}")
+  return await event.reply(f"**{name}:**\n\n{note.reply}")
 
 
 async def no_arg(event):
@@ -145,7 +145,28 @@ async def on_note_list(event):
                 reply_to=event,
             )
     else:
+        chats = pnotes.find({})
+        mode = False
+        for c in chats:
+          if event.chat_id == c["id"]:
+            mode = c["mode"]
+        if mode == True:
+            text = "Click below button to get notes list."
+            buttons = Button.url("Click here", "t.me/MissEvie_Robot?start=listn_{}".format(event.chat_id))
+            return await event.reply(text, buttons=buttons)
         await event.reply(OUT_STR)
+
+@register(pattern="^/start listn_(.*)")
+async def rr(event):
+  if not event.is_private:
+    return
+  chat_id = int(event.pattern_match.group(1))
+  all_notes = get_all_notes(chat_id)
+  OUT_STR = "**Notes:**\n
+  for a_note in all_notes:
+            OUT_STR += f"- [{a_note.keyword}](t.me/MissEvie_Robot?start=notes_{a_note.keyword})\n"
+  OUT_STR += "You can retrieve these notes by tapping on the notename."
+  await event.reply(OUT_STR)
 
 @register(pattern="^/clearall")
 async def clear(event):
