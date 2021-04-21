@@ -15,7 +15,7 @@ async def lg(event):
        text, cust= arg.split("|")
        text = text.strip()
        cust = cust.strip()
-       op = cust.split(" ", 2)
+       op = cust.split(" ")
        if len(op) == 4:
          color = op[0]
          stroke = op[1]
@@ -25,17 +25,17 @@ async def lg(event):
          color = op[0]
          stroke = op[1]
          width = int(op[2])
-         tt = event.sender.username
+         tt = None
        elif len(op) == 2:
          color = op[0]
          stroke = op[1]
          width = 10
-         tt = event.sender.username
+         tt = None
        elif len(op) == 1:
          color = op[0]
          stroke = 'black'
          width = 10
-         tt = event.sender.username
+         tt = None
     else:
        text = arg
        r = random.randint(0, 255)
