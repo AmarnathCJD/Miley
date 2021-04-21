@@ -55,7 +55,7 @@ async def _(event):
   if event.media:
     return
   prof = str(event.text)
-  if not event.is_private or event.is_group:
+  if not event.is_private or not event.is_group:
     return
   if event.is_group:
    is_chat = sql.is_chat(event.chat_id)
@@ -71,9 +71,9 @@ async def _(event):
       pass
    else:
       return
-  if event.is_private:
-    if event.text.startswith("!") or eventtext
-    pass
+  elif event.is_private:
+    if event.text.startswith("!") or event.text.startswith("/"):
+     return
   msg = prof.replace("Evie", "Aco")
   msg = prof.replace("evie", "Aco")
   if msg.startswith("/") or msg.startswith("@") or msg.startswith("."):
