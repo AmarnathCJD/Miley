@@ -36,8 +36,8 @@ async def on_note(event):
       await event.reply(note.reply, reply_to=message_id)
     elif mode == True:
       text = f"Tap here to view '{name}' in your private chat."
-      NAME.append[name]
-      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(event.chat_id))
+      luv = f"{event.chat_id} {name}"
+      buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(luv))
     await event.reply(text, buttons=buttons)
 
 @tbot.on(events.NewMessage(pattern=r"[!/]get (.*)"))
@@ -64,19 +64,17 @@ async def lebel(event):
 
 @register(pattern="^/start notes_(.*)")
 async def rr(event):
-  global NAME
-  sk = 0
-  for i in NAME:
-    NAME.remove(i)
-    sk += 1
-    name = i
-    if sk == 1:
-      break
+ try:
+  data = event.pattern_match.group(1)
+  chat, name = data.split(" ", 1)
+  chat = int(chat.strip())
+  name = name.strip()
   if not event.is_private:
     return
-  tata = int(event.pattern_match.group(1))
-  note = get_notes(tata, name)
-  return await event.reply(f"**{name}:**\n\n{note.reply}")
+  note = get_notes(chat, name)
+  await event.reply(f"**{name}:**\n\n{note.reply}")
+ except Exception as e:
+   print(e)
 
 async def no_arg(event):
  chats = pnotes.find({})
