@@ -2,7 +2,7 @@ from Evie import tbot, OWNER_ID, DEV_USERS
 from Evie import MONGO_DB_URI, BOT_ID, GBAN_LOGS
 from pymongo import MongoClient
 import time
-from Evie.function import is_admin, sudo
+from Evie.function import is_admin, sudo, get_readable_time
 from telethon import events
 from Evie.events import register
 from telethon.tl.functions.users import GetFullUserRequest
@@ -134,8 +134,8 @@ async def gban(event):
        pass
  await tbot.send_message(GBAN_LOGS, "**Global Ban**\n#NEW\n**Originated From: {} {}**\n\n**Sudo Admin:** [{}](tg://user?id={})\n**User:** [{}](tg://user?id={})\n**ID:** `{}`\n**Reason:** {}".format(
                                    group, event.chat_id, sender, event.sender_id, fname, r_sender_id, r_sender_id, reason))
- tf = time.time
- timetaken = tf - ti
+ tf = time.time()
+ timetaken = get_readable_time(tf - ti)
  await event.reply(f"Global Ban Completed!\n**Time Taken:** {timetaken}")      
 
 @register(pattern="^/ungban ?(.*)")
