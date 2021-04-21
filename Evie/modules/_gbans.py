@@ -1,6 +1,7 @@
 from Evie import tbot, OWNER_ID, DEV_USERS
 from Evie import MONGO_DB_URI, BOT_ID, GBAN_LOGS
 from pymongo import MongoClient
+import time
 from Evie.function import is_admin, sudo
 from telethon import events
 from Evie.events import register
