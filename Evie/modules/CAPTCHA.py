@@ -881,6 +881,7 @@ negative = ["off", "disable", "no"]
 
 @register(pattern="^/captchakick ?(.*)")
 async def juj(event):
+ try:
   if event.is_private:
    return await event.reply("This command is specific to groups")
   if not await is_admin(event, event.sender_id):
