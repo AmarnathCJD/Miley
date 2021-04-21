@@ -1,5 +1,6 @@
 from Evie import tbot, CMD_HELP, BOT_ID, MONGO_DB_URI
 from Evie.events import register
+from pymongo import MongoClient
 
 
 client = MongoClient(MONGO_DB_URI)
