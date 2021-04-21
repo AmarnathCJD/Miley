@@ -66,6 +66,7 @@ async def edu(event):
   
   
 async def gen_edu():
+ try:
   studentPhone = random_phone_num_generator()
   ex_split = studentAddress.split("\n")
   streetAddress = ex_split[0]
@@ -116,3 +117,5 @@ async def gen_edu():
     ).click()
   time.sleep(0.7)
   await x.edit("success upto now")
+ except Exception as e:
+    print(e)
