@@ -40,7 +40,7 @@ async def on_note(event):
       buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(luv))
     await event.reply(text, buttons=buttons)
 
-@tbot.on(events.NewMessage(pattern=r"[!/]get (.*)"))
+@tbot.on(events.NewMessage(pattern=r"^[!/]get (.*)"))
 async def lebel(event):
     name = event.pattern_match.group(1)
     if not name:
@@ -59,12 +59,11 @@ async def lebel(event):
       await event.reply(note.reply, reply_to=message_id)
     else:
       text = f"Tap here to view '{name}' in your private chat."
-      luv = f"{name}|{event.chat_id}"
+      luv = f"{event.chat_id}_{name}"
       buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(luv))
 
 @register(pattern="^/start notes_(.*)")
 async def rr(event):
- try:
   data = event.pattern_match.group(1)
   chat, name = data.split("_", 1)
   chat = int(chat.strip())
@@ -73,8 +72,6 @@ async def rr(event):
     return
   note = get_notes(chat, name)
   await event.reply(f"**{name}:**\n\n{note.reply}")
- except Exception as e:
-   print(e)
 
 async def no_arg(event):
  chats = pnotes.find({})
@@ -174,7 +171,7 @@ async def rr(event):
   all_notes = get_all_notes(chat_id)
   OUT_STR = "**Notes:**\n"
   for a_note in all_notes:
-            luv = f"{a_note.keyword}|{chat_id}"
+            luv = f"{chat_id}_{a_note.keyword}"
             OUT_STR += f"- [{a_note.keyword}](t.me/MissEvie_Robot?start=notes_{luv})\n"
   OUT_STR += "You can retrieve these notes by tapping on the notename."
   await event.reply(OUT_STR)
