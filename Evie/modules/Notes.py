@@ -36,7 +36,7 @@ async def on_note(event):
       await event.reply(note.reply, reply_to=message_id)
     elif mode == True:
       text = f"Tap here to view '{name}' in your private chat."
-      luv = f"{event.chat_id} {name}"
+      luv = f"{event.chat_id}_{name}"
       buttons = Button.url("Click me", "t.me/MissEvie_Robot?start=notes_{}".format(luv))
     await event.reply(text, buttons=buttons)
 
@@ -66,7 +66,7 @@ async def lebel(event):
 async def rr(event):
  try:
   data = event.pattern_match.group(1)
-  chat, name = data.split(" ", 1)
+  chat, name = data.split("_", 1)
   chat = int(chat.strip())
   name = name.strip()
   if not event.is_private:
