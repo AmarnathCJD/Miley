@@ -62,7 +62,7 @@ async def rr(event):
     return
   name = int(event.pattern_match.group(1))
   note = get_notes(event.chat_id, name)
-  return await event.respond(f"**{name}:**\n\n{note.reply}"
+  return await event.respond(f"**{name}:**\n\n{note.reply}")
 
 
 async def no_arg(event):
