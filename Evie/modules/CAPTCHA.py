@@ -933,6 +933,8 @@ async def cm(event):
     if event.chat_id == c["id"]:
      return captcha.update_one({"id": event.chat_id}, {"$set": {"type": input, "mode": "on"}},)
    captcha.insert_one({"id": event.chat_id, "mode": "on", "type": input, "time": time})
+ else:
+  await event.reply("Input not supported, try one of math/button/multibutton/text.")
 
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
