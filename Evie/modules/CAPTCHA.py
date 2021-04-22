@@ -297,9 +297,9 @@ async def h(event):
   y = random.randint(1,150)
   a = x + y
   d = random.randint(10, 100)
-  b = random.randint(10, 100)
-  c = random.randint(10, 100)
-  e = random.randint(10, 100)
+  b = random.randint(90, 100)
+  c = random.randint(50, 100)
+  e = random.randint(70, 100)
   f = random.randint(10, 100)
   keyboard = [
             [Button.inline(
@@ -360,9 +360,9 @@ async def bak(event):
   y = random.randint(1,150)
   a = x + y
   d = random.randint(10, 100)
-  b = random.randint(10, 100)
-  c = random.randint(10, 100)
-  e = random.randint(10, 100)
+  b = random.randint(90, 100)
+  c = random.randint(50, 100)
+  e = random.randint(70, 200)
   f = random.randint(10, 100)
   keyboard = [
             [Button.inline(
@@ -409,9 +409,9 @@ async def bak(event):
   y = random.randint(1,150)
   a = x + y
   d = random.randint(10, 100)
-  b = random.randint(10, 100)
-  c = random.randint(10, 100)
-  e = random.randint(10, 100)
+  b = random.randint(50, 100)
+  c = random.randint(70, 200)
+  e = random.randint(90, 100)
   f = random.randint(10, 100)
   keyboard = [
             [Button.inline(
@@ -459,9 +459,9 @@ async def bak(event):
   y = random.randint(1,150)
   a = x + y
   d = random.randint(10, 100)
-  b = random.randint(10, 100)
-  c = random.randint(10, 100)
-  e = random.randint(10, 100)
+  b = random.randint(90, 100)
+  c = random.randint(50, 200)
+  e = random.randint(70, 100)
   f = random.randint(10, 100)
   keyboard = [
             [Button.inline(
@@ -508,9 +508,9 @@ async def bak(event):
   y = random.randint(1,150)
   a = x + y
   d = random.randint(10, 100)
-  b = random.randint(10, 100)
-  c = random.randint(10, 100)
-  e = random.randint(10, 100)
+  b = random.randint(90, 100)
+  c = random.randint(70, 200)
+  e = random.randint(50, 100)
   f = random.randint(10, 100)
   keyboard = [
             [Button.inline(
@@ -558,9 +558,9 @@ async def bak(event):
   y = random.randint(1,150)
   a = x + y
   d = random.randint(10, 100)
-  b = random.randint(10, 100)
-  c = random.randint(10, 100)
-  e = random.randint(10, 100)
+  b = random.randint(90, 100)
+  c = random.randint(70, 200)
+  e = random.randint(50, 100)
   f = random.randint(10, 100)
   keyboard = [
             [Button.inline(
