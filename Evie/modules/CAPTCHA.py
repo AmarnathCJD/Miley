@@ -309,16 +309,16 @@ async def h(event):
             Button.inline(
                 f"{b}",
                 data='babe_{}'.format(chat)
-            ),],
-            [Button.inline(
-                f"{c}",
-                data='nide_{}'.format(chat)
             ),
             Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),],
+            [Button.inline(
                 f"{d}",
                 data='nipa_{}'.format(chat)
-            )],
-            [Button.inline(
+            ),
+            Button.inline(
                 f"{e}",
                 data='suze_{}'.format(chat)
             ),
@@ -372,15 +372,15 @@ async def bak(event):
             Button.inline(
                 f"{b}",
                 data='babe_{}'.format(chat)
-            ),],
-            [Button.inline(
-                f"{c}",
-                data='nide_{}'.format(chat)
             ),
             Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),],
+            [Button.inline(
                 f"{d}",
                 data='nipa_{}'.format(chat)
-            )],
+            ),
             [Button.inline(
                 f"{e}",
                 data='suze_{}'.format(chat)
@@ -421,15 +421,15 @@ async def bak(event):
             Button.inline(
                 f"{b}",
                 data='babe_{}'.format(chat)
-            ),],
-            [Button.inline(
-                f"{c}",
-                data='nide_{}'.format(chat)
             ),
             Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),],
+            [Button.inline(
                 f"{d}",
                 data='nipa_{}'.format(chat)
-            )],
+            ),
             [Button.inline(
                 f"{e}",
                 data='suze_{}'.format(chat)
@@ -471,15 +471,15 @@ async def bak(event):
             Button.inline(
                 f"{b}",
                 data='babe_{}'.format(chat)
-            ),],
-            [Button.inline(
-                f"{c}",
-                data='nide_{}'.format(chat)
             ),
             Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),],
+            [Button.inline(
                 f"{d}",
                 data='nipa_{}'.format(chat)
-            )],
+            ),
             [Button.inline(
                 f"{e}",
                 data='suze_{}'.format(chat)
@@ -520,15 +520,15 @@ async def bak(event):
             Button.inline(
                 f"{b}",
                 data='babe_{}'.format(chat)
-            ),],
-            [Button.inline(
-                f"{c}",
-                data='nide_{}'.format(chat)
             ),
             Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),],
+            [Button.inline(
                 f"{d}",
                 data='nipa_{}'.format(chat)
-            )],
+            ),
             [Button.inline(
                 f"{e}",
                 data='suze_{}'.format(chat)
@@ -570,15 +570,15 @@ async def bak(event):
             Button.inline(
                 f"{b}",
                 data='babe_{}'.format(chat)
-            ),],
-            [Button.inline(
-                f"{c}",
-                data='nide_{}'.format(chat)
             ),
             Button.inline(
+                f"{c}",
+                data='nide_{}'.format(chat)
+            ),],
+            [Button.inline(
                 f"{d}",
                 data='nipa_{}'.format(chat)
-            )],
+            ),
             [Button.inline(
                 f"{e}",
                 data='suze_{}'.format(chat)
