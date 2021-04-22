@@ -26,13 +26,14 @@ async def pn(event):
    chat = event.chat_id
    pro = f'{chat}'
    omk = pro.replace('-100', '')
-   try:
-    if event.chat.username:
-      await x.edit(f"The pinned message in {event.chat.title} is [here](http://t.me/{event.chat.username}/{id}).", link_preview=False)
-    else:
-      await x.edit(f"The pinned message in {event.chat.title} is [here](http://t.me/{omk}/{id}).", link_preview=False)
-   except:
-      await x.edit("Failed to find the pinned message.")
+   if id:
+    try:
+     if event.chat.username:
+       await x.edit(f"The pinned message in {event.chat.title} is [here](http://t.me/{event.chat.username}/{id}).", link_preview=False)
+     else:
+       await x.edit(f"The pinned message in {event.chat.title} is [here](http://t.me/{omk}/{id}).", link_preview=False)
+   else:
+      await x.edit("There are no pinned messages in this chat.")
 
 @register(pattern="^/unpinall")
 async def upinall(event):
