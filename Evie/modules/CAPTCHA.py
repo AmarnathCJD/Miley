@@ -906,12 +906,8 @@ async def c(event):
   await event.reply("Disabled welcome CAPTCHAs!")
   for c in chats:
     if event.chat_id == c["id"]:
-     captcha.update_one(
-                {
-                    "id": event.chat_id,
-                },
-                {"$set": {"mode": "off"}},
-            )
+     return captcha.update_one({"id": event.chat_id}, {"$set": {"mode": "off"}},)
+  captcha.insert_one({"id": event.chat_id, "mode": "off", "type": type, "time": time})
 
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
