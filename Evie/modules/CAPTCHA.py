@@ -878,14 +878,14 @@ async def cbot(event):
 
 positive = ["on", "enable", "yes"]
 negative = ["off", "disable", "no"]
-mode = None
-time = 0
-type = "button"
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def c(event):
  input = event.pattern_match.group(1)
  chats = captcha.find({})
+ mode = None
+ time = 0
+ type = "button"
  for c in chats:
     if event.chat_id == c["id"]:
       mode = c["mode"]
