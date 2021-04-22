@@ -878,6 +878,7 @@ async def cbot(event):
 
 positive = ["on", "enable", "yes"]
 negative = ["off", "disable", "no"]
+typical = ["text", "button", "multibutton", "math"]
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def c(event):
@@ -926,7 +927,6 @@ async def cm(event):
    return await event.reply("Welcome CAPTCHAs are currently **disabled** for this chat.")
   elif type:
    await event.reply(f"Current CAPTCHA mode is **{type}**.")
- typical = ["text", "button", "multibutton", "math"]
  elif input in typical:
   await event.reply(f"Set CAPTCHAmode to **{input}**!")
    for c in chats:
