@@ -906,11 +906,9 @@ async def c(event):
   await event.reply("Disabled welcome CAPTCHAs!")
   for c in chats:
     if event.chat_id == c["id"]:
-     to_check = get_chat(id=event.chat_id)
-     return captcha.update_one(
+     captcha.update_one(
                 {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
+                    "id": event.chat_id,
                 },
                 {"$set": {"mode": "off"}},
             )
