@@ -878,236 +878,34 @@ async def cbot(event):
 
 positive = ["on", "enable", "yes"]
 negative = ["off", "disable", "no"]
-
-@register(pattern="^/captchakick ?(.*)")
-async def juj(event):
- try:
-  if event.is_private:
-   return await event.reply("This command is specific to groups")
-  if not await is_admin(event, event.sender_id):
-    return await event.reply("Only admins can execute this command!")
-  if not await is_admin(event, BOT_ID):
-    return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
-  mode = None
-  time = 0
-  type = None
-  chats = captcha.find({})
-  for c in chats:
-     if event.chat_id == c["id"]:
-         time = c["time"]
-         mode = c["mode"]
-         style = c["type"]
-  arg = event.pattern_match.group(1)
-  if not arg:
-   if time == 0:
-     return await event.reply("Users that don't complete their CAPTCHA are allowed to stay in the chat, muted, and can complete the CAPTCHA whenever.\nTo change this setting, try this command again followed by one of yes/no/on/off")
-   else:
-     return await event.reply(f"I am currently kicking users that haven't completed the CAPTCHA after {time} seconds.\nTo change this setting, try this command again followed by one of yes/no/on/off")
-  if arg == "time":
-    return
-  if arg in positive:
-   for c in chats:
-       if event.chat_id == c["id"]:
-           to_check = get_chat(id=event.chat_id)
-           captcha.update_one(
-                 {
-                      "_id": to_check["_id"],
-                     "id": to_check["id"],
-                     "type": to_check["type"],
-                     "time": to_check["time"],
-                     "mode": to_check["mode"],
-                 },
-                 {"$set": {"time": time}},
-             )
-           return await event.reply(f"I will now kick people that haven't solved the CAPTCHA after {time} seconds.")
-   captcha.insert_one(
-         {"id": event.chat_id, "type": 'button', "time": 300, "mode": "on"}
-     )
-   await event.reply("I will now kick people that haven't solved the CAPTCHA after 5 minutes.")
-  elif arg in negative:
-   for c in chats:
-       if event.chat_id == c["id"]:
-           to_check = get_chat(id=event.chat_id)
-           captcha.update_one(
-                 {
-                     "_id": to_check["_id"],
-                     "id": to_check["id"],
-                     "type": to_check["type"],
-                     "time": to_check["time"],
-                     "mode": to_check["mode"],
-                 },
-                 {"$set": {"time": 0}},
-             )
-           return await event.reply("I will no longer kick people that haven't solved the CAPTCHA.")
-   captcha.insert_one(
-         {"id": event.chat_id, "type": 'button', "time": 0, "mode": "on"}
-     )
-   await event.reply("I will no longer kick people that haven't solved the CAPTCHA.")
-  else:
-    await event.reply(f"That isn't a boolean - expected one of yes/on/enable or no/off/disable; got: {arg}")
- except Exception as e:
-    print(e)
-
-@register(pattern="^/captchakicktime ?(.*)")
-async def t(event):
- if event.is_private:
-  return await event.reply("This command is specific to groups")
- if not await is_admin(event, event.sender_id):
-   return await event.reply("Only admins can execute this command!")
- if not await is_admin(event, BOT_ID):
-   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
- arg = event.pattern_match.group(1)
- chats = captcha.find({})
- if not arg:
-   time = 0
-   for c in chats:
-      if event.chat_id == c["id"]:
-        time = c["time"]
-   if time == 0:
-     return await event.reply("Users willnot be auto kicked if not completed captcha.")
-   else:
-     return await event.reply(f"Users will be kicked after {time}'s if not completed captcha within that time.")
- try:
-  time = int(event.pattern_match.group(1))
- except:
-  return await event.reply("Please Specify in Seconds **For Now**")
- for c in chats:
-      if event.chat_id == c["id"]:
-          to_check = get_chat(id=event.chat_id)
-          captcha.update_one(
-                {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "type": to_check["type"],
-                    "time": to_check["time"],
-                    "mode": to_check["mode"],
-                },
-                {"$set": {"time": time}},
-            )
-          return await event.reply(f"Updated captcha kick time to **{time}s**")
- captcha.insert_one(
-        {"id": event.chat_id, "type": 'text', "time": time, "mode": "on"}
-    )
- await event.reply(f"Turned on captcha kick time to **{time}s**/nNow new users who don't complete captcha by **{time}s** gets automatically kicked!")
-
-@register(pattern="^/captchamode ?(.*)")
-async def t(event):
- if event.is_private:
-  return await event.reply("This command is specific to groups")
- if not await is_admin(event, event.sender_id):
-   return await event.reply("Only admins can execute this command!")
- if not await is_admin(event, BOT_ID):
-   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
- arg = event.pattern_match.group(1)
- chats = captcha.find({})
- type = None
- time = 0
- mode = "on"
- level = ["button", "multibutton", "text", "math"]
- if not arg:
-   for c in chats:
-      if event.chat_id == c["id"]:
-         type = c["type"]
-         time = c["time"]
-   if type:
-     return await event.reply(f"Current captcha mode is **{type}**")
-   else:
-     return await event.reply("Captcha is currently off for this Chat")
- if not arg in level:
-   return await event.reply(f"'{arg}' is not a recognised CAPTCHA mode! Try one of: button/multibutton/math/text")
- for c in chats:
-      if event.chat_id == c["id"]:
-         type = c["type"]
-         time = c["time"]
-         mode = c["mode"]
- for c in chats:
-      if event.chat_id == c["id"]:
-          to_check = get_chat(id=event.chat_id)
-          captcha.update_one(
-                {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "type": to_check["type"],
-                    "time": to_check["time"],
-                    "mode": to_check["mode"],
-                },
-                {"$set": {"type": arg, "mode": "on", "time": time}},
-            )
-          await event.reply(f"Successfully updated captchamode to **{arg}**")
-          return
- captcha.insert_one(
-        {"id": event.chat_id, "type": type, "time": 0, "mode": mode}
-    )
- await event.reply(f"Successfully set captchamode to **{arg}**.")
+mode = None
+time = 0
+type = "button"
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
-async def ba(event):
- if event.is_private:
-  return await event.reply("This command is specific to groups")
- if event.text.startswith("!captchakick") or event.text.startswith("/captchakick"):
-    return
- if event.text.startswith("!captchamode") or event.text.startswith("/captchamode"):
-    return
- if not await is_admin(event, event.sender_id):
-   return await event.reply("You need to be an admin to do this!")
- if not await is_admin(event, BOT_ID):
-   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
- pro = ["on", "enable", "yes"]
- bro = ["off", "disable", "no"]
- arg = event.pattern_match.group(1)
+async def c(event):
+ input = event.pattern_match.group(1)
  chats = captcha.find({})
- type = None
- mode = None
- time = 0
- for c in chats:
-      if event.chat_id == c["id"]:
-         mode = c["mode"]
-         type = c["type"]
-         time = c["time"]
- if arg:
-  if arg in pro:
-   if mode == None:
-    captcha.insert_one(
-        {"id": event.chat_id, "type": "button", "time": 0, "mode": "on"}
-     )
-    await event.reply("Captcha sucessfully enabled for this chat!")
-   if mode:
-    if mode == "on":
-     return await event.reply("Captcha is already enabled for this chat.")
-    elif mode == "off":
-     to_check = get_chat(id=event.chat_id)
-     captcha.update_one(
-                {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "type": to_check["type"],
-                    "time": to_check["time"],
-                    "mode": to_check["mode"],
-                },
-                {"$set": {"mode": "on", "type": type, "time": time}},
-            )
-     return await event.reply(f"Captcha is enabled with mode **{type}**")
-  elif arg in bro:
-   if mode:
-    if mode == "off" or mode == None:
-      return await event.reply("captcha is not enabled here in the first place!")
-    elif mode == "on":
-     to_check = get_chat(id=event.chat_id)
-     captcha.update_one(
-                {
-                    "_id": to_check["_id"],
-                    "id": to_check["id"],
-                    "type": to_check["type"],
-                    "time": to_check["time"],
-                    "mode": to_check["mode"],
-                },
-                {"$set": {"mode": "off", "type": type, "time": time}},
-            )
-     return await event.reply(f"Captcha is successfully disabled")
- else:
-   text = "Users will be asked to complete a CAPTCHA before being allowed to speak in the chat.\n\nTo change this setting, try this command again followed by one of yes/no/on/off"
-   await event.reply(text)
- 
+  for c in chats:
+    if event.chat_id == c["id"]:
+      mode = c["mode"]
+      type = c["type"]
+      time = c["time"]
+ if not input:
+  if mode == None or mode == "off":
+   await event.reply("Welcome captcha is currently disabled for this chat.")
+  elif mode == "on":
+   await event.reply("Welcome CAPTCHAs are currently enabled")
+ elif input in positive:
+   await event.reply("Enabled welcome CAPTCHAs!")
+   for c in chats:
+    if event.chat_id == c["id"]:
+     return captcha.update_one({"id": event.chat_id}, {"$set": {"mode": "on"}},)
+   captcha.insert_one({"id": event.chat_id, "mode": "on", "type": type, "time": time})
+
+
+
+
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
  if event.is_private:
