@@ -910,7 +910,7 @@ async def c(event):
      return captcha.update_one(
                 {
                     "_id": to_check["_id"],
-                    "id": to_check["bannerid"],
+                    "id": to_check["id"],
                 },
                 {"$set": {"mode": "off"}},
             )
