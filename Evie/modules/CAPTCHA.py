@@ -882,6 +882,12 @@ typical = ["text", "button", "multibutton", "math"]
 
 @tbot.on(events.NewMessage(pattern="^[!/]captcha ?(.*)"))
 async def c(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  input = event.pattern_match.group(1)
  chats = captcha.find({})
  mode = None
@@ -912,6 +918,12 @@ async def c(event):
 
 @tbot.on(events.NewMessage(pattern="^[!/]captchamode ?(.*)"))
 async def cm(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  input = event.pattern_match.group(1)
  chats = captcha.find({})
  mode = None
@@ -938,6 +950,12 @@ async def cm(event):
 
 @tbot.on(events.NewMessage(pattern="^[!/]captchakick ?(.*)"))
 async def suk(event):
+ if event.is_private:
+  await event.reply("This command is specific to groups")
+ if not await is_admin(event, event.sender_id):
+   return await event.reply("Only admins can execute this command!")
+ if not await is_admin(event, BOT_ID):
+   return await event.reply("I need to be admin with the right to restrict to enable CAPTCHAs.")
  input = event.pattern_match.group(1)
  chats = captcha.find({})
  mode = None
