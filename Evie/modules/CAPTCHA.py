@@ -11,7 +11,7 @@ from pymongo import MongoClient
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-captcha = db.captl
+captcha = db.catl
 welcome = db.wlc
 cbutton = db.cbutton
 
