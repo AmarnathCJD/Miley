@@ -1002,6 +1002,7 @@ async def t(event):
  chats = captcha.find({})
  type = None
  time = 0
+ mode = "on"
  level = ["button", "multibutton", "text", "math"]
  if not arg:
    for c in chats:
@@ -1018,6 +1019,7 @@ async def t(event):
       if event.chat_id == c["id"]:
          type = c["type"]
          time = c["time"]
+         mode = c["mode"]
  for c in chats:
       if event.chat_id == c["id"]:
           to_check = get_chat(id=event.chat_id)
@@ -1034,7 +1036,7 @@ async def t(event):
           await event.reply(f"Successfully updated captchamode to **{arg}**")
           return
  captcha.insert_one(
-        {"id": event.chat_id, "type": type, "time": 0}
+        {"id": event.chat_id, "type": type, "time": 0, "mode": mode}
     )
  await event.reply(f"Successfully set captchamode to **{arg}**.")
 
