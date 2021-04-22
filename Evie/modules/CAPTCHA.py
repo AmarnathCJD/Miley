@@ -381,7 +381,7 @@ async def bak(event):
                 f"{d}",
                 data='nipa_{}'.format(chat)
             ),
-            [Button.inline(
+            Button.inline(
                 f"{e}",
                 data='suze_{}'.format(chat)
             ),
