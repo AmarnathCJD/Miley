@@ -11,7 +11,7 @@ from pymongo import MongoClient
 client = MongoClient()
 client = MongoClient(MONGO_DB_URI)
 db = client["evie"]
-captcha = db.catl
+captcha = db.caali
 welcome = db.wlc
 cbutton = db.cbutton
 
@@ -893,9 +893,9 @@ async def c(event):
       time = c["time"]
  if not input:
   if mode == None or mode == "off":
-   await event.reply("Welcome captcha is currently disabled for this chat.")
+   await event.reply("Welcome CAPTCHAs are currently **disabled** for this chat.")
   elif mode == "on":
-   await event.reply("Welcome CAPTCHAs are currently enabled")
+   await event.reply("Welcome CAPTCHAs are currently **enabled** for this chat.")
  elif input in positive:
    await event.reply("Enabled welcome CAPTCHAs!")
    for c in chats:
@@ -906,8 +906,14 @@ async def c(event):
   await event.reply("Disabled welcome CAPTCHAs!")
   for c in chats:
     if event.chat_id == c["id"]:
-     return captcha.update_one({"id": event.chat_id}, {"$set": {"mode": "off"}})
-  
+     to_check = get_chat(id=event.chat_id)
+     return captcha.update_one(
+                {
+                    "_id": to_check["_id"],
+                    "id": to_check["bannerid"],
+                },
+                {"$set": {"mode": "off"}},
+            )
 
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
