@@ -27,7 +27,6 @@ async def pn(event):
    pro = f'{chat}'
    omk = pro.replace('-100', '')
    if id:
-    try:
      if event.chat.username:
        await x.edit(f"The pinned message in {event.chat.title} is [here](http://t.me/{event.chat.username}/{id}).", link_preview=False)
      else:
