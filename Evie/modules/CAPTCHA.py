@@ -929,10 +929,10 @@ async def cm(event):
    await event.reply(f"Current CAPTCHA mode is **{type}**.")
  elif input in typical:
   await event.reply(f"Set CAPTCHAmode to **{input}**!")
-   for c in chats:
+  for c in chats:
     if event.chat_id == c["id"]:
      return captcha.update_one({"id": event.chat_id}, {"$set": {"type": input, "mode": "on"}},)
-   captcha.insert_one({"id": event.chat_id, "mode": "on", "type": input, "time": time})
+  captcha.insert_one({"id": event.chat_id, "mode": "on", "type": input, "time": time})
  else:
   await event.reply("Input not supported, try one of math/button/multibutton/text.")
 
