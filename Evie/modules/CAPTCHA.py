@@ -909,6 +909,31 @@ async def c(event):
      return captcha.update_one({"id": event.chat_id}, {"$set": {"mode": "off"}},)
   captcha.insert_one({"id": event.chat_id, "mode": "off", "type": type, "time": time})
 
+@tbot.on(events.NewMessage(pattern="^[!/]captchamode ?(.*)"))
+async def cm(event):
+ input = event.pattern_match.group(1)
+ chats = captcha.find({})
+ mode = None
+ time = 0
+ type = None
+ for c in chats:
+    if event.chat_id == c["id"]:
+      mode = c["mode"]
+      type = c["type"]
+      time = c["time"]
+ if not input:
+  if mode == None or mode == "off":
+   return await event.reply("Welcome CAPTCHAs are currently **disabled** for this chat.")
+  elif type:
+   await event.reply(f"Current CAPTCHA mode is **{type}**.")
+ typical = ["text", "button", "multibutton", "math"]
+ elif input in typical:
+  await event.reply(f"Set CAPTCHAmode to **{input}**!")
+   for c in chats:
+    if event.chat_id == c["id"]:
+     return captcha.update_one({"id": event.chat_id}, {"$set": {"type": input, "mode": "on"}},)
+   captcha.insert_one({"id": event.chat_id, "mode": "on", "type": input, "time": time})
+
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
  if event.is_private:
