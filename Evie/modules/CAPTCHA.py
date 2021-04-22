@@ -936,6 +936,38 @@ async def cm(event):
  else:
   await event.reply("Input not supported, try one of math/button/multibutton/text.")
 
+@tbot.on(events.NewMessage(pattern="^[!/]captchakick ?(.*)"))
+async def suk(event):
+ input = event.pattern_match.group(1)
+ chats = captcha.find({})
+ mode = None
+ time = None
+ type = "button"
+ for c in chats:
+    if event.chat_id == c["id"]:
+      mode = c["mode"]
+      type = c["type"]
+      time = c["time"]
+ if not input:
+  if mode == None or mode == "off":
+   return await event.reply("Welcome CAPTCHAs are currently **disabled** for this chat.")
+  elif time:
+   await event.reply(f"Users who do not complete CAPTCHAs in {time}seconds will get kicked!")
+  elif not time:
+   await event.reply("Auto kick is disabled for this chat")
+ elif input in positive:
+  await event.reply(f"**Enabled** CAPTCHA kick.")
+  for c in chats:
+    if event.chat_id == c["id"]:
+     return captcha.update_one({"id": event.chat_id}, {"$set": {"time": time}},)
+  captcha.insert_one({"id": event.chat_id, "mode": "on", "type": type, "time": 300})
+ elif input in negative:
+  await event.reply("**Disabled** CAPTCHA Kick")
+  for c in chats:
+    if event.chat_id == c["id"]:
+     return captcha.update_one({"id": event.chat_id}, {"$set": {"time": 0}},)
+  captcha.insert_one({"id": event.chat_id, "mode": "on", "type": type, "time": 0})
+
 @tbot.on(events.NewMessage(pattern="^[!/]setcaptchatext ?(.*)"))
 async def ba(event):
  if event.is_private:
