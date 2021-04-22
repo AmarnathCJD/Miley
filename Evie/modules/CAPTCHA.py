@@ -886,7 +886,7 @@ type = "button"
 async def c(event):
  input = event.pattern_match.group(1)
  chats = captcha.find({})
-  for c in chats:
+ for c in chats:
     if event.chat_id == c["id"]:
       mode = c["mode"]
       type = c["type"]
@@ -947,8 +947,6 @@ async def rrb(event):
    if event.chat_id == c["id"]:
     cbutton.delete_one({"id": event.chat_id})
  await event.reply("Reset the captcha button name to default")
-
-
 
 
 file_help = os.path.basename(__file__)
