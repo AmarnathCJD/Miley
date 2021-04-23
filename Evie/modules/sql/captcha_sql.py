@@ -9,7 +9,7 @@ class Captcha(BASE):
     time = Column(Integer)
     style = Column(UnicodeText)
     
-    def __init__(self, chat_id, mode, style, time):
+    def __init__(self, chat_id, mode, time, style):
         self.chat_id = chat_id
         self.mode = mode
         self.time = time
