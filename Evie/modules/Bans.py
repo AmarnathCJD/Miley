@@ -30,7 +30,7 @@ async def extract_time(message, time_val):
         )
         return
 
-@tbot.on(events.NewMessage(pattern="^[!/]ban ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]ban ?(.*)"))
 async def dban(event):
  if event.is_private:
    return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -57,7 +57,7 @@ async def dban(event):
  await tbot.edit_permissions(event.chat_id, user_id, view_messages=False)
  await event.reply(f"Successfully Banned!{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]dban ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]dban ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -92,7 +92,7 @@ async def dban(event):
   await tbot.edit_permissions(event.chat_id, int(mk), view_messages=False)
   await event.reply(f"Successfully Banned!{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]sban ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]sban ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -115,7 +115,7 @@ async def dban(event):
     return await event.reply("I don't have enough rights to do this!")
   await tbot.edit_permissions(event.chat_id, user.id, view_messages=False)
 
-@tbot.on(events.NewMessage(pattern="^[!/]unban ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]unban ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -140,7 +140,7 @@ async def dban(event):
   await tbot.edit_permissions(event.chat_id, user.id)
   await event.reply(f"Yep, this user can join!")
 
-@tbot.on(events.NewMessage(pattern="^[!/]kick ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]kick ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -167,7 +167,7 @@ async def dban(event):
   await tbot.kick_participant(event.chat_id, user.id)
   await event.reply(f"Kicked!{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]dkick ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]dkick ?(.*)"))
 async def dban(event): 
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -200,7 +200,7 @@ async def dban(event):
   await tbot.kick_participant(event.chat_id, int(mk))
   await event.reply(f"Kicked!{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]dmute ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]dmute ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -233,7 +233,7 @@ async def dban(event):
   await tbot.edit_permissions(event.chat_id, int(mk), send_messages=False)
   await event.reply(f"Successfully Muted!{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]skick ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]skick ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -254,7 +254,7 @@ async def dban(event):
     return await event.reply("I don't have enough rights to do this!")
   await tbot.kick_participant(event.chat_id, int(user.id))
   
-@tbot.on(events.NewMessage(pattern="^[!/]mute ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]mute ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -280,7 +280,7 @@ async def dban(event):
   await tbot.edit_permissions(event.chat_id, user.id, send_messages=False)
   await event.reply(f"**{replied_user.first_name}** is muted in **{event.chat.title}**.{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]unmute ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]unmute ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -306,7 +306,7 @@ async def dban(event):
   await tbot.edit_permissions(event.chat_id, user.id, send_messages=True)
   await event.respond(f"Yep, **{replied_user.first_name}** can start talking again in **{event.chat.title}**.{reason}")
 
-@tbot.on(events.NewMessage(pattern="^[!/]smute ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]smute ?(.*)"))
 async def dban(event):
   if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -327,7 +327,7 @@ async def dban(event):
     return await event.reply("I don't have enough rights to do this!")
   await tbot.edit_permissions(event.chat_id, user.id, send_messages=False)
 
-@tbot.on(events.NewMessage(pattern="^[!/]tmute ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]tmute ?(.*)"))
 async def tmute(event):
  if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
@@ -365,7 +365,7 @@ async def tmute(event):
  replied_user = await tbot.get_entity(user.id)
  await event.respond(f'Muted **{replied_user.first_name}** for {args}!\n{reason}')
 
-@tbot.on(events.NewMessage(pattern="^[!/]tban ?(.*)"))
+@tbot.on(events.NewMessage(pattern="^[!/?]tban ?(.*)"))
 async def tmute(event):
  if event.is_private:
     return await event.reply("This command is made to be used in group chats, not in pm!")
