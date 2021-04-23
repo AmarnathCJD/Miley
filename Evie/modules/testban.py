@@ -1,4 +1,4 @@
-from Evie import thot as Stark
+from Evie import tbot as Stark
 from telethon import events, Button
 from telethon.tl.functions.channels import EditBannedRequest
 from telethon.tl.types import ChatBannedRights
