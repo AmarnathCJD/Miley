@@ -106,13 +106,13 @@ async def lg(event):
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
     draw.text(
-        ((image_widthz - w) / 2, (image_heightz - h) / 2 + (image_heightz - h) / 3),
+        ((image_widthz - w) / 2, (image_heightz - h) / 2 + (image_heightz - h) / 3 + (image_heightz - h) / 5),
         text,
         font=font,
         fill="white",
     )
     x = (image_widthz - w) / 2
-    y = (image_heightz - h) / 2 + (image_heightz - h) / 3
+    y = (image_heightz - h) / 2 + (image_heightz - h) / 3 + (image_heightz - h) / 5
     draw.text(
         (x, y), text, font=font, fill="white", stroke_width=9, stroke_fill="black"
     )
