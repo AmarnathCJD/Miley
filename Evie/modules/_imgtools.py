@@ -93,3 +93,37 @@ async def lg(event):
    await fk.edit(f"{e}")
 
 
+@register(pattern="^/clogo ?(.*)")
+async def lg(event):
+    text = event.pattern_match.group(1)
+    if not text:
+        await fk.edit("`Please Give Me A Valid Input.`")
+        return
+    img = Image.open("./Evie/function/IMG_20210425_212622_585.jpg")
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype("./Evie/function/Cyberthrone.ttf", 450)
+    image_widthz, image_heightz = img.size
+    w, h = draw.textsize(text, font=font)
+    h += int(h * 0.21)
+    draw.text(
+        ((image_widthz - w) / 2, (image_heightz - h) / 2),
+        text,
+        font=font,
+        fill="white",
+    )
+    x = (image_widthz - w) / 2
+    y = (image_heightz - h) / 2
+    draw.text(
+        (x, y), text, font=font, fill="white", stroke_width=16, stroke_fill="black"
+    )
+    file_name = "LogoBy@Evie.png"
+    img.save(file_name, "png")
+    async with tbot.action(event.chat_id, 'photo'):
+        await tbot.send_file(
+            event.chat_id,
+            file=file_name,
+            caption="MissEvie_Robot",
+            force_document=True
+        )
+    if os.path.exists(file_name):
+        os.remove(file_name)
