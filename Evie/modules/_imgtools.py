@@ -101,7 +101,7 @@ async def lg(event):
         return
     img = Image.open("./Evie/function/IMG_20210425_212622_585.jpg")
     draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype("./Evie/function/Cyberthrone.ttf", 280)
+    font = ImageFont.truetype("./Evie/function/Cyberthrone.ttf", 150)
     image_widthz, image_heightz = img.size
     w, h = draw.textsize(text, font=font)
     h += int(h * 0.21)
@@ -112,7 +112,7 @@ async def lg(event):
         fill="white",
     )
     x = (image_widthz - w) / 2
-    y = (image_heightz - h) / 3
+    y = (image_heightz - h) / 2 + (image_heightz - h) / 3
     draw.text(
         (x, y), text, font=font, fill="white", stroke_width=16, stroke_fill="black"
     )
