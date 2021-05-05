@@ -1,4 +1,4 @@
-from Evie import tbot, MONGO_DB_URI
+from Evie import tbot, MONGO_DB_URI, BOT_ID
 from telethon import functions, types, events
 from pymongo import MongoClient
 import random, time, asyncio
@@ -80,7 +80,7 @@ async def can_ban_users(message):
         isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
     )
 
-async def ck_admin(event, user):
+async def is_admin(chat_id, user):
     try:
         sed = await event.client.get_permissions(event.chat_id, user)
         if sed.is_admin:
@@ -268,3 +268,15 @@ async def kick_restricted_after_delay(delay, event, user_id):
       return
     await event.delete()
     await tbot.kick_participant(event.chat_id, user_id)
+
+async def bot_ban(message):
+    result = await tbot(
+        functions.channels.GetParticipantRequest(
+            channel=message.chat_id,
+            user_id=BOT_ID,
+        )
+    )
+    p = result.participant
+    return isinstance(p, types.ChannelParticipantCreator) or (
+        isinstance(p, types.ChannelParticipantAdmin) and p.admin_rights.ban_users
+    )
