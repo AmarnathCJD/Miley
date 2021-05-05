@@ -1,7 +1,7 @@
 from Evie import tbot, CMD_HELP, BOT_ID
 import os
 from Evie.events import Ebot
-from . import can_promote_users, get_user, is_admin, Cquery
+from . import can_promote_users, get_user, is_admin
 from telethon import events, Button
 from telethon.tl.functions.channels import EditAdminRequest
 from telethon.tl.types import ChatAdminRights, ChannelParticipantsAdmins
@@ -14,7 +14,7 @@ async def _(event):
  if event.is_private:
       return await event.reply("This command is made to be used in group chats, not in pm!")
  if event.from_id:
-  if not await is_admin(event, event.sender_id):
+  if not await is_admin(event.chat_id, event.sender_id):
       return await event.reply("You need to be an admin to do this.")
   if not await can_promote_users(message=event):
       return await event.reply("You are missing the following rights to use this command:CanAddAdmins!")
@@ -24,7 +24,7 @@ async def _(event):
      pass
   if not title:
    title = "Admin"
-  if await is_admin(event, user.id):
+  if await is_admin(event.chat_id, user.id):
    return await event.reply("This user is already an admin!")
   try:
    await tbot(EditAdminRequest(event.chat_id, user.id, ChatAdminRights(
@@ -53,7 +53,7 @@ async def _(event):
  if event.is_private:
       return await event.reply("This command is made to be used in group chats, not in pm!")
  if event.from_id:
-  if not await is_admin(event, event.sender_id):
+  if not await is_admin(event.chat_id, event.sender_id):
       return await event.reply("You need to be an admin to do this.")
   if not await can_promote_users(message=event):
       return await event.reply("You are missing the following rights to use this command:CanAddAdmins!")
@@ -63,7 +63,7 @@ async def _(event):
      pass
   if not title:
    title = "Admin"
-  if await is_admin(event, user.id):
+  if await is_admin(event.chat_id, user.id):
    return await event.reply("This user is already an admin!")
   try:
    await tbot(EditAdminRequest(event.chat_id, user.id, ChatAdminRights(
@@ -83,7 +83,7 @@ async def _(event):
  if event.is_private:
       return await event.reply("This command is made to be used in group chats, not in pm!")
  if event.from_id:
-  if not await is_admin(event, event.sender_id):
+  if not await is_admin(event.chat_id, event.sender_id):
       return await event.reply("You need to be an admin to do this.")
   if not await can_promote_users(message=event):
       return await event.reply("You are missing the following rights to use this command:CanAddAdmins!")
@@ -93,7 +93,7 @@ async def _(event):
      pass
   if not title:
    title = "Admin"
-  if not await is_admin(event, user.id):
+  if not await is_admin(event.chat_id, user.id):
       return await event.reply("This user is not an admin!")
   try:
    await tbot(EditAdminRequest(event.chat_id, user.id, ChatAdminRights(
@@ -122,7 +122,7 @@ async def _(event):
 async def admeene(event):
  if event.is_private:
       return await event.reply("This command is made to be used in group chats, not in pm!")
- if not await is_admin(event, BOT_ID):
+ if not await is_admin(event.chat_id, BOT_ID):
       return
  mentions = f"Admins in **{event.chat.title}:**"
  async for user in tbot.iter_participants(
@@ -142,6 +142,8 @@ async def link(event):
  if event.is_private:
     return await event.reply("This cmd is made to be used in groups, not in PM!")
  if event.from_id:
+  if not await is_admin(event.chat_id, event.sender_id):
+    return
   link = await tbot(ExportChatInviteRequest(event.chat_id))
   await event.reply(f"`{link.link}`", link_preview=False)
  elif event.from_id == None:
@@ -150,7 +152,7 @@ async def link(event):
 
 @tbot.on(events.CallbackQuery(pattern=r"invitelink"))
 async def _(event):
- if not await is_admin(event, event.sender_id):
+ if not await is_admin(event.chat_id, event.sender_id):
   return await event.answer("You need to be an admin to do this.")
  link = await tbot(ExportChatInviteRequest(event.chat_id))
  await event.edit(f"`{link.link}`", link_preview=False, buttons=None)
@@ -163,7 +165,7 @@ async def _(event):
  user_id, title = input.split("-", 1)
  user_id = user_id.strip()
  title = title.strip()
- if not await is_admin(event, event.sender_id):
+ if not await is_admin(event.chat_id, event.sender_id):
       return await event.answer("You need to be an admin to do this.")
  if not await can_promote_users(message=event):
       return await event.edit("You are missing the following rights to use this command:CanAddAdmins!")
@@ -191,7 +193,7 @@ async def _(event):
  user_id, title = input.split("-", 1)
  user_id = user_id.strip()
  title = title.strip()
- if not await is_admin(event, event.sender_id):
+ if not await is_admin(event.chat_id, event.sender_id):
       return await event.answer("You need to be an admin to do this.")
  if not await can_promote_users(message=event):
       return await event.edit("You are missing the following rights to use this command:CanAddAdmins!")
