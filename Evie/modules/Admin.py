@@ -1,6 +1,7 @@
 from Evie import tbot, CMD_HELP, BOT_ID
 import os
 from Evie.events import Ebot
+from Evie.function import ck_admin
 from . import can_promote_users, get_user, is_admin
 from telethon import events, Button
 from telethon.tl.functions.channels import EditAdminRequest
@@ -14,7 +15,7 @@ async def _(event):
  if event.is_private:
       return await event.reply("This command is made to be used in group chats, not in pm!")
  if event.from_id:
-  if not await is_admin(event.chat_id, event.sender_id):
+  if not await ck_admin(event, event.sender_id):
       return await event.reply("You need to be an admin to do this.")
   if not await can_promote_users(message=event):
       return await event.reply("You are missing the following rights to use this command:CanAddAdmins!")
