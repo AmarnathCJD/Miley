@@ -1,3 +1,4 @@
+"""
 from Evie import tbot, CMD_HELP, BOT_ID
 import os
 from Evie.events import Ebot
@@ -214,12 +215,5 @@ async def _(event):
  
  
  
-__help__ = """
-**Admin Commands:**
-- /promote: promote a user.
-- /demote: demotes a user.
-- /superpromote: promotes a user with full rights except anonymous.
-- /adminlist: shows the admins of the chat.
-- /invitelink: gets the chat invite link.
 """
 
