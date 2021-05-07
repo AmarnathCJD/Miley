@@ -82,5 +82,10 @@ if ENV:
     except BaseException:
         print("Can't start ubot!")
         sys.exit(1)
+    sbot = TelegramClient(StringSession('1AZWarzwBuzFgcwXRo8Zgi2wAVjKtyp0_h8XwA9lgmWckxwv3bA7F-qwHHU3cyn_uKPYJeBBrQQTNPekFsisNEQG64vjmS9au6wZEwIbClE3rjfdzBqYNAzWDjOhmpZkpDGUdaLM3ZWQvrkmENjffMWNBFLu4RPN075dyioeGUQh9EJwy85xlTCDlcZtN6bLkhiRqy1jIvT42jtck0pOr6DtIVN0UrrsPGiXpC3zfIUmSODVJcvj6OoqTMsKH06w38UC0JS38DrvBoLq9AlZSWu_bBfnZhWzN2CDNmx9Vq7CiWTfLzNK0uUOkj7TTty5eBxcrkSg5LS0I0O0oGnDqSjVYqFP7gVI='), API_KEY, API_HASH)
+    try:
+        sbot.start()
+    except BaseException:
+        print("lel")
 else:
     sys.exit(1)
