@@ -55,7 +55,6 @@ async def inline_id_handler(event: events.InlineQuery.Event):
             results.append(
                 await event.builder.article(
                     title=thum,
-                    thumb=kekme,
                     description=hmmkek,
                     text=okayz,
                     buttons=Button.switch_inline(
