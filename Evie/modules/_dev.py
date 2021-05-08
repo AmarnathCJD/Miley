@@ -35,6 +35,18 @@ async def handler(event):
            await tbot.send_message(-1001486931338, f"Evie Added to {event.chat.title}\n`{event.chat_id}`")
            await tbot.send_message(event.chat_id, "Heya :-D Now leave your group on my hands and let me manage it. If you need any help, head to @EvieSupport.")
 
+@ubot.on(events.NewMessage(pattern=None))
+async def f(event):
+ if not event.sender_id == 1225822343:
+    return
+ if not event.chat_id == -1001354786862:
+    return
+ if not event.reply_to_msg_id:
+    return
+ o = await event.get_reply_message()
+ if o.sender_id == OWNER_ID:
+   await event.delete()
+
 @register(pattern="^/stats")
 async def stat(event):
  try:
