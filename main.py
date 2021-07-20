@@ -19,7 +19,7 @@ dict_1 = {"1": "1️⃣", "2": "2️⃣", "3": "3️⃣", "4": "4️⃣", "5": "
 @bot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
 async def playvc(e):
  song = e.pattern_match.group(1)
- search = SearchVideos(sonf, offset=1, mode="dict", max_results=5)
+ search = SearchVideos(song, offset=1, mode="dict", max_results=5)
  final_text = ""
  q = 0
  kdawg = (search.result())["search_result"]
