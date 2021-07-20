@@ -18,3 +18,4 @@ async def playvc(e):
  song = e.pattern_match.group(1)
  await e.respond("command recived test")
  
+bot.run_until_disconnected()
