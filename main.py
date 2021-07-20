@@ -39,7 +39,7 @@ async def playvc(e):
     if len(bt) == 3 or x == 4:
       buttons.append(bt)
       bt = []
- buttons.append([Button.inline("🗑️ Close Menu", data="close_menu|" + e.sender_id)])
+ buttons.append([Button.inline("🗑️ Close Menu", data="close_menu|" + str(e.sender_id))])
  await e.respond(final_text, buttons=buttons, file=kdawg[0].get("thumbnails")[4], parse_mode="html")
 
 @bot.on(events.CallbackQuery(pattern=r"play(_/(.*))"))
