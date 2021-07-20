@@ -31,7 +31,7 @@ async def playvc(e):
  for x in range(0, 5):
     d = Button.inline(dict_1[x], data="play_{}".format(kdawg[x].get('id')))
     bt.append(d)
-    if len(bt) == 2:
+    if len(bt) == 3 or if x == 4:
       buttons.append(bt)
       bt = []
  buttons.append([Button.inline("🗑️ Close Menu", data="close_menu")])
