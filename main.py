@@ -13,7 +13,7 @@ vc = TelegramClient (StringSession(STRING_SESSION), API_KEY, API_HASH)
 
 vc.start()
 
-@tbot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
+@bot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
 async def playvc(e):
  song = e.pattern_match.group(1)
  await e.respond("command recived test")
