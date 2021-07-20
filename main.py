@@ -1,5 +1,5 @@
 from telethon import TelegramClient, events, Button
-from telethon.session import StringSession
+from telethon.sessions import StringSession
 from pytgcalls import GroupCallFactory
 from os import environ as e
 
