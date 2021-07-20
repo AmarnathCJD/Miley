@@ -28,10 +28,12 @@ async def playvc(e):
     final_text += f"\n{dict_1[str(q)]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
  buttons = []
  bt = []
- for x in range(0, 5):
-    d = Button.inline(dict_1[str(x + 1)], data="play_{}".format(kdawg[x].get('id')))
+ for x in range(1, 6):
+    if x - 1 == 5:
+      break
+    d = Button.inline(dict_1[str(x)], data="play_{}".format(kdawg[x - 1].get('id')))
     bt.append(d)
-    if len(bt) == 2:
+    if len(bt) == 3:
       buttons.append(bt)
       bt = []
  buttons.append([Button.inline("🗑️ Close Menu", data="close_menu")])
