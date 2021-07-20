@@ -45,8 +45,8 @@ async def playvc(e):
 @bot.on(events.CallbackQuery(pattern=r"play(\_(.*))"))
 async def play_cb_(e):
  song_id, sender_id = (((e.pattern_match.group(1)).decode()).split("_", 1)[1]).split("|", 1)
- if not sender_id == e.sender_id:
-    return await e.reply("This is not for you!")
+ if not int(sender_id) == e.sender_id:
+    return await e.answer("This is not for you!", alert=True)
  song_id = song_id.strip()
  song_name = ((SearchVideos (song_id, max_results=1, mode="dict")).result()["search_result"])[0].get("title")
  x = await e.edit("Downloading **{song_name}** Now!")
