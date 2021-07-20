@@ -25,16 +25,16 @@ async def playvc(e):
  kdawg = (search.result())["search_result"]
  for x in kdawg:
     q += 1
-    final_text += f"{dict_1[str(q)]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
+    final_text += f"\n{dict_1[str(q)]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
  buttons = []
  bt = []
  for x in range(0, 5):
     d = Button.inline(dict_1[str(x + 1)], data="play_{}".format(kdawg[x].get('id')))
     bt.append(d)
-    if len(buttons) == 2:
+    if len(bt) == 2:
       buttons.append(bt)
       bt = []
  buttons.append(Button.inline("🗑️ Close Menu", data="close_menu"))
- await e.respond(final_text, buttons=buttons, file=kdawg[0].get("thumbnails")[0])
+ await e.respond(final_text, buttons=buttons, file=kdawg[0].get("thumbnails")[3])
 
 bot.run_until_disconnected()
