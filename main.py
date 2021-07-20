@@ -34,7 +34,7 @@ async def playvc(e):
     if len(bt) == 2:
       buttons.append(bt)
       bt = []
- buttons.append(Button.inline("🗑️ Close Menu", data="close_menu"))
+ buttons.append([Button.inline("🗑️ Close Menu", data="close_menu")])
  await e.respond(final_text, buttons=buttons, file=kdawg[0].get("thumbnails")[3])
 
 bot.run_until_disconnected()
