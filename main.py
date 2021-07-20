@@ -60,7 +60,7 @@ async def play_cb_(e):
  x = await e.edit(f"Downloading **{song_name}** Now!")
  with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
- await x.edit(x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name))
+ await x.edit(x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name), parse_mode="html")
 
 
 
