@@ -2,7 +2,7 @@ from telethon import TelegramClient, events, Button
 from telethon.sessions import StringSession
 from pytgcalls import GroupCallFactory
 from os import environ as e
-from youtube-search-python import SearchVideos
+from youtubesearchpython import SearchVideos
 
 API_KEY = e.get("API_KEY")
 API_HASH = e.get("API_HASH")
