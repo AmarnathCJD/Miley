@@ -34,7 +34,7 @@ async def playvc(e):
     if len(buttons) == 2:
       buttons.append(bt)
       bt = []
- buttons.append("🗑️ Close Menu", data="close_menu")
+ buttons.append(Button.inline("🗑️ Close Menu", data="close_menu"))
  await e.respond(final_text, buttons=buttons)
 
 bot.run_until_disconnected()
