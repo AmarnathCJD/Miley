@@ -25,7 +25,7 @@ async def playvc(e):
  kdawg = (search.result())["search_result"]
  for x in kdawg:
     q += 1
-    final_text += f"\ndict_1[q]**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
+    final_text += f"\n{dict_1[q]}<b>{x.get('title')}</b>\n  ┗  🔗 <i><a href='t.me/missneko_bot?start=help'>Get Additional Information</a></i>"
  buttons = []
  bt = []
  for x in range(0, 5):
@@ -35,6 +35,6 @@ async def playvc(e):
       buttons.append(bt)
       bt = []
  buttons.append([Button.inline("🗑️ Close Menu", data="close_menu")])
- await e.respond(final_text, buttons=buttons, file=kdawg[0].get("thumbnails")[3])
+ await e.respond(final_text, buttons=buttons, file=kdawg[0].get("thumbnails")[4], parse_mode="html")
 
 bot.run_until_disconnected()
