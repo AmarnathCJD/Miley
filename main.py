@@ -21,11 +21,11 @@ async def playvc(e):
  song = e.pattern_match.group(1)
  search = SearchVideos(song, offset=1, mode="dict", max_results=5)
  final_text = ""
- q = 0
+ q = -1
  kdawg = (search.result())["search_result"]
  for x in kdawg:
     q += 1
-    final_text += f"\n{dict_1[q - 1]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
+    final_text += f"\n**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
  buttons = []
  bt = []
  for x in range(0, 5):
