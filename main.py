@@ -42,7 +42,7 @@ async def playvc(e):
  buttons.append([Button.inline("🗑️ Close Menu", data="close_menu|" + e.sender_id)])
  await e.respond(final_text, buttons=buttons, file=kdawg[0].get("thumbnails")[4], parse_mode="html")
 
-@tbot.on(events.CallbackQuery(pattern=r"play(_/(.*))"))
+@bot.on(events.CallbackQuery(pattern=r"play(_/(.*))"))
 async def play_cb_(e):
  song_id, sender_id = (((e.pattern_match.group(1)).decode()).split("_", 1)[1]).split("|", 1)
  if not sender_id == e.sender_id:
