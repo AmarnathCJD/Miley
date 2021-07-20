@@ -9,6 +9,7 @@ API_KEY = e.get("API_KEY")
 API_HASH = e.get("API_HASH")
 TOKEN = e.get("TOKEN")
 STRING_SESSION = e.get("STRING_SESSION")
+CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
 
 bot = (TelegramClient (None, API_KEY, API_HASH)).start(bot_token=TOKEN)
 vc = TelegramClient (StringSession(STRING_SESSION), API_KEY, API_HASH)
@@ -80,7 +81,9 @@ async def play_cb_(e):
  remove(file_path)
  buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
  await x.edit(x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name), parse_mode="html", buttons=buttons)
- await e.respond(file=out)
+ group_call = GroupCallFactory(vc, CLIENT_TYPE)\
+        .get_file_group_call(out, 'out.raw')
+ await group_call.start(e.chat_id)
 
 
  
