@@ -60,7 +60,7 @@ async def play_cb_(e):
  x = await e.edit(f"Downloading **{song_name}** Now!")
  with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
- buttons = [[Button.url("⏸️", data="pause"), Button.url("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
+ buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
  await x.edit(x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name), parse_mode="html", buttons=buttons)
 
 
