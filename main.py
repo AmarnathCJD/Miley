@@ -4,6 +4,7 @@ from pytgcalls import GroupCallFactory
 from os import environ as e, remove
 from youtubesearchpython import SearchVideos
 import youtube_dl
+import asyncio
 API_KEY = e.get("API_KEY")
 API_HASH = e.get("API_HASH")
 TOKEN = e.get("TOKEN")
@@ -60,9 +61,26 @@ async def play_cb_(e):
  x = await e.edit(f"Downloading **{song_name}** Now!")
  with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
+ file_path = f'{song_id}.mp3'
+ out = f'{song_id}.raw'
+ proc = await asyncio.create_subprocess_shell(
+        cmd=(
+            'ffmpeg '
+            '-y -i '
+            f'{file_path} '
+            '-f s16le '
+            '-ac 2 '
+            '-ar 48000 '
+            '-acodec pcm_s16le '
+            f'{out}'
+        ),
+        stdin=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+ os.remove(file_path)
  buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
  await x.edit(x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name), parse_mode="html", buttons=buttons)
-
+ await e.respond(file=out)
 
 
  
