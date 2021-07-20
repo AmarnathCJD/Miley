@@ -77,7 +77,7 @@ async def play_cb_(e):
         stdin=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
- os.remove(file_path)
+ remove(file_path)
  buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
  await x.edit(x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name), parse_mode="html", buttons=buttons)
  await e.respond(file=out)
