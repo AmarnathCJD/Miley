@@ -25,7 +25,7 @@ async def playvc(e):
  kdawg = (search.result())["search_result"]
  for x in kdawg:
     q += 1
-    final_text += f"\n{dict_1[q]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
+    final_text += f"\ndict_1[q]**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
  buttons = []
  bt = []
  for x in range(0, 5):
