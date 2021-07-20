@@ -13,7 +13,7 @@ bot = (TelegramClient (None, API_KEY, API_HASH)).start(bot_token=TOKEN)
 vc = TelegramClient (StringSession(STRING_SESSION), API_KEY, API_HASH)
 
 vc.start()
-dict_1 = {"1": "1️⃣", "2": "2️⃣", "3": "3️⃣", "4": "4️⃣", "5": "5️⃣"}
+dict_1 = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 
 
 @bot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
@@ -25,13 +25,11 @@ async def playvc(e):
  kdawg = (search.result())["search_result"]
  for x in kdawg:
     q += 1
-    final_text += f"\n{dict_1[str(q)]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
+    final_text += f"\n{dict_1[q - 1]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
  buttons = []
  bt = []
- for x in range(1, 6):
-    if x - 1 == 5:
-      break
-    d = Button.inline(dict_1[str(x)], data="play_{}".format(kdawg[x - 1].get('id')))
+ for x in range(0, 5):
+    d = Button.inline(dict_1[x], data="play_{}".format(kdawg[x].get('id')))
     bt.append(d)
     if len(bt) == 3:
       buttons.append(bt)
