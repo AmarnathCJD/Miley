@@ -25,13 +25,13 @@ async def playvc(e):
  kdawg = (search.result())["search_result"]
  for x in kdawg:
     q += 1
-    final_text += f"\n**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
+    final_text += f"\n{dict_1[q]}**{x.get('title')}**\n  ┗  🔗 __[Get Additional Information]__(t.me/missneko_bot?start=help)"
  buttons = []
  bt = []
  for x in range(0, 5):
     d = Button.inline(dict_1[x], data="play_{}".format(kdawg[x].get('id')))
     bt.append(d)
-    if len(bt) == 3:
+    if len(bt) == 2:
       buttons.append(bt)
       bt = []
  buttons.append([Button.inline("🗑️ Close Menu", data="close_menu")])
