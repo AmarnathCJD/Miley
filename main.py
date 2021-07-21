@@ -107,8 +107,9 @@ async def pause_playout(e):
   await group_call.pause_playout()
  except TypeError:
    pass
- buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
- await e.edit(buttons=buttons)
+ text = "🎧 Voicechat Paused by <a href='tg://user?id={}'>{}</a>!".format(e.sender_id, e.sender.first_name)
+ buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("Close Menu", data="close_menu")],]
+ await e.edit(text, buttons=buttons)
  
 @bot.on(events.CallbackQuery(pattern=r"play"))
 async def resume_playout(e):
@@ -120,10 +121,22 @@ async def resume_playout(e):
   await group_call.resume_playout()
  except TypeError:
   pass
- buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
- await e.edit(buttons=buttons)
+ text = "🎧 Voicechat Resumed by <a href='tg://user?id={}'>{}</a>!".format(e.sender_id, e.sender.first_name)
+ buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("Close Menu", data="close_menu")],]
+ await e.edit(text, buttons=buttons)
 
-
+@bot.on(events.CallbackQuery(pattern=r"stop"))
+async def stop_playout(e):
+ try:
+   group_call = vc_db[e.chat_id]
+ except KeyError:
+   return await e.reply("M")
+ try:
+  await group_call.resume_playout()
+ except TypeError:
+  pass
+ text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(e.sender_id, e.sender.first_name)
+ await e.edit(text, buttons=None)
  
 
 @bot.on(events.NewMessage(pattern="^/eval ?(.*)"))
