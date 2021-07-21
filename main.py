@@ -185,7 +185,7 @@ async def stop_playout(e):
     except KeyError:
         return await e.reply("M")
     try:
-        await group_call.stop_playout()
+        await group_call.stop()
     except TypeError:
         pass
     text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(
