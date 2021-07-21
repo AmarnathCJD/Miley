@@ -110,6 +110,19 @@ async def pause_playout(e):
  buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
  await e.edit(buttons=buttons)
  
+@bot.on(events.CallbackQuery(pattern=r"play"))
+async def resume_playout(e):
+ try:
+   group_call = vc_db[e.chat_id]
+ except KeyError:
+   return await e.reply("M")
+ try:
+  await group_call.resume_playout()
+ except TypeError:
+   pass
+ buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
+ await e.edit(buttons=buttons)
+ 
 
 @bot.on(events.NewMessage(pattern="^/eval ?(.*)"))
 async def val(event):
