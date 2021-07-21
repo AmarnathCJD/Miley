@@ -168,7 +168,7 @@ async def aexec(code, smessatatus):
         + "\n event = smessatatus = message"
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
-    return await locals()["__aexec"](message, reply, tbot, p)
+    return await locals()["__aexec"](message, reply, bot, p)
 
 
 bot.run_until_disconnected()
