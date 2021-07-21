@@ -109,7 +109,7 @@ async def pause_playout(e):
    pass
  text = "🎧 Voicechat Paused by <a href='tg://user?id={}'>{}</a>!".format(e.sender_id, e.sender.first_name)
  buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("Close Menu", data="close_menu")],]
- await e.edit(text, buttons=buttons)
+ await e.edit(text, buttons=buttons, parse_mode="html")
  
 @bot.on(events.CallbackQuery(pattern=r"play"))
 async def resume_playout(e):
@@ -123,7 +123,7 @@ async def resume_playout(e):
   pass
  text = "🎧 Voicechat Resumed by <a href='tg://user?id={}'>{}</a>!".format(e.sender_id, e.sender.first_name)
  buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("Close Menu", data="close_menu")],]
- await e.edit(text, buttons=buttons)
+ await e.edit(text, buttons=buttons, parse_mode="html")
 
 @bot.on(events.CallbackQuery(pattern=r"stop"))
 async def stop_playout(e):
@@ -136,7 +136,7 @@ async def stop_playout(e):
  except TypeError:
   pass
  text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(e.sender_id, e.sender.first_name)
- await e.edit(text, buttons=None)
+ await e.edit(text, buttons=None, parse_mode="html")
  
 
 @bot.on(events.NewMessage(pattern="^/eval ?(.*)"))
