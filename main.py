@@ -29,7 +29,7 @@ ydl_opts = {
         "quiet": True,
     }
 
-vc_db = {}
+from mtest import vc_db
 
 @bot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
 async def playvc(e):
