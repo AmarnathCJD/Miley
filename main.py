@@ -28,6 +28,8 @@ ydl_opts = {
         "quiet": True,
     }
 
+vc_db = {}
+
 @bot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
 async def playvc(e):
  song = e.pattern_match.group(1)
@@ -92,8 +94,17 @@ async def play_cb_(e):
  group_call = GroupCallFactory(vc, CLIENT_TYPE)\
         .get_file_group_call(out, 'out.raw')
  await group_call.start(e.chat_id)
+ vc_db[e.chat_id] = group_call
 
-
+@bot.on(events.CallBackQuery(pattern=r"pause"))
+async def pause_playout(e):
+ try:
+   group_call = vc_db[e.chat_id]
+ except KeyError:
+   return await e.reply("M")
+ await group_call.stop_playout()
+ buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
+ await e.edit(buttons=buttons)
  
 
 
