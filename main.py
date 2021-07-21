@@ -108,10 +108,10 @@ async def pause_playout(e):
  except TypeError:
    pass
  text = "🎧 Voicechat Paused by <a href='tg://user?id={}'>{}</a>!".format(e.sender_id, e.sender.first_name)
- buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("Close Menu", data="close_menu")],]
+ buttons = [[Button.inline("▶️", data="playboy"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("Close Menu", data="close_menu")],]
  await e.edit(text, buttons=buttons, parse_mode="html")
  
-@bot.on(events.CallbackQuery(pattern=r"play"))
+@bot.on(events.CallbackQuery(pattern=r"playboy"))
 async def resume_playout(e):
  try:
    group_call = vc_db[e.chat_id]
