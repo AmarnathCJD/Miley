@@ -4,6 +4,10 @@ from pytgcalls import GroupCallFactory
 from os import environ as e, remove
 from youtubesearchpython import SearchVideos
 import youtube_dl
+import logging
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
 from dotenv import load_dotenv
 load_dotenv()
 import asyncio
