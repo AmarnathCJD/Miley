@@ -188,11 +188,75 @@ async def stop_playout(e):
         await group_call.stop()
     except TypeError:
         pass
-    text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(
+     by <a href='tg://user?id={}'>{}</a>!".format(
         e.sender_id, e.sender.first_name
     )
     await e.edit(text, buttons=None, parse_mode="html")
 
+@bot.on(events.CallbackQuery(pattern=r"next"))
+async def next_song(e):
+ try:
+   group_call = vc_db[e.chat_id]
+ except KeyError:
+   return
+ try:
+   song = db.get_playlist(e.chat_id)
+   if not song or len(song) == 0:
+       try:
+        await group_call.stop()
+       except TypeError:
+        pass
+       await e.edit("End of playlist, 🎧 Voicechat End/Stopped.")
+   else:
+     song_id = song[0]
+     song = (
+        (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
+    )[0]
+     song_name = song.get("title")
+     thumb = song.get("thumbnails")[4]
+     link = None
+     x = await e.edit("🎶Skipped VC")
+     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([song_id])
+     file_path = f"{song_id}.mp3"
+     out = f"{song_id}.raw"
+     proc = await asyncio.create_subprocess_shell(
+        cmd=(
+            "ffmpeg "
+            "-y -i "
+            f"{file_path} "
+            "-f s16le "
+            "-ac 2 "
+            "-ar 48000 "
+            "-acodec pcm_s16le "
+            f"{out}"
+        ),
+        stdin=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+     await proc.communicate()
+     if proc.returncode != 0:
+        return await x.edit("FFmpeg Error during post-production processing, code 0.")
+     await e.delete()
+     buttons = [
+        [
+            Button.inline("⏸️", data="pause"),
+            Button.inline("⏭️", data="next"),
+            Button.inline("⏹️", data="stop"),
+        ],
+        [Button.inline("➕ Group Playlist", data="group_playlist")],
+        [Button.inline("➕ Personal Playlist", data="my_playlist")],
+        [Button.inline("🗑️ Close Menu", data="close_menu")],
+    ]
+     await e.respond(
+        x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name),
+        parse_mode="html",
+        buttons=buttons,
+        file=thumb,
+    )
+   
+
+   
 
 @bot.on(events.NewMessage(pattern="^/eval ?(.*)"))
 async def val(event):
