@@ -3,7 +3,6 @@ import logging
 import sys
 import traceback
 from os import environ as e
-
 import youtube_dl
 from pytgcalls import GroupCallFactory
 from telethon import Button, TelegramClient, events
@@ -17,7 +16,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 import asyncio
-
+from db import get_playlist, set_playlist
+print(set_playlist)
 API_KEY = e.get("API_KEY")
 API_HASH = e.get("API_HASH")
 TOKEN = e.get("TOKEN")
