@@ -18,9 +18,9 @@ from dotenv import load_dotenv
 load_dotenv()
 import asyncio
 
-from db import get_playlist
+from db import get_playlist, update_playlist
+print(update_playlist)
 
-print(set_playlist)
 API_KEY = e.get("API_KEY")
 API_HASH = e.get("API_HASH")
 TOKEN = e.get("TOKEN")
