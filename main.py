@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import asyncio
 
-from db import set_playlist
+from db import update_playlist, get_playlist
 
 print(set_playlist)
 API_KEY = e.get("API_KEY")
@@ -204,7 +204,7 @@ async def next_song(e):
     except KeyError:
         return
     try:
-        song = db.get_playlist(e.chat_id)
+        song = get_playlist(e.chat_id)
         if not song or len(song) == 0:
             try:
                 await group_call.stop()
