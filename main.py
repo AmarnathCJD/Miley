@@ -103,7 +103,10 @@ async def pause_playout(e):
    group_call = vc_db[e.chat_id]
  except KeyError:
    return await e.reply("M")
- await group_call.stop_playout()
+ try:
+  await group_call.stop_playout()
+ except TypeError:
+   pass
  buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
  await e.edit(buttons=buttons)
  
