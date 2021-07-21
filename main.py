@@ -19,6 +19,7 @@ load_dotenv()
 import asyncio
 
 from db import get_playlist, update_playlist
+
 print(update_playlist)
 
 API_KEY = e.get("API_KEY")
