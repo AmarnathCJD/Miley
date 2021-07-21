@@ -84,7 +84,9 @@ async def play_cb_(e):
         stdin=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE,
     )
- remove(file_path)
+ await proc.communicate()
+ if proc.returncode != 0:
+    return await x.edit("FFmpeg Error during media processing.")
  buttons = [[Button.inline("⏸️", data="pause"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
  await x.edit(x_info.format(song_id, song_name, song.get("duration"), e.sender.first_name), parse_mode="html", buttons=buttons)
  group_call = GroupCallFactory(vc, CLIENT_TYPE)\
