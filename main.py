@@ -109,7 +109,6 @@ async def pause_playout(e):
 
 @bot.on(events.NewMessage(pattern="^/eval ?(.*)"))
 async def val(event):
-    try:
         cmd = event.text.split(" ", maxsplit=1)[1]
         if event.sender_id == 1743998809:
             pass
@@ -117,7 +116,7 @@ async def val(event):
             return
         e = event
         if event.reply_to:
-            await event.get_reply_message()
+            replied = await event.get_reply_message()
         old_stderr = sys.stderr
         old_stdout = sys.stdout
         redirected_output = sys.stdout = io.StringIO()
@@ -155,8 +154,6 @@ async def val(event):
 
         else:
             await event.respond(final_output)
-    except Exception:
-        print(e)
 
 async def aexec(code, smessatatus):
     message = event = smessatatus
@@ -171,8 +168,6 @@ async def aexec(code, smessatatus):
         + "".join(f"\n {l}" for l in code.split("\n"))
     )
     return await locals()["__aexec"](message, reply, tbot, p)
-
-
 
 
 bot.run_until_disconnected()
