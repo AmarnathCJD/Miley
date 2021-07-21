@@ -3,7 +3,7 @@ from os import environ as e
 db_url = e.get("MONGO_DB_URI")
 from pymongo import MongoClient
 
-db = (MongoClient(db_url))["Rylee"]
+db = (MongoClient(db_url))["neko"]
 playlist = db.playlist
 
 
