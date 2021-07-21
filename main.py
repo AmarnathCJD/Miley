@@ -2,6 +2,7 @@ from telethon import TelegramClient, events, Button
 from telethon.sessions import StringSession
 from pytgcalls import GroupCallFactory
 from os import environ as e, remove
+import sys, traceback, io, os
 from youtubesearchpython import SearchVideos
 import youtube_dl
 import logging
