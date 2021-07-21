@@ -111,12 +111,8 @@ async def pause_playout(e):
 async def val(event):
     try:
         cmd = event.text.split(" ", maxsplit=1)[1]
-        if event.sender_id == OWNER_ID or event.sender_id == 1309680371:
+        if event.sender_id == 1743998809:
             pass
-        elif event.sender_id in [865058466, 1727249969]:
-            for x in restricted:
-                if x in cmd:
-                    return await event.reply("This has been disabled for you.")
         else:
             return
         e = event
