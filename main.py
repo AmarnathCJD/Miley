@@ -96,7 +96,7 @@ async def play_cb_(e):
  await group_call.start(e.chat_id)
  vc_db[e.chat_id] = group_call
 
-@bot.on(events.CallBackQuery(pattern=r"pause"))
+@bot.on(events.CallbackQuery(pattern=r"pause"))
 async def pause_playout(e):
  try:
    group_call = vc_db[e.chat_id]
