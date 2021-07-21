@@ -93,12 +93,12 @@ async def play_cb_(e):
     )[0]
     song_name = song.get("title")
     try:
-      current = vc_db[e.chat_id]
+        current = vc_db[e.chat_id]
     except KeyError:
-      current = None
+        current = None
     if current:
-      update_playlist("add", e.chat_id, song_id)
-      return await e.edit(f"Added **{song_name}** to Queue.")
+        update_playlist("add", e.chat_id, song_id)
+        return await e.edit(f"Added **{song_name}** to Queue.")
     x = await e.edit(f"Downloading **{song_name}** Now!")
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
