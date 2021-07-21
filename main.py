@@ -104,7 +104,7 @@ async def pause_playout(e):
  except KeyError:
    return await e.reply("M")
  try:
-  await group_call.stop_playout()
+  await group_call.pause_playout()
  except TypeError:
    pass
  buttons = [[Button.inline("▶️", data="play"), Button.inline("⏭️", data="next"), Button.inline("⏹️", data="stop")], [Button.inline("➕ Group Playlist", data="group_playlist")], [Button.inline("➕ Personal Playlist", data="my_playlist")], [Button.inline("🗑️ Close Menu", data="close_menu")],]
