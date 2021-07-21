@@ -92,13 +92,7 @@ async def play_cb_(e):
         (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
     )[0]
     song_name = song.get("title")
-    try:
-        current = vc_db[e.chat_id]
-    except KeyError:
-        current = None
-    if current:
-        update_playlist("add", e.chat_id, song_id)
-        return await e.edit(f"Added **{song_name}** to Queue.")
+    update_playlist("add", e.chat_id, song_id)
     x = await e.edit(f"Downloading **{song_name}** Now!")
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
@@ -138,8 +132,38 @@ async def play_cb_(e):
     )
     group_call = GroupCallFactory(vc, CLIENT_TYPE).get_file_group_call(out, "out.raw")
     await group_call.start(e.chat_id)
+    update_playlist("remove", e.chat_id, song_id)
     vc_db[e.chat_id] = group_call
-
+    @group_call.on_playout_ended
+    async def ___(__, _):
+         x = get_playlist(e.chat_id)
+         if not x or len(x) == 0:
+            return await group_call.stop()
+         song_id = x[0]
+         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                ydl.download([song_id])
+         file_path = f"{song_id}.mp3"
+         out = f"{song_id}.raw"
+         proc = await asyncio.create_subprocess_shell(
+                cmd=(
+                    "ffmpeg "
+                    "-y -i "
+                    f"{file_path} "
+                    "-f s16le "
+                    "-ac 2 "
+                    "-ar 48000 "
+                    "-acodec pcm_s16le "
+                    f"{out}"
+                ),
+                stdin=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+         await proc.communicate()
+         if proc.returncode != 0:
+                return await x.edit(
+                    "FFmpeg Error during post-production processing, code 0."
+                )
+         group_call.input_filename = out
 
 @bot.on(events.CallbackQuery(pattern=r"pause"))
 async def pause_playout(e):
