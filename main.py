@@ -4,6 +4,8 @@ from pytgcalls import GroupCallFactory
 from os import environ as e, remove
 from youtubesearchpython import SearchVideos
 import youtube_dl
+from dotenv import load_dotenv
+load_dotenv()
 import asyncio
 API_KEY = e.get("API_KEY")
 API_HASH = e.get("API_HASH")
