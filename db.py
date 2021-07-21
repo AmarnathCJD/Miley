@@ -7,7 +7,7 @@ db = (MongoClient (db_url))["Rylee"]
 playlist = db.playlist
 
 
-def update_playlist(mode="add", chat_id, song):
+def update_playlist(mode, chat_id, song):
    _songs = playlist.find_one({"chat_id": chat_id})
    if _songs:
      songs = _songs.get("songs")
