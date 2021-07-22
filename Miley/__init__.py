@@ -2,7 +2,13 @@ from os import environ as e
 
 from telethon import TelegramClient
 from telethon.sessions import StringSession
+import logging
+from dotenv import load_dotenv
 
+load_dotenv()
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+)
 API_KEY = e.get("API_KEY")
 API_HASH = e.get("API_HASH")
 STRING_SESSION = e.get("STRING_SESSION")
