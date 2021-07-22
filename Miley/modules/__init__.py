@@ -22,10 +22,10 @@ class Queue(_Queue):
 queues: Dict[int, Queue] = {}
 
 
-async def put(chat_id: int, file) -> int:
+async def put(chat_id: int, **kwargs) -> int:
     if chat_id not in queues:
         queues[chat_id] = Queue()
-    await queues[chat_id].put({file})
+    await queues[chat_id].put({**kwargs})
     return queues[chat_id].qsize()
 
 
@@ -74,7 +74,7 @@ def init_instance(chat_id: int):
         if is_empty(chat_id):
             await stop(chat_id)
         else:
-            instance.input_filename = await queues.get(chat_id).get()
+            instance.input_filename = await queues.get(chat_id)["file"]
 
 
 def remove(chat_id: int):
