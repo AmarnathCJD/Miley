@@ -1,6 +1,7 @@
 from youtubesearchpython import SearchVideos
 
 from ..utils import Mbot
+from telethon import Button
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -13,7 +14,7 @@ ydl_opts = {
 @Mbot(pattern="^/play ?(.*)")
 async def play_new(e):
     e.chat_id
-    x_start = await e.respond("🔄 <b>Processing</b>")
+    x_start = await e.respond("🔄 <b>Processing</b>", parse_mode="html")
     if e.pattern_match.group(1):
         song = e.text.split(None, 1)[1]
     else:
