@@ -8,7 +8,7 @@ from .. import vc
 
 CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
 
-instances: Dict[int, GroupCall] = {}
+instances: Dict[int, GroupCallFactory] = {}
 active_chats: Dict[int, Dict[str, bool]] = {}
 
 
