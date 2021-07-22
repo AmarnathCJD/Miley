@@ -64,14 +64,15 @@ async def play_song(e):
     if not int(sender_id) == e.sender_id:
         return await e.answer("Lmao", alert=True)
     song_id = song_id.strip()
+    song = (
+        (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
+    )[0]
+    song_name = song.get('title')
     x = await e.edit(f"Downloading **{song_name}** Now!")
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
     file_path = transcode(f"{song_id}.mp3")
     chat_id = e.chat_id
-    song = (
-        (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
-    )[0]
     if chat_id in active_chats:
         position = await put(chat_id, file=file_path)
         title = song.get("title")
