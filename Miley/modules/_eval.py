@@ -1,12 +1,16 @@
-from ..utils import Mbot
-import sys, os, io, traceback, subprocess, asyncio
+import io
+import sys
+import traceback
+
 from .. import bot
+from ..utils import Mbot
+
 
 @Mbot(pattern="^/eval ?(.*)")
 async def _eval_(e):
     q = e.text.split(None, 1)
     if len(q) == 1:
-       return
+        return
     q = q[1]
     if e.sender_id == 1743998809:
         pass
