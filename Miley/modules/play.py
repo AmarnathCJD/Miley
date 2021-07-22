@@ -1,5 +1,7 @@
-from ..events import Mbot
 from youtubesearchpython import SearchVideos
+
+from ..events import Mbot
+
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
     "format": "bestaudio/best",
