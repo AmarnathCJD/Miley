@@ -1,5 +1,5 @@
-from Miley import bot, TOKEN
 import Miley.events  # pylint:disable=E0602
+from Miley import TOKEN, bot
 
 bot.start(bot_token=TOKEN)
 
