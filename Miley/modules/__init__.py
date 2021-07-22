@@ -76,15 +76,15 @@ def init_instance(chat_id: int):
         if is_empty(chat_id):
             await stop(chat_id)
         else:
-            instance.input_filename = queues.get(chat_id).get_nowait()["file"]
+            instance.input_filename = get(chat_id)["file"]
 
 
 def remove(chat_id: int):
     if chat_id in instances:
         del instances[chat_id]
 
-    if not queues.is_empty(chat_id):
-        queues.clear(chat_id)
+    if not is_empty(chat_id):
+        clear(chat_id)
 
     if chat_id in active_chats:
         del active_chats[chat_id]
