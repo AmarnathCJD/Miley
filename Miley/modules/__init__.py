@@ -1,8 +1,10 @@
-from pytgcalls import GroupCallFactory
-from .. import vc
+from asyncio import Queue as _Queue
+from asyncio import QueueEmpty as Empty
 from typing import Dict
 
-from asyncio import Queue as _Queue, QueueEmpty as Empty 
+from pytgcalls import GroupCallFactory
+
+from .. import vc
 
 CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
 
@@ -16,13 +18,16 @@ class Queue(_Queue):
     def clear(self):
         self._queue.clear()
 
+
 queues: Dict[int, Queue] = {}
+
 
 async def put(chat_id: int, **kwargs) -> int:
     if chat_id not in queues:
         queues[chat_id] = Queue()
     await queues[chat_id].put({**kwargs})
     return queues[chat_id].qsize()
+
 
 def get(chat_id: int) -> Dict[str, str]:
     if chat_id in queues:
@@ -55,6 +60,7 @@ def clear(chat_id: int):
             queues[chat_id].clear()
     raise Empty
 
+
 def init_instance(chat_id: int):
     if chat_id not in instances:
         instances[chat_id] = GroupCallFactory(vc, CLIENT_TYPE)
@@ -69,6 +75,7 @@ def init_instance(chat_id: int):
             await stop(chat_id)
         else:
             instance.input_filename = queues.get(chat_id)["file"]
+
 
 def remove(chat_id: int):
     if chat_id in instances:
