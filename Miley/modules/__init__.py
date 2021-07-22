@@ -22,10 +22,10 @@ class Queue(_Queue):
 queues: Dict[int, Queue] = {}
 
 
-async def put(chat_id: int, **kwargs) -> int:
+async def put(chat_id: int, file) -> int:
     if chat_id not in queues:
         queues[chat_id] = Queue()
-    await queues[chat_id].put({**kwargs})
+    await queues[chat_id].put({file})
     return queues[chat_id].qsize()
 
 
