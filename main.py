@@ -41,6 +41,23 @@ ydl_opts = {
 
 from mtest import vc_db
 
+def init_instance(chat_id: int):
+    if chat_id not in vc_db:
+        vc_db[chat_id] = GroupCallFactory(vc, CLIENT_TYPE)
+
+    instance = vc_db[chat_id]
+
+    @instance.on_playout_ended
+    async def ___(__, _):
+        queue = get_playlist(chat_id)
+        if queue is None or len(queue) == 0:
+            await instance.stop()
+        else:
+            instance.input_filename = queue[0]
+
+def set_stream(chat_id, file):
+ instance = vc_db[chat_id]
+ instance.input_filename = file
 
 @bot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
 async def playvc(e):
@@ -132,39 +149,6 @@ async def play_cb_(e):
     )
     group_call = GroupCallFactory(vc, CLIENT_TYPE).get_file_group_call(out, "out.raw")
     await group_call.start(e.chat_id)
-    update_playlist("remove", e.chat_id, song_id)
-    vc_db[e.chat_id] = group_call
-
-    @group_call.on_playout_ended
-    async def ___(__, _):
-        x = get_playlist(e.chat_id)
-        if not x or len(x) == 0:
-            return await group_call.stop()
-        song_id = x[0]
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([song_id])
-        file_path = f"{song_id}.mp3"
-        out = f"{song_id}.raw"
-        proc = await asyncio.create_subprocess_shell(
-            cmd=(
-                "ffmpeg "
-                "-y -i "
-                f"{file_path} "
-                "-f s16le "
-                "-ac 2 "
-                "-ar 48000 "
-                "-acodec pcm_s16le "
-                f"{out}"
-            ),
-            stdin=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE,
-        )
-        await proc.communicate()
-        if proc.returncode != 0:
-            return await x.edit(
-                "FFmpeg Error during post-production processing, code 0."
-            )
-        group_call.input_filename = out
 
 
 @bot.on(events.CallbackQuery(pattern=r"pause"))
