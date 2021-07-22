@@ -1,7 +1,5 @@
-from youtubesearchpython import SearchVideos
-
 from ..events import Mbot
-
+from youtubesearchpython import SearchVideos
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
     "format": "bestaudio/best",
@@ -29,7 +27,7 @@ async def play_new(e):
         digit = digits[q_no]
         text += f"\n{digit}<b>{_x.get('title')}</b>\n  ┗  🔗 <i><a href='t.me/missneko_bot?start=help'>Get Additional Information</a></i>"
         cb_data = _x.get("id") + "|" + str(e.sender.id)
-        btn.append(Button.inline(digit, data="play_{}".format(cb_data)))
+        btn.append(Button.inline(digit, data="playsong_{}".format(cb_data)))
         if len(btn) == 3 or q_no == 4:
             buttons.append(btn)
             btn = []
