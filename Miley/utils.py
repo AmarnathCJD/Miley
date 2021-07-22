@@ -20,12 +20,13 @@ def Mbot(**args):
 
     return decorator
 
+
 def Cbq(**args):
- def decorator(func):
+    def decorator(func):
         bot.add_event_handler(func, events.CallbackQuery(**args))
         return func
 
- return decorator
+    return decorator
 
 
 def load_module(name):
