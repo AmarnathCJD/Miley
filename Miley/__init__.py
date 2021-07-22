@@ -1,9 +1,9 @@
+import logging
 from os import environ as e
 
+from dotenv import load_dotenv
 from telethon import TelegramClient
 from telethon.sessions import StringSession
-import logging
-from dotenv import load_dotenv
 
 load_dotenv()
 logging.basicConfig(
