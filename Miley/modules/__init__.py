@@ -1,4 +1,4 @@
-import asyncio
+Ooimport asyncio
 import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
@@ -76,7 +76,7 @@ def init_instance(chat_id: int):
         if is_empty(chat_id):
             await stop(chat_id)
         else:
-            instance.input_filename = (await queues.get(chat_id)).get_nowait()["file"]
+            instance.input_filename = queues.get(chat_id).get_nowait()["file"]
 
 
 def remove(chat_id: int):
