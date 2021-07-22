@@ -67,7 +67,7 @@ async def play_song(e):
     song = (
         (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
     )[0]
-    song_name = song.get('title')
+    song_name = song.get("title")
     x = await e.edit(f"Downloading **{song_name}** Now!")
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
