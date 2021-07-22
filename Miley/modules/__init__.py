@@ -1,4 +1,4 @@
-Ooimport asyncio
+import asyncio
 import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
