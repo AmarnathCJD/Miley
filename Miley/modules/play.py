@@ -3,6 +3,7 @@ from youtubesearchpython import SearchVideos
 from . import transcode, active_chats, put, set_stream
 from ..utils import Mbot, Cbq
 from .. import que
+import youtube_dl
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
