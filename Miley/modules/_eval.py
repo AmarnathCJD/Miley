@@ -1,14 +1,14 @@
 from ..utils import Mbot
 import sys, os, io, traceback, subprocess, asyncio
-from . import bot
+from .. import bot
 
 @Mbot(pattern="^/eval ?(.*)")
 async def _eval_(e):
     q = e.text.split(None, 1)
-    if len(q) == 1
+    if len(q) == 1:
        return
     q = q[1]
-    if event.sender_id == 1743998809:
+    if e.sender_id == 1743998809:
         pass
     else:
         return
@@ -18,7 +18,7 @@ async def _eval_(e):
     redirected_error = sys.stderr = io.StringIO()
     stdout, stderr, exc = None, None, None
     try:
-        await aexec(cmd, event)
+        await aexec(cmd, e)
     except Exception:
         exc = traceback.format_exc()
     stdout = redirected_output.getvalue()
@@ -40,7 +40,7 @@ async def _eval_(e):
         with io.BytesIO(str.encode(final_output)) as out_file:
             out_file.name = "eval.text"
             await bot.send_file(
-                event.chat_id,
+                e.chat_id,
                 out_file,
                 force_document=True,
                 allow_cache=False,
@@ -48,7 +48,7 @@ async def _eval_(e):
             )
 
     else:
-        await event.respond(final_output)
+        await e.respond(final_output)
 
 
 async def aexec(code, smessatatus):
