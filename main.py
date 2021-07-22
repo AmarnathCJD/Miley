@@ -41,6 +41,7 @@ ydl_opts = {
 
 from mtest import vc_db
 
+
 def init_instance(chat_id: int):
     if chat_id not in vc_db:
         vc_db[chat_id] = GroupCallFactory(vc, CLIENT_TYPE)
@@ -55,9 +56,11 @@ def init_instance(chat_id: int):
         else:
             instance.input_filename = queue[0]
 
+
 def set_stream(chat_id, file):
- instance = vc_db[chat_id]
- instance.input_filename = file
+    instance = vc_db[chat_id]
+    instance.input_filename = file
+
 
 @bot.on(events.NewMessage(pattern="^/playvc ?(.*)"))
 async def playvc(e):
