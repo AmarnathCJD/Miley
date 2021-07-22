@@ -1,6 +1,6 @@
 from youtubesearchpython import SearchVideos
 
-from ..events import Mbot
+from ..utils import Mbot
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
