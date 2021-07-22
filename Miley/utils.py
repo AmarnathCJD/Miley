@@ -1,8 +1,9 @@
+import glob
 import importlib
 from pathlib import Path
 
 from telethon import events
-import glob
+
 from Miley import bot
 
 
