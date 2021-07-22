@@ -1,7 +1,8 @@
+import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
-import os
+
 import ffmpeg
 from pytgcalls import GroupCallFactory
 
@@ -132,6 +133,7 @@ def resume(chat_id: int) -> bool:
     get_instance(chat_id).resume_playout()
     active_chats[chat_id]["playing"] = True
     return True
+
 
 def transcode(filename):
     outname = filename.replace(".mp3", "")
