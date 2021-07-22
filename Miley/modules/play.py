@@ -71,7 +71,7 @@ async def play_song(e):
     x = await e.edit(f"Downloading **{song_name}** Now!")
     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
-    file_path = transcode(f"{song_id}.mp3")
+    file_path = await transcode(f"{song_id}.mp3")
     chat_id = e.chat_id
     if chat_id in active_chats:
         position = await put(chat_id, file=file_path)
