@@ -1,8 +1,9 @@
+import asyncio
 import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
-import asyncio
+
 from pytgcalls import GroupCallFactory
 
 from .. import vc
