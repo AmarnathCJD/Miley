@@ -82,7 +82,10 @@ async def play_song(e):
     await set_stream(chat_id, file_path)
    except Exception as r:
     return await x.edit(f"Failed to join vc, Error: {r}"
-   buttons = [
+   await x.edit(
+        play_layout.format(song_id, song_name, song.get("duration"), e.sender.first_name),
+        parse_mode="html",
+        buttons=[
         [
             Button.inline("⏸️", data="pause"),
             Button.inline("⏭️", data="next"),
@@ -91,11 +94,7 @@ async def play_song(e):
         [Button.inline("➕ Group Playlist", data="group_playlist")],
         [Button.inline("➕ Personal Playlist", data="my_playlist")],
         [Button.inline("🗑️ Close Menu", data="close_menu")],
-    ]
-   await x.edit(
-        play_layout.format(song_id, song_name, song.get("duration"), e.sender.first_name),
-        parse_mode="html",
-        buttons=buttons,
+    ],
     )
    
    
