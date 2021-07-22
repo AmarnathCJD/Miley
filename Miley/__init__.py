@@ -17,7 +17,7 @@ TOKEN = e.get("TOKEN")
 
 bot = TelegramClient(None, API_KEY, API_HASH)
 vc = TelegramClient(StringSession(STRING_SESSION), API_KEY, API_HASH)
-
+que = {}
 try:
     vc.start()
 except BaseException as x:
