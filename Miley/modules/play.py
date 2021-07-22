@@ -35,7 +35,8 @@ async def play_new(e):
             buttons.append(btn)
             btn = []
     buttons.append([Button.inline("🗑️ Close Menu", data="close_menu")])
-    await x_start.edit(
+    await x_start.delete()
+    await e.respond(
         text,
         buttons=buttons,
         file=search[0].get("thumbnails")[4],
