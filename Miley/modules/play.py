@@ -75,13 +75,12 @@ async def play_song(e):
     chat_id = e.chat_id
     if chat_id in active_chats:
         position = await put(chat_id, file=file_path)
-        title = song.get("title")
-        (que.get(chat_id)).append([title, e.sender_id, file_path])
+        (que.get(chat_id)).append([song_name, e.sender_id, file_path])
         text = f"#⃣ Your requested song <b>queued</b> at position {position}!"
         await x.edit(text, parse_mode="html", buttons=None)
     else:
         que[chat_id] = []
-        (que.get(chat_id)).append([title, e.sender_id, file_path])
+        (que.get(chat_id)).append([song_name, e.sender_id, file_path])
         try:
             await set_stream(chat_id, file_path)
         except Exception as r:
