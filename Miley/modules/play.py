@@ -1,7 +1,7 @@
 from telethon import Button
 from youtubesearchpython import SearchVideos
-
-from ..utils import Mbot
+from . import transcode, active_chats
+from ..utils import Mbot, Cbq
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -43,3 +43,19 @@ async def play_new(e):
         parse_mode="html",
         link_preview=False,
     )
+
+@Cbq(pattern="playsong(\_(.*))")
+async def play_song(e):
+ song_id, sender_id = (((e.pattern_match.group(1)).decode()).split("_", 1)[1]).split(
+        "|", 1
+    )
+ if not int(sender_id) == e.sender_id:
+   return await e.answer("Lmao", alert=True)
+ song_id = song_id.strip()
+ with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        ydl.download([song_id])
+ file_path = transcode(f'{song_id}.mp3')
+ chat_id = e.chat_id
+ if chat_id in active_chats:
+   
+ 
