@@ -2,8 +2,7 @@ import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
-
-import ffmpeg
+import asyncio
 from pytgcalls import GroupCallFactory
 
 from .. import vc
@@ -135,10 +134,22 @@ def resume(chat_id: int) -> bool:
     return True
 
 
-def transcode(filename):
+async def transcode(filename):
     outname = filename.replace(".mp3", "")
-    ffmpeg.input(filename).output(
-        f"{outname}.raw", format="s16le", acodec="pcm_s16le", ac=2, ar="48k"
-    ).overwrite_output().run()
+    proc = await asyncio.create_subprocess_shell(
+        cmd=(
+            "ffmpeg "
+            "-y -i "
+            f"{filename} "
+            "-f s16le "
+            "-ac 2 "
+            "-ar 48000 "
+            "-acodec pcm_s16le "
+            f"{outname}.raw"
+        ),
+        stdin=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE,
+    )
+    await proc.communicate()
     os.remove(filename)
     return f"{outname}.raw"
