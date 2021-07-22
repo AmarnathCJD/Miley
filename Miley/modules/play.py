@@ -81,7 +81,7 @@ async def play_song(e):
    try:
     await set_stream(chat_id, file_path)
    except Exception as r:
-    return await x.edit(f"Failed to join vc, Error: {r}"
+    return await x.edit(f"Failed to join vc, Error: {r}")
    await x.edit(
         play_layout.format(song_id, song_name, song.get("duration"), e.sender.first_name),
         parse_mode="html",
