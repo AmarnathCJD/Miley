@@ -22,7 +22,7 @@ async def _eval_(e):
     redirected_error = sys.stderr = io.StringIO()
     stdout, stderr, exc = None, None, None
     try:
-        await aexec(cmd, e)
+        await aexec(q, e)
     except Exception:
         exc = traceback.format_exc()
     stdout = redirected_output.getvalue()
