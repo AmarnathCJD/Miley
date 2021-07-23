@@ -178,7 +178,7 @@ async def next_song_play_skip_(e):
         await e.edit("- No More Playlist..\n- Leaving VC!")
     else:
         await set_stream(e.chat_id, get(e.chat_id)["file"])
-        await e.answer("✅ **Skipped**", alert=True)
+        await e.answer("✅<b>Skipped</b>", alert=True, parse_mode="html")
         await e.delete()
         song_name = queue[0][0]
         song = (
@@ -186,8 +186,8 @@ async def next_song_play_skip_(e):
                 "search_result"
             ]
         )[0]
-        duration = song[0].get("duration")
-        thumb = song[0].get("thumbnails")[4]
+        duration = song.get("duration")
+        thumb = song.get("thumbnails")[4]
         skip_vc = skip_format.format(
             song_name, duration, e.sender_id, e.sender.first_name
         )
