@@ -4,7 +4,7 @@ from youtubesearchpython import SearchVideos
 
 from .. import que
 from ..utils import Cbq, Mbot
-from . import active_chats, put, set_stream, transcode
+from . import active_chats, put, set_stream, transcode, pause, resume
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -101,3 +101,35 @@ async def play_song(e):
                 [Button.inline("🗑️ Close Menu", data="close_menu")],
             ],
         )
+
+@Cbq(pattern="pause")
+async def pause_song_(e):
+    pause(e.chat_id)
+    text = "🎧 Voicechat Paused by <a href='tg://user?id={}'>{}</a>!".format(
+        e.sender_id, e.sender.first_name
+    )
+    buttons = [
+        [
+            Button.inline("▶️", data="playboy"),
+            Button.inline("⏭️", data="next"),
+            Button.inline("⏹️", data="stop"),
+        ],
+        [Button.inline("Close Menu", data="close_menu")],
+    ]
+    await e.edit(text, buttons=buttons, parse_mode="html")
+
+@Cbq(pattern="playboy")
+async def resume_song_(e):
+    resume(e.chat_id)
+    text = "🎧 Voicechat Resumed by <a href='tg://user?id={}'>{}</a>!".format(
+        e.sender_id, e.sender.first_name
+    )
+    buttons = [
+        [
+            Button.inline("⏸️", data="pause"),
+            Button.inline("⏭️", data="next"),
+            Button.inline("⏹️", data="stop"),
+        ],
+        [Button.inline("Close Menu", data="close_menu")],
+    ]
+    await e.edit(text, buttons=buttons, parse_mode="html")
