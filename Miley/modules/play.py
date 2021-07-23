@@ -4,7 +4,7 @@ from youtubesearchpython import SearchVideos
 
 from .. import que
 from ..utils import Cbq, Mbot
-from . import active_chats, pause, put, resume, set_stream, transcode, stop
+from . import active_chats, pause, put, resume, set_stream, stop, transcode
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -136,11 +136,12 @@ async def resume_song_(e):
     ]
     await e.edit(text, buttons=buttons, parse_mode="html")
 
+
 @Cbq(pattern="stop")
 async def stop_vc_(e):
- await stop(e.chat_id)
- await e.delete()
- text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(
+    await stop(e.chat_id)
+    await e.delete()
+    text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(
         e.sender_id, e.sender.first_name
     )
- await e.respond(text, parse_mode="html")
+    await e.respond(text, parse_mode="html")
