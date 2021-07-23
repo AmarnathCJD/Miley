@@ -182,7 +182,7 @@ async def next_song_play_skip_(e):
         await e.delete()
         song_name = queue[0][0]
         song = (
-            (SearchVideos(song_name, max_results=1, mode="dict")).result()[
+            (SearchVideos(song_name[:10], max_results=1, mode="dict")).result()[
                 "search_result"
             ]
         )[0]
