@@ -4,7 +4,7 @@ from youtubesearchpython import SearchVideos
 
 from .. import que
 from ..utils import Cbq, Mbot
-from . import active_chats, put, set_stream, transcode, pause, resume
+from . import active_chats, pause, put, resume, set_stream, transcode
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -102,6 +102,7 @@ async def play_song(e):
             ],
         )
 
+
 @Cbq(pattern="pause")
 async def pause_song_(e):
     pause(e.chat_id)
@@ -117,6 +118,7 @@ async def pause_song_(e):
         [Button.inline("Close Menu", data="close_menu")],
     ]
     await e.edit(text, buttons=buttons, parse_mode="html")
+
 
 @Cbq(pattern="playboy")
 async def resume_song_(e):
