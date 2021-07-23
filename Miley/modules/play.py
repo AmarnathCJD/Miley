@@ -168,9 +168,9 @@ Skipped Voice Chat
 
 @Cbq(pattern="next")
 async def next_song_play_skip_(e):
-    que = que.get("chat_id")
-    if que:
-        que.pop(0)
+    queue= que.get("chat_id")
+    if queue:
+        queue.pop(0)
     task_done(e.chat_id)
     if is_empty(e.chat_id):
         await stop(e.chat_id)
@@ -179,7 +179,7 @@ async def next_song_play_skip_(e):
         await set_stream(e.chat_id, get(e.chat_id)["file"])
         await e.answer("✅ **Skipped**", alert=True)
         await e.delete()
-        song_name = que[0][0]
+        song_name = queue[0][0]
         song = (
             (SearchVideos(song_name, max_results=1, mode="dict")).result()[
                 "search_result"
