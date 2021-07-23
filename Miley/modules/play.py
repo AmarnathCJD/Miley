@@ -4,7 +4,7 @@ from youtubesearchpython import SearchVideos
 
 from .. import que
 from ..utils import Cbq, Mbot
-from . import active_chats, pause, put, resume, set_stream, stop, transcode
+from . import active_chats, pause, put, resume, set_stream, stop, transcode, set_stream, is_empty, task_done
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -145,3 +145,44 @@ async def stop_vc_(e):
         e.sender_id, e.sender.first_name
     )
     await e.respond(text, parse_mode="html")
+
+skip_format = """
+Skipped Voice Chat
+
+🎥Started Playing: {} 
+⏳Duration: {}
+👤Skipped by: <a href="tg://user?id={}">{}</a>
+"""
+
+@Cqb(pattern="next")
+async def next_song_play_skip_(e):
+ que = que.get("chat_id")
+ if que:
+   que.pop(0)
+ task_done(e.chat_id)
+ if is_empty(e.chat_id):
+   await stop(e.chat_id)
+   await e.edit("- No More Playlist..\n- Leaving VC!")
+ else:
+   await set_stream(
+                    e.chat_id, get(e.chat_id)["file"]
+                )
+   await e.answer("✅ **Skipped**", alert=True)
+   await e.delete()
+   song_name = que[0][0]
+   song = (
+        (SearchVideos(song_name, max_results=1, mode="dict")).result()["search_result"]
+    )[0]
+   duration = song[0].get("duration")
+   thumb = song[0].get("thumbnails")[4]
+   skip_vc = skip_format.format(song_name, duration, e.sender_id, e.sender.first_name)
+   await e.respond(skip_vc, buttons=[
+                [
+                    Button.inline("⏸️", data="pause"),
+                    Button.inline("⏭️", data="next"),
+                    Button.inline("⏹️", data="stop"),
+                ],
+                [Button.inline("➕ Group Playlist", data="group_playlist")],
+                [Button.inline("➕ Personal Playlist", data="my_playlist")],
+                [Button.inline("🗑️ Close Menu", data="close_menu")],
+            ], parse_mode="html", file=thumb)
