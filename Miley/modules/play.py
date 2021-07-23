@@ -169,7 +169,7 @@ Skipped Voice Chat
 
 @Cbq(pattern="next")
 async def next_song_play_skip_(e):
-    queue = que.get("chat_id")
+    queue = que.get(e.chat_id)
     if queue:
         queue.pop(0)
     task_done(e.chat_id)
