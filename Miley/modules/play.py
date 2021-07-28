@@ -30,10 +30,38 @@ async def play_new(e):
     if e.reply_to:
         x = await e.get_reply_message()
         if x.audio or x.voice:
-            await tbot.download_media(x.media)
-            x.file.name or "song"
-            print("e r")
-    e.chat_id
+            song = await tbot.download_media(x.media)
+            song_name = x.file.name or "song"
+            file_path = await transcode(song)
+            chat_id = e.chat_id
+            if chat_id in active_chats:
+             position = await put(chat_id, file=file_path)
+             (que.get(chat_id)).append([song_name, e.sender_id, file_path])
+             text = f"#⃣ Your requested song <b>queued</b> at position {position}!"
+             await e.reply(text, parse_mode="html", buttons=None)
+        else:
+            que[chat_id] = []
+            (que.get(chat_id)).append([song_name, e.sender_id, file_path])
+            try:
+               await set_stream(chat_id, file_path)
+            except Exception as r:
+               return await x.edit(f"Failed to join vc, Error: {r}")
+            return await e.reply(
+              play_layout.format(
+                "181881", song_name, "6:99", e.sender.first_name
+            ),
+            parse_mode="html",
+            buttons=[
+                [
+                    Button.inline("⏸️", data="pause"),
+                    Button.inline("⏭️", data="next"),
+                    Button.inline("⏹️", data="stop"),
+                ],
+                [Button.inline("➕ Group Playlist", data="group_playlist")],
+                [Button.inline("➕ Personal Playlist", data="my_playlist")],
+                [Button.inline("🗑️ Close Menu", data="close_menu")],
+            ],
+        )
     x_start = await e.respond("🔄 <b>Processing</b>", parse_mode="html")
     if e.pattern_match.group(1):
         song = e.text.split(None, 1)[1]
