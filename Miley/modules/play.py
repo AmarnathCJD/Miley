@@ -30,7 +30,7 @@ async def play_new(e):
     if e.reply_to:
         x = await e.get_reply_message()
         if x.audio or x.voice:
-            song = await tbot.download_media(x.media)
+            song = await e.client.download_media(x.media)
             song_name = x.file.name or "song"
             file_path = await transcode(song)
             chat_id = e.chat_id
