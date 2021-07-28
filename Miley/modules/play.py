@@ -35,33 +35,31 @@ async def play_new(e):
             file_path = await transcode(song)
             chat_id = e.chat_id
             if chat_id in active_chats:
-             position = await put(chat_id, file=file_path)
-             (que.get(chat_id)).append([song_name, e.sender_id, file_path])
-             text = f"#⃣ Your requested song <b>queued</b> at position {position}!"
-             await e.reply(text, parse_mode="html", buttons=None)
+                position = await put(chat_id, file=file_path)
+                (que.get(chat_id)).append([song_name, e.sender_id, file_path])
+                text = f"#⃣ Your requested song <b>queued</b> at position {position}!"
+                await e.reply(text, parse_mode="html", buttons=None)
         else:
             que[chat_id] = []
             (que.get(chat_id)).append([song_name, e.sender_id, file_path])
             try:
-               await set_stream(chat_id, file_path)
+                await set_stream(chat_id, file_path)
             except Exception as r:
-               return await x.edit(f"Failed to join vc, Error: {r}")
+                return await x.edit(f"Failed to join vc, Error: {r}")
             return await e.reply(
-              play_layout.format(
-                "181881", song_name, "6:99", e.sender.first_name
-            ),
-            parse_mode="html",
-            buttons=[
-                [
-                    Button.inline("⏸️", data="pause"),
-                    Button.inline("⏭️", data="next"),
-                    Button.inline("⏹️", data="stop"),
+                play_layout.format("181881", song_name, "6:99", e.sender.first_name),
+                parse_mode="html",
+                buttons=[
+                    [
+                        Button.inline("⏸️", data="pause"),
+                        Button.inline("⏭️", data="next"),
+                        Button.inline("⏹️", data="stop"),
+                    ],
+                    [Button.inline("➕ Group Playlist", data="group_playlist")],
+                    [Button.inline("➕ Personal Playlist", data="my_playlist")],
+                    [Button.inline("🗑️ Close Menu", data="close_menu")],
                 ],
-                [Button.inline("➕ Group Playlist", data="group_playlist")],
-                [Button.inline("➕ Personal Playlist", data="my_playlist")],
-                [Button.inline("🗑️ Close Menu", data="close_menu")],
-            ],
-        )
+            )
     x_start = await e.respond("🔄 <b>Processing</b>", parse_mode="html")
     if e.pattern_match.group(1):
         song = e.text.split(None, 1)[1]
