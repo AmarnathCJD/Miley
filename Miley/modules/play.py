@@ -38,15 +38,15 @@ async def play_new(e):
                 position = await put(chat_id, file=file_path)
                 (que.get(chat_id)).append([song_name, e.sender_id, file_path])
                 text = f"#⃣ Your requested song <b>queued</b> at position {position}!"
-                await e.reply(text, parse_mode="html", buttons=None)
-        else:
-            que[chat_id] = []
-            (que.get(chat_id)).append([song_name, e.sender_id, file_path])
-            try:
+                return await e.reply(text, parse_mode="html", buttons=None)
+            else:
+             que[chat_id] = []
+             (que.get(chat_id)).append([song_name, e.sender_id, file_path])
+             try:
                 await set_stream(chat_id, file_path)
-            except Exception as r:
+             except Exception as r:
                 return await x.edit(f"Failed to join vc, Error: {r}")
-            return await e.reply(
+             return await e.reply(
                 play_layout.format("181881", song_name, "6:99", e.sender.first_name),
                 parse_mode="html",
                 buttons=[
