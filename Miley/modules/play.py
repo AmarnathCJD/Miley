@@ -27,6 +27,12 @@ ydl_opts = {
 
 @Mbot(pattern="^/play ?(.*)")
 async def play_new(e):
+    if e.reply_to:
+      x = await e.get_reply_message()
+      if x.audio or x.voice:
+         audd = await tbot.download_media(x.media)
+         song_name = x.file.name or "song"
+         print("e r")
     e.chat_id
     x_start = await e.respond("🔄 <b>Processing</b>", parse_mode="html")
     if e.pattern_match.group(1):
