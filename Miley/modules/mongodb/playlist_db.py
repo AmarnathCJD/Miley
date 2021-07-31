@@ -10,7 +10,7 @@ def add_song(id, song_name):
     else:
         songs = []
     songs.append(song_name)
-    playlist.update_one({"id": id}, {"$set": {"songs": songs}})
+    playlist.update_one({"id": id}, {"$set": {"songs": songs}}, upsert=True)
 
 
 def remove_song(id, song_name):
@@ -21,7 +21,7 @@ def remove_song(id, song_name):
         songs = []
     if song_name in songs:
         songs.remove(song_name)
-    playlist.update_one({"id": id}, {"$set": {"songs": songs}})
+    playlist.update_one({"id": id}, {"$set": {"songs": songs}}, upsert=True)
 
 
 def get_playlist(id):
