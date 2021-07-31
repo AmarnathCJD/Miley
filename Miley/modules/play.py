@@ -283,3 +283,7 @@ async def skip_song_(e):
             parse_mode="html",
             file=thumb,
         )
+
+@Mbot(pattern="^/player")
+async def get_current_playlist(e):
+ print("play")
