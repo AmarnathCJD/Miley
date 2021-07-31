@@ -284,6 +284,7 @@ async def skip_song_(e):
             file=thumb,
         )
 
+
 @Mbot(pattern="^/player")
 async def get_current_playlist(e):
- print("play")
+    print("play")
