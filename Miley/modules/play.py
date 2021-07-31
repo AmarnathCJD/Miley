@@ -339,11 +339,14 @@ async def get_current_playlist(e):
 @Cbq(pattern="my_playlist(\_(.*))")
 async def add_to_play_list_(e):
     song_id = ((e.pattern_match.group(1)).decode()).split("_", 1)[1]
-    song = (
-        (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
-    )[0]["title"]
+    queue = que.get(e.chat_id)
+    try:
+     song = queue[0][0]
+    except:
+     return await e.answer("Failed to add to playlist!")
     p = get_playlist(e.sender.id)
     if p and song in p:
         return await e.answer("This song is already in your playlist.", alert=True)
     add_song(e.sender_id, str(song))
-    await e.respond(f"Added to **{e.sender.first_name}**'s playlist!")
+    await e.answer(f"Added to **{e.sender.first_name}**'s playlist!")
+
