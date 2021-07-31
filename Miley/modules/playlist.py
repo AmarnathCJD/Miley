@@ -25,7 +25,7 @@ async def personnel_playlist_(e):
  x = get_playlist(e.sender_id)
  if not x:
    return await e.answer("You don't have a playlist to show!")
- if len(x) =< 5
+ if len(x) < 6:
   playlist_q = "{}'s **Playlist:**".format (e.sender.first_name)
   q = 0
   for _x in x:
