@@ -329,7 +329,8 @@ Select The Playlist, You want to check!
 
 @Cbq(pattern="my_playlist")
 async def add_to_play_list_(e):
-    que.get(e.chat_id)
+    print("lmfao")
+    queue = que.get(e.chat_id)
     try:
         song = queue[0][0]
     except:
