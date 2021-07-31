@@ -17,7 +17,7 @@ from . import (
     task_done,
     transcode,
 )
-from .mongodb.playlist_db import add_song, remove_song, get_playlist
+from .mongodb.playlist_db import add_song, get_playlist
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -326,15 +326,16 @@ Select The Playlist, You want to check!
     ]
     await e.reply(captions, buttons=buttons, parse_mode="html")
 
+
 @Cbq(pattern="my_playlist")
 async def add_to_play_list_(e):
- q = que.get(e.chat_id)
- try:
-  song = queue[0][0]
- except:
-  return
- p = get_playlist(e.sender.id)
- if p and song in p:
-  return await e.answer("This song is already in your playlist.", alert=True)
- await e.respond(f"Added to **{e.sender.first_name}**'s playlist!")
- add_song(e.sender_id, song)
+    que.get(e.chat_id)
+    try:
+        song = queue[0][0]
+    except:
+        return
+    p = get_playlist(e.sender.id)
+    if p and song in p:
+        return await e.answer("This song is already in your playlist.", alert=True)
+    await e.respond(f"Added to **{e.sender.first_name}**'s playlist!")
+    add_song(e.sender_id, song)
