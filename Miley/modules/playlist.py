@@ -2,11 +2,10 @@ from ..utils import Cbq, Mbot
 from .mongodb.playlist_db import get_playlist
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
-
+from telethon import Button
 
 @Mbot(pattern="^/playlist")
 async def playlist_show_(e):
-    e.sender_id
     captions = """
 <b><i>Neko's Playlist Feature</i></b>
 
