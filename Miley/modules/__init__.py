@@ -3,6 +3,7 @@ import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
+
 from pymongo import MongoClient
 from pytgcalls import GroupCallFactory
 from telethon.errors import UserNotParticipantError
@@ -14,12 +15,14 @@ from telethon.tl.types import (
 )
 
 from .. import bot, vc
+
 MONGO_DB_URI = os.environ["MONGO_DB_URI"]
 CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
 
 instances: Dict[int, GroupCallFactory] = {}
 active_chats: Dict[int, Dict[str, bool]] = {}
-db = MongoClient (MONGO_DB_URI)["neko"]
+db = MongoClient(MONGO_DB_URI)["neko"]
+
 
 class Queue(_Queue):
     _queue: list = []
