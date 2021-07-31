@@ -338,5 +338,5 @@ async def add_to_play_list_(e):
     p = get_playlist(e.sender.id)
     if p and song in p:
         return await e.answer("This song is already in your playlist.", alert=True)
+    add_song(e.sender_id, str(song))
     await e.respond(f"Added to **{e.sender.first_name}**'s playlist!")
-    add_song(e.sender_id, song)
