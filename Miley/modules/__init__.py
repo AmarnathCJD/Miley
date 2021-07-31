@@ -168,12 +168,12 @@ async def can_manage_call(event, user_id):
         p = await bot(GetParticipantRequest(event.chat_id, user_id))
     except UserNotParticipantError:
         return False
-    if isinstance(p.participant, types.ChannelParticipant):
+    if isinstance(p.participant, ChannelParticipant):
         await event.reply("You have to be an admin to do this!")
         return False
-    elif isinstance(p.participant, types.ChannelParticipantCreator):
+    elif isinstance(p.participant, ChannelParticipantCreator):
         return True
-    elif isinstance(p.participant, types.ChannelParticipantAdmin):
+    elif isinstance(p.participant, ChannelParticipantAdmin):
         if not p.participant.admin_rights.manage_call:
             await event.reply(
                 "You are missing the following rights to use this command: ManageGroupCall."
