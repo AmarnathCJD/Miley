@@ -242,6 +242,7 @@ async def next_song_play_skip_(e):
             file=thumb,
         )
 
+
 @Mbot(pattern="^/skip$")
 async def skip_song_(e):
     x = await e.respond("Skipped VC 🎶")
