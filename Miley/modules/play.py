@@ -128,8 +128,11 @@ async def play_song(e):
     )[0]
     song_name = song.get("title")
     x = await e.edit(f"Downloading **{song_name}** Now!")
-    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+    try:
+     with youtube_dl.YoutubeDL(ydl_opts) as ydl:
         ydl.download([song_id])
+    except BaseException as ex:
+     return await x.edit(str(ex))
     file_path = await transcode(f"{song_id}.mp3")
     chat_id = e.chat_id
     if chat_id in active_chats:
@@ -256,8 +259,8 @@ async def next_song_play_skip_(e):
                     Button.inline("⏭️", data="next"),
                     Button.inline("⏹️", data="stop"),
                 ],
-                [Button.inline("➕ Group Playlist", data="group_playlist")],
-                [Button.inline("➕ Personal Playlist", data="my_playlist")],
+                [Button.inline("➕ Group Playlist", data="group_playlist_{}".format(song_name))],
+                [Button.inline("➕ Personal Playlist", data="my_playlist_{}".format(song_name))],
                 [Button.inline("🗑️ Close Menu", data="close_menu")],
             ],
             parse_mode="html",
@@ -303,8 +306,8 @@ async def skip_song_(e):
                     Button.inline("⏭️", data="next"),
                     Button.inline("⏹️", data="stop"),
                 ],
-                [Button.inline("➕ Group Playlist", data="group_playlist")],
-                [Button.inline("➕ Personal Playlist", data="my_playlist")],
+                [Button.inline("➕ Group Playlist", data="group_playlist_{}".format(song_name))],
+                [Button.inline("➕ Personal Playlist", data="my_playlist_{}".format(song_name))],
                 [Button.inline("🗑️ Close Menu", data="close_menu")],
             ],
             parse_mode="html",
