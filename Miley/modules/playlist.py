@@ -1,7 +1,7 @@
 from ..utils import Cbq, Mbot
 from .mongodb.playlist_db import get_playlist
 
-digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
+digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6⃣", "7⃣", "8⃣"]
 from telethon import Button
 
 
@@ -27,7 +27,7 @@ async def personnel_playlist_(e):
     x = get_playlist(e.sender_id)
     if not x:
         return await e.answer("You don't have a playlist to show!")
-    if len(x) < 6:
+    if len(x) < 9:
         playlist_q = "{}'s **Playlist:**".format(e.sender.first_name)
         q = 0
         for _x in x:
@@ -37,4 +37,4 @@ async def personnel_playlist_(e):
             q += 1
         await e.edit(playlist_q)
     else:
-        await e.respond("5")
+        await e.respond("9")
