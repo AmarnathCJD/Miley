@@ -3,9 +3,10 @@ import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
-
+from telethon.tl.functions.channels import GetParticipantRequest
 from pytgcalls import GroupCallFactory
-
+from telethon.errors import UserNotParticipantError
+from telethon.tl.types import ChannelParticipant, ChannelParticipantAdmin, ChannelParticipantCreator
 from .. import vc
 
 CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
@@ -154,3 +155,21 @@ async def transcode(filename):
     await proc.communicate()
     os.remove(filename)
     return f"{outname}.raw"
+
+async def can_manage_call(event, user_id):
+    try:
+        p = await tbot(GetParticipantRequest(event.chat_id, user_id))
+    except UserNotParticipantError:
+        return False
+    if isinstance(p.participant, types.ChannelParticipant):
+        await event.reply("You have to be an admin to do this!")
+        return False
+    elif isinstance(p.participant, types.ChannelParticipantCreator):
+        return True
+    elif isinstance(p.participant, types.ChannelParticipantAdmin):
+        if not p.participant.admin_rights.manage_call:
+            await event.reply(
+                "You are missing the following rights to use this command: ManageGroupCall."
+            )
+            return False
+        return True
