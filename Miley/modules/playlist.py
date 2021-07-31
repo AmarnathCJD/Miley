@@ -1,7 +1,8 @@
-from ..utils import Mbot, Cbq
+from ..utils import Cbq, Mbot
 from .mongodb.playlist_db import get_playlist
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
+
 
 @Mbot(pattern="^/playlist")
 async def playlist_show_(e):
@@ -20,20 +21,20 @@ Select The Playlist, You want to check!
     ]
     await e.reply(captions, buttons=buttons, parse_mode="html")
 
+
 @Cbq(pattern="p_play")
 async def personnel_playlist_(e):
- x = get_playlist(e.sender_id)
- if not x:
-   return await e.answer("You don't have a playlist to show!")
- if len(x) < 6:
-  playlist_q = "{}'s **Playlist:**".format (e.sender.first_name)
-  q = 0
-  for _x in x:
-   play = _x
-   number = digits[q]
-   playlist_q += "\n{}- **{}**".format(number, play)
-   q += 1
-  await e.edit(playlist_q)
- else:
-   await e.respond("5")
-  
+    x = get_playlist(e.sender_id)
+    if not x:
+        return await e.answer("You don't have a playlist to show!")
+    if len(x) < 6:
+        playlist_q = "{}'s **Playlist:**".format(e.sender.first_name)
+        q = 0
+        for _x in x:
+            play = _x
+            number = digits[q]
+            playlist_q += "\n{}- **{}**".format(number, play)
+            q += 1
+        await e.edit(playlist_q)
+    else:
+        await e.respond("5")
