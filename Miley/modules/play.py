@@ -241,3 +241,44 @@ async def next_song_play_skip_(e):
             parse_mode="html",
             file=thumb,
         )
+
+@Mbot(pattern="^/skip$")
+async def skip_song_(e):
+    x = await e.respond("Skipped VC 🎶")
+    queue = que.get(e.chat_id)
+    if queue:
+        queue.pop(0)
+    task_done(e.chat_id)
+    if is_empty(e.chat_id):
+        await stop(e.chat_id)
+        await x.edit("- No More Playlist..\n- Leaving VC!")
+    else:
+        await set_stream(e.chat_id, get(e.chat_id)["file"])
+        resume(e.chat_id)
+        song_name = queue[0][0]
+        song = (
+            (SearchVideos(song_name[:10], max_results=1, mode="dict")).result()[
+                "search_result"
+            ]
+        )[0]
+        duration = song.get("duration")
+        thumb = song.get("thumbnails")[4]
+        skip_vc = skip_format.format(
+            song_name, duration, e.sender_id, e.sender.first_name
+        )
+        await x.delete()
+        await e.respond(
+            skip_vc,
+            buttons=[
+                [
+                    Button.inline("⏸️", data="pause"),
+                    Button.inline("⏭️", data="next"),
+                    Button.inline("⏹️", data="stop"),
+                ],
+                [Button.inline("➕ Group Playlist", data="group_playlist")],
+                [Button.inline("➕ Personal Playlist", data="my_playlist")],
+                [Button.inline("🗑️ Close Menu", data="close_menu")],
+            ],
+            parse_mode="html",
+            file=thumb,
+        )
