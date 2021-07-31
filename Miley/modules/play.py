@@ -336,24 +336,6 @@ async def get_current_playlist(e):
     print("play")
 
 
-@Mbot(pattern="^/playlist")
-async def playlist_show_(e):
-    e.sender_id
-    captions = """
-<b><i>Neko's Playlist Feature</i></b>
-
-Select The Playlist, You want to check!
-"""
-    buttons = [
-        [
-            Button.inline("Personal Playlist", data="p_play"),
-            Button.inline("Group's Playlist", data="g_play"),
-        ],
-        [Button.inline("🗑️ Close Menu", data="close_menu")],
-    ]
-    await e.reply(captions, buttons=buttons, parse_mode="html")
-
-
 @Cbq(pattern="my_playlist(\_(.*))")
 async def add_to_play_list_(e):
     song_id = ((e.pattern_match.group(1)).decode()).split("_", 1)[1]
