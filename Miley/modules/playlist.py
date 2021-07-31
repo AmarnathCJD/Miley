@@ -33,7 +33,7 @@ async def personnel_playlist_(e):
         for _x in x:
             play = _x
             number = digits[q]
-            playlist_q += "\n{}- **__{}__**".format(number, play)
+            playlist_q += "\n{}- ".format(number, play)
             q += 1
         await e.edit(playlist_q)
     else:
