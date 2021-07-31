@@ -1,5 +1,6 @@
 import asyncio
 import os
+from .. import bot
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
