@@ -165,7 +165,7 @@ async def transcode(filename):
 
 async def can_manage_call(event, user_id):
     try:
-        p = await tbot(GetParticipantRequest(event.chat_id, user_id))
+        p = await bot(GetParticipantRequest(event.chat_id, user_id))
     except UserNotParticipantError:
         return False
     if isinstance(p.participant, types.ChannelParticipant):
