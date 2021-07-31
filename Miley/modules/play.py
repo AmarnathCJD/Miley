@@ -324,4 +324,3 @@ Select The Playlist, You want to check!
         [Button.inline("🗑️ Close Menu", data="close_menu")],
     ]
     await e.reply(captions, buttons=buttons, parse_mode="html")
-
