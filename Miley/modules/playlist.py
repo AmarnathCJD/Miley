@@ -28,12 +28,12 @@ async def personnel_playlist_(e):
     if not x:
         return await e.answer("You don't have a playlist to show!")
     if len(x) < 9:
-        playlist_q = "{}'s **Playlist:**".format(e.sender.first_name)
+        playlist_q = "**{}**'s **Playlist:".format(e.sender.first_name)
         q = 0
         for _x in x:
             play = _x
             number = digits[q]
-            playlist_q += "\n{}- **{}**".format(number, play)
+            playlist_q += "\n{}- **__{}__**".format(number, play)
             q += 1
         await e.edit(playlist_q)
     else:
