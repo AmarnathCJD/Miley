@@ -1,6 +1,5 @@
 import asyncio
 import os
-from .. import bot
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
@@ -14,7 +13,7 @@ from telethon.tl.types import (
     ChannelParticipantCreator,
 )
 
-from .. import vc
+from .. import bot, vc
 
 CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
 
