@@ -3,10 +3,16 @@ import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
-from telethon.tl.functions.channels import GetParticipantRequest
+
 from pytgcalls import GroupCallFactory
 from telethon.errors import UserNotParticipantError
-from telethon.tl.types import ChannelParticipant, ChannelParticipantAdmin, ChannelParticipantCreator
+from telethon.tl.functions.channels import GetParticipantRequest
+from telethon.tl.types import (
+    ChannelParticipant,
+    ChannelParticipantAdmin,
+    ChannelParticipantCreator,
+)
+
 from .. import vc
 
 CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
@@ -155,6 +161,7 @@ async def transcode(filename):
     await proc.communicate()
     os.remove(filename)
     return f"{outname}.raw"
+
 
 async def can_manage_call(event, user_id):
     try:
