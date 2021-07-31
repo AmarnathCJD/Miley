@@ -6,6 +6,7 @@ from .. import que
 from ..utils import Cbq, Mbot
 from . import (
     active_chats,
+    can_manage_call,
     get,
     is_empty,
     pause,
@@ -15,7 +16,6 @@ from . import (
     stop,
     task_done,
     transcode,
-    can_manage_call,
 )
 
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
@@ -29,10 +29,10 @@ ydl_opts = {
 @Mbot(pattern="^/play ?(.*)")
 async def play_new(e):
     if e.is_private:
-      return
+        return
     if e.is_group:
-     if not await can_manage_call(e, e.sender_id):
-      return
+        if not await can_manage_call(e, e.sender_id):
+            return
     if e.reply_to:
         x = await e.get_reply_message()
         if x.audio or x.voice:
@@ -252,10 +252,10 @@ async def next_song_play_skip_(e):
 @Mbot(pattern="^/skip$")
 async def skip_song_(e):
     if e.is_private:
-     return
+        return
     if e.is_group:
-     if not await can_manage_call(e, e.sender_id):
-      return
+        if not await can_manage_call(e, e.sender_id):
+            return
     x = await e.respond("Skipped VC 🎶")
     queue = que.get(e.chat_id)
     if queue:
