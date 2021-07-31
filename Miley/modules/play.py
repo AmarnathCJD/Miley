@@ -155,8 +155,8 @@ async def play_song(e):
                     Button.inline("⏭️", data="next"),
                     Button.inline("⏹️", data="stop"),
                 ],
-                [Button.inline("➕ Group Playlist", data="group_playlist")],
-                [Button.inline("➕ Personal Playlist", data="my_playlist")],
+                [Button.inline("➕ Group Playlist", data="group_playlist_{}".format(song_id))],
+                [Button.inline("➕ Personal Playlist", data="my_playlist_{}".format(song_id))],
                 [Button.inline("🗑️ Close Menu", data="close_menu")],
             ],
         )
@@ -327,14 +327,12 @@ Select The Playlist, You want to check!
     await e.reply(captions, buttons=buttons, parse_mode="html")
 
 
-@Cbq(pattern="my_playlist")
+@Cbq(pattern="my_playlist(\_(.*))")
 async def add_to_play_list_(e):
-    print("lmfao")
-    queue = que.get(e.chat_id)
-    try:
-        song = queue[0][0]
-    except:
-        return
+    song_id = ((e.pattern_match.group(1)).decode()).split("_", 1)[1]
+    song = (
+        (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
+    )[0]['title']
     p = get_playlist(e.sender.id)
     if p and song in p:
         return await e.answer("This song is already in your playlist.", alert=True)
