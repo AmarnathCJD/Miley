@@ -28,7 +28,12 @@ ydl_opts = {
 
 @Mbot(pattern="^/play ?(.*)")
 async def play_new(e):
-    if e.text.startswith(".playlist") or e.text.startswith("/playlist") or e.text.startswith("?playlist") or e.text.startswith("!playlist"):
+    if (
+        e.text.startswith(".playlist")
+        or e.text.startswith("/playlist")
+        or e.text.startswith("?playlist")
+        or e.text.startswith("!playlist")
+    ):
         return
     if e.is_private:
         return
@@ -302,13 +307,20 @@ async def skip_song_(e):
 async def get_current_playlist(e):
     print("play")
 
+
 @Mbot(pattern="^/playlist")
 async def playlist_show_(e):
- user_id = e.sender_id
- captions = """
+    e.sender_id
+    captions = """
 <b><i>Neko's Playlist Feature</i></b>
 
 Select The Playlist, You want to check!
 """
- buttons = [[Button.inline("Personal Playlist", data="p_play"), Button.inline("Group's Playlist", data="g_play")], [Button.inline("🗑️ Close Menu", data="close_menu")]]
- await e.reply(captions, buttons=buttons, parse_mode="html")
+    buttons = [
+        [
+            Button.inline("Personal Playlist", data="p_play"),
+            Button.inline("Group's Playlist", data="g_play"),
+        ],
+        [Button.inline("🗑️ Close Menu", data="close_menu")],
+    ]
+    await e.reply(captions, buttons=buttons, parse_mode="html")
