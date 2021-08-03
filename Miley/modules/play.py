@@ -206,11 +206,43 @@ async def resume_song_(e):
     ]
     await e.edit(text, buttons=buttons, parse_mode="html")
 
+@Mbot(pattern="^/resume")
+async def resume_play_back__(e):
+    if e.is_group:
+        if not await can_manage_call(e, e.sender_id):
+            return
+    x = resume(e.chat_id)
+    if not x:
+       return
+    text = "🎧 Voicechat Resumed by <a href='tg://user?id={}'>{}</a>!".format(
+        e.sender_id, e.sender.first_name
+    )
+    buttons = [
+        [
+            Button.inline("⏸️", data="pause"),
+            Button.inline("⏭️", data="next"),
+            Button.inline("⏹️", data="stop"),
+        ],
+        [Button.inline("Close Menu", data="close_menu")],
+    ]
+    await e.respond(text, buttons=buttons, parse_mode="html")
+
 
 @Cbq(pattern="stop")
 async def stop_vc_(e):
     await stop(e.chat_id)
     await e.delete()
+    text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(
+        e.sender_id, e.sender.first_name
+    )
+    await e.respond(text, parse_mode="html")
+
+@Mbot(pattern="^/stop")
+async def stop_vc_(e):
+    if e.is_group:
+        if not await can_manage_call(e, e.sender_id):
+            return
+    await stop(e.chat_id)
     text = "🎧 Voicechat End/Stopped by <a href='tg://user?id={}'>{}</a>!".format(
         e.sender_id, e.sender.first_name
     )
