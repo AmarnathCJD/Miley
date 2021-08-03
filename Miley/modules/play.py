@@ -206,6 +206,7 @@ async def resume_song_(e):
     ]
     await e.edit(text, buttons=buttons, parse_mode="html")
 
+
 @Mbot(pattern="^/resume")
 async def resume_play_back__(e):
     if e.is_group:
@@ -213,7 +214,7 @@ async def resume_play_back__(e):
             return
     x = resume(e.chat_id)
     if not x:
-       return
+        return
     text = "🎧 Voicechat Resumed by <a href='tg://user?id={}'>{}</a>!".format(
         e.sender_id, e.sender.first_name
     )
@@ -236,6 +237,7 @@ async def stop_vc_(e):
         e.sender_id, e.sender.first_name
     )
     await e.respond(text, parse_mode="html")
+
 
 @Mbot(pattern="^/stop")
 async def stop_vc_(e):
