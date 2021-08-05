@@ -18,6 +18,7 @@ from . import (
     transcode,
 )
 from .mongodb.playlist_db import add_song, get_playlist
+
 APPROVED_LIST = [1002819739]
 digits = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
 ydl_opts = {
@@ -39,7 +40,9 @@ async def play_new(e):
     if e.is_private:
         return
     if e.is_group:
-        if not e.sender_id in APPROVED_LIST and not await can_manage_call(e, e.sender_id):
+        if not e.sender_id in APPROVED_LIST and not await can_manage_call(
+            e, e.sender_id
+        ):
             return
     if e.reply_to:
         x = await e.get_reply_message()
