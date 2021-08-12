@@ -205,4 +205,4 @@ def gen_cover(
         (255, 255, 255),
         font=font,
     )
-    image.save("test.jpg")
+    image.save("test.png")
