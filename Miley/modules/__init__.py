@@ -4,6 +4,7 @@ from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
 
+from PIL import Image, ImageDraw, ImageFont
 from pymongo import MongoClient
 from pytgcalls import GroupCallFactory
 from telethon.errors import UserNotParticipantError
@@ -15,7 +16,7 @@ from telethon.tl.types import (
 )
 
 from .. import bot, vc
-from PIL import Image, ImageFont, ImageDraw
+
 MONGO_DB_URI = os.environ["MONGO_DB_URI"]
 CLIENT_TYPE = GroupCallFactory.MTPROTO_CLIENT_TYPE.TELETHON
 
@@ -184,18 +185,24 @@ async def can_manage_call(event, user_id):
             return False
         return True
 
-def gen_cover(requested_by="RoseLoverX", title="Vaaste, by dhvani Banushali", duration="5:00", views="6M", thumbnail=None):
- image = Image.new('RGBA', (1280, 720))
- draw = ImageDraw.Draw(image)
- font = ImageFont.truetype('Miley/assets/basefont.otf', 32)
- draw.text((205, 550), f"Title: {title}", (51, 215, 255), font=font)
- draw.text((205, 590), f"Duration: {duration}", (255, 255, 255), font=font)
- draw.text((205, 630), f"Views: {views}", (255, 255, 255), font=font)
- draw.text(
+
+def gen_cover(
+    requested_by="RoseLoverX",
+    title="Vaaste, by dhvani Banushali",
+    duration="5:00",
+    views="6M",
+    thumbnail=None,
+):
+    image = Image.new("RGBA", (1280, 720))
+    draw = ImageDraw.Draw(image)
+    font = ImageFont.truetype("Miley/assets/basefont.otf", 32)
+    draw.text((205, 550), f"Title: {title}", (51, 215, 255), font=font)
+    draw.text((205, 590), f"Duration: {duration}", (255, 255, 255), font=font)
+    draw.text((205, 630), f"Views: {views}", (255, 255, 255), font=font)
+    draw.text(
         (205, 670),
         f"Added By: {requested_by}",
         (255, 255, 255),
         font=font,
     )
- image.save('test.jpg')
- 
+    image.save("test.jpg")
