@@ -1,4 +1,4 @@
 telethon
 dnspython
 pymongo
-git+https://github.com/MarshalX/tgcalls@add-custom-mtproto-clients-support#subdirectory=pytgcalls
+pytgcalls==2.0.0.dev4
