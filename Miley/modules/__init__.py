@@ -207,7 +207,7 @@ def gen_cover(
             )
         )
         img = img.convert("RGBA")
-    image = Image.new("RGBA", (1280, 720), (0, 0, 0))
+    image = Image.new("RGBA", (1280, 720), (230, 29, 30))
     Image.alpha_composite(img, image).save("temp.png")
     image = Image.open("temp.png")
     draw = ImageDraw.Draw(image)
