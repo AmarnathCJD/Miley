@@ -193,7 +193,7 @@ def gen_cover(
     views="6M",
     thumbnail=None,
 ):
-    image = Image.new("RGBA", (1280, 720))
+    image = Image.new("RGBA", (1280, 720), (0, 0, 0))
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("Miley/assets/basefont.otf", 32)
     draw.text((205, 550), f"Title: {title}", (51, 215, 255), font=font)
