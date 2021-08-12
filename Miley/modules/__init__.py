@@ -201,8 +201,8 @@ def gen_cover(
             f.write(r.content)
         img = Image.open("thumb.png")
         img.resize(
-            (int(1280 / img.size[0]) * img.size[0]),
-            (int(720 / img.size[1]) * img.size[1]),
+            ((int(1280 / img.size[0]) * img.size[0]),
+            (int(720 / img.size[1]) * img.size[1]))
         )
         img = img.convert("RGBA")
     image = Image.new("RGBA", (1280, 720), (0, 0, 0))
