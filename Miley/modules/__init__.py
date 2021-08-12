@@ -3,6 +3,7 @@ import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
+
 import requests
 from PIL import Image, ImageDraw, ImageFont
 from pymongo import MongoClient
