@@ -207,18 +207,18 @@ def gen_cover(
             )
         )
         img = img.convert("RGBA")
-    image = Image.new("RGBA", (1280, 720), (230, 29, 30))
+    image = Image.new("RGBA", (1280, 720), (255, 254, 255))
     Image.alpha_composite(img, image).save("temp.png")
-    image = Image.open("temp.png")
-    draw = ImageDraw.Draw(image)
+    im = Image.open("temp.png")
+    draw = ImageDraw.Draw(im)
     font = ImageFont.truetype("Miley/assets/basefont.otf", 32)
-    draw.text((205, 550), f"Title: {title}", (51, 215, 255), font=font)
-    draw.text((205, 590), f"Duration: {duration}", (255, 255, 255), font=font)
-    draw.text((205, 630), f"Views: {views}", (255, 255, 255), font=font)
+    draw.text((205, 550), f"Title: {title}", (51, 215, 200), font=font)
+    draw.text((205, 590), f"Duration: {duration}", (255, 255, 220), font=font)
+    draw.text((205, 630), f"Views: {views}", (255, 255, 180), font=font)
     draw.text(
         (205, 670),
         f"Added By: {requested_by}",
         (255, 255, 255),
         font=font,
     )
-    image.save("temp.png")
+    im.save("test.png")
