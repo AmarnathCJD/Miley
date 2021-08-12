@@ -195,15 +195,18 @@ def gen_cover(
 ):
     img = None
     if thumbnail:
-     r = get(thumbnail)
-     with open('thumb.png', 'wb') as f:
-        f.write(r.content)
-     img = Image.open('thumb.png')
-     img.resize((int(1280/img.size[0]) * img.size[0]), (int(720/img.size[1]) * img.size[1]))
-     img = img.convert('RGBA')
+        r = get(thumbnail)
+        with open("thumb.png", "wb") as f:
+            f.write(r.content)
+        img = Image.open("thumb.png")
+        img.resize(
+            (int(1280 / img.size[0]) * img.size[0]),
+            (int(720 / img.size[1]) * img.size[1]),
+        )
+        img = img.convert("RGBA")
     image = Image.new("RGBA", (1280, 720), (0, 0, 0))
     Image.alpha_composite(img, image).save("temp.png")
-    image = Image.open('temp.png')
+    image = Image.open("temp.png")
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype("Miley/assets/basefont.otf", 32)
     draw.text((205, 550), f"Title: {title}", (51, 215, 255), font=font)
