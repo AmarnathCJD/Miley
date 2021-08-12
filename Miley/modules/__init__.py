@@ -3,7 +3,7 @@ import os
 from asyncio import Queue as _Queue
 from asyncio import QueueEmpty as Empty
 from typing import Dict
-
+import requests
 from PIL import Image, ImageDraw, ImageFont
 from pymongo import MongoClient
 from pytgcalls import GroupCallFactory
@@ -195,7 +195,7 @@ def gen_cover(
 ):
     img = None
     if thumbnail:
-        r = get(thumbnail)
+        r = requests.get(thumbnail)
         with open("thumb.png", "wb") as f:
             f.write(r.content)
         img = Image.open("thumb.png")
