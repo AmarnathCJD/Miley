@@ -126,9 +126,7 @@ async def play_song(e):
     if not int(sender_id) == e.sender_id:
         return await e.answer("Lmao", alert=True)
     song_id = song_id.strip()
-    song = (
-        (VideosSearch(song_id, limit=1)).result()["result"]
-    )[0]
+    song = ((VideosSearch(song_id, limit=1)).result()["result"])[0]
     song_name = song.get("title")
     x = await e.edit(f"Downloading **{song_name}** Now!")
     try:
