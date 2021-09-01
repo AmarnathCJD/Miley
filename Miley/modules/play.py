@@ -1,6 +1,6 @@
 import youtube_dl
 from telethon import Button
-from youtubesearchpython import SearchVideos
+from youtubesearchpython import VideosSearch
 
 from .. import que
 from ..utils import Cbq, Mbot
@@ -84,8 +84,8 @@ async def play_new(e):
         song = e.text.split(None, 1)[1]
     else:
         return await x_start.edit("Please provide the name of the song to search.")
-    search = SearchVideos(song, offset=1, mode="dict", max_results=5)
-    search = search.result()["search_result"]
+    search = VideosSearch(song, limit=5)
+    search = search.result()["result"]
     q_no = -1
     text = ""
     buttons = []
@@ -104,7 +104,7 @@ async def play_new(e):
     await e.respond(
         text,
         buttons=buttons,
-        file=search[0].get("thumbnails")[4],
+        file=search[0].get("thumbnails")[0],
         parse_mode="html",
         link_preview=False,
     )
@@ -127,7 +127,7 @@ async def play_song(e):
         return await e.answer("Lmao", alert=True)
     song_id = song_id.strip()
     song = (
-        (SearchVideos(song_id, max_results=1, mode="dict")).result()["search_result"]
+        (VideosSearch(song_id, limit=1)).result()["result"]
     )[0]
     song_name = song.get("title")
     x = await e.edit(f"Downloading **{song_name}** Now!")
