@@ -104,7 +104,7 @@ async def play_new(e):
     await e.respond(
         text,
         buttons=buttons,
-        file=search[0].get("thumbnails")[0],
+        file=search[0].get("thumbnails"),
         parse_mode="html",
         link_preview=False,
     )
