@@ -147,7 +147,6 @@ def resume(chat_id: int) -> bool:
     return True
 
 
-
 async def can_manage_call(event, user_id):
     try:
         p = await bot(GetParticipantRequest(event.chat_id, user_id))
