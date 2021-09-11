@@ -77,7 +77,7 @@ def clear(chat_id: int):
 
 def init_instance(chat_id: int):
     if chat_id not in instances:
-        instances[chat_id] = GroupCallFactory(vc, CLIENT_TYPE).get_file_group_call()
+        instances[chat_id] = GroupCallFactory(vc, CLIENT_TYPE).get_group_call()
 
     instance = instances[chat_id]
 
@@ -108,7 +108,7 @@ def get_instance(chat_id: int) -> GroupCallFactory:
 
 
 async def start(chat_id: int):
-    await get_instance(chat_id).start(chat_id)
+    await get_instance(chat_id).join(chat_id)
     active_chats[chat_id] = {"playing": True, "muted": False}
 
 
@@ -131,7 +131,7 @@ def pause(chat_id: int) -> bool:
     elif not active_chats[chat_id]["playing"]:
         return False
 
-    get_instance(chat_id).pause_playout()
+    get_instance(chat_id).set_pause(True)
     active_chats[chat_id]["playing"] = False
     return True
 
@@ -142,30 +142,10 @@ def resume(chat_id: int) -> bool:
     elif active_chats[chat_id]["playing"]:
         return False
 
-    get_instance(chat_id).resume_playout()
+    get_instance(chat_id).set_pause(False)
     active_chats[chat_id]["playing"] = True
     return True
 
-
-async def transcode(filename):
-    outname = filename.replace(".mp3", "")
-    proc = await asyncio.create_subprocess_shell(
-        cmd=(
-            "ffmpeg "
-            "-y -i "
-            f"{filename} "
-            "-f s16le "
-            "-ac 2 "
-            "-ar 48000 "
-            "-acodec pcm_s16le "
-            f"{outname}.raw"
-        ),
-        stdin=asyncio.subprocess.PIPE,
-        stderr=asyncio.subprocess.PIPE,
-    )
-    await proc.communicate()
-    os.remove(filename)
-    return f"{outname}.raw"
 
 
 async def can_manage_call(event, user_id):
